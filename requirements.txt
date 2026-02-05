@@ -1,0 +1,33 @@
+# TPU Speculative Decoding Project - Dependencies
+#
+# Base install:
+#   pip install -r requirements.txt
+#
+# For TPU (on TPU VM):
+#   pip install -r requirements.txt
+#   (torch/torch_xla versions are pinned to match)
+#
+# For GPU (with flash-attention):
+#   pip install flash-attn --no-build-isolation
+
+# Core ML
+numpy>=2.0.0
+transformers>=4.45.0
+
+# TPU add-ons (PyTorch/XLA) - keep versions aligned
+--find-links https://storage.googleapis.com/libtpu-releases/index.html
+torch==2.9.0
+torch_xla[tpu]==2.9.0
+
+# HuggingFace ecosystem
+datasets>=3.0.0
+accelerate>=1.0.0
+huggingface-hub>=0.25.0
+
+# Utilities
+tqdm
+rich
+packaging
+
+# Development
+ninja  # For building extensions

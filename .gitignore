@@ -1,0 +1,7 @@
+# External repositories - upstream originals (read-only reference)
+external/*
+!external/.gitkeep
+
+# Forked repositories - our working copies
+forked/*
+!forked/.gitkeep
