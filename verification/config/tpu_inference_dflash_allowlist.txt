@@ -1,0 +1,24 @@
+# Paths are relative to nested repo root: tpu-inference/
+
+tpu_inference/spec_decode/jax/dflash.py
+tpu_inference/spec_decode/jax/__init__.py
+tpu_inference/layers/common/dflash_attention_interface.py
+tpu_inference/runner/tpu_runner.py
+tpu_inference/runner/speculative_decoding_manager.py
+tpu_inference/runner/kv_cache_manager.py
+tpu_inference/runner/compilation_manager.py
+tpu_inference/models/common/model_loader.py
+tpu_inference/models/jax/qwen3.py
+tpu_inference/models/jax/qwen3_dflash.py
+
+tests/spec_decode/test_dflash.py
+tests/models/jax/test_qwen3_dflash.py
+tests/models/jax/test_qwen3_dflash_attention.py
+tests/runner/test_speculative_decoding_manager.py
+tests/runner/test_kv_cache_manager.py
+tests/runner/test_tpu_runner.py
+tests/e2e/test_speculative_decoding.py
+
+support_matrices/feature_support_matrix.csv
+support_matrices/nightly/feature_support_matrix.csv
+docs/**
