@@ -1,28 +1,40 @@
-# TPU v4 Quickstart Guide — Speculative Decoding Project
+# TPU Setup Guide — Speculative Decoding Project
 
 **Team:** Aaron Feng, Andy Huang, Son Nguyen, Zhongyan Luo
 **GCP Project:** `hao-ai-lab-trc`
 **Coordinator:** Yiming Zhao
-**Last updated:** February 5, 2026
+**Last updated:** February 8, 2026
 
 ---
 
 ## 1. Current Access & Quota
 
-We've been added to the GCP project `hao-ai-lab-trc`. As of now:
+We've been added to the GCP project `hao-ai-lab-trc` under the **Tensor Research Cloud (TRC)** program. As of the email Yiming forwarded (Feb 7 2026):
 
-- **v5p is NOT yet available** for free — it may come later.
-- **v4 TPUs are available** with free quota. Use only the **free** TPU resources.
-- Yiming has forwarded an email with the full list of available free quotas — **refer to that email** for the authoritative quota details.
-- **"On-demand"** resources are preferred over **"spot"** (spot is preemptable and can be interrupted at any time).
-- **Do not exceed the quotas** specified in the forwarded email.
+### TRC free v5 quota (from TRC-Support)
+
+- **Quota:** 4 on-demand Cloud TPU v5 chips in zone **`us-east1-d`**.
+- **Duration:** 86-day free trial for TPUs created in the zone above.
+- **Critical:** Create new Cloud TPUs **only in the zone listed above** (`us-east1-d`). Creating TPUs in other zones can incur charges.
+- **Architecture:** TRC quotas are intended for the **TPU VM architecture** and the **Queued Resource API**. Use the correct flags for your quota type ([on-demand](https://cloud.google.com/tpu/docs/queued-resources#on-demand) vs preemptible).
+- **Prefer on-demand** over preemptible when both are available; preemptible (spot) can be reclaimed at any time.
+- **Do not exceed the free quota.** Delete unused TPUs and Queued Resources so quota is not consumed unnecessarily.
+
+### General rules
+
+- **v4 TPUs** may also be available with free quota; use only the **free** resources specified for the project.
+- Official v5 docs: [Cloud TPU v5p](https://docs.cloud.google.com/tpu/docs/v5p). Get started with the [QuickStart guide](https://cloud.google.com/tpu/docs/quickstart) and, for v4, the [v4 user's guide](https://cloud.google.com/tpu/docs/users-guide-tpu-vm).
 - **Do not delete resources created by other users.**
 
-> ⚠️ The quota information at the end of the [JAX & Google CLI Notion guide](https://married-spell-e7e.notion.site/JAX-GOOGLE-CLI-Guide-24df509095f180abbcf7ddc7ff0e9252) is **outdated and expired**. Ignore it. Use the quotas from Yiming's email instead.
+> ⚠️ The quota information at the end of the [JAX & Google CLI Notion guide](https://married-spell-e7e.notion.site/JAX-GOOGLE-CLI-Guide-24df509095f180abbcf7ddc7ff0e9252) is **outdated and expired**. Ignore it. Use the quotas from Yiming's forwarded TRC email instead.
 
 ---
 
-## 2. TPU v4 Hardware Overview
+## 2. TPU Hardware Overview
+
+**TPU v5 (v5p)** is now available; see [Cloud TPU v5p](https://docs.cloud.google.com/tpu/docs/v5p) for specs and regions. The sections below also describe **v4** for teams still using it.
+
+### TPU v4
 
 Each TPU v4 chip has:
 
@@ -51,11 +63,12 @@ For our initial work, **v4-8** (single host, 4 chips) is the starting point.
 | JAX & Google CLI Guide (Notion) | https://married-spell-e7e.notion.site/JAX-GOOGLE-CLI-Guide-24df509095f180abbcf7ddc7ff0e9252 |
 | gcloud CLI Cheatsheet | https://cloud.google.com/sdk/docs/cheatsheet |
 | Cloud TPU Documentation | https://docs.cloud.google.com/tpu/docs |
+| **TPU v5p Docs** | https://docs.cloud.google.com/tpu/docs/v5p |
 | TPU v4 Docs | https://docs.cloud.google.com/tpu/docs/v4 |
 | TPU Software Versions | https://docs.cloud.google.com/tpu/docs/runtimes |
 | Attach Durable Block Storage | https://docs.cloud.google.com/tpu/docs/attach-durable-block-storage |
 | vLLM TPU Inference Repo | https://github.com/vllm-project/tpu-inference |
-| DFlash (Starter Task) | https://github.com/z-lab/dflash |
+| DFlash (reference implementation) | https://github.com/z-lab/dflash |
 
 ---
 
@@ -86,28 +99,42 @@ Useful gcloud commands:
 gcloud info
 
 # List available TPU accelerator types in a zone
-gcloud compute tpus accelerator-types list --zone=us-central2-b
+# For our TRC v5 quota, use zone us-east1-d (see Section 1).
+gcloud compute tpus accelerator-types list --zone=us-east1-d
 
 # List your current TPU resources
-gcloud compute tpus tpu-vm list --zone=us-central2-b
+gcloud compute tpus tpu-vm list --zone=us-east1-d
 
 # List queued resource requests
-gcloud compute tpus queued-resources list --zone=us-central2-b
+gcloud compute tpus queued-resources list --zone=us-east1-d
 ```
 
 ---
 
-## 5. Creating a TPU v4 VM
+## 5. Creating a TPU VM
+
+Our TRC quota (Section 1) is for **v5** chips in `us-east1-d`. If you also have v4 quota, you can create v4 VMs in the same zone. Use `gcloud compute tpus accelerator-types list --zone=us-east1-d` to see available types (e.g. `v5p`, `v4-8`).
 
 ### Option A: Queued Resources (Recommended)
 
-Queued resources queue your request until TPU capacity is available. This is the method shown in the Slack thread:
+Queued resources queue your request until TPU capacity is available.
 
+**For TRC v5 quota (4 v5 chips):**
 ```bash
 gcloud compute tpus queued-resources create YOUR-NAME-queued \
     --node-id=YOUR-NAME-node \
     --project=hao-ai-lab-trc \
-    --zone=us-central2-b \
+    --zone=us-east1-d \
+    --accelerator-type=v5p \
+    --runtime-version=tpu-ubuntu2204-base
+```
+
+**If you have v4 quota instead:**
+```bash
+gcloud compute tpus queued-resources create YOUR-NAME-queued \
+    --node-id=YOUR-NAME-node \
+    --project=hao-ai-lab-trc \
+    --zone=us-east1-d \
     --accelerator-type=v4-8 \
     --runtime-version=tpu-ubuntu2204-base
 ```
@@ -116,22 +143,24 @@ Check status:
 
 ```bash
 gcloud compute tpus queued-resources describe YOUR-NAME-queued \
-    --zone=us-central2-b
+    --zone=us-east1-d
 ```
 
 Provisioning typically takes up to 30 minutes.
 
 ### Option B: Direct Creation
 
+Use the same `--accelerator-type` as your quota (e.g. `v5p` for TRC v5, or `v4-8` if you have v4 quota):
+
 ```bash
 gcloud compute tpus tpu-vm create YOUR-NAME-node \
     --project=hao-ai-lab-trc \
-    --zone=us-central2-b \
-    --accelerator-type=v4-8 \
+    --zone=us-east1-d \
+    --accelerator-type=v5p \
     --version=tpu-ubuntu2204-base
 ```
 
-> **Naming convention:** Please prefix your resources with your name (e.g., `aaron-node`, `andy-queued`) to avoid conflicts. Make sure you select the correct zone as specified in Yiming's email.
+> **Naming convention:** Please prefix your resources with your name (e.g., `aaron-node`, `andy-queued`) to avoid conflicts. Use zone **us-east1-d** for the TRC v5 quota (Section 1).
 
 ---
 
@@ -139,10 +168,10 @@ gcloud compute tpus tpu-vm create YOUR-NAME-node \
 
 ```bash
 # SSH into the TPU VM
-gcloud compute tpus tpu-vm ssh YOUR-NAME-node --zone=us-central2-b
+gcloud compute tpus tpu-vm ssh YOUR-NAME-node --zone=us-east1-d
 
 # For multi-host TPUs, specify the worker
-gcloud compute tpus tpu-vm ssh YOUR-NAME-node --zone=us-central2-b --worker=0
+gcloud compute tpus tpu-vm ssh YOUR-NAME-node --zone=us-east1-d --worker=0
 ```
 
 Once connected, you'll have a standard Ubuntu 22.04 environment with a 100 GiB boot disk.
@@ -182,7 +211,7 @@ The TPU VM comes with a **100 GiB boot disk**. If you need more space (e.g., for
 ```bash
 gcloud compute disks create YOUR-NAME-disk \
     --size=200GB \
-    --zone=us-central2-b \
+    --zone=us-east1-d \
     --type=pd-balanced
 ```
 
@@ -190,7 +219,7 @@ gcloud compute disks create YOUR-NAME-disk \
 
 ```bash
 gcloud alpha compute tpus tpu-vm attach-disk YOUR-NAME-node \
-    --zone=us-central2-b \
+    --zone=us-east1-d \
     --disk=YOUR-NAME-disk \
     --mode=read-write
 ```
@@ -212,7 +241,7 @@ sudo chmod a+w /mnt/disks/data
 
 > ⚠️ **Additional storage may NOT be free.** Delete extra disks when you're done with them:
 > ```bash
-> gcloud compute disks delete YOUR-NAME-disk --zone=us-central2-b
+> gcloud compute disks delete YOUR-NAME-disk --zone=us-east1-d
 > ```
 
 ---
@@ -247,26 +276,24 @@ This checks the XLA device, a small matmul, and SDPA attention.
 
 ---
 
-## 10. Starter Task: Porting DFlash to TPU
+## 10. Starter Task: Integrating DFlash into TPU Inference
 
-Prof. Zhang's recommended first milestone is porting **DFlash** to TPU.
+Prof. Zhang's recommended approach is to **integrate DFlash into the tpu-inference repo** (add DFlash as a speculative decoding method alongside ngram and EAGLE-3), not to port or modify the DFlash repo itself for TPU.
 
 **What is DFlash?** A block-diffusion-based speculative decoding method that uses a lightweight diffusion model for drafting. It already outperforms EAGLE-3 on GPUs despite being trained on significantly less data (289K vs 1.4M samples).
 
-**Key porting considerations:**
+**Integration approach:**
 
-1. DFlash uses **flash-attention-2**, which is GPU-specific. This needs to be replaced with a TPU-compatible attention implementation (e.g., JAX's built-in attention or Pallas kernels).
-2. The vLLM TPU Inference repo ([speculative_decoding_manager.py](https://github.com/vllm-project/tpu-inference/blob/main/tpu_inference/runner/speculative_decoding_manager.py)) already has EAGLE-3 support on TPU — use this as reference architecture.
-3. The [Lookahead Reasoning GPU→TPU diff](https://github.com/ConstBob/Lookahead-Reasoning/compare/main...tpu) shows concrete examples of modifications needed when porting from GPU to TPU.
+1. Use the **tpu-inference** repo as the main codebase. Add DFlash as a new speculative method (e.g. `method == "dflash"`) in the runner and speculative decoding manager, following the existing EAGLE-3 pattern.
+2. Implement the DFlash draft model and attention in JAX/Flax inside tpu-inference (e.g. `tpu_inference/models/jax/`, `tpu_inference/spec_decode/jax/`), using the [z-lab/dflash](https://github.com/z-lab/dflash) repo as the **reference** for behavior and math.
+3. The [speculative_decoding_manager.py](https://github.com/vllm-project/tpu-inference/blob/main/tpu_inference/runner/speculative_decoding_manager.py) and EAGLE-3 proposer in tpu-inference are the right reference for how to plug in a new method.
 
-**Repos to clone on the TPU VM:**
+**Repos to use:**
 
-```bash
-git clone https://github.com/z-lab/dflash.git
-git clone https://github.com/vllm-project/tpu-inference.git
-```
+- **tpu-inference** — where the integration code lives (fork and work on a branch, e.g. `dflash-integration`).
+- **z-lab/dflash** — reference implementation (GPU/PyTorch); do not modify for TPU; use it to understand DFlash behavior and to compare results.
 
-**Available DFlash draft models:**
+**Available DFlash draft models (for loading in tpu-inference):**
 - `z-lab/Qwen3-8B-DFlash-b16`
 - `z-lab/Qwen3-4B-DFlash-b16`
 - `z-lab/Qwen3-Coder-30B-A3B-DFlash`
@@ -279,17 +306,17 @@ Always tear down resources when not actively using them to stay within quota:
 
 ```bash
 # Delete the TPU VM
-gcloud compute tpus tpu-vm delete YOUR-NAME-node --zone=us-central2-b
+gcloud compute tpus tpu-vm delete YOUR-NAME-node --zone=us-east1-d
 
 # Or if created via queued resources
-gcloud compute tpus queued-resources delete YOUR-NAME-queued --zone=us-central2-b
+gcloud compute tpus queued-resources delete YOUR-NAME-queued --zone=us-east1-d
 
 # Delete any extra disks
-gcloud compute disks delete YOUR-NAME-disk --zone=us-central2-b
+gcloud compute disks delete YOUR-NAME-disk --zone=us-east1-d
 
 # Verify everything is cleaned up
-gcloud compute tpus tpu-vm list --zone=us-central2-b
-gcloud compute disks list --filter="zone:(us-central2-b)"
+gcloud compute tpus tpu-vm list --zone=us-east1-d
+gcloud compute disks list --filter="zone:(us-east1-d)"
 ```
 
 ---
@@ -298,7 +325,7 @@ gcloud compute disks list --filter="zone:(us-central2-b)"
 
 **TPU VM not provisioning?**
 - Resources might take up to 30 minutes. Use queued resources and check status with `describe`.
-- Make sure you're using the correct zone from the quota email.
+- Use zone **us-east1-d** for TRC v5 quota to avoid charges (Section 1).
 
 **`jax.devices()` returns empty or CPU only?**
 - Ensure you installed `jax[tpu]` with the correct libtpu release URL.
@@ -324,8 +351,8 @@ gcloud compute disks list --filter="zone:(us-central2-b)"
 
 | Repo | Purpose | Link |
 |------|---------|------|
-| **DFlash** | Starter task — port to TPU | https://github.com/z-lab/dflash |
-| **vLLM TPU Inference** | TPU inference backend with SD support | https://github.com/vllm-project/tpu-inference |
+| **DFlash** | Reference implementation (GPU); use for behavior and baselines | https://github.com/z-lab/dflash |
+| **vLLM TPU Inference** | **Integration target** — add DFlash as a speculative method here | https://github.com/vllm-project/tpu-inference |
 | **Prompt Lookup Decoding** | Baseline SD via string matching | https://github.com/apoorvumang/prompt-lookup-decoding |
 | **Lookahead Reasoning** | GPU→TPU porting reference | https://github.com/hao-ai-lab/LookaheadReasoning |
 | **Speculators** | Unified SD training/eval library | https://github.com/vllm-project/speculators |
