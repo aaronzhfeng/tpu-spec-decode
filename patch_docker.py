@@ -20,15 +20,15 @@ def copy_new_files():
          "tpu_inference/spec_decode/jax/dflash.py"),
         ("tpu_inference/layers/common/dflash_attention_interface.py",
          "tpu_inference/layers/common/dflash_attention_interface.py"),
-        ("tpu_inference/models/jax/qwen3_dflash.py",
-         "tpu_inference/models/jax/qwen3_dflash.py"),
-        ("tests/spec_decode/test_dflash.py",
-         "tests/spec_decode/test_dflash.py"),
-        ("tests/models/jax/test_qwen3_dflash.py",
-         "tests/models/jax/test_qwen3_dflash.py"),
-        ("tests/models/jax/test_qwen3_dflash_attention.py",
-         "tests/models/jax/test_qwen3_dflash_attention.py"),
+        # Use Docker-adapted version of qwen3_dflash.py
+        # (original uses JaxEmbed/JaxEinsum/JaxRmsNorm wrappers that don't exist in this image)
     ]
+    # Copy the Docker-adapted draft model from the separate mount point
+    docker_adapted = "/mnt/qwen3_dflash_docker.py"
+    dst = os.path.join(BASE, "tpu_inference/models/jax/qwen3_dflash.py")
+    os.makedirs(os.path.dirname(dst), exist_ok=True)
+    shutil.copy2(docker_adapted, dst)
+    print("  Copied qwen3_dflash_docker.py -> qwen3_dflash.py (Docker-adapted)")
     for src_rel, dst_rel in copies:
         src = os.path.join(SRC, src_rel)
         dst = os.path.join(BASE, dst_rel)
@@ -346,8 +346,64 @@ def patch_model_loader():
     ])
 
 
+def patch_vllm_speculative_config():
+    """Patch vLLM to accept 'dflash' as a speculative decoding method."""
+    spec_config = "/workspace/vllm/vllm/config/speculative.py"
+    with open(spec_config, "r") as f:
+        content = f.read()
+
+    # 1. Add "dflash" to EagleModelTypes (type system)
+    old = 'EagleModelTypes = Literal["eagle", "eagle3", MTPModelTypes]'
+    new = 'EagleModelTypes = Literal["eagle", "eagle3", "dflash", MTPModelTypes]'
+    if old in content:
+        content = content.replace(old, new)
+        print("  Added 'dflash' to EagleModelTypes")
+    else:
+        print("  WARNING: Could not find EagleModelTypes definition")
+
+    # 2. Add dflash to the method passthrough (skip auto-detection when method is set)
+    old_pass = 'if self.method in ("eagle", "eagle3"):\n                    pass'
+    new_pass = 'if self.method in ("eagle", "eagle3", "dflash"):\n                    pass'
+    if old_pass in content:
+        content = content.replace(old_pass, new_pass)
+        print("  Added 'dflash' to method passthrough")
+    else:
+        print("  WARNING: Could not find method passthrough")
+
+    # 3. Make eagle3 target validation also cover dflash
+    # There may be multiple occurrences of method == "eagle3", only patch the validation one
+    old_validate = (
+        'eagle3_target_supported = ["llama", "qwen", "minicpm", "gpt_oss"]'
+    )
+    if old_validate in content:
+        # Replace the check near the validation
+        content = content.replace(
+            'self.method == "eagle3"\n            and self.draft_model_config',
+            'self.method in ("eagle3", "dflash")\n            and self.draft_model_config',
+        )
+        print("  Extended eagle3 target validation to include dflash")
+
+    # 4. Make is_eagle property include dflash
+    old_is_eagle = 'return self.method in ("eagle", "eagle3", "mtp")'
+    new_is_eagle = 'return self.method in ("eagle", "eagle3", "dflash", "mtp")'
+    if old_is_eagle in content:
+        content = content.replace(old_is_eagle, new_is_eagle)
+        print("  Extended is_eagle property to include dflash")
+
+    # NOTE: We do NOT add "dflash" to the EAGLEConfig replacement block
+    # (line ~388: if self.method in ("eagle", "eagle3"):)
+    # DFlash uses its own Qwen3Config, not EAGLEConfig.
+
+    with open(spec_config, "w") as f:
+        f.write(content)
+
+
 def main():
     print("=== DFlash Patch Script ===")
+    print()
+
+    print("0. Patching vLLM SpeculativeConfig...")
+    patch_vllm_speculative_config()
     print()
 
     print("1. Copying new DFlash files...")
