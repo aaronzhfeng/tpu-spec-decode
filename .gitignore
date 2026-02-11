@@ -5,3 +5,9 @@ external/*
 # Forked repositories - our working copies
 forked/*
 !forked/.gitkeep
+
+# tpu-inference clone (used for Docker mounts; no .gitmodules)
+tpu-inference/
+
+# Benchmark results (written by scripts/benchmark_*.py)
+results/

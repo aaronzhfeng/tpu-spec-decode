@@ -12,29 +12,71 @@ import sys
 BASE = "/workspace/tpu_inference"
 SRC = "/mnt/dflash_src"  # mounted from host
 
+# Supported layouts for DFlash source (SRC):
+# 1) Standard: tpu_inference/spec_decode/jax/dflash.py and
+#              tpu_inference/layers/common/dflash_attention_interface.py
+# 2) Model:    model/dflash.py and model/dflash_attention_interface.py
+# 3) Flat:     dflash.py and dflash_attention_interface.py at top level of SRC
+STANDARD_COPIES = [
+    ("tpu_inference/spec_decode/jax/dflash.py",
+     "tpu_inference/spec_decode/jax/dflash.py"),
+    ("tpu_inference/layers/common/dflash_attention_interface.py",
+     "tpu_inference/layers/common/dflash_attention_interface.py"),
+]
+MODEL_LAYOUT_COPIES = [
+    ("model/dflash.py", "tpu_inference/spec_decode/jax/dflash.py"),
+    ("model/dflash_attention_interface.py",
+     "tpu_inference/layers/common/dflash_attention_interface.py"),
+]
+FLAT_COPIES = [
+    ("dflash.py", "tpu_inference/spec_decode/jax/dflash.py"),
+    ("dflash_attention_interface.py",
+     "tpu_inference/layers/common/dflash_attention_interface.py"),
+]
+
+
+def _copy_list(copies):
+    for src_rel, dst_rel in copies:
+        src = os.path.join(SRC, src_rel)
+        dst = os.path.join(BASE, dst_rel)
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        shutil.copy2(src, dst)
+        print(f"  Copied {src_rel} -> {dst_rel}")
+
 
 def copy_new_files():
     """Copy DFlash-specific new files into the container."""
-    copies = [
-        ("tpu_inference/spec_decode/jax/dflash.py",
-         "tpu_inference/spec_decode/jax/dflash.py"),
-        ("tpu_inference/layers/common/dflash_attention_interface.py",
-         "tpu_inference/layers/common/dflash_attention_interface.py"),
-        # Use Docker-adapted version of qwen3_dflash.py
-        # (original uses JaxEmbed/JaxEinsum/JaxRmsNorm wrappers that don't exist in this image)
-    ]
     # Copy the Docker-adapted draft model from the separate mount point
     docker_adapted = "/mnt/qwen3_dflash_docker.py"
     dst = os.path.join(BASE, "tpu_inference/models/jax/qwen3_dflash.py")
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     shutil.copy2(docker_adapted, dst)
     print("  Copied qwen3_dflash_docker.py -> qwen3_dflash.py (Docker-adapted)")
-    for src_rel, dst_rel in copies:
-        src = os.path.join(SRC, src_rel)
-        dst = os.path.join(BASE, dst_rel)
-        os.makedirs(os.path.dirname(dst), exist_ok=True)
-        shutil.copy2(src, dst)
-        print(f"  Copied {src_rel}")
+
+    # Prefer flat layout (dflash_src/) so we don't require full tpu_inference tree
+    if all(os.path.isfile(os.path.join(SRC, s)) for s, _ in FLAT_COPIES):
+        print("  Using flat layout (dflash.py, dflash_attention_interface.py)")
+        _copy_list(FLAT_COPIES)
+        return
+    if all(os.path.isfile(os.path.join(SRC, s)) for s, _ in STANDARD_COPIES):
+        _copy_list(STANDARD_COPIES)
+        return
+    if all(os.path.isfile(os.path.join(SRC, s)) for s, _ in MODEL_LAYOUT_COPIES):
+        print("  Using model/ layout")
+        _copy_list(MODEL_LAYOUT_COPIES)
+        return
+
+    print("ERROR: DFlash source files not found under /mnt/dflash_src", file=sys.stderr)
+    print("Required: dflash.py and dflash_attention_interface.py (flat layout),", file=sys.stderr)
+    print("  or standard tpu_inference/ paths, or model/ layout.", file=sys.stderr)
+    print("Contents of /mnt/dflash_src:", file=sys.stderr)
+    try:
+        for n in sorted(os.listdir(SRC))[:20]:
+            kind = "dir" if os.path.isdir(os.path.join(SRC, n)) else "file"
+            print(f"  [{kind}] {n}", file=sys.stderr)
+    except OSError as e:
+        print(f"  (listdir failed: {e})", file=sys.stderr)
+    sys.exit(1)
 
 
 def patch_file(filepath, patches):

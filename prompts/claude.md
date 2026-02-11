@@ -73,128 +73,41 @@ Possible approaches:
 Once a working environment exists (from Option 1 or 2), run the
 following benchmark comparisons. Each should be a separate run.
 
-#### 3A: Baseline (autoregressive, no speculation)
+#### Running 3A–3C with Docker
+
+From repo root `~/tpu-spec-decode`, mount the patch assets and `scripts/`, then run **one benchmark per container** (release TPU between runs). Results are written to `results/` (one JSON per run plus `benchmarks.jsonl`); mount `-v $(pwd)/results:/mnt/results` to save them on the host.
+
+**3A — Baseline (no patch):**
 ```bash
-python -c "
-from vllm import LLM, SamplingParams
-
-llm = LLM(
-    model='Qwen/Qwen3-8B',
-    max_model_len=1024,
-    max_num_seqs=1,
-    tensor_parallel_size=1,
-    async_scheduling=0,
-)
-
-prompts = [
-    'If 12 notebooks cost \$36, what does one notebook cost?',
-    'Solve: Find x if 3x + 7 = 40.',
-    'Compute the remainder when 2^20 is divided by 7.',
-    'How many positive divisors does 360 have?',
-]
-
-params = SamplingParams(temperature=0.0, max_tokens=128, ignore_eos=True)
-
-import time
-start = time.perf_counter()
-outputs = llm.generate(prompts, params)
-elapsed = time.perf_counter() - start
-
-total_tokens = sum(len(o.outputs[0].token_ids) for o in outputs)
-print(f'Baseline: {total_tokens} tokens in {elapsed:.2f}s = {total_tokens/elapsed:.1f} tok/s')
-"
+sudo docker run --rm --privileged --net host --shm-size=16G \
+  -v $(pwd)/scripts:/mnt/scripts:ro \
+  -v $(pwd)/results:/mnt/results \
+  vllm/vllm-tpu:latest \
+  python3 /mnt/scripts/benchmark_baseline.py
 ```
 
-#### 3B: DFlash speculative decoding
+**3B — DFlash (patch first, then benchmark):**
 ```bash
-python -c "
-from vllm import LLM, SamplingParams
-
-llm = LLM(
-    model='Qwen/Qwen3-8B',
-    speculative_config={
-        'method': 'dflash',
-        'model': 'z-lab/Qwen3-8B-DFlash-b16',
-        'num_speculative_tokens': 16,
-        'draft_tensor_parallel_size': 1,
-    },
-    max_model_len=1024,
-    max_num_seqs=1,
-    tensor_parallel_size=1,
-    async_scheduling=0,
-)
-
-prompts = [
-    'If 12 notebooks cost \$36, what does one notebook cost?',
-    'Solve: Find x if 3x + 7 = 40.',
-    'Compute the remainder when 2^20 is divided by 7.',
-    'How many positive divisors does 360 have?',
-]
-
-params = SamplingParams(temperature=0.0, max_tokens=128, ignore_eos=True)
-
-import time
-start = time.perf_counter()
-outputs = llm.generate(prompts, params)
-elapsed = time.perf_counter() - start
-
-total_tokens = sum(len(o.outputs[0].token_ids) for o in outputs)
-print(f'DFlash: {total_tokens} tokens in {elapsed:.2f}s = {total_tokens/elapsed:.1f} tok/s')
-"
+sudo docker run --rm --privileged --net host --shm-size=16G \
+  -v $(pwd)/patch_docker.py:/mnt/patch_docker.py:ro \
+  -v $(pwd)/qwen3_dflash_docker.py:/mnt/qwen3_dflash_docker.py:ro \
+  -v $(pwd)/dflash_src:/mnt/dflash_src:ro \
+  -v $(pwd)/scripts:/mnt/scripts:ro \
+  -v $(pwd)/results:/mnt/results \
+  vllm/vllm-tpu:latest \
+  bash -c "python3 /mnt/patch_docker.py && python3 /mnt/scripts/benchmark_dflash.py"
 ```
 
-#### 3C: Eagle-3 speculative decoding (if compatible)
+**3C — Eagle-3 (no patch):**
 ```bash
-python -c "
-from vllm import LLM, SamplingParams
-
-llm = LLM(
-    model='Qwen/Qwen3-8B',
-    speculative_config={
-        'method': 'eagle3',
-        'model': 'Tengyunw/qwen3_8b_eagle3',
-        'num_speculative_tokens': 3,
-        'draft_tensor_parallel_size': 1,
-    },
-    max_model_len=1024,
-    max_num_seqs=1,
-    tensor_parallel_size=1,
-    async_scheduling=0,
-)
-
-prompts = [
-    'If 12 notebooks cost \$36, what does one notebook cost?',
-    'Solve: Find x if 3x + 7 = 40.',
-    'Compute the remainder when 2^20 is divided by 7.',
-    'How many positive divisors does 360 have?',
-]
-
-params = SamplingParams(temperature=0.0, max_tokens=128, ignore_eos=True)
-
-import time
-start = time.perf_counter()
-outputs = llm.generate(prompts, params)
-elapsed = time.perf_counter() - start
-
-total_tokens = sum(len(o.outputs[0].token_ids) for o in outputs)
-print(f'Eagle-3: {total_tokens} tokens in {elapsed:.2f}s = {total_tokens/elapsed:.1f} tok/s')
-"
+sudo docker run --rm --privileged --net host --shm-size=16G \
+  -v $(pwd)/scripts:/mnt/scripts:ro \
+  -v $(pwd)/results:/mnt/results \
+  vllm/vllm-tpu:latest \
+  python3 /mnt/scripts/benchmark_eagle3.py
 ```
 
-**Important notes for the benchmark runs:**
-- Run each benchmark SEPARATELY (not in the same process). The TPU device
-  needs to be released between runs — add `time.sleep(10)` or restart the
-  Python process.
-- Do a warmup run first (1 prompt) before timing, to absorb JIT/XLA
-  compilation overhead.
-- If Qwen3-8B is too large for TPU v4-8, try Qwen3-4B with
-  `z-lab/Qwen3-4B-DFlash-b16` as the draft model instead.
-- Record the exact tok/s numbers. The expected results from GPU (NVIDIA
-  B200) are:
-  - Baseline: 1x (reference)
-  - Eagle-3: ~2.2x speedup
-  - DFlash: ~5.2x speedup
-  - TPU numbers will differ, but the relative ranking should hold.
+Optional: add `-v /tmp/hf_home:/tmp/hf_home` to cache Hugging Face downloads across runs.
 
 ---
 
@@ -202,6 +115,7 @@ print(f'Eagle-3: {total_tokens} tokens in {elapsed:.2f}s = {total_tokens/elapsed
 
 If Options 1-2 both fail, fall back to verifying our code without vLLM:
 
+**On host (with local tpu-inference):**
 ```bash
 cd /home/aaronfeng/tpu-spec-decode
 JAX_PLATFORMS=cpu PYTHONPATH=tpu-inference python3 -c "
@@ -214,6 +128,20 @@ from tpu_inference.layers.common.attention_metadata import AttentionMetadata
 # [... run the 4-test validation suite ...]
 # This was already verified to pass. See conversation history.
 "
+```
+
+**In Docker (patch first so dflash_attention_interface is present):**
+```bash
+sudo docker run --rm --privileged --net host --shm-size=16G \
+  -v $(pwd)/patch_docker.py:/mnt/patch_docker.py:ro \
+  -v $(pwd)/qwen3_dflash_docker.py:/mnt/qwen3_dflash_docker.py:ro \
+  -v $(pwd)/dflash_src:/mnt/dflash_src:ro \
+  vllm/vllm-tpu:latest \
+  bash -c "python3 /mnt/patch_docker.py && JAX_PLATFORMS=cpu python3 -c \"
+from tpu_inference.layers.common.dflash_attention_interface import dflash_concat_attention
+from tpu_inference.layers.common.attention_metadata import AttentionMetadata
+print('dflash_concat_attention import: OK')
+\""
 ```
 
 And confirm the pytest suite runs inside the Docker environment by
