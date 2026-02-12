@@ -1,0 +1,46 @@
+{
+  "generated_at_utc": "2026-02-10T12:29:22+00:00",
+  "hostname": "t1v-n-b8ef674a-w-0",
+  "platform": "Linux-5.19.0-1022-gcp-x86_64-with-glibc2.35",
+  "python_version": "3.10.12 (main, Jan 26 2026, 14:55:28) [GCC 11.4.0]",
+  "argv": [
+    "/home/aaronfeng/tpu-spec-decode/verification/contribution/py/run_matrix.py",
+    "--manifest",
+    "verification/contribution/manifests/quick_math.json",
+    "--out-root",
+    "/home/aaronfeng/tpu-spec-decode/verification/outputs/contribution",
+    "--run-id",
+    "contrib_20260210_122922",
+    "--trust-remote-code",
+    "--dry-run"
+  ],
+  "repo_root": "/home/aaronfeng/tpu-spec-decode",
+  "manifest_path": "/home/aaronfeng/tpu-spec-decode/verification/contribution/manifests/quick_math.json",
+  "packages": {
+    "vllm": "0.15.1",
+    "transformers": "4.57.3",
+    "jax": "0.6.2",
+    "torch": "2.9.1",
+    "flax": "0.10.7"
+  },
+  "git": {
+    "repo_root": {
+      "path": "/home/aaronfeng/tpu-spec-decode",
+      "branch": "main",
+      "commit": "abb6c6b4a79de0b594e05d92d90489a63a674cba",
+      "dirty": true
+    },
+    "vllm": {
+      "path": "/home/aaronfeng/tpu-spec-decode/vllm",
+      "branch": "main",
+      "commit": "d9bede0314ba19a3f8336dcaeeeaf9e2c5487053",
+      "dirty": true
+    },
+    "tpu_inference": {
+      "path": "/home/aaronfeng/tpu-spec-decode/tpu-inference",
+      "branch": "dflash-integration",
+      "commit": "b8735de131a4f17a4d33c2aa21e9c2d533cb70f5",
+      "dirty": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+Run id: contrib_demo_tasks_medium_20260210_125330
+Manifest: /mnt/spec_repo/verification/contribution/manifests/dflash_demo_tasks_medium.json
+Methods: ['baseline', 'dflash']
+Datasets: ['gsm8k', 'math500', 'aime24', 'aime25', 'humaneval', 'mbpp', 'livecodebench', 'swe-bench', 'mt-bench', 'alpaca']
+Prompt source: external
+Out dir: /mnt/spec_repo/verification/outputs/contribution/contrib_demo_tasks_medium_20260210_125330
+INFO 02-10 12:55:15 [__init__.py:59] TPU info: node_name=lmgame-rl-node | tpu_type=v4-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+INFO 02-10 12:55:16 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 02-10 12:55:16 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+
+=== Method: baseline ===
+INFO 02-10 12:55:18 [utils.py:223] non-default args: {'trust_remote_code': True, 'max_model_len': 1024, 'max_num_seqs': 1, 'disable_log_stats': True, 'async_scheduling': 0, 'model': 'Qwen/Qwen3-4B'}
+WARNING 02-10 12:55:29 [interface.py:225] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+INFO 02-10 12:55:29 [model.py:529] Resolved architecture: Qwen3ForCausalLM
+INFO 02-10 12:55:29 [model.py:1549] Using max model len 1024
+INFO 02-10 12:55:30 [scheduler.py:224] Chunked prefill is enabled with max_num_batched_tokens=1024.
+INFO 02-10 12:55:30 [vllm.py:689] Asynchronous scheduling is disabled.
+INFO 02-10 12:55:30 [tpu_platform.py:125] Initialized sharding configuration: ShardingConfigManager(total_devices=1, sharding_strategy=ShardingStrategy(tensor_parallelism=1, expert_parallelism=1, sequence_parallelism=1, data_parallelism=1, attention_data_parallelism=1), device_indexes=None)
+INFO 02-10 12:55:30 [__init__.py:108] Registered model loader `<class 'tpu_inference.models.vllm.vllm_model_loader.IncrementalModelLoader'>` with load format `tpu_streaming_loader`
+WARNING 02-10 12:55:30 [__init__.py:97] Load format `runai_streamer` is already registered, and will be overwritten by the new loader class `<class 'tpu_inference.models.vllm.vllm_model_loader.RunaiIncrementalModelLoader'>`.
+INFO 02-10 12:55:30 [__init__.py:108] Registered model loader `<class 'tpu_inference.models.vllm.vllm_model_loader.RunaiIncrementalModelLoader'>` with load format `runai_streamer`
+INFO 02-10 12:55:30 [tpu_platform.py:166] Using KV cache block size: 64
+INFO 02-10 12:55:30 [tpu_platform.py:177] Force using UniProcExecutor for JAX on single host without pipeline parallelism.
+WARNING 02-10 12:55:32 [tpu_platform.py:218] Pin memory is not supported on TPU.
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:32 [core.py:97] Initializing a V1 LLM engine (v0.13.0) with config: model='Qwen/Qwen3-4B', speculative_config=None, tokenizer='Qwen/Qwen3-4B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=1024, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=True, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=None, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen/Qwen3-4B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.DYNAMO_TRACE_ONCE: 2>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'openxla', 'custom_ops': ['all'], 'splitting_ops': [], 'compile_mm_encoder': False, 'compile_sizes': None, 'compile_ranges_split_points': [1024], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': True, 'static_all_moe_layers': []}
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:35 [parallel_state.py:1234] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/tmpyuitp106 backend=gloo
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:35 [parallel_state.py:1445] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [tpu_runner.py:297] Init mesh | mesh=Mesh('data': 1, 'model': 1, axis_types=(Auto, Auto))
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [utils.py:94] Prepared token paddings: [16, 32, 64, 128, 256, 512, 1024]
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [utils.py:60] Prepared request paddings: [8]
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [compilation_manager.py:52] Enabling JAX compile cache.
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [tpu_worker.py:248] Init worker | rank=0 | is_first_rank=True | is_last_rank=True | topology_order_id=0 | is_driver_worker=True | hbm=[(0.0, 30.75)]GiB |self.devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0)] | total devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)] | local_devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)]
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [model_loader.py:381] Loading model with MODEL_IMPL_TYPE=auto
+(EngineCore_DP0 pid=593) INFO 02-10 12:55:36 [model_loader.py:384] Resolved MODEL_IMPL_TYPE 'auto' to 'flax_nnx'
+(EngineCore_DP0 pid=593) ERROR 02-10 12:55:42 [core.py:1006] EngineCore failed to start.
+(EngineCore_DP0 pid=593) ERROR 02-10 12:55:42 [core.py:1006] Traceback (most recent call last):
+(EngineCore_DP0 pid=593) ERROR 02-10 12:55:42 [core.py:1006]   File "/mnt/spec_repo/vllm/vllm/v1/engine/core.py", line 996, in run_engine_core
+(EngineCore_DP0 pid=593) ERROR 02-10 12:55:42 [core.py:1006]     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore_DP0 pid=593) ERROR 02-10 12:55:42 [core.py:1006]                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore_DP0 pid=593) ERRO

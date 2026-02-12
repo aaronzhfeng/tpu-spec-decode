@@ -1,0 +1,32 @@
+{
+  "datasets": {
+    "GSM8K": {
+      "speedup": 0.7212046302599384,
+      "tau": null
+    },
+    "Math500": {
+      "speedup": 0.6766862843738223,
+      "tau": null
+    },
+    "AIME24": {
+      "speedup": 0.7269092753051138,
+      "tau": null
+    },
+    "AIME25": {
+      "speedup": 0.7041881901776221,
+      "tau": null
+    },
+    "Alpaca": {
+      "speedup": 0.7211062558974658,
+      "tau": null
+    }
+  },
+  "average": {
+    "speedup": 0.7100189272027925,
+    "tau": 1.0434051709645966
+  },
+  "dflash_method": {
+    "tau": 1.0434051709645966,
+    "draft_acceptance_rate": 0.002894333294473191
+  }
+}
