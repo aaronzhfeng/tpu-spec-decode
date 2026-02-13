@@ -1,0 +1,298 @@
+Run id: contrib_quick_docker_20260210_123321
+Manifest: /mnt/spec_repo/verification/contribution/manifests/quick_math.json
+Methods: ['baseline', 'dflash']
+Datasets: ['gsm8k']
+Prompt source: synthetic
+Out dir: /mnt/spec_repo/verification/outputs/contribution/contrib_quick_docker_20260210_123321
+INFO 02-10 12:33:26 [__init__.py:59] TPU info: node_name=lmgame-rl-node | tpu_type=v4-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+INFO 02-10 12:33:30 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 02-10 12:33:30 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+
+=== Method: baseline ===
+INFO 02-10 12:33:32 [utils.py:223] non-default args: {'trust_remote_code': True, 'max_model_len': 1024, 'max_num_seqs': 1, 'disable_log_stats': True, 'async_scheduling': 0, 'model': 'Qwen/Qwen3-8B'}
+WARNING 02-10 12:33:44 [interface.py:225] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+INFO 02-10 12:33:44 [model.py:529] Resolved architecture: Qwen3ForCausalLM
+INFO 02-10 12:33:44 [model.py:1549] Using max model len 1024
+INFO 02-10 12:33:44 [scheduler.py:224] Chunked prefill is enabled with max_num_batched_tokens=1024.
+INFO 02-10 12:33:44 [vllm.py:689] Asynchronous scheduling is disabled.
+INFO 02-10 12:33:44 [tpu_platform.py:125] Initialized sharding configuration: ShardingConfigManager(total_devices=1, sharding_strategy=ShardingStrategy(tensor_parallelism=1, expert_parallelism=1, sequence_parallelism=1, data_parallelism=1, attention_data_parallelism=1), device_indexes=None)
+INFO 02-10 12:33:45 [__init__.py:108] Registered model loader `<class 'tpu_inference.models.vllm.vllm_model_loader.IncrementalModelLoader'>` with load format `tpu_streaming_loader`
+WARNING 02-10 12:33:45 [__init__.py:97] Load format `runai_streamer` is already registered, and will be overwritten by the new loader class `<class 'tpu_inference.models.vllm.vllm_model_loader.RunaiIncrementalModelLoader'>`.
+INFO 02-10 12:33:45 [__init__.py:108] Registered model loader `<class 'tpu_inference.models.vllm.vllm_model_loader.RunaiIncrementalModelLoader'>` with load format `runai_streamer`
+INFO 02-10 12:33:45 [tpu_platform.py:166] Using KV cache block size: 64
+INFO 02-10 12:33:45 [tpu_platform.py:177] Force using UniProcExecutor for JAX on single host without pipeline parallelism.
+WARNING 02-10 12:33:46 [tpu_platform.py:218] Pin memory is not supported on TPU.
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:46 [core.py:97] Initializing a V1 LLM engine (v0.13.0) with config: model='Qwen/Qwen3-8B', speculative_config=None, tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=1024, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=True, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=None, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen/Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.DYNAMO_TRACE_ONCE: 2>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'openxla', 'custom_ops': ['all'], 'splitting_ops': [], 'compile_mm_encoder': False, 'compile_sizes': None, 'compile_ranges_split_points': [1024], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': True, 'static_all_moe_layers': []}
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:49 [parallel_state.py:1234] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/tmpq4ygxdqu backend=gloo
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:49 [parallel_state.py:1445] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [tpu_runner.py:297] Init mesh | mesh=Mesh('data': 1, 'model': 1, axis_types=(Auto, Auto))
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [utils.py:94] Prepared token paddings: [16, 32, 64, 128, 256, 512, 1024]
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [utils.py:60] Prepared request paddings: [8]
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [compilation_manager.py:52] Enabling JAX compile cache.
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [tpu_worker.py:248] Init worker | rank=0 | is_first_rank=True | is_last_rank=True | topology_order_id=0 | is_driver_worker=True | hbm=[(0.0, 30.75)]GiB |self.devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0)] | total devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)] | local_devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)]
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [model_loader.py:381] Loading model with MODEL_IMPL_TYPE=auto
+(EngineCore_DP0 pid=322) INFO 02-10 12:33:50 [model_loader.py:384] Resolved MODEL_IMPL_TYPE 'auto' to 'flax_nnx'
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:17 [default_loader.py:293] Loading weights took 24.74 seconds
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [tpu_runner.py:532] Init model | hbm=[(16.42, 30.75)]GiB
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [tpu_worker.py:282] Memory statistics | total_hbm_limit_gb=30.75GiB | total_hbm_limit_cap_gb=27.67GiB | total_hbm_used_gb=16.42GiB | total_hbm_avail_gb=11.26GiB
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [kv_cache_utils.py:1307] GPU KV cache size: 81,920 tokens
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [kv_cache_utils.py:1312] Maximum concurrency for 1,024 tokens per request: 80.00x
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [compilation_manager.py:498] Compiling sampling with different input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:19 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:20 [compilation_manager.py:80] Compilation finished in 1.01 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:20 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:21 [compilation_manager.py:80] Compilation finished in 0.91 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:21 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:21 [compilation_manager.py:80] Compilation finished in 0.38 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:21 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:22 [compilation_manager.py:80] Compilation finished in 0.39 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:22 [compilation_manager.py:571] Compiling gather_logprobs with different input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:22 [compilation_manager.py:75] Precompile worker0 gather_logprobs --> {'num_reqs': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:23 [compilation_manager.py:80] Compilation finished in 1.02 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:26 [kv_cache_manager.py:274] Init kv-cache | num_layers=36 | shape=(num_blocks, (64, 8, 2, 128)) | num_blocks=[np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280), np.int64(1280)] | sharding=NamedSharding(mesh=Mesh('data': 1, 'model': 1, axis_types=(Auto, Auto)), spec=PartitionSpec('data', None, 'model'), memory_kind=device) | dtype=bfloat16 | hbm=[(27.67, 30.75)]Gb
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:26 [compilation_manager.py:85] Precompile all the subgraphs with possible input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:26 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 16}
+(EngineCore_DP0 pid=322) WARNING 02-10 12:34:26 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None')
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:26 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None'): bkv_p=8, bq=16
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:36 [compilation_manager.py:80] Compilation finished in 9.47 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:36 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 32}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:36 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None'): bkv_p=8, bq=32
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:45 [compilation_manager.py:80] Compilation finished in 9.85 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:45 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 64}
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:56 [compilation_manager.py:80] Compilation finished in 10.54 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:34:56 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 128}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:06 [compilation_manager.py:80] Compilation finished in 10.00 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:06 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 256}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:17 [compilation_manager.py:80] Compilation finished in 11.29 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:17 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 512}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:30 [compilation_manager.py:80] Compilation finished in 12.29 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:30 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 1024}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:80] Compilation finished in 15.05 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:428] Compiling select_from_array with different input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:407] Compiling select_from_array for worker0 select all logits.
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 16, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:80] Compilation finished in 0.08 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 32, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:80] Compilation finished in 0.08 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 64, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:80] Compilation finished in 0.09 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:80] Compilation finished in 0.11 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:45 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:80] Compilation finished in 0.15 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:80] Compilation finished in 0.23 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:80] Compilation finished in 0.06 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:476] Compiling compute_logits with different input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:80] Compilation finished in 0.19 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:893] Compiling structured_decoding with different input shapes.
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:46 [compilation_manager.py:75] Precompile structured_decode --> {'num_reqs': 8}
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:48 [compilation_manager.py:80] Compilation finished in 2.01 [secs].
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:48 [core.py:278] init engine (profile, create kv cache, warmup model) took 89.28 seconds
+(EngineCore_DP0 pid=322) WARNING 02-10 12:35:50 [vllm.py:734] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:50 [tpu_platform.py:125] Initialized sharding configuration: ShardingConfigManager(total_devices=1, sharding_strategy=ShardingStrategy(tensor_parallelism=1, expert_parallelism=1, sequence_parallelism=1, data_parallelism=1, attention_data_parallelism=1), device_indexes=None)
+(EngineCore_DP0 pid=322) INFO 02-10 12:35:50 [tpu_platform.py:177] Force using UniProcExecutor for JAX on single host without pipeline parallelism.
+INFO 02-10 12:35:50 [llm.py:355] Supported tasks: ['generate']
+
+=== Method: dflash ===
+INFO 02-10 12:35:55 [utils.py:223] non-default args: {'trust_remote_code': True, 'max_model_len': 1024, 'max_num_seqs': 1, 'disable_log_stats': True, 'speculative_config': {'method': 'dflash', 'model': 'z-lab/Qwen3-8B-DFlash-b16', 'num_speculative_tokens': 8, 'draft_tensor_parallel_size': 1}, 'async_scheduling': 0, 'model': 'Qwen/Qwen3-8B'}
+INFO 02-10 12:35:55 [model.py:529] Resolved architecture: Qwen3ForCausalLM
+INFO 02-10 12:35:55 [model.py:1549] Using max model len 1024
+INFO 02-10 12:36:07 [model.py:529] Resolved architecture: TransformersForCausalLM
+INFO 02-10 12:36:07 [model.py:1549] Using max model len 40960
+INFO 02-10 12:36:07 [scheduler.py:224] Chunked prefill is enabled with max_num_batched_tokens=1024.
+INFO 02-10 12:36:07 [tpu_platform.py:125] Initialized sharding configuration: ShardingConfigManager(total_devices=1, sharding_strategy=ShardingStrategy(tensor_parallelism=1, expert_parallelism=1, sequence_parallelism=1, data_parallelism=1, attention_data_parallelism=1), device_indexes=None)
+INFO 02-10 12:36:07 [tpu_platform.py:166] Using KV cache block size: 64
+INFO 02-10 12:36:07 [tpu_platform.py:177] Force using UniProcExecutor for JAX on single host without pipeline parallelism.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:07 [core.py:97] Initializing a V1 LLM engine (v0.13.0) with config: model='Qwen/Qwen3-8B', speculative_config=SpeculativeConfig(method='dflash', model='z-lab/Qwen3-8B-DFlash-b16', num_spec_tokens=8), tokenizer='Qwen/Qwen3-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=True, dtype=torch.bfloat16, max_seq_len=1024, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, disable_custom_all_reduce=True, quantization=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=None, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_fallback=False, disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False), seed=0, served_model_name=Qwen/Qwen3-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'level': None, 'mode': <CompilationMode.DYNAMO_TRACE_ONCE: 2>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'openxla', 'custom_ops': ['all'], 'splitting_ops': [], 'compile_mm_encoder': False, 'compile_sizes': None, 'compile_ranges_split_points': [1024], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': None, 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'eliminate_noops': True, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'fuse_act_padding': False}, 'max_cudagraph_capture_size': None, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:10 [parallel_state.py:1234] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/tmpfp3x8g5d backend=gloo
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:10 [parallel_state.py:1445] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [tpu_runner.py:297] Init mesh | mesh=Mesh('data': 1, 'model': 1, axis_types=(Auto, Auto))
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [utils.py:94] Prepared token paddings: [16, 32, 64, 128, 256, 512, 1024]
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [utils.py:60] Prepared request paddings: [8]
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [utils.py:94] Prepared token paddings: [8, 16, 32, 64, 128]
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [compilation_manager.py:52] Enabling JAX compile cache.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [tpu_worker.py:248] Init worker | rank=0 | is_first_rank=True | is_last_rank=True | topology_order_id=0 | is_driver_worker=True | hbm=[(0.0, 30.75)]GiB |self.devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0)] | total devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)] | local_devices=[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0), TpuDevice(id=1, process_index=0, coords=(1,0,0), core_on_chip=0), TpuDevice(id=2, process_index=0, coords=(0,1,0), core_on_chip=0), TpuDevice(id=3, process_index=0, coords=(1,1,0), core_on_chip=0)]
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [model_loader.py:381] Loading model with MODEL_IMPL_TYPE=auto
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:11 [model_loader.py:384] Resolved MODEL_IMPL_TYPE 'auto' to 'flax_nnx'
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:37 [default_loader.py:293] Loading weights took 24.72 seconds
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:38 [tpu_runner.py:518] Loading drafter model...
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:38 [dflash_torchax.py:127] Loading DFlash PyTorch model via AutoModel from z-lab/Qwen3-8B-DFlash-b16
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [dflash_torchax.py:168] DFlash torchax wrapper loaded successfully.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [dflash.py:97] DFlash proposer loaded (torchax).
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [tpu_runner.py:532] Init model | hbm=[(18.37, 30.75)]GiB
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [tpu_worker.py:282] Memory statistics | total_hbm_limit_gb=30.75GiB | total_hbm_limit_cap_gb=27.67GiB | total_hbm_used_gb=18.37GiB | total_hbm_avail_gb=9.3GiB
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [kv_cache_utils.py:1307] GPU KV cache size: 65,856 tokens
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [kv_cache_utils.py:1312] Maximum concurrency for 1,024 tokens per request: 64.31x
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [compilation_manager.py:498] Compiling sampling with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:41 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:42 [compilation_manager.py:80] Compilation finished in 1.02 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:42 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:43 [compilation_manager.py:80] Compilation finished in 0.90 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:43 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:43 [compilation_manager.py:80] Compilation finished in 0.36 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:43 [compilation_manager.py:75] Precompile worker0 sample --> {'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:44 [compilation_manager.py:80] Compilation finished in 0.36 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:44 [compilation_manager.py:571] Compiling gather_logprobs with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:44 [compilation_manager.py:75] Precompile worker0 gather_logprobs --> {'num_reqs': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:45 [compilation_manager.py:80] Compilation finished in 1.11 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:48 [kv_cache_manager.py:274] Init kv-cache | num_layers=37 | shape=(num_blocks, (64, 8, 2, 128)) | num_blocks=[np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029), np.int64(1029)] | sharding=NamedSharding(mesh=Mesh('data': 1, 'model': 1, axis_types=(Auto, Auto)), spec=PartitionSpec('data', None, 'model'), memory_kind=device) | dtype=bfloat16 | hbm=[(27.67, 30.75)]Gb
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:48 [compilation_manager.py:85] Precompile all the subgraphs with possible input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:48 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 16}
+(EngineCore_DP0 pid=2595) WARNING 02-10 12:36:48 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None')
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:48 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None'): bkv_p=8, bq=16
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:57 [compilation_manager.py:80] Compilation finished in 8.97 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:57 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:36:57 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v4', 64, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-1024-sw-None'): bkv_p=8, bq=32
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:07 [compilation_manager.py:80] Compilation finished in 10.18 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:07 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:17 [compilation_manager.py:80] Compilation finished in 10.02 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:17 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:28 [compilation_manager.py:80] Compilation finished in 10.63 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:28 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 256}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:39 [compilation_manager.py:80] Compilation finished in 10.67 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:39 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 512}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:52 [compilation_manager.py:80] Compilation finished in 12.77 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:37:52 [compilation_manager.py:75] Precompile worker0 backbone --> {'num_tokens': 1024}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 15.14 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:428] Compiling select_from_array with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:407] Compiling select_from_array for worker0 select all logits.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 16, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 0.08 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 16, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 0.10 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 32, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 0.08 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 32, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 0.11 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 32, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:80] Compilation finished in 0.16 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:07 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 64, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.09 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 64, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.12 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 64, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.16 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 64, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.27 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.11 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:80] Compilation finished in 0.13 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:08 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:09 [compilation_manager.py:80] Compilation finished in 0.19 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:09 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:09 [compilation_manager.py:80] Compilation finished in 0.29 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:09 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 128, 'index_size': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:09 [compilation_manager.py:80] Compilation finished in 0.56 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:80] Compilation finished in 0.15 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:80] Compilation finished in 0.19 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:80] Compilation finished in 0.23 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:80] Compilation finished in 0.33 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:10 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 256, 'index_size': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:11 [compilation_manager.py:80] Compilation finished in 0.59 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:11 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:11 [compilation_manager.py:80] Compilation finished in 0.22 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:11 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:80] Compilation finished in 0.25 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:80] Compilation finished in 0.30 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:80] Compilation finished in 0.43 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:12 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 512, 'index_size': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:80] Compilation finished in 0.65 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:80] Compilation finished in 0.06 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:80] Compilation finished in 0.07 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:80] Compilation finished in 0.10 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:80] Compilation finished in 0.15 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:13 [compilation_manager.py:75] Precompile select_from_array [worker0 select all logits] --> {'array_size': 1024, 'index_size': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:80] Compilation finished in 0.26 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:407] Compiling select_from_array for worker0 select bonus tokens for spec decoding.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:75] Precompile select_from_array [worker0 select bonus tokens for spec decoding] --> {'array_size': 8, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:80] Compilation finished in 0.30 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:75] Precompile select_from_array [worker0 select bonus tokens for spec decoding] --> {'array_size': 16, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:80] Compilation finished in 0.33 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:14 [compilation_manager.py:75] Precompile select_from_array [worker0 select bonus tokens for spec decoding] --> {'array_size': 32, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:80] Compilation finished in 0.36 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:75] Precompile select_from_array [worker0 select bonus tokens for spec decoding] --> {'array_size': 64, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:80] Compilation finished in 0.46 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:75] Precompile select_from_array [worker0 select bonus tokens for spec decoding] --> {'array_size': 128, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:80] Compilation finished in 0.18 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:407] Compiling select_from_array for worker0 select target tokens for spec decoding.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:75] Precompile select_from_array [worker0 select target tokens for spec decoding] --> {'array_size': 8, 'index_size': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:80] Compilation finished in 0.00 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:15 [compilation_manager.py:75] Precompile select_from_array [worker0 select target tokens for spec decoding] --> {'array_size': 16, 'index_size': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:16 [compilation_manager.py:80] Compilation finished in 0.56 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:16 [compilation_manager.py:75] Precompile select_from_array [worker0 select target tokens for spec decoding] --> {'array_size': 32, 'index_size': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:17 [compilation_manager.py:80] Compilation finished in 1.21 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:17 [compilation_manager.py:75] Precompile select_from_array [worker0 select target tokens for spec decoding] --> {'array_size': 64, 'index_size': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:18 [compilation_manager.py:80] Compilation finished in 1.14 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:18 [compilation_manager.py:75] Precompile select_from_array [worker0 select target tokens for spec decoding] --> {'array_size': 128, 'index_size': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:20 [compilation_manager.py:80] Compilation finished in 1.76 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:20 [compilation_manager.py:476] Compiling compute_logits with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:20 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:20 [compilation_manager.py:80] Compilation finished in 0.21 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:20 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 16}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:80] Compilation finished in 0.21 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 32}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:80] Compilation finished in 0.24 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 64}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:80] Compilation finished in 0.31 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:21 [compilation_manager.py:75] Precompile worker0 compute_logits --> {'num_reqs': 128}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:80] Compilation finished in 0.44 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:893] Compiling structured_decoding with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:75] Precompile structured_decode --> {'num_reqs': 8}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:80] Compilation finished in 0.03 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:596] Compiling speculative_decoding with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:605] Compiling rejection_sampler with different input shapes.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:75] Precompile worker0 greedy_rejection_sampler --> {'num_logits': 8, 'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:80] Compilation finished in 0.50 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:22 [compilation_manager.py:75] Precompile worker0 random_rejection_sampler --> {'num_logits': 8, 'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:24 [compilation_manager.py:80] Compilation finished in 1.40 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:24 [compilation_manager.py:75] Precompile worker0 greedy_rejection_sampler --> {'num_logits': 16, 'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:24 [compilation_manager.py:80] Compilation finished in 0.52 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:24 [compilation_manager.py:75] Precompile worker0 random_rejection_sampler --> {'num_logits': 16, 'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:26 [compilation_manager.py:80] Compilation finished in 1.86 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:26 [compilation_manager.py:75] Precompile worker0 greedy_rejection_sampler --> {'num_logits': 32, 'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:27 [compilation_manager.py:80] Compilation finished in 0.62 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:27 [compilation_manager.py:75] Precompile worker0 random_rejection_sampler --> {'num_logits': 32, 'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:30 [compilation_manager.py:80] Compilation finished in 3.44 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:30 [compilation_manager.py:75] Precompile worker0 greedy_rejection_sampler --> {'num_logits': 64, 'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:31 [compilation_manager.py:80] Compilation finished in 0.79 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:31 [compilation_manager.py:75] Precompile worker0 random_rejection_sampler --> {'num_logits': 64, 'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:43 [compilation_manager.py:80] Compilation finished in 11.88 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:43 [compilation_manager.py:75] Precompile worker0 greedy_rejection_sampler --> {'num_logits': 128, 'num_reqs': 8, 'do_sampling': False}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:44 [compilation_manager.py:80] Compilation finished in 0.73 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:44 [compilation_manager.py:75] Precompile worker0 random_rejection_sampler --> {'num_logits': 128, 'num_reqs': 8, 'do_sampling': True}
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:52 [compilation_manager.py:80] Compilation finished in 8.10 [secs].
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:52 [core.py:278] init engine (profile, create kv cache, warmup model) took 130.61 seconds
+(EngineCore_DP0 pid=2595) WARNING 02-10 12:38:53 [vllm.py:734] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:53 [tpu_platform.py:125] Initialized sharding configuration: ShardingConfigManager(total_devices=1, sharding_strategy=ShardingStrategy(tensor_parallelism=1, expert_parallelism=1, sequence_parallelism=1, data_parallelism=1, attention_data_parallelism=1), device_indexes=None)
+(EngineCore_DP0 pid=2595) INFO 02-10 12:38:53 [tpu_platform.py:177] Force using UniProcExecutor for JAX on single host without pipeline parallelism.
+INFO 02-10 12:38:53 [llm.py:355] Supported tasks: ['generate']
+
+Completed successfully.

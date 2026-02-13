@@ -1,0 +1,34 @@
+{
+  "name": "contribution_dflash_acceptance_smoke",
+  "model": "Qwen/Qwen3-4B",
+  "draft_model": "z-lab/Qwen3-4B-DFlash-b16",
+  "eagle3_draft_model": "",
+  "prompt_source": "external",
+  "use_chat_template": true,
+  "datasets": [
+    "gsm8k"
+  ],
+  "max_samples": 3,
+  "methods": [
+    "dflash"
+  ],
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 1,
+    "max_tokens": 128,
+    "ignore_eos": true
+  },
+  "runtime": {
+    "tensor_parallel_size": 1,
+    "max_model_len": 1024,
+    "max_num_seqs": 1,
+    "num_speculative_tokens": 16,
+    "draft_tensor_parallel_size": 1,
+    "warmup_prompts": 1,
+    "inter_method_sleep_sec": 1.0,
+    "async_scheduling": 0,
+    "disable_log_stats": false,
+    "seed": 0
+  }
+}

@@ -8,6 +8,14 @@ This folder contains repo-root validation utilities for DFlash integration.
 verification/
   config/
     tpu_inference_dflash_allowlist.txt
+  contribution/
+    manifests/
+      default.json
+      quick_math.json
+    py/
+      run_matrix.py
+    sh/
+      run_contribution_matrix.sh
   py/
     preflight_dflash_validation.py
     dflash_reported_baselines.py
@@ -91,4 +99,11 @@ DRY_RUN=1 \
 RUN_PYTEST=0 \
 RUN_EXTERNAL=0 \
 bash verification/sh/run_dflash_validation_matrix.sh
+```
+
+Contribution-focused matrix (per-prompt logs + summaries):
+
+```bash
+MANIFEST=verification/contribution/manifests/quick_math.json \
+  bash verification/contribution/sh/run_contribution_matrix.sh
 ```

@@ -1,0 +1,12 @@
+{
+  "datasets": {
+    "GSM8K": {
+      "speedup": 0.7851185032491119,
+      "tau": null
+    }
+  },
+  "average": {
+    "speedup": 0.7851185032491119,
+    "tau": null
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "generated_at_utc": "2026-02-11T11:03:09+00:00",
+  "hostname": "t1v-n-b8ef674a-w-0",
+  "platform": "Linux-5.19.0-1022-gcp-x86_64-with-glibc2.35",
+  "python_version": "3.11.14 (main, Oct 10 2025, 08:54:03) [GCC 11.4.0]",
+  "argv": [
+    "/home/aaronfeng/tpu-spec-decode/verification/contribution/py/run_matrix.py",
+    "--manifest",
+    "/home/aaronfeng/tpu-spec-decode/verification/contribution/manifests/dflash_diagnostic_near_demo.json",
+    "--out-root",
+    "/home/aaronfeng/tpu-spec-decode/verification/outputs/contribution",
+    "--run-id",
+    "contrib_20260211_110309",
+    "--trust-remote-code"
+  ],
+  "repo_root": "/home/aaronfeng/tpu-spec-decode",
+  "manifest_path": "/home/aaronfeng/tpu-spec-decode/verification/contribution/manifests/dflash_diagnostic_near_demo.json",
+  "packages": {
+    "vllm": null,
+    "transformers": "4.57.6",
+    "jax": "0.9.0.1",
+    "torch": "2.9.1",
+    "flax": "0.12.3"
+  },
+  "git": {
+    "repo_root": {
+      "path": "/home/aaronfeng/tpu-spec-decode",
+      "branch": "main",
+      "commit": "abb6c6b4a79de0b594e05d92d90489a63a674cba",
+      "dirty": true
+    },
+    "vllm": {
+      "path": "/home/aaronfeng/tpu-spec-decode/vllm",
+      "branch": "main",
+      "commit": "d9bede0314ba19a3f8336dcaeeeaf9e2c5487053",
+      "dirty": true
+    },
+    "tpu_inference": {
+      "path": "/home/aaronfeng/tpu-spec-decode/tpu-inference",
+      "branch": "dflash-integration",
+      "commit": "b8735de131a4f17a4d33c2aa21e9c2d533cb70f5",
+      "dirty": true
+    }
+  }
+}
