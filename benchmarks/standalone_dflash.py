@@ -16,6 +16,7 @@ import functools
 import json
 import math
 import os
+import re
 import time
 from types import SimpleNamespace
 from typing import Optional
@@ -581,6 +582,7 @@ def main():
     max_length = args.max_model_len
     page_size = 16
     responses = []
+    quality_results = []
 
     for idx in range(len(dataset)):
         instance = dataset[idx]
@@ -624,6 +626,63 @@ def main():
         tau = np.mean(r.acceptance_lengths) if r.acceptance_lengths else 0
         print(f"  DFlash:   {r.num_output_tokens} tokens, "
               f"TPOT={r.time_per_output_token*1000:.1f}ms, tau={tau:.2f}")
+
+        # --- Output quality check ---
+        n_in = len(input_ids_np)
+        bl_out = response[1].output_ids[n_in:]
+        df_out = r.output_ids[n_in:]
+        min_len = min(len(bl_out), len(df_out))
+        if min_len > 0 and np.array_equal(bl_out[:min_len], df_out[:min_len]):
+            print(f"  Quality:  MATCH (first {min_len} output tokens identical)")
+            quality_results.append({
+                "sample": idx, "match": True, "min_len": int(min_len),
+                "mismatches": [],
+            })
+        else:
+            # Find ALL mismatch positions (not just the first)
+            mismatches = []
+            for i in range(min_len):
+                if bl_out[i] != df_out[i]:
+                    mismatches.append({
+                        "pos": i,
+                        "baseline_id": int(bl_out[i]),
+                        "dflash_id": int(df_out[i]),
+                        "baseline_text": tokenizer.decode([int(bl_out[i])]),
+                        "dflash_text": tokenizer.decode([int(df_out[i])]),
+                    })
+            first = mismatches[0]
+            print(f"  Quality:  MISMATCH — {len(mismatches)} divergent tokens "
+                  f"(first at output pos {first['pos']}: "
+                  f"baseline='{first['baseline_text']}' vs "
+                  f"dflash='{first['dflash_text']}')")
+            # Show decoded text window around first mismatch
+            ctx_start = max(0, first["pos"] - 5)
+            ctx_end = min(min_len, first["pos"] + 10)
+            bl_window = tokenizer.decode(bl_out[ctx_start:ctx_end].tolist())
+            df_window = tokenizer.decode(df_out[ctx_start:ctx_end].tolist())
+            print(f"    Baseline [{ctx_start}:{ctx_end}]: ...{bl_window}...")
+            print(f"    DFlash   [{ctx_start}:{ctx_end}]: ...{df_window}...")
+            quality_results.append({
+                "sample": idx, "match": False, "min_len": int(min_len),
+                "mismatches": mismatches,
+            })
+
+        # Check if final \boxed{} answers match (for math datasets)
+        bl_text = tokenizer.decode(bl_out.tolist())
+        df_text = tokenizer.decode(df_out.tolist())
+        bl_boxes = re.findall(r'\\boxed\{([^}]*)\}', bl_text)
+        df_boxes = re.findall(r'\\boxed\{([^}]*)\}', df_text)
+        bl_ans = bl_boxes[-1].strip() if bl_boxes else None
+        df_ans = df_boxes[-1].strip() if df_boxes else None
+        if bl_ans is not None or df_ans is not None:
+            if bl_ans == df_ans:
+                print(f"  Answer:   SAME (\\boxed{{{bl_ans}}})")
+            else:
+                print(f"  Answer:   DIFFER (baseline=\\boxed{{{bl_ans}}}, "
+                      f"dflash=\\boxed{{{df_ans}}})")
+        quality_results[-1]["baseline_answer"] = bl_ans
+        quality_results[-1]["dflash_answer"] = df_ans
+        quality_results[-1]["answer_match"] = (bl_ans == df_ans)
 
         responses.append(response)
 
@@ -677,6 +736,34 @@ def main():
     print(f"\nAcceptance length histogram: "
           f"{[f'{x*100:.1f}%' for x in histogram]}")
 
+    # --- Quality summary ---
+    n_match = sum(1 for q in quality_results if q["match"])
+    n_total = len(quality_results)
+    n_ans_total = sum(1 for q in quality_results
+                      if q.get("baseline_answer") is not None
+                      or q.get("dflash_answer") is not None)
+    n_ans_match = sum(1 for q in quality_results
+                      if q.get("answer_match")
+                      and (q.get("baseline_answer") is not None
+                           or q.get("dflash_answer") is not None))
+    print(f"\nOutput quality: {n_match}/{n_total} samples match baseline exactly")
+    if n_ans_total > 0:
+        print(f"Final answer:   {n_ans_match}/{n_ans_total} samples have same "
+              f"\\boxed{{}} answer")
+    if n_match < n_total:
+        print("  (Mismatches are expected with bf16 speculative decoding — "
+              "batch-16 verify vs single-token baseline can produce different "
+              "floating-point accumulation, flipping argmax at decision boundaries.)")
+        for q in quality_results:
+            if not q["match"]:
+                mm = q["mismatches"]
+                ans_note = ""
+                if q.get("baseline_answer") is not None or q.get("dflash_answer") is not None:
+                    ans_note = (f", answer={'SAME' if q.get('answer_match') else 'DIFFER'}"
+                                f" ({q.get('baseline_answer')} vs {q.get('dflash_answer')})")
+                print(f"  Sample {q['sample']}: {len(mm)} mismatched tokens "
+                      f"out of {q['min_len']} (first at pos {mm[0]['pos']}{ans_note})")
+
     # --- Save JSON ---
     if args.output_json:
         per_sample = []
@@ -684,7 +771,7 @@ def main():
             bl = r[1]
             df = r[block_size]
             s_tau = float(np.mean(df.acceptance_lengths)) if df.acceptance_lengths else 0
-            per_sample.append({
+            sample_data = {
                 "sample_index": idx,
                 "is_warmup": idx < warmup,
                 "num_input_tokens": int(bl.num_input_tokens),
@@ -697,7 +784,16 @@ def main():
                 "tau": s_tau,
                 "num_drafts": len(df.acceptance_lengths),
                 "acceptance_lengths": [int(a) for a in df.acceptance_lengths],
-            })
+            }
+            # Add quality data if available
+            if idx < len(quality_results):
+                q = quality_results[idx]
+                sample_data["quality_match"] = q["match"]
+                sample_data["quality_mismatches"] = q["mismatches"]
+                sample_data["baseline_answer"] = q.get("baseline_answer")
+                sample_data["dflash_answer"] = q.get("dflash_answer")
+                sample_data["answer_match"] = q.get("answer_match")
+            per_sample.append(sample_data)
 
         result = {
             "config": {
@@ -723,6 +819,13 @@ def main():
                 "total_drafts": total_drafts,
                 "acceptance_rate_per_pos": [float(r) for r in pos_rates],
                 "acceptance_histogram": [float(h) for h in histogram],
+            },
+            "quality": {
+                "total_samples": n_total,
+                "exact_matches": n_match,
+                "match_rate": n_match / max(n_total, 1),
+                "answer_matches": n_ans_match,
+                "answer_total": n_ans_total,
             },
             "per_sample": per_sample,
         }

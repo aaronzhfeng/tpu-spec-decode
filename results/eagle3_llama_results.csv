@@ -1,0 +1,11 @@
+dataset,method,num_prompts,num_ok,num_error,tpot_ms,tps,speedup
+gsm8k,baseline,8,8,0,19.52,51.2,
+math500,baseline,8,8,0,19.51,51.2,
+aime24,baseline,8,8,0,19.55,51.1,
+aime25,baseline,8,8,0,19.58,51.1,
+gsm8k,eagle3,8,8,0,12.42,80.5,1.57
+math500,eagle3,8,8,0,12.14,82.4,1.61
+aime24,eagle3,8,8,0,12.99,77.0,1.51
+aime25,eagle3,8,8,0,13.44,74.4,1.46
+OVERALL,baseline,32,32,0,19.54,51.2,1.0
+OVERALL,eagle3,32,32,0,12.75,78.4,1.53

@@ -46,6 +46,21 @@ def find_standalone_jsons():
     return results
 
 
+def find_quality_jsons():
+    """Find quality check JSON files (which have answer_match data)."""
+    pattern = os.path.join(SCRIPT_DIR, "quality_*.json")
+    paths = sorted(glob.glob(pattern))
+    results = {}
+    for p in paths:
+        with open(p) as f:
+            data = json.load(f)
+        ds = data["config"]["dataset"]
+        # Only use if it has quality data
+        if data.get("quality"):
+            results[ds] = data
+    return results
+
+
 def find_vllm_json():
     """Find the most recent vLLM bench_math run."""
     pattern = "/dev/shm/dflash-test-outputs/bench_math_*/summaries/overall.json"
@@ -63,6 +78,18 @@ def find_vllm_json():
         with open(comp_path) as f:
             comparator = json.load(f)
     return overall, comparator
+
+
+def find_eagle3_json():
+    """Find Eagle3 benchmark run."""
+    pattern = "/dev/shm/dflash-test-outputs/bench_custom_*/summaries/overall.json"
+    paths = sorted(glob.glob(pattern))
+    for p in paths:
+        with open(p) as f:
+            data = json.load(f)
+        if "eagle3" in data.get("methods", {}):
+            return data
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -224,6 +251,77 @@ def generate_vllm_acceptance(overall):
     write_csv(os.path.join(SCRIPT_DIR, "vllm_pipeline_acceptance.csv"), headers, rows)
 
 
+def generate_eagle3_results(eagle3):
+    """Table 7: Eagle3 vLLM pipeline results."""
+    headers = [
+        "dataset", "method", "num_prompts", "num_ok", "num_error",
+        "tpot_ms", "tps", "speedup",
+    ]
+    rows = []
+    for entry in eagle3.get("datasets", []):
+        spd = entry.get("speedup_vs_baseline", "")
+        rows.append([
+            entry["dataset"], entry["method"],
+            entry["num_prompts"], entry["num_ok"], entry["num_error"],
+            round(entry["time_per_output_token"] * 1000, 2),
+            round(entry["tokens_per_second"], 1),
+            round(spd, 2) if spd else "",
+        ])
+    for method_name, mdata in eagle3.get("methods", {}).items():
+        spd = mdata.get("speedup_vs_baseline", "")
+        rows.append([
+            "OVERALL", method_name,
+            mdata["num_prompts"], mdata["num_ok"], mdata["num_error"],
+            round(mdata["time_per_output_token"] * 1000, 2),
+            round(mdata["tokens_per_second"], 1),
+            round(spd, 2) if spd else "",
+        ])
+    write_csv(os.path.join(SCRIPT_DIR, "eagle3_llama_results.csv"), headers, rows)
+
+
+def generate_quality_check(quality_data):
+    """Table: Output quality check — baseline vs DFlash token-level comparison."""
+    headers = [
+        "dataset", "sample_index", "token_match",
+        "first_mismatch_pos", "num_mismatches", "output_length",
+        "baseline_answer", "dflash_answer", "answer_match",
+    ]
+    rows = []
+    for ds in ["gsm8k", "math500", "aime24", "aime25"]:
+        if ds not in quality_data:
+            continue
+        data = quality_data[ds]
+        for sample in data.get("per_sample", []):
+            q_match = sample.get("quality_match")
+            q_mm = sample.get("quality_mismatches", [])
+            bl_ans = sample.get("baseline_answer", "")
+            df_ans = sample.get("dflash_answer", "")
+            ans_match = sample.get("answer_match", "")
+            if q_match is None:
+                continue
+            rows.append([
+                ds,
+                sample["sample_index"],
+                q_match,
+                q_mm[0]["pos"] if q_mm else "",
+                len(q_mm),
+                sample.get("baseline_num_output_tokens", ""),
+                bl_ans or "",
+                df_ans or "",
+                ans_match if isinstance(ans_match, bool) else "",
+            ])
+
+    if rows:
+        write_csv(os.path.join(SCRIPT_DIR, "quality_check.csv"), headers, rows)
+        # Summary line
+        n = len(rows)
+        n_match = sum(1 for r in rows if r[2])
+        n_ans = sum(1 for r in rows if r[6] or r[7])
+        n_ans_match = sum(1 for r in rows if r[8] is True)
+        print(f"    Quality: {n_match}/{n} exact token match, "
+              f"{n_ans_match}/{n_ans} same final answer")
+
+
 def generate_cross_comparison(standalone, overall, comparator):
     """Table 6: Standalone vs vLLM pipeline vs GPU paper — the money table."""
     headers = [
@@ -299,9 +397,17 @@ def main():
     standalone = find_standalone_jsons()
     print(f"Found standalone results: {list(standalone.keys())}")
 
+    quality_data = find_quality_jsons()
+    if quality_data:
+        print(f"Found quality check results: {list(quality_data.keys())}")
+
     overall, comparator = find_vllm_json()
     if overall:
         print(f"Found vLLM pipeline results: {list(overall.get('methods', {}).keys())}")
+
+    eagle3 = find_eagle3_json()
+    if eagle3:
+        print(f"Found Eagle3 results: {list(eagle3.get('methods', {}).keys())}")
     print()
 
     # Generate tables
@@ -312,9 +418,15 @@ def main():
         generate_standalone_acceptance(standalone)
         generate_standalone_per_sample(standalone)
 
+    if quality_data:
+        generate_quality_check(quality_data)
+
     if overall:
         generate_vllm_summary(overall, comparator)
         generate_vllm_acceptance(overall)
+
+    if eagle3:
+        generate_eagle3_results(eagle3)
 
     if standalone and overall:
         generate_cross_comparison(standalone, overall, comparator)
