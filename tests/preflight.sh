@@ -19,10 +19,10 @@ check() {
   shift
   if "$@" >/dev/null 2>&1; then
     ok "${label}"
-    ((PASSED++))
+    ((PASSED++)) || true
   else
     fail "${label}"
-    ((FAILED++))
+    ((FAILED++)) || true
   fi
 }
 
@@ -35,7 +35,7 @@ echo ""
 info "Checking repo layout..."
 check "tpu-inference dir exists"     test -d "${TPU_INFERENCE_DIR}"
 check "vllm dir exists"             test -d "${VLLM_DIR}"
-check "external/dflash dir exists"  test -d "${EXTERNAL_DFLASH_DIR}"
+check "deps/dflash dir exists"      test -d "${EXTERNAL_DFLASH_DIR}"
 check "tests/configs dir exists"    test -d "${CONFIGS_DIR}"
 
 # ── Docker ───────────────────────────────────────────────────────────────────
@@ -46,32 +46,35 @@ if [[ "${MODE}" == "docker" ]]; then
   dcmd="$(docker_cmd)"
   if ${dcmd} image inspect "${DOCKER_IMAGE}" &>/dev/null; then
     ok "Docker image ${DOCKER_IMAGE} available"
-    ((PASSED++))
+    ((PASSED++)) || true
   else
     warn "Docker image ${DOCKER_IMAGE} not found locally. Will pull on first test run."
   fi
 fi
 
 # ── vLLM DFlash support check ───────────────────────────────────────────────
+# Use the check script's exit code (0 = dflash supported); avoid grep so we
+# don't depend on output order/buffering when run in Docker.
 info "Checking vLLM DFlash support..."
 if [[ "${MODE}" == "docker" ]]; then
   source "$(dirname "$0")/lib/docker_run.sh"
-  if docker_exec "python3 /workspace/tpu-spec-decode/preparation/check_dflash_support.py" 2>&1 | grep -q "dflash_supported=True"; then
+  # Force PYTHONPATH in the command so mounted vllm/tpu-inference are used (works even if shell profile overrides env)
+  if docker_exec "export PYTHONPATH=/workspace/tpu-spec-decode/deps/vllm:/workspace/tpu-spec-decode/deps/tpu-inference && python3 /workspace/tpu-spec-decode/preparation/check_dflash_support.py" >/dev/null 2>&1; then
     ok "vLLM accepts 'dflash' speculative method"
-    ((PASSED++))
+    ((PASSED++)) || true
   else
     fail "vLLM does NOT accept 'dflash' speculative method"
-    ((FAILED++))
+    ((FAILED++)) || true
   fi
 else
   export PYTHONPATH="${VLLM_DIR}:${TPU_INFERENCE_DIR}:${PYTHONPATH:-}"
   py="$(resolve_python || echo python3)"
-  if "${py}" "${REPO_ROOT}/preparation/check_dflash_support.py" 2>&1 | grep -q "dflash_supported=True"; then
+  if "${py}" "${REPO_ROOT}/preparation/check_dflash_support.py" >/dev/null 2>&1; then
     ok "vLLM accepts 'dflash' speculative method"
-    ((PASSED++))
+    ((PASSED++)) || true
   else
     fail "vLLM does NOT accept 'dflash' speculative method"
-    ((FAILED++))
+    ((FAILED++)) || true
   fi
 fi
 

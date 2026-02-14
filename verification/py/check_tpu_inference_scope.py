@@ -47,7 +47,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate change scope in nested tpu-inference repo.")
     parser.add_argument("--repo-dir",
-                        default="tpu-inference",
+                        default="deps/tpu-inference",
                         help="Path to nested repo.")
     parser.add_argument(
         "--allowlist",

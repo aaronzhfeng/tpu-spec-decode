@@ -33,7 +33,7 @@ _build_docker_args() {
     -e TMPDIR=/tmp
     -e TPU_LOG_DIR=/tmp/tpu_logs
     -e PYTHONNOUSERSITE=1
-    -e PYTHONPATH=/workspace/tpu-spec-decode/vllm:/workspace/tpu-spec-decode/tpu-inference
+    -e PYTHONPATH=/workspace/tpu-spec-decode/deps/vllm:/workspace/tpu-spec-decode/deps/tpu-inference
     ${HF_TOKEN:+-e HF_TOKEN="${HF_TOKEN}"}
 
     # Mounts
@@ -46,9 +46,13 @@ _build_docker_args() {
   )
 }
 
+# PYTHONPATH for container (must match -e PYTHONPATH in DOCKER_RUN_ARGS; deps/ is mounted with repo)
+_DOCKER_PYTHONPATH="/workspace/tpu-spec-decode/deps/vllm:/workspace/tpu-spec-decode/deps/tpu-inference"
+
 docker_exec() {
   # Run an arbitrary bash command string inside the container.
   # Usage: docker_exec "python3 script.py --arg"
+  # Export PYTHONPATH in the shell so login/profile scripts cannot override it.
   local cmd_string="$1"
   local dcmd
   dcmd="$(docker_cmd)"
@@ -57,7 +61,7 @@ docker_exec() {
   require_docker_image
 
   ${dcmd} run "${DOCKER_RUN_ARGS[@]}" "${DOCKER_IMAGE}" \
-    bash -lc "set -euo pipefail; ${cmd_string}"
+    bash -lc "set -euo pipefail; export PYTHONPATH=\"${_DOCKER_PYTHONPATH}\"; ${cmd_string}"
 }
 
 docker_exec_script() {

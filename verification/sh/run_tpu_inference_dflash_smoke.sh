@@ -20,7 +20,7 @@ TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 OUT_JSON="${OUT_JSON:-${OUT_DIR}/smoke_${TIMESTAMP}.json}"
 
 # Prefer local tpu-inference source if needed by the environment.
-export PYTHONPATH="${ROOT_DIR}/tpu-inference:${PYTHONPATH:-}"
+export PYTHONPATH="${ROOT_DIR}/deps/tpu-inference:${PYTHONPATH:-}"
 
 echo "Running TPU DFlash smoke"
 echo "model=${MODEL_NAME} draft=${DRAFT_NAME} out_json=${OUT_JSON}"

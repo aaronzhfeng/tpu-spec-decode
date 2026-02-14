@@ -101,7 +101,7 @@ def _git_snapshot(repo: Path) -> dict[str, Any] | None:
 def _load_prompts_external(
     repo_root: Path, dataset: str, max_samples: int
 ) -> list[str]:
-    dflash_dir = repo_root / "external" / "dflash"
+    dflash_dir = repo_root / "deps" / "dflash"
     if not dflash_dir.exists():
         raise FileNotFoundError(f"DFlash dir not found: {dflash_dir}")
     if str(dflash_dir) not in sys.path:
@@ -622,8 +622,8 @@ def main() -> int:
         },
         "git": {
             "repo_root": _git_snapshot(repo_root),
-            "vllm": _git_snapshot(repo_root / "vllm"),
-            "tpu_inference": _git_snapshot(repo_root / "tpu-inference"),
+            "vllm": _git_snapshot(repo_root / "deps" / "vllm"),
+            "tpu_inference": _git_snapshot(repo_root / "deps" / "tpu-inference"),
         },
     }
     _write_json(run_dir / "env_snapshot.json", env_snapshot)

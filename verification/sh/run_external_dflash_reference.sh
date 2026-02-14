@@ -16,7 +16,7 @@ TEMPERATURE="${TEMPERATURE:-1.0}"
 DATASET="${DATASET:-gsm8k}"
 MAX_SAMPLES="${MAX_SAMPLES:-32}"
 
-cd "${ROOT_DIR}/external/dflash"
+cd "${ROOT_DIR}/deps/dflash"
 
 echo "Running external DFlash reference benchmark..."
 echo "model=${MODEL_NAME} draft=${DRAFT_NAME} dataset=${DATASET} samples=${MAX_SAMPLES}"

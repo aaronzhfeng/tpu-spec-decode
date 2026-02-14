@@ -52,7 +52,7 @@ def _canonical_name(dataset: str) -> str:
 
 def _load_prompts_external(dataset: str, max_samples: int) -> list[str]:
     root = Path(__file__).resolve().parents[2]
-    dflash_dir = root / "external" / "dflash"
+    dflash_dir = root / "deps" / "dflash"
     if not dflash_dir.exists():
         raise FileNotFoundError(f"DFlash dir not found: {dflash_dir}")
     if str(dflash_dir) not in sys.path:

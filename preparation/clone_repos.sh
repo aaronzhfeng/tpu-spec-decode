@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 #
-# Bootstrap repos for current workflow:
-# 1) Root-level tpu-inference on your DFlash branch.
-# 2) zhongyan_dev/{dflash,tpu-inference,vllm}.
+# Bootstrap the three repos into deps/ (same results, simple layout):
+#   deps/tpu-inference   (TPU runtime + DFlash integration)
+#   deps/vllm           (vLLM with TPU/speculative support)
+#   deps/dflash         (datasets + load_and_process_dataset; preflight expects this)
 #
-# NOTE: This script intentionally does NOT clone forked/ anymore.
+# Override repo or branch via env vars.
 #
 
 set -euo pipefail
@@ -12,20 +13,24 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 
-ROOT_TPU_INF_DIR="${ROOT_TPU_INF_DIR:-${REPO_ROOT}/tpu-inference}"
-ROOT_TPU_INF_REPO="${ROOT_TPU_INF_REPO:-https://github.com/aaronzhfeng/tpu-inference.git}"
-ROOT_TPU_INF_BRANCH="${ROOT_TPU_INF_BRANCH:-dflash-integration}"
+# -----------------------------------------------------------------------------
+# Repos and branches (override via env to use your own forks/branches)
+# -----------------------------------------------------------------------------
+TPU_INFERENCE_REPO="${TPU_INFERENCE_REPO:-https://github.com/aaronzhfeng/tpu-inference.git}"
+TPU_INFERENCE_BRANCH="${TPU_INFERENCE_BRANCH:-dflash-integration}"
 
-ZHONGYAN_DIR="${ZHONGYAN_DIR:-${REPO_ROOT}/zhongyan_dev}"
-ZHONGYAN_DFLASH_DIR="${ZHONGYAN_DFLASH_DIR:-${ZHONGYAN_DIR}/dflash}"
-ZHONGYAN_DFLASH_REPO="${ZHONGYAN_DFLASH_REPO:-https://github.com/Zhongyan0721/dflash}"
-ZHONGYAN_DFLASH_BRANCH="${ZHONGYAN_DFLASH_BRANCH:-zhongyan_dev}"
-ZHONGYAN_TPU_INF_DIR="${ZHONGYAN_TPU_INF_DIR:-${ZHONGYAN_DIR}/tpu-inference}"
-ZHONGYAN_TPU_INF_REPO="${ZHONGYAN_TPU_INF_REPO:-${ROOT_TPU_INF_REPO}}"
-ZHONGYAN_TPU_INF_BRANCH="${ZHONGYAN_TPU_INF_BRANCH:-zhongyan_dev}"
-ZHONGYAN_VLLM_DIR="${ZHONGYAN_VLLM_DIR:-${ZHONGYAN_DIR}/vllm}"
-ZHONGYAN_VLLM_REPO="${ZHONGYAN_VLLM_REPO:-https://github.com/aaronzhfeng/vllm.git}"
-ZHONGYAN_VLLM_BRANCH="${ZHONGYAN_VLLM_BRANCH:-zhongyan_dev}"
+VLLM_REPO="${VLLM_REPO:-https://github.com/aaronzhfeng/vllm.git}"
+VLLM_BRANCH="${VLLM_BRANCH:-zhongyan_dev}"
+
+DFLASH_REPO="${DFLASH_REPO:-https://github.com/Zhongyan0721/dflash}"
+DFLASH_BRANCH="${DFLASH_BRANCH:-main}"
+
+# Paths (all under deps/)
+DEPS_DIR="${DEPS_DIR:-${REPO_ROOT}/deps}"
+TPU_INFERENCE_DIR="${TPU_INFERENCE_DIR:-${DEPS_DIR}/tpu-inference}"
+VLLM_DIR="${VLLM_DIR:-${DEPS_DIR}/vllm}"
+EXTERNAL_DFLASH_DIR="${EXTERNAL_DFLASH_DIR:-${DEPS_DIR}/dflash}"
+
 SYNC_MAIN_BRANCH="${SYNC_MAIN_BRANCH:-main}"
 ALLOW_MAIN_BRANCH="${ALLOW_MAIN_BRANCH:-0}"
 
@@ -34,8 +39,7 @@ require_non_main_branch() {
   local branch="$2"
   if [[ "${ALLOW_MAIN_BRANCH}" != "1" && "${branch}" == "main" ]]; then
     echo "[ERROR] ${repo_name} branch is 'main', but this workflow expects a sub-branch." >&2
-    echo "        Set ${repo_name} branch env var to your working branch." >&2
-    echo "        Use ALLOW_MAIN_BRANCH=1 only if you intentionally want main." >&2
+    echo "        Set the branch env var for that repo, or ALLOW_MAIN_BRANCH=1 to allow main." >&2
     exit 1
   fi
 }
@@ -79,27 +83,24 @@ clone_or_checkout_branch() {
   git -C "${repo_dir}" fetch origin "${SYNC_MAIN_BRANCH}" >/dev/null 2>&1 || true
 }
 
-require_non_main_branch "ROOT_TPU_INF" "${ROOT_TPU_INF_BRANCH}"
-require_non_main_branch "ZHONGYAN_DFLASH" "${ZHONGYAN_DFLASH_BRANCH}"
-require_non_main_branch "ZHONGYAN_TPU_INF" "${ZHONGYAN_TPU_INF_BRANCH}"
-require_non_main_branch "ZHONGYAN_VLLM" "${ZHONGYAN_VLLM_BRANCH}"
+# DFlash upstream only has main; skip branch check when using main
+[[ "${TPU_INFERENCE_BRANCH}" != "main" ]] && require_non_main_branch "TPU_INFERENCE" "${TPU_INFERENCE_BRANCH}"
+[[ "${VLLM_BRANCH}" != "main" ]] && require_non_main_branch "VLLM" "${VLLM_BRANCH}"
+[[ "${DFLASH_BRANCH}" != "main" ]] && require_non_main_branch "DFLASH" "${DFLASH_BRANCH}"
 
-echo "==> Bootstrap root repo"
-clone_or_checkout_branch "${ROOT_TPU_INF_DIR}" "${ROOT_TPU_INF_REPO}" "${ROOT_TPU_INF_BRANCH}"
-
-echo ""
-echo "==> Bootstrap zhongyan_dev repos"
-mkdir -p "${ZHONGYAN_DIR}"
-
-# Standalone clones.
-clone_or_checkout_branch "${ZHONGYAN_DFLASH_DIR}" "${ZHONGYAN_DFLASH_REPO}" "${ZHONGYAN_DFLASH_BRANCH}"
-clone_or_checkout_branch "${ZHONGYAN_TPU_INF_DIR}" "${ZHONGYAN_TPU_INF_REPO}" "${ZHONGYAN_TPU_INF_BRANCH}"
-clone_or_checkout_branch "${ZHONGYAN_VLLM_DIR}" "${ZHONGYAN_VLLM_REPO}" "${ZHONGYAN_VLLM_BRANCH}"
+echo "==> tpu-inference (tests and benchmarks use this)"
+clone_or_checkout_branch "${TPU_INFERENCE_DIR}" "${TPU_INFERENCE_REPO}" "${TPU_INFERENCE_BRANCH}"
 
 echo ""
-echo "Done."
-echo "Root TPU inference: ${ROOT_TPU_INF_DIR} (branch=${ROOT_TPU_INF_BRANCH})"
-echo "Zhongyan repos:"
-echo "  - ${ZHONGYAN_DFLASH_DIR}"
-echo "  - ${ZHONGYAN_TPU_INF_DIR}"
-echo "  - ${ZHONGYAN_VLLM_DIR}"
+echo "==> vllm (at repo root, no symlink)"
+clone_or_checkout_branch "${VLLM_DIR}" "${VLLM_REPO}" "${VLLM_BRANCH}"
+
+echo ""
+echo "==> external/dflash (datasets and preflight)"
+clone_or_checkout_branch "${EXTERNAL_DFLASH_DIR}" "${DFLASH_REPO}" "${DFLASH_BRANCH}"
+
+echo ""
+echo "Done. All dependencies under deps/:"
+echo "  deps/tpu-inference  ${TPU_INFERENCE_DIR}"
+echo "  deps/vllm          ${VLLM_DIR}"
+echo "  deps/dflash       ${EXTERNAL_DFLASH_DIR}"

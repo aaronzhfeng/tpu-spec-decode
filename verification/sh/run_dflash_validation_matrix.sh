@@ -46,9 +46,9 @@ python -m py_compile \
   verification/py/run_tpu_dflash_eval.py \
   verification/py/compare_results_to_baseline.py \
   verification/py/dflash_reported_baselines.py \
-  tpu-inference/tpu_inference/layers/common/dflash_attention_interface.py \
-  tpu-inference/tpu_inference/models/jax/qwen3_dflash.py \
-  tpu-inference/tests/models/jax/test_qwen3_dflash_attention.py
+  deps/tpu-inference/tpu_inference/layers/common/dflash_attention_interface.py \
+  deps/tpu-inference/tpu_inference/models/jax/qwen3_dflash.py \
+  deps/tpu-inference/tests/models/jax/test_qwen3_dflash_attention.py
 
 if [[ "${RUN_PYTEST}" == "1" ]]; then
   echo

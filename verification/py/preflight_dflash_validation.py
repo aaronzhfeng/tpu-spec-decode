@@ -39,13 +39,12 @@ def main() -> int:
     root = Path(__file__).resolve().parents[2]
     expected_paths = [
         ("repo root", root),
-        ("nested tpu-inference repo", root / "tpu-inference"),
+        ("nested tpu-inference repo", root / "deps" / "tpu-inference"),
         ("verification scripts", root / "verification" / "sh"),
         ("verification python", root / "verification" / "py"),
     ]
     if args.require_external_dflash:
-        expected_paths.append(("external dflash repo", root / "external" /
-                               "dflash"))
+        expected_paths.append(("dflash repo (datasets)", root / "deps" / "dflash"))
 
     missing_required = False
     print("== Path Checks ==")

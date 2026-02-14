@@ -1,7 +1,8 @@
-# External repositories - upstream originals (read-only reference)
+# Bootstrap dependencies (cloned by preparation/clone_repos.sh)
+deps/
+
+# Legacy paths (no longer used)
 external/*
 !external/.gitkeep
-
-# Forked repositories - our working copies
 forked/*
 !forked/.gitkeep

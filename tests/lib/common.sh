@@ -10,10 +10,11 @@ TESTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="$(cd "${TESTS_DIR}/.." && pwd)"
 CONFIGS_DIR="${TESTS_DIR}/configs"
 
-# Key repo paths (override via env if needed).
-TPU_INFERENCE_DIR="${TPU_INFERENCE_DIR:-${REPO_ROOT}/tpu-inference}"
-VLLM_DIR="${VLLM_DIR:-${REPO_ROOT}/vllm}"
-EXTERNAL_DFLASH_DIR="${EXTERNAL_DFLASH_DIR:-${REPO_ROOT}/external/dflash}"
+# Bootstrap dependencies live under deps/ (override via env if needed).
+DEPS_DIR="${DEPS_DIR:-${REPO_ROOT}/deps}"
+TPU_INFERENCE_DIR="${TPU_INFERENCE_DIR:-${DEPS_DIR}/tpu-inference}"
+VLLM_DIR="${VLLM_DIR:-${DEPS_DIR}/vllm}"
+EXTERNAL_DFLASH_DIR="${EXTERNAL_DFLASH_DIR:-${DEPS_DIR}/dflash}"
 
 # ── Docker ───────────────────────────────────────────────────────────────────
 DOCKER_IMAGE="${DOCKER_IMAGE:-vllm/vllm-tpu:latest}"

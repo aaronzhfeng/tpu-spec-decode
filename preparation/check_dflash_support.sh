@@ -36,7 +36,7 @@ run_host_check() {
   resolve_writable_dir HOST_TPU_LOG_DIR "/dev/shm/${USER}-tpu-logs"
   export TPU_LOG_DIR="${HOST_TPU_LOG_DIR}"
   export PYTHONNOUSERSITE=1
-  export PYTHONPATH="${ROOT_DIR}/vllm:${ROOT_DIR}/tpu-inference:${PYTHONPATH:-}"
+  export PYTHONPATH="${ROOT_DIR}/deps/vllm:${ROOT_DIR}/deps/tpu-inference:${PYTHONPATH:-}"
   "${PYTHON_BIN}" "${ROOT_DIR}/preparation/check_dflash_support.py"
 }
 
@@ -59,7 +59,7 @@ run_docker_check() {
     bash -lc '
       set -euo pipefail
       export PYTHONNOUSERSITE=1
-      export PYTHONPATH=/workspace/tpu-spec-decode/vllm:/workspace/tpu-spec-decode/tpu-inference:${PYTHONPATH:-}
+      export PYTHONPATH=/workspace/tpu-spec-decode/deps/vllm:/workspace/tpu-spec-decode/deps/tpu-inference:${PYTHONPATH:-}
       python3 /workspace/tpu-spec-decode/preparation/check_dflash_support.py
     '
 }

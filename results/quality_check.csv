@@ -1,9 +1,0 @@
-dataset,sample_index,token_match,first_mismatch_pos,num_mismatches,output_length,baseline_answer,dflash_answer,answer_match
-gsm8k,0,True,,0,288,109,109,True
-gsm8k,1,False,245,404,681,92,92,True
-gsm8k,2,False,8,196,247,13,13,True
-gsm8k,3,True,,0,239,5,5,True
-gsm8k,4,False,13,276,351,25,25,True
-gsm8k,5,False,68,453,532,452,470,False
-gsm8k,6,True,,0,273,43,43,True
-gsm8k,7,True,,0,258,34,34,True

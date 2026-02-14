@@ -69,7 +69,7 @@ echo "docker_image=${DOCKER_IMAGE}"
   -e TMPDIR=/tmp \
   -e TPU_LOG_DIR=/tmp/tpu_logs \
   -e PYTHONNOUSERSITE=1 \
-  -e PYTHONPATH=/workspace/tpu-spec-decode/vllm:/workspace/tpu-spec-decode/tpu-inference \
+  -e PYTHONPATH=/workspace/tpu-spec-decode/deps/vllm:/workspace/tpu-spec-decode/deps/tpu-inference \
   -v "${HOST_HF_CACHE}:/hf-cache" \
   -v "${HOST_OUT_ROOT}:/out" \
   -v "${HOST_TPU_LOG_DIR}:/tmp/tpu_logs" \

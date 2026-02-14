@@ -6,18 +6,18 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "${ROOT_DIR}"
 
-export PYTHONPATH="${ROOT_DIR}/tpu-inference:${PYTHONPATH:-}"
+export PYTHONPATH="${ROOT_DIR}/deps/tpu-inference:${PYTHONPATH:-}"
 
 PYTEST_BIN="${PYTEST_BIN:-python -m pytest}"
 PYTEST_FLAGS="${PYTEST_FLAGS:--q}"
 
 TESTS=(
-  "tpu-inference/tests/spec_decode/test_dflash.py"
-  "tpu-inference/tests/models/jax/test_qwen3_dflash.py"
-  "tpu-inference/tests/models/jax/test_qwen3_dflash_attention.py"
-  "tpu-inference/tests/runner/test_speculative_decoding_manager.py"
-  "tpu-inference/tests/runner/test_kv_cache_manager.py"
-  "tpu-inference/tests/runner/test_tpu_runner.py"
+  "deps/tpu-inference/tests/spec_decode/test_dflash.py"
+  "deps/tpu-inference/tests/models/jax/test_qwen3_dflash.py"
+  "deps/tpu-inference/tests/models/jax/test_qwen3_dflash_attention.py"
+  "deps/tpu-inference/tests/runner/test_speculative_decoding_manager.py"
+  "deps/tpu-inference/tests/runner/test_kv_cache_manager.py"
+  "deps/tpu-inference/tests/runner/test_tpu_runner.py"
 )
 
 echo "Running DFlash pytest subset"
