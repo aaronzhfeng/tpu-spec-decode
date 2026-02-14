@@ -126,10 +126,14 @@ See `verification/README.md` for per-stage commands and toggles.
 
 ## Cleanup
 
-When finished, delete the queued TPU resource to avoid charges:
+When finished, release the TPU to avoid charges. If the queued resource is **ACTIVE** (VM is running), you must delete the TPU VM first, then the queued resource:
 
 ```bash
+# 1. Delete the TPU VM (required when state is ACTIVE)
+gcloud compute tpus tpu-vm delete YOUR_NAME-dflash-node --zone=us-central2-b --project=hao-ai-lab-trc
+
+# 2. Delete the queued resource
 gcloud compute tpus queued-resources delete YOUR_NAME-dflash-queued --zone=us-central2-b --project=hao-ai-lab-trc
-# If that fails:
+# If that fails with "Invalid choice", use:
 # gcloud alpha compute tpus queued-resources delete YOUR_NAME-dflash-queued --zone=us-central2-b --project=hao-ai-lab-trc
 ```
