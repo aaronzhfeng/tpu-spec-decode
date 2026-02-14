@@ -34,7 +34,7 @@ Follow these steps to set up the environment and run the DFlash pipeline end-to-
 
 ### 1. Create TPU v4 VM and SSH in
 
-Request a v4-8 TPU (e.g. on-demand queue), wait until `state` is ACTIVE, then SSH in.
+Request a v4-8 TPU (e.g. on-demand queue), wait until `state` is ACTIVE, then SSH in. (More thorough investigation will be run on **v5p**; this guide uses v4 for current development stage.)
 
 ```bash
 gcloud compute tpus queued-resources create YOUR_NAME-dflash-queued \
@@ -129,5 +129,7 @@ See `verification/README.md` for per-stage commands and toggles.
 When finished, delete the queued TPU resource to avoid charges:
 
 ```bash
-gcloud compute tpus queued-resources delete YOUR_NAME-dflash-queued --zone=us-central2-b
+gcloud compute tpus queued-resources delete YOUR_NAME-dflash-queued --zone=us-central2-b --project=hao-ai-lab-trc
+# If that fails:
+# gcloud alpha compute tpus queued-resources delete YOUR_NAME-dflash-queued --zone=us-central2-b --project=hao-ai-lab-trc
 ```
