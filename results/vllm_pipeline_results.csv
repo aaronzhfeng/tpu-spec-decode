@@ -1,0 +1,11 @@
+dataset,method,num_prompts,num_ok,num_error,tpot_ms,tps,speedup
+gsm8k,baseline,8,8,0,10.72,93.2,
+math500,baseline,8,8,0,10.72,93.2,
+aime24,baseline,8,8,0,10.69,93.6,
+aime25,baseline,8,8,0,10.76,92.9,
+gsm8k,dflash,8,8,0,5.25,190.3,2.04
+math500,dflash,8,8,0,3.95,253.5,2.72
+aime24,dflash,8,8,0,4.25,235.3,2.51
+aime25,dflash,8,8,0,4.18,239.2,2.57
+OVERALL,baseline,32,32,0,10.72,93.2,1.0
+OVERALL,dflash,32,32,0,4.41,226.9,2.43
