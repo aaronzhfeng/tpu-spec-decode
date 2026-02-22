@@ -5,6 +5,3 @@ external/*
 # Forked repositories - our working copies
 forked/*
 !forked/.gitkeep
-
-# Research brainstorm folder (proposals, literature, raw LLM outputs)
-brainstorm-20-spec-decode-diffusion/

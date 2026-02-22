@@ -1,0 +1,22 @@
+\frametitle{The \texttt {seq\_len} Inflation Bug}
+\textbf{Symptom:} $\tau = 2.49$, 10\% acceptance, 13 A/B tests inconclusive
+
+\vspace{0.5em}
+\textbf{Root cause:} \texttt{attn\_metadata.seq\_lens} includes \emph{unverified} draft tokens
+\begin{itemize}
+  \item Actual generated: 100 tokens
+  \item Value passed to proposer: $100 + 16 = 116$ (includes draft tokens being verified)
+  \item DFlash builds KV cache at wrong position $\Rightarrow$ stale context accumulates
+\end{itemize}
+
+\begin{alertblock}{The 4-line fix}
+\begin{lstlisting}[backgroundcolor=\color{white},frame=none,xleftmargin=0pt]
+accepted_seq_lens = self.runner.input_batch.num_tokens_no_spec[
+    :attn_metadata.seq_lens.shape[0]].copy()
+accepted_attn_metadata = replace(
+    attn_metadata, seq_lens=device_array(
+        self.runner.mesh, accepted_seq_lens.astype(np.int32)))
+\end{lstlisting}
+\end{alertblock}
+
+\textbf{Result:} $\tau$: $2.49 \rightarrow 4.48$ \quad Speedup: $1.30\times \rightarrow 2.31\times$

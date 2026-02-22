@@ -86,7 +86,7 @@ gcloud compute tpus queued-resources describe "${QR_NAME}" --zone us-east1-d
 gcloud compute tpus tpu-vm list --zone us-east1-d
 ```
 
-## 4) Connect and install basics
+## 4) Connect and run bootstrap
 
 SSH:
 
@@ -94,40 +94,46 @@ SSH:
 gcloud compute tpus tpu-vm ssh "${TPU_NAME}" --zone us-east1-d
 ```
 
-On TPU VM:
+On TPU VM — run the one-shot bootstrap (clones repo + sub-repos on correct branches + installs all Python deps):
 
 ```bash
-sudo apt-get update
-sudo apt-get install -y git docker.io jq
-sudo usermod -aG docker "$USER"
-newgrp docker
+export ROOT_TPU_INF_BRANCH=dflash-integration
+export ZHONGYAN_DFLASH_BRANCH=zhongyan_dev
+export ZHONGYAN_TPU_INF_BRANCH=zhongyan_dev
+export ZHONGYAN_VLLM_BRANCH=zhongyan_dev
+export HF_TOKEN=hf_xxxxxxxxxxxx   # optional — skip if not needed
+
+bash <(curl -fsSL https://raw.githubusercontent.com/aaronzhfeng/tpu-spec-decode/main/preparation/bootstrap.sh)
 ```
 
-## 5) Clone and branch-pin repos
+Or clone manually and run:
 
 ```bash
-cd ~
 git clone https://github.com/aaronzhfeng/tpu-spec-decode.git
 cd tpu-spec-decode
-```
-
-Bootstrap branch-pinned repos (no worktrees):
-
-```bash
 ROOT_TPU_INF_BRANCH=dflash-integration \
 ZHONGYAN_DFLASH_BRANCH=zhongyan_dev \
 ZHONGYAN_TPU_INF_BRANCH=zhongyan_dev \
 ZHONGYAN_VLLM_BRANCH=zhongyan_dev \
-bash preparation/clone_repos.sh
+bash preparation/bootstrap.sh
 ```
+
+**What bootstrap does (in order):**
+1. Clones `tpu-spec-decode` (or uses existing clone)
+2. Installs apt packages: `git docker.io jq python3-pip`
+3. Clones all sub-repos on the specified branches via `clone_repos.sh`
+4. Installs Python dependencies: JAX + tpu-inference stack + vLLM (editable)
+5. Runs a JAX device smoke check
 
 If a repo does not have a non-main branch yet, override intentionally:
 
 ```bash
-ALLOW_MAIN_BRANCH=1 ZHONGYAN_DFLASH_BRANCH=main bash preparation/clone_repos.sh
+ALLOW_MAIN_BRANCH=1 ZHONGYAN_DFLASH_BRANCH=main bash preparation/bootstrap.sh
 ```
 
-## 6) Preflight and smoke validation
+**Note:** Log out and back in (or run `newgrp docker`) after bootstrap for Docker group membership to take effect.
+
+## 5) Preflight and smoke validation
 
 ```bash
 bash preparation/check_dflash_support.sh docker

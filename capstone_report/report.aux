@@ -1,0 +1,82 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand*\HyPL@Entry[1]{}
+\HyPL@Entry{0<</S/D>>}
+\providecommand \oddpage@label [2]{}
+\@writefile{toc}{\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}}
+\@writefile{toc}{\etoc@startlocaltoc{1}}
+\citation{leviathan2023fastinferencetransformersspeculative}
+\citation{li2025eagle3scalinginferenceacceleration}
+\citation{cai2024medusasimplellminference}
+\citation{chen2026dflashblockdiffusionflash}
+\citation{tpuinference}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}\protected@file@percent }
+\citation{leviathan2023fastinferencetransformersspeculative}
+\citation{chen2026dflashblockdiffusionflash}
+\citation{chen2026dflashblockdiffusionflash}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{4}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Speculative Decoding}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}DFlash: Block Diffusion for Speculative Decoding}{4}{subsection.2.2}\protected@file@percent }
+\citation{kwon2023efficientmemorymanagementlarge}
+\citation{tpuinference}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}TPU Inference and vLLM}{5}{subsection.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Methods}{5}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Dual KV Cache Architecture}{5}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Context Buffer Management}{5}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}The Sequence Length Inflation Bug}{6}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Standalone Benchmark}{6}{subsection.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}Results}{6}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Standalone Benchmark: TPU vs.\ Original DFlash (GPU)}{6}{subsection.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Standalone benchmark results: TPU (single v4 device, JAX) vs.\ original DFlash on GPU (H200, PyTorch). $\tau $ = average acceptance length, Speedup = wall-clock ratio over autoregressive baseline, TPS = tokens per second.}}{7}{table.1}\protected@file@percent }
+\newlabel{tab:standalone}{{1}{7}{Standalone benchmark results: TPU (single v4 device, JAX) vs.\ original DFlash on GPU (H200, PyTorch). $\tau $ = average acceptance length, Speedup = wall-clock ratio over autoregressive baseline, TPS = tokens per second}{table.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}vLLM Pipeline Integration}{7}{subsection.4.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Cross-comparison: standalone TPU, vLLM pipeline TPU, and original DFlash (GPU). The vLLM pipeline shows lower speedup due to scheduling and batch management overhead, not algorithm quality.}}{7}{table.2}\protected@file@percent }
+\newlabel{tab:cross}{{2}{7}{Cross-comparison: standalone TPU, vLLM pipeline TPU, and original DFlash (GPU). The vLLM pipeline shows lower speedup due to scheduling and batch management overhead, not algorithm quality}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Comparison with Eagle3}{8}{subsection.4.3}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces DFlash vs.\ Eagle3 on the vLLM TPU pipeline. Different target models (Qwen3-4B vs.\ Llama-3.1-8B), so not a direct head-to-head, but shows the advantage of block diffusion (15 tokens/step) over autoregressive drafting (3 tokens/step).}}{8}{table.3}\protected@file@percent }
+\newlabel{tab:eagle3}{{3}{8}{DFlash vs.\ Eagle3 on the vLLM TPU pipeline. Different target models (Qwen3-4B vs.\ Llama-3.1-8B), so not a direct head-to-head, but shows the advantage of block diffusion (15 tokens/step) over autoregressive drafting (3 tokens/step)}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Output Quality Verification}{8}{subsection.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Output quality check on GSM8K. 4/8 samples produce bit-exact identical output; 7/8 arrive at the same final $\backslash $\texttt  {boxed\{\}} math answer. Divergences occur at random positions where top-2 logits are close, consistent with bf16 precision effects.}}{9}{table.4}\protected@file@percent }
+\newlabel{tab:quality}{{4}{9}{Output quality check on GSM8K. 4/8 samples produce bit-exact identical output; 7/8 arrive at the same final $\backslash $\texttt {boxed\{\}} math answer. Divergences occur at random positions where top-2 logits are close, consistent with bf16 precision effects}{table.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{9}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Why Is the Standalone Faster Than vLLM?}{9}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}TPU vs.\ GPU: Where Does the Gap Come From?}{9}{subsection.5.2}\protected@file@percent }
+\citation{pan2026failfastwinbig}
+\citation{wang2025acceleratinglargelanguagemodel}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}vLLM Independence}{10}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Future Work}{10}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Near-Term Engineering}{10}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Speculative Decoding and Diffusion Models on TPU}{10}{subsection.6.2}\protected@file@percent }
+\bibdata{reference}
+\bibcite{cai2024medusasimplellminference}{{1}{2024}{{Cai et~al.}}{{Cai, Li, Geng, Peng, Lee, Chen and Dao}}}
+\bibcite{chen2026dflashblockdiffusionflash}{{2}{2026}{{Chen, Liang and Liu}}{{Chen, Liang and Liu}}}
+\bibcite{kwon2023efficientmemorymanagementlarge}{{3}{2023}{{Kwon et~al.}}{{Kwon, Li, Zhuang, Sheng, Zheng, Yu, Gonzalez, Zhang and Stoica}}}
+\bibcite{leviathan2023fastinferencetransformersspeculative}{{4}{2023}{{Leviathan, Kalman and Matias}}{{Leviathan, Kalman and Matias}}}
+\bibcite{li2025eagle3scalinginferenceacceleration}{{5}{2025}{{Li et~al.}}{{Li, Wei, Zhang and Zhang}}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusion}{11}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{11}{section*.1}\protected@file@percent }
+\bibcite{pan2026failfastwinbig}{{6}{2026}{{Pan et~al.}}{{Pan, Chen, Liu, Krishnamurthy and Netravali}}}
+\bibcite{tpuinference}{{7}{2025}{{vLLM Project}}{{vLLM Project}}}
+\bibcite{wang2025acceleratinglargelanguagemodel}{{8}{2025}{{Wang et~al.}}{{Wang, Wang, Pan, Xia, Zhen, Yuan, Hao and Wu}}}
+\bibstyle{style/dsc180bibstyle}
+\HyPL@Entry{12<</P(\376\377\000A)/S/D>>}
+\@writefile{toc}{\contentsline {section}{Appendices}{A1}{section*.3}\protected@file@percent }
+\@writefile{toc}{\etoc@startlocaltoc{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Files Modified in \texttt  {tpu-inference}}{A1}{subsection.A.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {A\nobreakspace {}1}{\ignorespaces Files added or modified for the DFlash TPU port.}}{A1}{table.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Reproduction Commands}{A1}{subsection.A.2}\protected@file@percent }
+\gdef \@abspage@last{13}

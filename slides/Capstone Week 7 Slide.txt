@@ -1,0 +1,283 @@
+Porting DFlash Speculative Decoding from GPU/PyTorch to TPU/JAX
+UCSD DSC 180 Capstone
+Winter 2025
+Aaron Feng	Zhongyan Luo    Son Nguyen    Andy Huang
+
+Mentor: Hao Zhang  TA: Yiming Zhao
+
+Problem
+
+The Autoregressive Bottleneck
+Standard LLM decoding: 1 forward pass per token
+Latency scales linearly with output length
+Speculative decoding: cheap draft model proposes tokens, target model verifies in parallel
+Key metric: τ = expected accepted tokens per step
+Existing drafters (Eagle, Medusa) cap at τ ≈ 2–3
+	
+Method	Fwd passes
+Autoregressive Spec. Decoding
+n
+~ n/τ
+Higher τ ⇒ fewer passes ⇒ lower latency.
+With τ = 7: generate 7 tokens per step instead of 1.
+1
+
+DFlash: Block Diffusion Drafting
+2
+Drafts 16 tokens in one forward pass (block diffusion, non-causal attention)
+Conditioned on target hidden states from layers [1, 9, 17, 25,
+33]
+Shares target model’s embedding layer and LM head (no extra parameters)
+GPU baseline: τ = 7.07, 5.53× speedup
+Why DFlash is different
+vs.  Eagle3: 3 sequential
+1 draft pass (16 tokens) + 1 verify pass drafts + 1 verify
+
+Approach
+
+Our Contribution
+Goal: port DFlash from GPU/PyTorch → TPU/JAX in
+tpu-inference
+Target: Qwen3-4B	Draft: DFlash-b16
+Full vLLM integration — zero vLLM source changes required
+Standalone benchmark harness for direct GPU comparison
+Hardware: TPU v4-8 (4 chips, 8 cores)
+
+Architecture: Dual KV Cache
+Target Model
+Paged KV cache
+ragged_paged_attention
+Extracts aux_hidden_states
+from layers [1,9,17,25,33]
+Draft Model (DFlash)
+Static KV cache
+dynamic_update_slice
+writes
+flash_attention
+(causal=False)
+FC projection
+Target aux features
+Draft context input accepted tokens
+16 logits
+diffusion
+verify
+
+Technical Challenges
+
+Code: Two-Phase KV Cache Write
+# Phase A: write padded context (with zeros) at cache_len 
+k_ctx_4d = k_ctx.transpose(1, 0, 2)[jnp.newaxis, :, :, :]
+v_ctx_4d = v_ctx.transpose(1, 0, 2)[jnp.newaxis, :, :, :] 
+kv_cache_k = lax.dynamic_update_slice(
+kv_cache_k, k_ctx_4d, (0, 0, cache_len, 0)
+)
+kv_cache_v = lax.dynamic_update_slice( kv_cache_v, v_ctx_4d, (0, 0, cache_len, 0)
+)
+
+# Phase B: write noise at cache_len + actual_ctx_count,  # overwriting padding zeros from Phase A
+noise_start = cache_len + actual_ctx_count
+k_noise_4d = k_noise.transpose(1, 0, 2)[jnp.newaxis, :, :, :] 
+v_noise_4d = v_noise.transpose(1, 0, 2)[jnp.newaxis, :, :, :] 
+kv_cache_k = lax.dynamic_update_slice(
+kv_cache_k, k_noise_4d, (0, 0, noise_start, 0)
+)
+kv_cache_v = lax.dynamic_update_slice(
+kv_cache_v, v_noise_4d, (0, 0, noise_start, 0)
+)
+Source: models/jax/dflash.py — context+noise must be written in two phases because context length varies per step.
+
+The seq_len Inflation Bug
+Symptom: τ = 2.49, 10% acceptance, 13 A/B tests inconclusive
+Root cause: attn_metadata.seq_lens includes unverified draft tokens
+Actual generated: 100 tokens
+Value passed to proposer: 100 + 16 = 116 (includes draft tokens being verified)
+DFlash builds KV cache at wrong position ⇒ stale context accumulates
+The 4-line fix
+accepted_seq_lens  =  self.runner.input_batch.num_tokens_no_spec[
+:attn_metadata.seq_lens.shape[0]].copy()   accepted_attn_metadata = replace(
+attn_metadata,  seq_lens=device_array(
+self.runner.mesh,   accepted_seq_lens.astype(np.int32)))
+Result: τ : 2.49 → 4.48	Speedup: 1.30× → 2.31×
+
+Why the Bug Was Hard to Find
+No visible errors — tokens were valid English, just suboptimal; model “recovered” from bad context
+Eagle3 unaffected — Eagle3 has no persistent draft-side KV cache, so the same seq_len value worked fine
+Gradual accumulation — 10–16 phantom tokens added per decoding step; quality degrades slowly over generations
+Bug is upstream — located in the speculative decoding manager, not the DFlash proposer; proposer code was correct
+
+Results
+
+Results: Standalone TPU vs GPU
+TPU v4
+GPU (A100)
+Dataset
+τ
+Speedup
+TPS
+τ
+Speedup
+TPS
+GSM8K
+6.25
+3.67×
+222
+6.69
+5.53×
+—
+Math500
+8.72
+4.49×
+276
+7.84
+5.12×
+—
+AIME24
+5.17
+3.00×
+191
+6.45
+5.07×
+—
+AIME25
+6.53
+3.53×
+218
+7.30
+5.38×
+—
+Avg
+6.67
+3.67×
+227
+7.07
+5.53×
+—
+TPU achieves 94% of GPU τ (6.67 vs 7.07) — algorithmic quality transfers
+Math500: TPU τ exceeds GPU (8.72 vs 7.84)
+Speedup gap (3.67× vs 5.53×) is hardware overhead, not algorithm quality
+
+Results: vLLM Pipeline
+Pipeline Metrics (GSM8K)
+τ
+Speedup Spec TPS
+Baseline TPS
+Acceptance
+
+
+4.48
+2.31×
+212
+92
+23.2%
+Standalone vs Pipeline
+Standalone
+vLLM
+τ
+6.25
+4.48
+Speedup
+3.67×
+2.31×
+TPS
+222
+212
+τ gap from vLLM scheduler/batch overhead (draft tokens rejected at batch boundaries). Same pattern reported in GPU DFlash paper.
+
+DFlash vs Eagle3 on TPU
+Metric
+DFlash
+Eagle3
+Draft tokens/step
+15
+3
+ τ
+4.48
+2.18
+TPS
+212
+78
+Speedup
+2.31×
+1.53×
+DFlash τ is 2.06× Eagle3 on TPU (4.48 vs 2.18)
+Advantage transfers proportionally from GPU results
+Both measured under identical vLLM pipeline conditions
+
+Output Quality Verification
+Comparison
+Count (of 8)
+Bit-exact match
+4
+Same final answer
+7
+Different answer
+1
+Divergences caused by bf16 precision: top-2 logits differ by
+< 10−4; sampling flips at decision boundaries
+Not algorithmic error — verified by inspecting logit distributions
+Divergent outputs are coherent alternative phrasings, not corruption
+Quality consistent with GPU speculative decoding guarantees
+
+Impact: The 4-Line Fix
+Metric
+Before
+After
+Change
+ τ
+2.49
+4.48
+    +80%
+Speedup
+1.30×
+2.31×
+    +77%
+Acceptance rate	          9.9%
+23.2%
+    +134%  
+Tokens/sec
+120.8
+212.4
+    +76%
+τ
+Speedup
+Dataset
+Before           After
+     Before	        After
+GSM8K
+    2.49	  4.48
+  1.30×
+2.31×
+Math500
+    2.61	  4.71
+  1.36×
+2.42×
+AIME24
+    2.33	  4.20
+  1.22×
+2.15×
+AIME25
+    2.42	  4.39
+  1.27×
+2.27×
+
+Future Work
+
+Future Work
+PR to tpu-inference — upstream the DFlash proposer and seq_len fix
+TPU v5 benchmarks — v4 is experimental; v5 is fully supported with better matmul throughput
+Concurrent serving benchmarks — 1–32 simultaneous clients; measure throughput under contention
+Diffusion targets on TPU — port FailFast (diffusion-based target model) for end-to-end diffusion pipeline
+
+Conclusion
+
+Summary
+What We Built
+Complete port of DFlash speculative decoding from GPU/PyTorch to TPU/JAX with full vLLM integration and zero upstream changes.
+Key Numbers
+Standalone: τ = 6.67 (94% of GPU), Math500 exceeds GPU
+vLLM pipeline: 2.31× speedup, 212 TPS
+DFlash > Eagle3: 2.06× higher τ on TPU
+Output quality: 7/8 same answer, 4/8 bit-exact
+
+Key Finding
+A 4-line seq_len fix doubled all performance metrics — the hardest bugs leave no trace.

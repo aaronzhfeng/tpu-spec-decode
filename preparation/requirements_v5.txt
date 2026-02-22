@@ -1,0 +1,17 @@
+# Additional dependencies for TPU v5e / v5p support.
+# Use alongside the main requirements.txt:
+#
+#   pip install -r requirements.txt
+#   pip install -r requirements_v5.txt
+#
+# TPU v5e: v5litepod-4, v5litepod-8, etc.
+# TPU v5p: v5p-8, v5p-16, etc.
+#
+# Key difference from v4: libtpu version. The jax[tpu] install
+# handles libtpu auto-detection, but pin here for reproducibility.
+
+--pre
+-f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+
+jax[tpu]==0.8.0
+jaxlib==0.8.0
