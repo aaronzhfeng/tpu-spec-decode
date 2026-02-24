@@ -92,6 +92,55 @@ def load_and_process_dataset(data_name: str):
         dataset = load_dataset("MathArena/aime_2025", split="train")
         prompt_fmt = "{problem}\nPlease reason step by step, and put your final answer within \\boxed{{}}."
         dataset = dataset.map(lambda x: {"turns": [prompt_fmt.format(**x)]})
+    elif data_name == "alpaca":
+        dataset = load_dataset("tatsu-lab/alpaca", split="train")
+        dataset = dataset.map(lambda x: {"formatted_input": (
+            f"{x['instruction']}\n\nInput:\n{x['input']}" if x['input']
+            else x['instruction'])})
+        dataset = dataset.map(lambda x: {"turns": [x["formatted_input"]]})
+    elif data_name == "mt-bench":
+        dataset = load_dataset("HuggingFaceH4/mt_bench_prompts", split="train")
+        dataset = dataset.map(lambda x: {"turns": x["prompt"]})
+    elif data_name == "humaneval":
+        dataset = load_dataset("openai/openai_humaneval", split="test")
+        prompt_fmt = ("Write a solution to the following problem and make sure "
+                      "that it passes the tests:\n```python\n{prompt}\n```")
+        dataset = dataset.map(lambda x: {"turns": [prompt_fmt.format(**x)]})
+    elif data_name == "mbpp":
+        dataset = load_dataset("google-research-datasets/mbpp", "sanitized", split="test")
+        dataset = dataset.map(lambda x: {"turns": [x["prompt"]]})
+    elif data_name == "swe-bench":
+        dataset = load_dataset("princeton-nlp/SWE-bench_Lite", split="test")
+        prompt_fmt = ("Problem Statement:\n{problem_statement}\n"
+                      "Please fix the issue described above.")
+        dataset = dataset.map(lambda x: {"turns": [prompt_fmt.format(**x)]})
+    elif data_name == "livecodebench":
+        from datasets import Features, Sequence, Value
+        base = "https://huggingface.co/datasets/livecodebench/code_generation_lite/resolve/main/"
+        urls = [base + fn for fn in [
+            "test.jsonl", "test2.jsonl", "test3.jsonl",
+            "test4.jsonl", "test5.jsonl", "test6.jsonl"]]
+        dataset = load_dataset("json", data_files={"test": urls})["test"]
+        def _format_lcb(doc):
+            sys_prompt = (
+                "You are an expert Python programmer. You will be given a "
+                "question (problem specification) and will generate a correct "
+                "Python program that matches the specification and passes all "
+                "tests. You will NOT return anything except for the program")
+            q = f"### Question:\n{doc['question_content']}"
+            if doc.get("starter_code"):
+                fmt = "### Format: Use the following code structure:"
+                code = f"```python\n{doc['starter_code']}\n```"
+            else:
+                fmt = "### Format: Write your code in the following format:"
+                code = "```python\n# YOUR CODE HERE\n```"
+            footer = "### Answer: (use the provided format with backticks)"
+            return f"{sys_prompt}\n\n{q}\n\n{fmt}\n{code}\n\n{footer}"
+        target_features = Features({"turns": Sequence(Value("large_string"))})
+        dataset = dataset.map(
+            lambda x: {"turns": [_format_lcb(x)]},
+            remove_columns=dataset.column_names,
+            features=target_features)
     else:
         raise ValueError(f"Unknown dataset: {data_name}")
     return dataset
@@ -259,7 +308,9 @@ def dflash_generate(
 ) -> SimpleNamespace:
     """Standalone DFlash speculative decoding generate loop.
 
-    Mirrors the GPU benchmark.py dflash_generate() function.
+    Matches the DFlashProposer interface: the draft model receives the full
+    accumulated context tensor (not a tuple) and derives positions from
+    attention_metadata.input_positions.
     """
     num_input_tokens = len(input_ids_np)
     max_length = num_input_tokens + max_new_tokens
@@ -279,13 +330,11 @@ def dflash_generate(
         None, None, None, None, None, True, True,
     )
 
-    # Sample first token
     last_hidden = hidden_states[-1:]
     logits = target_logits_fn(target_state, last_hidden, None)
     first_token = int(jnp.argmax(logits, axis=-1)[0])
     output_ids[num_input_tokens] = first_token
 
-    # Project aux hidden states for context
     if len(aux_hidden_states) > 0:
         raw = jnp.concatenate(aux_hidden_states, axis=-1)
         projected_all = draft_combine_fn(draft_state, raw)
@@ -295,84 +344,50 @@ def dflash_generate(
     tpu_sync()
     time_to_first_token = time.perf_counter() - prefill_start
 
-    # --- Context buffer init ---
-    # Store projected prefill features, but prev_ctx_len stays 0 because
-    # the draft model hasn't consumed any context yet.
+    # --- Context buffer init (mirrors DFlashProposer._update_ctx) ---
     ctx_buf = np.zeros((max_model_len, hidden_size), dtype=np.float32)
-    prev_ctx_len = 0  # how much context the draft model has been fed
+    ctx_len = 0
 
     if projected_all is not None:
         proj_np = np.asarray(projected_all, dtype=np.float32)
         n = min(num_input_tokens, max_model_len)
         ctx_buf[:n] = proj_np[:n]
-        # Note: prev_ctx_len stays 0 — draft hasn't seen this yet
+        ctx_len = n
 
     # --- Decode loop ---
     decode_start = time.perf_counter()
     start = num_input_tokens
     acceptance_lengths = []
-    draft_cache_len = 0
-    prev_seq_len = 0
     draft_prefill_done = False
 
     while start < max_length:
-        seq_len = start  # accepted seq len so far
+        seq_len = start
 
-        # (a) Crop draft cache to prev_seq_len (DynamicCache.crop semantics)
-        draft_cache_len = prev_seq_len
-
-        # (b) Compute new context features to feed the draft model.
-        # projected_all holds the freshly projected features from the last
-        # target forward (prefill or verify).  num_new = how many the draft
-        # hasn't seen yet.
-        num_new = seq_len - prev_ctx_len
-        if num_new > 0 and projected_all is not None:
-            proj_np = np.asarray(projected_all, dtype=np.float32)
-            n_copy = min(num_new, len(proj_np))
-            # Store in ctx_buf for bookkeeping
-            end = min(prev_ctx_len + n_copy, max_model_len)
-            ctx_buf[prev_ctx_len:end] = proj_np[:n_copy]
-            new_ctx_np = proj_np[:n_copy].copy()
-            actual_ctx_count = n_copy
-            prev_ctx_len = seq_len
-            new_ctx_np = pad_context(new_ctx_np)
-        else:
-            actual_ctx_count = 0
-            new_ctx_np = np.zeros((16, hidden_size), dtype=np.float32)
-
-        # (c) Build noise block: [next_token, mask, mask, ..., mask]
+        # (a) Build noise block: [next_token, mask, mask, ..., mask]
         next_token = output_ids[start]
         noise_ids = np.full(block_size, mask_token_id, dtype=np.int32)
         noise_ids[0] = next_token
         noise_ids_jax = jnp.array(noise_ids, dtype=jnp.int32)
 
-        # (d) Pack target_hidden_states for draft model
-        ctx_jax = jnp.array(new_ctx_np, dtype=jnp.bfloat16)
-        cache_len_arr = jnp.array([draft_cache_len], dtype=jnp.int32)
-        ctx_count_arr = jnp.array([actual_ctx_count], dtype=jnp.int32)
-        target_hidden = (ctx_jax, cache_len_arr, ctx_count_arr)
+        # (b) Get full accumulated context (padded to power-of-2)
+        padded_len = min(next_padded_size(ctx_len), max_model_len)
+        ctx_jax = jnp.array(ctx_buf[:padded_len], dtype=jnp.bfloat16)
 
-        # (e) Draft forward — dummy attn_metadata (draft derives positions internally)
-        dummy_positions = jnp.arange(block_size, dtype=jnp.int32) + seq_len
-        dummy_metadata = make_attn_metadata(
-            dummy_positions, seq_len + block_size, block_size, block_tables)
+        # (c) Draft forward with noise positions starting at seq_len
+        noise_positions = jnp.arange(block_size, dtype=jnp.int32) + seq_len
+        draft_metadata = make_attn_metadata(
+            noise_positions, seq_len + block_size, block_size, block_tables)
 
         draft_kv_caches, draft_hidden, _ = draft_model_fn(
             draft_state, draft_kv_caches, noise_ids_jax,
-            target_hidden, dummy_metadata,
+            ctx_jax, draft_metadata,
         )
 
-        # Update draft state for next iteration
-        draft_cache_len = draft_cache_len + actual_ctx_count + block_size
-        prev_seq_len = seq_len
-
-        # (f) Sample draft tokens from hidden_states[1:block_size]
-        # Use target lm_head (matching GPU: target.lm_head(draft_output))
+        # (d) Sample draft tokens using target LM head
         draft_logits = target_logits_fn(
             target_state, draft_hidden[1:block_size], None)
         draft_tokens = np.array(jnp.argmax(draft_logits, axis=-1))
 
-        # Fill block
         output_ids[start + 1 : start + block_size] = draft_tokens
         block_ids = jnp.array(
             output_ids[start : start + block_size], dtype=jnp.int32)
@@ -382,7 +397,7 @@ def dflash_generate(
             tpu_sync()
             decode_start = time.perf_counter()
 
-        # (g) Verify with target model
+        # (e) Verify with target model
         verify_positions = jnp.arange(start, start + block_size, dtype=jnp.int32)
         verify_metadata = make_attn_metadata(
             verify_positions, start + block_size, block_size, block_tables)
@@ -395,7 +410,7 @@ def dflash_generate(
         verify_logits = target_logits_fn(target_state, verify_hidden, None)
         posterior = np.array(jnp.argmax(verify_logits, axis=-1))
 
-        # (h) Accept: consecutive matches from position 1
+        # (f) Accept: consecutive matches from position 1
         block_np = np.array(block_ids)
         matches = (block_np[1:] == posterior[:-1]).astype(np.int32)
         acceptance_length = int(np.cumprod(matches).sum())
@@ -407,28 +422,28 @@ def dflash_generate(
         acceptance_lengths.append(acceptance_length + 1)
         start += acceptance_length + 1
 
-        # (i) Update context for next iteration
+        # (g) Update context buffer with projected aux hidden states
         if len(aux_hidden_states) > 0:
             raw = jnp.concatenate(aux_hidden_states, axis=-1)
-            proj = draft_combine_fn(draft_state, raw)
-            # Trim to accepted portion only
-            projected_all = proj[:acceptance_length + 1]
-        else:
-            projected_all = None
+            projected_all = draft_combine_fn(draft_state, raw)
+            proj_np = np.asarray(projected_all, dtype=np.float32)
+            n_accepted = acceptance_length + 1
+            n_copy = min(n_accepted, len(proj_np))
+            end = min(ctx_len + n_copy, max_model_len)
+            ctx_buf[ctx_len:end] = proj_np[:end - ctx_len]
+            ctx_len = end
 
-        # (j) Check stop
+        # (h) Check stop
         if eos_token_id in output_ids[num_input_tokens : start + 1]:
             break
 
     tpu_sync()
     total_decode_time = time.perf_counter() - decode_start
 
-    # Trim output
     output_ids = output_ids[:max_length]
     valid_mask = output_ids != mask_token_id
     output_ids = output_ids[valid_mask]
 
-    # Find stop token
     out_tokens = output_ids[num_input_tokens:]
     stop_idx = np.where(out_tokens == eos_token_id)[0]
     if len(stop_idx) > 0:
