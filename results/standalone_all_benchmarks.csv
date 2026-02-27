@@ -1,0 +1,10 @@
+dataset,category,tpu_tau,tpu_speedup,tpu_baseline_tpot_ms,tpu_dflash_tpot_ms,tpu_baseline_tps,tpu_dflash_tps
+gsm8k,math,5.17,3.36,10.75,3.2,93.0,312.2
+math500,math,8.72,5.7,10.73,1.88,93.2,531.5
+aime24,math,6.32,3.93,10.68,2.72,93.6,367.7
+aime25,math,6.48,4.18,10.74,2.57,93.1,388.9
+humaneval,code,5.75,3.59,10.81,3.01,92.5,332.3
+mbpp,code,5.95,3.26,10.66,3.27,93.8,306.2
+mt-bench,chat,3.84,2.58,10.69,4.15,93.5,241.0
+alpaca,chat,2.83,1.95,10.65,5.47,93.9,182.7
+swe-bench,code,3.28,1.27,10.65,8.42,93.9,118.8

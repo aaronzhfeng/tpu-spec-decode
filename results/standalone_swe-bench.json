@@ -1,0 +1,6405 @@
+{
+  "config": {
+    "target_model": "Qwen/Qwen3-4B",
+    "draft_model": "z-lab/Qwen3-4B-DFlash-b16",
+    "dataset": "swe-bench",
+    "block_size": 16,
+    "max_new_tokens": 256,
+    "max_model_len": 4096,
+    "temperature": 0.0,
+    "warmup_samples": 1,
+    "measured_samples": 7,
+    "total_samples": 8,
+    "num_devices": 1
+  },
+  "summary": {
+    "baseline_tpot_ms": 10.652720188123308,
+    "baseline_tps": 93.8727369479673,
+    "dflash_tpot_ms": 8.416945789317001,
+    "dflash_tps": 118.80794115001015,
+    "speedup": 1.265627753198079,
+    "tau": 3.2779783393501805,
+    "total_drafts": 554,
+    "acceptance_rate_per_pos": [
+      1.0,
+      0.7274368231046932,
+      0.5126353790613718,
+      0.31227436823104693,
+      0.2003610108303249,
+      0.14259927797833935,
+      0.09386281588447654,
+      0.07581227436823104,
+      0.05776173285198556,
+      0.04693140794223827,
+      0.039711191335740074,
+      0.02527075812274368,
+      0.018050541516245487,
+      0.010830324909747292,
+      0.007220216606498195,
+      0.007220216606498195
+    ],
+    "acceptance_histogram": [
+      0.0,
+      0.27256317689530685,
+      0.2148014440433213,
+      0.2003610108303249,
+      0.11191335740072202,
+      0.05776173285198556,
+      0.048736462093862815,
+      0.018050541516245487,
+      0.018050541516245487,
+      0.010830324909747292,
+      0.007220216606498195,
+      0.01444043321299639,
+      0.007220216606498195,
+      0.007220216606498195,
+      0.0036101083032490976,
+      0.0,
+      0.007220216606498195
+    ]
+  },
+  "quality": {
+    "total_samples": 8,
+    "exact_matches": 0,
+    "match_rate": 0.0,
+    "answer_matches": 0,
+    "answer_total": 0
+  },
+  "per_sample": [
+    {
+      "sample_index": 0,
+      "is_warmup": true,
+      "num_input_tokens": 689,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 26.026469867247215,
+      "baseline_tps": 38.42242167688063,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 46.10634034361283,
+      "dflash_tps": 21.68899098361276,
+      "tau": 2.8444444444444446,
+      "num_drafts": 90,
+      "acceptance_lengths": [
+        5,
+        13,
+        3,
+        2,
+        7,
+        1,
+        1,
+        1,
+        2,
+        3,
+        6,
+        2,
+        2,
+        1,
+        6,
+        2,
+        1,
+        1,
+        1,
+        2,
+        6,
+        12,
+        3,
+        2,
+        3,
+        3,
+        2,
+        1,
+        2,
+        1,
+        8,
+        3,
+        2,
+        1,
+        4,
+        5,
+        3,
+        2,
+        1,
+        2,
+        2,
+        3,
+        2,
+        1,
+        1,
+        9,
+        3,
+        1,
+        6,
+        3,
+        3,
+        4,
+        2,
+        2,
+        1,
+        4,
+        1,
+        1,
+        1,
+        2,
+        2,
+        4,
+        2,
+        3,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        3,
+        1,
+        6,
+        1,
+        5,
+        3,
+        2,
+        4,
+        3,
+        3,
+        4,
+        2,
+        4,
+        4,
+        3,
+        3,
+        2
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 199,
+          "baseline_id": 91621,
+          "dflash_id": 6119,
+          "baseline_text": " `_",
+          "dflash_text": " Code"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 69,
+          "dflash_id": 271,
+          "baseline_text": "f",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 63,
+          "dflash_id": 2610,
+          "baseline_text": "`",
+          "dflash_text": "You"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 729,
+          "dflash_id": 646,
+          "baseline_text": " function",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 304,
+          "dflash_id": 3070,
+          "baseline_text": " in",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 1565,
+          "dflash_id": 34053,
+          "baseline_text": " `",
+          "dflash_text": "modify"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 32621,
+          "dflash_id": 279,
+          "baseline_text": "fu",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 7197,
+          "dflash_id": 2038,
+          "baseline_text": ".py",
+          "dflash_text": " code"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 19324,
+          "dflash_id": 304,
+          "baseline_text": "`\n\n",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 2610,
+          "dflash_id": 1565,
+          "baseline_text": "You",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 646,
+          "dflash_id": 32621,
+          "baseline_text": " can",
+          "dflash_text": "fu"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 5602,
+          "dflash_id": 7197,
+          "baseline_text": " modify",
+          "dflash_text": ".py"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 279,
+          "dflash_id": 63,
+          "baseline_text": " the",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 91621,
+          "dflash_id": 334,
+          "baseline_text": " `_",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 69,
+          "dflash_id": 320,
+          "baseline_text": "f",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 214,
+          "baseline_id": 63,
+          "dflash_id": 51240,
+          "baseline_text": "`",
+          "dflash_text": "specific"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 729,
+          "dflash_id": 745,
+          "baseline_text": " function",
+          "dflash_text": "ally"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 1565,
+          "dflash_id": 279,
+          "baseline_text": " `",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 32621,
+          "dflash_id": 91621,
+          "baseline_text": "fu",
+          "dflash_text": " `_"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 7197,
+          "dflash_id": 69,
+          "baseline_text": ".py",
+          "dflash_text": "f"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 311,
+          "dflash_id": 729,
+          "baseline_text": " to",
+          "dflash_text": " function"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 3070,
+          "dflash_id": 476,
+          "baseline_text": " **",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 47856,
+          "dflash_id": 91621,
+          "baseline_text": "avoid",
+          "dflash_text": " `_"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 26297,
+          "dflash_id": 2378,
+          "baseline_text": " comparing",
+          "dflash_text": "TR"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 6351,
+          "dflash_id": 20,
+          "baseline_text": " complex",
+          "dflash_text": "5"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 505,
+          "dflash_id": 21,
+          "baseline_text": " ex",
+          "dflash_text": "6"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 2700,
+          "dflash_id": 63,
+          "baseline_text": "ponents",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 334,
+          "dflash_id": 729,
+          "baseline_text": "**",
+          "dflash_text": " function"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 13,
+          "dflash_id": 8,
+          "baseline_text": ".",
+          "dflash_text": ")"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 5692,
+          "dflash_id": 311,
+          "baseline_text": " Here",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 594,
+          "dflash_id": 3070,
+          "baseline_text": "'s",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 1246,
+          "dflash_id": 47856,
+          "baseline_text": " how",
+          "dflash_text": "avoid"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 498,
+          "dflash_id": 26297,
+          "baseline_text": " you",
+          "dflash_text": " comparing"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 646,
+          "dflash_id": 279,
+          "baseline_text": " can",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 653,
+          "dflash_id": 27690,
+          "baseline_text": " do",
+          "dflash_text": " exponent"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 432,
+          "dflash_id": 311,
+          "baseline_text": " it",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 1447,
+          "dflash_id": 7168,
+          "baseline_text": ":\n\n",
+          "dflash_text": " zero"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 16,
+          "dflash_id": 334,
+          "baseline_text": "1",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 13,
+          "dflash_id": 979,
+          "baseline_text": ".",
+          "dflash_text": " when"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 3070,
+          "dflash_id": 432,
+          "baseline_text": " **",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 9152,
+          "dflash_id": 594,
+          "baseline_text": "Loc",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 349,
+          "dflash_id": 6351,
+          "baseline_text": "ate",
+          "dflash_text": " complex"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 279,
+          "dflash_id": 382,
+          "baseline_text": " the",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 1034,
+          "dflash_id": 11209,
+          "baseline_text": " file",
+          "dflash_text": "However"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 95518,
+          "dflash_id": 11,
+          "baseline_text": "**:",
+          "dflash_text": ","
+        },
+        {
+          "pos": 246,
+          "baseline_id": 1565,
+          "dflash_id": 2474,
+          "baseline_text": " `",
+          "dflash_text": " since"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 32621,
+          "dflash_id": 498,
+          "baseline_text": "fu",
+          "dflash_text": " you"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 7197,
+          "dflash_id": 1231,
+          "baseline_text": ".py",
+          "dflash_text": " may"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 63,
+          "dflash_id": 537,
+          "baseline_text": "`",
+          "dflash_text": " not"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 374,
+          "dflash_id": 614,
+          "baseline_text": " is",
+          "dflash_text": " have"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 304,
+          "dflash_id": 2615,
+          "baseline_text": " in",
+          "dflash_text": " access"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 279,
+          "dflash_id": 311,
+          "baseline_text": " the",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 11375,
+          "dflash_id": 279,
+          "baseline_text": " Sym",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 13828,
+          "dflash_id": 2530,
+          "baseline_text": "Py",
+          "dflash_text": " source"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 2530,
+          "dflash_id": 2038,
+          "baseline_text": " source",
+          "dflash_text": " code"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 1,
+      "is_warmup": false,
+      "num_input_tokens": 648,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.75105486324901,
+      "baseline_tps": 93.01412863386655,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 6.641373937782191,
+      "dflash_tps": 150.57125368458597,
+      "tau": 3.144578313253012,
+      "num_drafts": 83,
+      "acceptance_lengths": [
+        8,
+        3,
+        4,
+        3,
+        2,
+        1,
+        3,
+        3,
+        2,
+        1,
+        1,
+        2,
+        5,
+        3,
+        4,
+        3,
+        3,
+        3,
+        5,
+        4,
+        1,
+        3,
+        4,
+        1,
+        1,
+        4,
+        4,
+        6,
+        4,
+        2,
+        4,
+        1,
+        1,
+        1,
+        1,
+        5,
+        3,
+        3,
+        6,
+        1,
+        1,
+        3,
+        3,
+        2,
+        4,
+        3,
+        3,
+        4,
+        1,
+        1,
+        1,
+        6,
+        1,
+        1,
+        1,
+        2,
+        7,
+        5,
+        2,
+        4,
+        1,
+        1,
+        10,
+        11,
+        1,
+        2,
+        4,
+        1,
+        2,
+        1,
+        2,
+        4,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        11,
+        11,
+        16
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 31,
+          "baseline_id": 4982,
+          "dflash_id": 1565,
+          "baseline_text": " unit",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 32,
+          "baseline_id": 22879,
+          "dflash_id": 19437,
+          "baseline_text": " vectors",
+          "dflash_text": "Coord"
+        },
+        {
+          "pos": 33,
+          "baseline_id": 320,
+          "dflash_id": 32792,
+          "baseline_text": " (",
+          "dflash_text": "Sys"
+        },
+        {
+          "pos": 34,
+          "baseline_id": 4803,
+          "dflash_id": 18,
+          "baseline_text": "like",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 35,
+          "baseline_id": 1565,
+          "dflash_id": 35,
+          "baseline_text": " `",
+          "dflash_text": "D"
+        },
+        {
+          "pos": 36,
+          "baseline_id": 87,
+          "dflash_id": 63,
+          "baseline_text": "x",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 37,
+          "baseline_id": 9198,
+          "dflash_id": 6171,
+          "baseline_text": "hat",
+          "dflash_text": " objects"
+        },
+        {
+          "pos": 38,
+          "baseline_id": 7808,
+          "dflash_id": 320,
+          "baseline_text": "`,",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 39,
+          "baseline_id": 1565,
+          "dflash_id": 4803,
+          "baseline_text": " `",
+          "dflash_text": "like"
+        },
+        {
+          "pos": 40,
+          "baseline_id": 88,
+          "dflash_id": 1565,
+          "baseline_text": "y",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 41,
+          "baseline_id": 9198,
+          "dflash_id": 72,
+          "baseline_text": "hat",
+          "dflash_text": "i"
+        },
+        {
+          "pos": 42,
+          "baseline_id": 7808,
+          "dflash_id": 920,
+          "baseline_text": "`,",
+          "dflash_text": "_C"
+        },
+        {
+          "pos": 43,
+          "baseline_id": 1565,
+          "dflash_id": 7808,
+          "baseline_text": " `",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 44,
+          "baseline_id": 89,
+          "dflash_id": 1565,
+          "baseline_text": "z",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 45,
+          "baseline_id": 9198,
+          "dflash_id": 73,
+          "baseline_text": "hat",
+          "dflash_text": "j"
+        },
+        {
+          "pos": 46,
+          "baseline_id": 32881,
+          "dflash_id": 920,
+          "baseline_text": "`)",
+          "dflash_text": "_C"
+        },
+        {
+          "pos": 47,
+          "baseline_id": 304,
+          "dflash_id": 7808,
+          "baseline_text": " in",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 48,
+          "baseline_id": 279,
+          "dflash_id": 1565,
+          "baseline_text": " the",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 49,
+          "baseline_id": 2266,
+          "dflash_id": 74,
+          "baseline_text": " context",
+          "dflash_text": "k"
+        },
+        {
+          "pos": 50,
+          "baseline_id": 315,
+          "dflash_id": 920,
+          "baseline_text": " of",
+          "dflash_text": "_C"
+        },
+        {
+          "pos": 51,
+          "baseline_id": 1565,
+          "dflash_id": 32881,
+          "baseline_text": " `",
+          "dflash_text": "`)"
+        },
+        {
+          "pos": 52,
+          "baseline_id": 22860,
+          "dflash_id": 323,
+          "baseline_text": "sy",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 53,
+          "baseline_id": 1307,
+          "dflash_id": 1565,
+          "baseline_text": "mp",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 54,
+          "baseline_id": 88,
+          "dflash_id": 66164,
+          "baseline_text": "y",
+          "dflash_text": "Integral"
+        },
+        {
+          "pos": 55,
+          "baseline_id": 47103,
+          "dflash_id": 63,
+          "baseline_text": ".vector",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 56,
+          "baseline_id": 63,
+          "dflash_id": 23393,
+          "baseline_text": "`",
+          "dflash_text": " expressions"
+        },
+        {
+          "pos": 57,
+          "baseline_id": 6171,
+          "dflash_id": 13,
+          "baseline_text": " objects",
+          "dflash_text": "."
+        },
+        {
+          "pos": 58,
+          "baseline_id": 382,
+          "dflash_id": 576,
+          "baseline_text": ".\n\n",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 59,
+          "baseline_id": 14374,
+          "dflash_id": 1565,
+          "baseline_text": "###",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 60,
+          "baseline_id": 22079,
+          "dflash_id": 602,
+          "baseline_text": " Problem",
+          "dflash_text": "pp"
+        },
+        {
+          "pos": 61,
+          "baseline_id": 21517,
+          "dflash_id": 1586,
+          "baseline_text": " Summary",
+          "dflash_text": "rint"
+        },
+        {
+          "pos": 62,
+          "baseline_id": 510,
+          "dflash_id": 63,
+          "baseline_text": ":\n",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 63,
+          "baseline_id": 4498,
+          "dflash_id": 729,
+          "baseline_text": "When",
+          "dflash_text": " function"
+        },
+        {
+          "pos": 64,
+          "baseline_id": 498,
+          "dflash_id": 304,
+          "baseline_text": " you",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 65,
+          "baseline_id": 990,
+          "dflash_id": 1565,
+          "baseline_text": " use",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 66,
+          "baseline_id": 1565,
+          "dflash_id": 22860,
+          "baseline_text": " `",
+          "dflash_text": "sy"
+        },
+        {
+          "pos": 67,
+          "baseline_id": 602,
+          "dflash_id": 1307,
+          "baseline_text": "pp",
+          "dflash_text": "mp"
+        },
+        {
+          "pos": 68,
+          "baseline_id": 1586,
+          "dflash_id": 88,
+          "baseline_text": "rint",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 70,
+          "baseline_id": 389,
+          "dflash_id": 374,
+          "baseline_text": " on",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 71,
+          "baseline_id": 264,
+          "dflash_id": 537,
+          "baseline_text": " a",
+          "dflash_text": " not"
+        },
+        {
+          "pos": 72,
+          "baseline_id": 1565,
+          "dflash_id": 2677,
+          "baseline_text": " `",
+          "dflash_text": " always"
+        },
+        {
+          "pos": 73,
+          "baseline_id": 22860,
+          "dflash_id": 2952,
+          "baseline_text": "sy",
+          "dflash_text": " able"
+        },
+        {
+          "pos": 74,
+          "baseline_id": 1307,
+          "dflash_id": 311,
+          "baseline_text": "mp",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 75,
+          "baseline_id": 88,
+          "dflash_id": 3705,
+          "baseline_text": "y",
+          "dflash_text": " handle"
+        },
+        {
+          "pos": 76,
+          "baseline_id": 47103,
+          "dflash_id": 279,
+          "baseline_text": ".vector",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 77,
+          "baseline_id": 63,
+          "dflash_id": 5306,
+          "baseline_text": "`",
+          "dflash_text": " internal"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 7493,
+          "dflash_id": 5944,
+          "baseline_text": " expression",
+          "dflash_text": " structure"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 11,
+          "dflash_id": 315,
+          "baseline_text": ",",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 432,
+          "dflash_id": 1565,
+          "baseline_text": " it",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 7025,
+          "dflash_id": 22860,
+          "baseline_text": " sometimes",
+          "dflash_text": "sy"
+        },
+        {
+          "pos": 82,
+          "baseline_id": 7482,
+          "dflash_id": 1307,
+          "baseline_text": " places",
+          "dflash_text": "mp"
+        },
+        {
+          "pos": 83,
+          "baseline_id": 279,
+          "dflash_id": 88,
+          "baseline_text": " the",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 4982,
+          "dflash_id": 47103,
+          "baseline_text": " unit",
+          "dflash_text": ".vector"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 4621,
+          "dflash_id": 63,
+          "baseline_text": " vector",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 86,
+          "baseline_id": 304,
+          "dflash_id": 6171,
+          "baseline_text": " in",
+          "dflash_text": " objects"
+        },
+        {
+          "pos": 87,
+          "baseline_id": 279,
+          "dflash_id": 304,
+          "baseline_text": " the",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 6149,
+          "dflash_id": 264,
+          "baseline_text": " middle",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 315,
+          "dflash_id": 1616,
+          "baseline_text": " of",
+          "dflash_text": " way"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 279,
+          "dflash_id": 429,
+          "baseline_text": " the",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 91,
+          "baseline_id": 7493,
+          "dflash_id": 74898,
+          "baseline_text": " expression",
+          "dflash_text": " preserves"
+        },
+        {
+          "pos": 92,
+          "baseline_id": 11,
+          "dflash_id": 279,
+          "baseline_text": ",",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 892,
+          "dflash_id": 10602,
+          "baseline_text": " which",
+          "dflash_text": " intended"
+        },
+        {
+          "pos": 94,
+          "baseline_id": 374,
+          "dflash_id": 36566,
+          "baseline_text": " is",
+          "dflash_text": " formatting"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 537,
+          "dflash_id": 11,
+          "baseline_text": " not",
+          "dflash_text": ","
+        },
+        {
+          "pos": 96,
+          "baseline_id": 279,
+          "dflash_id": 5310,
+          "baseline_text": " the",
+          "dflash_text": " especially"
+        },
+        {
+          "pos": 97,
+          "baseline_id": 10602,
+          "dflash_id": 979,
+          "baseline_text": " intended",
+          "dflash_text": " when"
+        },
+        {
+          "pos": 98,
+          "baseline_id": 36566,
+          "dflash_id": 8153,
+          "baseline_text": " formatting",
+          "dflash_text": " units"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 13,
+          "dflash_id": 476,
+          "baseline_text": ".",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 100,
+          "baseline_id": 1096,
+          "dflash_id": 16184,
+          "baseline_text": " This",
+          "dflash_text": " coordinate"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 374,
+          "dflash_id": 5942,
+          "baseline_text": " is",
+          "dflash_text": " systems"
+        },
+        {
+          "pos": 102,
+          "baseline_id": 264,
+          "dflash_id": 525,
+          "baseline_text": " a",
+          "dflash_text": " are"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 3881,
+          "dflash_id": 6398,
+          "baseline_text": " known",
+          "dflash_text": " involved"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 4265,
+          "dflash_id": 382,
+          "baseline_text": " issue",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 105,
+          "baseline_id": 448,
+          "dflash_id": 14374,
+          "baseline_text": " with",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 279,
+          "dflash_id": 25521,
+          "baseline_text": " the",
+          "dflash_text": " \ufffd"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 1565,
+          "dflash_id": 227,
+          "baseline_text": " `",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 22860,
+          "dflash_id": 12478,
+          "baseline_text": "sy",
+          "dflash_text": " Solution"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 1307,
+          "dflash_id": 271,
+          "baseline_text": "mp",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 88,
+          "dflash_id": 1249,
+          "baseline_text": "y",
+          "dflash_text": "To"
+        },
+        {
+          "pos": 111,
+          "baseline_id": 556,
+          "dflash_id": 5046,
+          "baseline_text": ".p",
+          "dflash_text": " fix"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 1350,
+          "dflash_id": 279,
+          "baseline_text": "print",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 113,
+          "baseline_id": 63,
+          "dflash_id": 4265,
+          "baseline_text": "`",
+          "dflash_text": " issue"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 4688,
+          "dflash_id": 11,
+          "baseline_text": " module",
+          "dflash_text": ","
+        },
+        {
+          "pos": 115,
+          "baseline_id": 979,
+          "dflash_id": 498,
+          "baseline_text": " when",
+          "dflash_text": " you"
+        },
+        {
+          "pos": 116,
+          "baseline_id": 11589,
+          "dflash_id": 646,
+          "baseline_text": " handling",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 1565,
+          "dflash_id": 3070,
+          "baseline_text": " `",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 22860,
+          "dflash_id": 18015,
+          "baseline_text": "sy",
+          "dflash_text": "disable"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 1307,
+          "dflash_id": 1565,
+          "baseline_text": "mp",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 88,
+          "dflash_id": 2327,
+          "baseline_text": "y",
+          "dflash_text": "init"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 47103,
+          "dflash_id": 10064,
+          "baseline_text": ".vector",
+          "dflash_text": "_print"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 63,
+          "dflash_id": 287,
+          "baseline_text": "`",
+          "dflash_text": "ing"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 6171,
+          "dflash_id": 54258,
+          "baseline_text": " objects",
+          "dflash_text": "()`"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 382,
+          "dflash_id": 334,
+          "baseline_text": ".\n\n",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 125,
+          "baseline_id": 14374,
+          "dflash_id": 323,
+          "baseline_text": "###",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 12478,
+          "dflash_id": 990,
+          "baseline_text": " Solution",
+          "dflash_text": " use"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 510,
+          "dflash_id": 1565,
+          "baseline_text": ":\n",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 1249,
+          "dflash_id": 22860,
+          "baseline_text": "To",
+          "dflash_text": "sy"
+        },
+        {
+          "pos": 129,
+          "baseline_id": 5046,
+          "dflash_id": 1307,
+          "baseline_text": " fix",
+          "dflash_text": "mp"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 419,
+          "dflash_id": 88,
+          "baseline_text": " this",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 11,
+          "dflash_id": 556,
+          "baseline_text": ",",
+          "dflash_text": ".p"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 498,
+          "dflash_id": 1350,
+          "baseline_text": " you",
+          "dflash_text": "print"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 646,
+          "dflash_id": 63,
+          "baseline_text": " can",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 3070,
+          "dflash_id": 5961,
+          "baseline_text": " **",
+          "dflash_text": " directly"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 18015,
+          "dflash_id": 11,
+          "baseline_text": "disable",
+          "dflash_text": ","
+        },
+        {
+          "pos": 136,
+          "baseline_id": 5020,
+          "dflash_id": 476,
+          "baseline_text": " pretty",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 18484,
+          "dflash_id": 3070,
+          "baseline_text": " printing",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 334,
+          "dflash_id": 810,
+          "baseline_text": "**",
+          "dflash_text": "use"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 369,
+          "dflash_id": 1565,
+          "baseline_text": " for",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 1565,
+          "dflash_id": 22860,
+          "baseline_text": " `",
+          "dflash_text": "sy"
+        },
+        {
+          "pos": 141,
+          "baseline_id": 22860,
+          "dflash_id": 1307,
+          "baseline_text": "sy",
+          "dflash_text": "mp"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 1307,
+          "dflash_id": 88,
+          "baseline_text": "mp",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 88,
+          "dflash_id": 2214,
+          "baseline_text": "y",
+          "dflash_text": ".print"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 47103,
+          "dflash_id": 287,
+          "baseline_text": ".vector",
+          "dflash_text": "ing"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 63,
+          "dflash_id": 556,
+          "baseline_text": "`",
+          "dflash_text": ".p"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 23393,
+          "dflash_id": 1350,
+          "baseline_text": " expressions",
+          "dflash_text": "print"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 323,
+          "dflash_id": 63,
+          "baseline_text": " and",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 4518,
+          "dflash_id": 334,
+          "baseline_text": " instead",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 990,
+          "dflash_id": 448,
+          "baseline_text": " use",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 1565,
+          "dflash_id": 264,
+          "baseline_text": " `",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 22860,
+          "dflash_id": 2526,
+          "baseline_text": "sy",
+          "dflash_text": " custom"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 1307,
+          "dflash_id": 36566,
+          "baseline_text": "mp",
+          "dflash_text": " formatting"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 88,
+          "dflash_id": 729,
+          "baseline_text": "y",
+          "dflash_text": " function"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 556,
+          "dflash_id": 429,
+          "baseline_text": ".p",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 1350,
+          "dflash_id": 13469,
+          "baseline_text": "print",
+          "dflash_text": " handles"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 63,
+          "dflash_id": 1565,
+          "baseline_text": "`",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 389,
+          "dflash_id": 19437,
+          "baseline_text": " on",
+          "dflash_text": "Coord"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 279,
+          "dflash_id": 32792,
+          "baseline_text": " the",
+          "dflash_text": "Sys"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 3070,
+          "dflash_id": 18,
+          "baseline_text": " **",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 2153,
+          "dflash_id": 35,
+          "baseline_text": "core",
+          "dflash_text": "D"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 7493,
+          "dflash_id": 63,
+          "baseline_text": " expression",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 334,
+          "dflash_id": 6171,
+          "baseline_text": "**",
+          "dflash_text": " objects"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 320,
+          "dflash_id": 10277,
+          "baseline_text": " (",
+          "dflash_text": " properly"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 28996,
+          "dflash_id": 382,
+          "baseline_text": "without",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 279,
+          "dflash_id": 8420,
+          "baseline_text": " the",
+          "dflash_text": "Here"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 4982,
+          "dflash_id": 594,
+          "baseline_text": " unit",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 4621,
+          "dflash_id": 264,
+          "baseline_text": " vector",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 701,
+          "dflash_id": 3238,
+          "baseline_text": "),",
+          "dflash_text": " working"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 476,
+          "dflash_id": 2319,
+          "baseline_text": " or",
+          "dflash_text": " version"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 990,
+          "dflash_id": 315,
+          "baseline_text": " use",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 1565,
+          "dflash_id": 697,
+          "baseline_text": " `",
+          "dflash_text": " your"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 22860,
+          "dflash_id": 2038,
+          "baseline_text": "sy",
+          "dflash_text": " code"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 1307,
+          "dflash_id": 448,
+          "baseline_text": "mp",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 88,
+          "dflash_id": 279,
+          "baseline_text": "y",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 2214,
+          "dflash_id": 4265,
+          "baseline_text": ".print",
+          "dflash_text": " issue"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 287,
+          "dflash_id": 19673,
+          "baseline_text": "ing",
+          "dflash_text": " resolved"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 514,
+          "dflash_id": 1447,
+          "baseline_text": ".s",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 30837,
+          "dflash_id": 73594,
+          "baseline_text": "repr",
+          "dflash_text": "```"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 63,
+          "dflash_id": 12669,
+          "baseline_text": "`",
+          "dflash_text": "python"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 476,
+          "dflash_id": 198,
+          "baseline_text": " or",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 1565,
+          "dflash_id": 1499,
+          "baseline_text": " `",
+          "dflash_text": "from"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 22860,
+          "dflash_id": 21459,
+          "baseline_text": "sy",
+          "dflash_text": " symp"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 1307,
+          "dflash_id": 88,
+          "baseline_text": "mp",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 88,
+          "dflash_id": 1159,
+          "baseline_text": "y",
+          "dflash_text": " import"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 2214,
+          "dflash_id": 1213,
+          "baseline_text": ".print",
+          "dflash_text": " *\n"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 287,
+          "dflash_id": 1499,
+          "baseline_text": "ing",
+          "dflash_text": "from"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 13,
+          "dflash_id": 21459,
+          "baseline_text": ".",
+          "dflash_text": " symp"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 52067,
+          "dflash_id": 88,
+          "baseline_text": "ansi",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 63,
+          "dflash_id": 47103,
+          "baseline_text": "`",
+          "dflash_text": ".vector"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 369,
+          "dflash_id": 1159,
+          "baseline_text": " for",
+          "dflash_text": " import"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 803,
+          "dflash_id": 47849,
+          "baseline_text": " more",
+          "dflash_text": " Coord"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 2524,
+          "dflash_id": 32792,
+          "baseline_text": " control",
+          "dflash_text": "Sys"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 382,
+          "dflash_id": 18,
+          "baseline_text": ".\n\n",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 11209,
+          "dflash_id": 35,
+          "baseline_text": "However",
+          "dflash_text": "D"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 264,
+          "dflash_id": 7313,
+          "baseline_text": " a",
+          "dflash_text": " Del"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 803,
+          "dflash_id": 271,
+          "baseline_text": " more",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 25777,
+          "dflash_id": 2,
+          "baseline_text": " elegant",
+          "dflash_text": "#"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 323,
+          "dflash_id": 28027,
+          "baseline_text": " and",
+          "dflash_text": " Disable"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 7373,
+          "dflash_id": 2930,
+          "baseline_text": " effective",
+          "dflash_text": " init"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 6291,
+          "dflash_id": 10064,
+          "baseline_text": " solution",
+          "dflash_text": "_print"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 374,
+          "dflash_id": 287,
+          "baseline_text": " is",
+          "dflash_text": "ing"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 3070,
+          "dflash_id": 5648,
+          "baseline_text": " **",
+          "dflash_text": " avoid"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 810,
+          "dflash_id": 25800,
+          "baseline_text": "use",
+          "dflash_text": " conflicts"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 1565,
+          "dflash_id": 448,
+          "baseline_text": " `",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 22860,
+          "dflash_id": 4621,
+          "baseline_text": "sy",
+          "dflash_text": " vector"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 1307,
+          "dflash_id": 18484,
+          "baseline_text": "mp",
+          "dflash_text": " printing"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 88,
+          "dflash_id": 198,
+          "baseline_text": "y",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 556,
+          "dflash_id": 2,
+          "baseline_text": ".p",
+          "dflash_text": "#"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 1350,
+          "dflash_id": 2930,
+          "baseline_text": "print",
+          "dflash_text": " init"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 63,
+          "dflash_id": 10064,
+          "baseline_text": "`",
+          "dflash_text": "_print"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 389,
+          "dflash_id": 287,
+          "baseline_text": " on",
+          "dflash_text": "ing"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 279,
+          "dflash_id": 368,
+          "baseline_text": " the",
+          "dflash_text": "()"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 7493,
+          "dflash_id": 220,
+          "baseline_text": " expression",
+          "dflash_text": " "
+        },
+        {
+          "pos": 216,
+          "baseline_id": 2041,
+          "dflash_id": 671,
+          "baseline_text": " without",
+          "dflash_text": " #"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 279,
+          "dflash_id": 12255,
+          "baseline_text": " the",
+          "dflash_text": " Comment"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 4982,
+          "dflash_id": 419,
+          "baseline_text": " unit",
+          "dflash_text": " this"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 4621,
+          "dflash_id": 700,
+          "baseline_text": " vector",
+          "dflash_text": " out"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 97219,
+          "dflash_id": 311,
+          "baseline_text": "**,",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 476,
+          "dflash_id": 5648,
+          "baseline_text": " or",
+          "dflash_text": " avoid"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 311,
+          "dflash_id": 279,
+          "baseline_text": " to",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 3070,
+          "dflash_id": 4265,
+          "baseline_text": " **",
+          "dflash_text": " issue"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 810,
+          "dflash_id": 271,
+          "baseline_text": "use",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 1565,
+          "dflash_id": 9588,
+          "baseline_text": " `",
+          "dflash_text": "del"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 22860,
+          "dflash_id": 453,
+          "baseline_text": "sy",
+          "dflash_text": "op"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 1307,
+          "dflash_id": 284,
+          "baseline_text": "mp",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 228,
+          "baseline_id": 88,
+          "dflash_id": 7313,
+          "baseline_text": "y",
+          "dflash_text": " Del"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 556,
+          "dflash_id": 741,
+          "baseline_text": ".p",
+          "dflash_text": "()\n"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1350,
+          "dflash_id": 3706,
+          "baseline_text": "print",
+          "dflash_text": "CC"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 63,
+          "dflash_id": 62,
+          "baseline_text": "`",
+          "dflash_text": "_"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 389,
+          "dflash_id": 284,
+          "baseline_text": " on",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 233,
+          "baseline_id": 279,
+          "dflash_id": 47849,
+          "baseline_text": " the",
+          "dflash_text": " Coord"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 7493,
+          "dflash_id": 32792,
+          "baseline_text": " expression",
+          "dflash_text": "Sys"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 438,
+          "dflash_id": 18,
+          "baseline_text": " as",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 264,
+          "dflash_id": 35,
+          "baseline_text": " a",
+          "dflash_text": "D"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 4361,
+          "dflash_id": 445,
+          "baseline_text": " whole",
+          "dflash_text": "(\""
+        },
+        {
+          "pos": 238,
+          "baseline_id": 714,
+          "dflash_id": 34,
+          "baseline_text": " but",
+          "dflash_text": "C"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 448,
+          "dflash_id": 1138,
+          "baseline_text": " with",
+          "dflash_text": "\")\n"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 264,
+          "dflash_id": 87,
+          "baseline_text": " a",
+          "dflash_text": "x"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 2526,
+          "dflash_id": 11,
+          "baseline_text": " custom",
+          "dflash_text": ","
+        },
+        {
+          "pos": 242,
+          "baseline_id": 36566,
+          "dflash_id": 379,
+          "baseline_text": " formatting",
+          "dflash_text": " y"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 729,
+          "dflash_id": 11,
+          "baseline_text": " function",
+          "dflash_text": ","
+        },
+        {
+          "pos": 244,
+          "baseline_id": 334,
+          "dflash_id": 1147,
+          "baseline_text": "**",
+          "dflash_text": " z"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 382,
+          "dflash_id": 284,
+          "baseline_text": ".\n\n",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 246,
+          "baseline_id": 44364,
+          "dflash_id": 13534,
+          "baseline_text": "---\n\n",
+          "dflash_text": " CC"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 14374,
+          "dflash_id": 4950,
+          "baseline_text": "###",
+          "dflash_text": "_."
+        },
+        {
+          "pos": 248,
+          "baseline_id": 25521,
+          "dflash_id": 87,
+          "baseline_text": " \ufffd",
+          "dflash_text": "x"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 227,
+          "dflash_id": 11,
+          "baseline_text": "\ufffd",
+          "dflash_text": ","
+        },
+        {
+          "pos": 250,
+          "baseline_id": 50662,
+          "dflash_id": 13534,
+          "baseline_text": " Recommended",
+          "dflash_text": " CC"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 19716,
+          "dflash_id": 4950,
+          "baseline_text": " Fix",
+          "dflash_text": "_."
+        },
+        {
+          "pos": 252,
+          "baseline_id": 1447,
+          "dflash_id": 88,
+          "baseline_text": ":\n\n",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 2610,
+          "dflash_id": 11,
+          "baseline_text": "You",
+          "dflash_text": ","
+        },
+        {
+          "pos": 254,
+          "baseline_id": 646,
+          "dflash_id": 13534,
+          "baseline_text": " can",
+          "dflash_text": " CC"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 3070,
+          "dflash_id": 4950,
+          "baseline_text": " **",
+          "dflash_text": "_."
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 2,
+      "is_warmup": false,
+      "num_input_tokens": 204,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.616399640639429,
+      "baseline_tps": 94.19389188892382,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 8.99904939433327,
+      "dflash_tps": 111.12284822324715,
+      "tau": 2.9213483146067416,
+      "num_drafts": 89,
+      "acceptance_lengths": [
+        2,
+        4,
+        1,
+        1,
+        7,
+        1,
+        1,
+        1,
+        1,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        3,
+        3,
+        1,
+        1,
+        2,
+        5,
+        4,
+        1,
+        2,
+        2,
+        3,
+        1,
+        2,
+        4,
+        4,
+        2,
+        7,
+        3,
+        4,
+        2,
+        5,
+        3,
+        8,
+        4,
+        1,
+        1,
+        4,
+        4,
+        2,
+        1,
+        2,
+        2,
+        1,
+        6,
+        3,
+        6,
+        2,
+        1,
+        1,
+        3,
+        11,
+        1,
+        1,
+        1,
+        1,
+        3,
+        6,
+        13,
+        6,
+        3,
+        1,
+        1,
+        9,
+        2,
+        2,
+        1,
+        5,
+        1,
+        2,
+        2,
+        3,
+        5,
+        2,
+        1,
+        3,
+        2,
+        3,
+        3,
+        2,
+        1,
+        4,
+        7
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 221,
+          "baseline_id": 1035,
+          "dflash_id": 1558,
+          "baseline_text": " would",
+          "dflash_text": " does"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 264,
+          "dflash_id": 4119,
+          "baseline_text": " a",
+          "dflash_text": " models"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 1614,
+          "dflash_id": 382,
+          "baseline_text": " model",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 382,
+          "dflash_id": 1986,
+          "baseline_text": ".\n\n",
+          "dflash_text": "This"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 1986,
+          "dflash_id": 374,
+          "baseline_text": "This",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 374,
+          "dflash_id": 3070,
+          "baseline_text": " is",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 3070,
+          "dflash_id": 258,
+          "baseline_text": " **",
+          "dflash_text": "in"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 258,
+          "dflash_id": 78399,
+          "baseline_text": "in",
+          "dflash_text": "consistent"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 78399,
+          "dflash_id": 334,
+          "baseline_text": "consistent",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 334,
+          "dflash_id": 323,
+          "baseline_text": "**",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 323,
+          "dflash_id": 3070,
+          "baseline_text": " and",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 3070,
+          "dflash_id": 6135,
+          "baseline_text": " **",
+          "dflash_text": "conf"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 6135,
+          "dflash_id": 970,
+          "baseline_text": "conf",
+          "dflash_text": "using"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 970,
+          "dflash_id": 97219,
+          "baseline_text": "using",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 97219,
+          "dflash_id": 5310,
+          "baseline_text": "**,",
+          "dflash_text": " especially"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 5310,
+          "dflash_id": 369,
+          "baseline_text": " especially",
+          "dflash_text": " for"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 369,
+          "dflash_id": 501,
+          "baseline_text": " for",
+          "dflash_text": " new"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 501,
+          "dflash_id": 3847,
+          "baseline_text": " new",
+          "dflash_text": " users"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 3847,
+          "dflash_id": 382,
+          "baseline_text": " users",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 382,
+          "dflash_id": 44364,
+          "baseline_text": ".\n\n",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 44364,
+          "dflash_id": 565,
+          "baseline_text": "---\n\n",
+          "dflash_text": "##"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 565,
+          "dflash_id": 25521,
+          "baseline_text": "##",
+          "dflash_text": " \ufffd"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 25521,
+          "dflash_id": 227,
+          "baseline_text": " \ufffd",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 227,
+          "dflash_id": 98883,
+          "baseline_text": "\ufffd",
+          "dflash_text": " Proposed"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 98883,
+          "dflash_id": 19716,
+          "baseline_text": " Proposed",
+          "dflash_text": " Fix"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 19716,
+          "dflash_id": 271,
+          "baseline_text": " Fix",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 271,
+          "dflash_id": 785,
+          "baseline_text": "\n\n",
+          "dflash_text": "The"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 785,
+          "dflash_id": 5795,
+          "baseline_text": "The",
+          "dflash_text": " goal"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 5795,
+          "dflash_id": 374,
+          "baseline_text": " goal",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 374,
+          "dflash_id": 311,
+          "baseline_text": " is",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 311,
+          "dflash_id": 3070,
+          "baseline_text": " to",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 1281,
+          "dflash_id": 6927,
+          "baseline_text": " make",
+          "dflash_text": "make"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 279,
+          "dflash_id": 1565,
+          "baseline_text": " the",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 1565,
+          "dflash_id": 14883,
+          "baseline_text": " `",
+          "dflash_text": "verbose"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 3,
+      "is_warmup": false,
+      "num_input_tokens": 147,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.711855566114536,
+      "baseline_tps": 93.35450742664611,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 5.252003085843171,
+      "dflash_tps": 190.4035438774799,
+      "tau": 3.3,
+      "num_drafts": 80,
+      "acceptance_lengths": [
+        1,
+        2,
+        5,
+        1,
+        1,
+        1,
+        3,
+        1,
+        2,
+        1,
+        1,
+        1,
+        2,
+        3,
+        3,
+        3,
+        2,
+        2,
+        1,
+        3,
+        3,
+        5,
+        6,
+        4,
+        3,
+        1,
+        2,
+        2,
+        6,
+        1,
+        1,
+        3,
+        7,
+        3,
+        1,
+        1,
+        2,
+        1,
+        1,
+        2,
+        3,
+        3,
+        4,
+        3,
+        16,
+        13,
+        13,
+        2,
+        2,
+        6,
+        14,
+        3,
+        5,
+        2,
+        1,
+        6,
+        1,
+        1,
+        2,
+        2,
+        3,
+        2,
+        4,
+        1,
+        2,
+        2,
+        1,
+        3,
+        1,
+        2,
+        2,
+        1,
+        6,
+        3,
+        6,
+        6,
+        3,
+        1,
+        3,
+        16
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 91,
+          "baseline_id": 42966,
+          "dflash_id": 86084,
+          "baseline_text": "usually",
+          "dflash_text": "typically"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 5978,
+          "dflash_id": 20975,
+          "baseline_text": " ensure",
+          "dflash_text": " explicitly"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 6169,
+          "dflash_id": 6979,
+          "baseline_text": " proper",
+          "dflash_text": " define"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 36566,
+          "dflash_id": 279,
+          "baseline_text": " formatting",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 382,
+          "dflash_id": 46444,
+          "baseline_text": ".\n\n",
+          "dflash_text": " multiplication"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 8420,
+          "dflash_id": 323,
+          "baseline_text": "Here",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 594,
+          "dflash_id": 1221,
+          "baseline_text": "'s",
+          "dflash_text": " then"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 264,
+          "dflash_id": 8649,
+          "baseline_text": " a",
+          "dflash_text": " extract"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 3238,
+          "dflash_id": 279,
+          "baseline_text": " working",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 6291,
+          "dflash_id": 97913,
+          "baseline_text": " solution",
+          "dflash_text": " LaTeX"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 1447,
+          "dflash_id": 382,
+          "baseline_text": ":\n\n",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 73594,
+          "dflash_id": 8420,
+          "baseline_text": "```",
+          "dflash_text": "Here"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 12669,
+          "dflash_id": 594,
+          "baseline_text": "python",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 198,
+          "dflash_id": 264,
+          "baseline_text": "\n",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 1499,
+          "dflash_id": 4240,
+          "baseline_text": "from",
+          "dflash_text": " clean"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 21459,
+          "dflash_id": 323,
+          "baseline_text": " symp",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 88,
+          "dflash_id": 3238,
+          "baseline_text": "y",
+          "dflash_text": " working"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1159,
+          "dflash_id": 6291,
+          "baseline_text": " import",
+          "dflash_text": " solution"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 17738,
+          "dflash_id": 1447,
+          "baseline_text": " symbols",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 11,
+          "dflash_id": 73594,
+          "baseline_text": ",",
+          "dflash_text": "```"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 11631,
+          "dflash_id": 12669,
+          "baseline_text": " Matrix",
+          "dflash_text": "python"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 15090,
+          "dflash_id": 198,
+          "baseline_text": "Symbol",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 11,
+          "dflash_id": 1499,
+          "baseline_text": ",",
+          "dflash_text": "from"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 44536,
+          "dflash_id": 21459,
+          "baseline_text": " latex",
+          "dflash_text": " symp"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 271,
+          "dflash_id": 88,
+          "baseline_text": "\n\n",
+          "dflash_text": "y"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 72,
+          "dflash_id": 1159,
+          "baseline_text": "i",
+          "dflash_text": " import"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 11,
+          "dflash_id": 17738,
+          "baseline_text": ",",
+          "dflash_text": " symbols"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 502,
+          "dflash_id": 11,
+          "baseline_text": " j",
+          "dflash_text": ","
+        },
+        {
+          "pos": 241,
+          "baseline_id": 11,
+          "dflash_id": 11631,
+          "baseline_text": ",",
+          "dflash_text": " Matrix"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 595,
+          "dflash_id": 15090,
+          "baseline_text": " k",
+          "dflash_text": "Symbol"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 284,
+          "dflash_id": 11,
+          "baseline_text": " =",
+          "dflash_text": ","
+        },
+        {
+          "pos": 244,
+          "baseline_id": 17738,
+          "dflash_id": 44536,
+          "baseline_text": " symbols",
+          "dflash_text": " latex"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 445,
+          "dflash_id": 271,
+          "baseline_text": "(\"",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 502,
+          "dflash_id": 11,
+          "baseline_text": " j",
+          "dflash_text": ","
+        },
+        {
+          "pos": 248,
+          "baseline_id": 595,
+          "dflash_id": 502,
+          "baseline_text": " k",
+          "dflash_text": " j"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 1138,
+          "dflash_id": 11,
+          "baseline_text": "\")\n",
+          "dflash_text": ","
+        },
+        {
+          "pos": 250,
+          "baseline_id": 44,
+          "dflash_id": 595,
+          "baseline_text": "M",
+          "dflash_text": " k"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 11631,
+          "dflash_id": 17738,
+          "baseline_text": " Matrix",
+          "dflash_text": " symbols"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 15090,
+          "dflash_id": 445,
+          "baseline_text": "Symbol",
+          "dflash_text": "(\""
+        },
+        {
+          "pos": 254,
+          "baseline_id": 445,
+          "dflash_id": 72,
+          "baseline_text": "(\"",
+          "dflash_text": "i"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 44,
+          "dflash_id": 502,
+          "baseline_text": "M",
+          "dflash_text": " j"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 4,
+      "is_warmup": false,
+      "num_input_tokens": 641,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.758229156635934,
+      "baseline_tps": 92.95210070731538,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 6.362033219375007,
+      "dflash_tps": 157.18245496653316,
+      "tau": 3.2531645569620253,
+      "num_drafts": 79,
+      "acceptance_lengths": [
+        4,
+        5,
+        6,
+        2,
+        2,
+        1,
+        3,
+        5,
+        13,
+        4,
+        3,
+        2,
+        5,
+        1,
+        1,
+        2,
+        2,
+        1,
+        4,
+        4,
+        1,
+        1,
+        1,
+        3,
+        3,
+        2,
+        2,
+        2,
+        3,
+        11,
+        2,
+        1,
+        1,
+        3,
+        1,
+        3,
+        12,
+        9,
+        2,
+        4,
+        2,
+        1,
+        5,
+        1,
+        2,
+        3,
+        1,
+        3,
+        5,
+        2,
+        1,
+        1,
+        3,
+        1,
+        2,
+        5,
+        2,
+        3,
+        9,
+        6,
+        4,
+        2,
+        1,
+        1,
+        2,
+        4,
+        3,
+        2,
+        2,
+        2,
+        3,
+        1,
+        3,
+        6,
+        11,
+        1,
+        3,
+        2,
+        9
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 72,
+          "baseline_id": 498,
+          "dflash_id": 369,
+          "baseline_text": " you",
+          "dflash_text": " for"
+        },
+        {
+          "pos": 73,
+          "baseline_id": 2299,
+          "dflash_id": 1943,
+          "baseline_text": "'re",
+          "dflash_text": " message"
+        },
+        {
+          "pos": 74,
+          "baseline_id": 1667,
+          "dflash_id": 19911,
+          "baseline_text": " using",
+          "dflash_text": " templates"
+        },
+        {
+          "pos": 75,
+          "baseline_id": 374,
+          "dflash_id": 702,
+          "baseline_text": " is",
+          "dflash_text": " has"
+        },
+        {
+          "pos": 77,
+          "baseline_id": 2152,
+          "dflash_id": 17353,
+          "baseline_text": "no",
+          "dflash_text": "changed"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 5021,
+          "dflash_id": 334,
+          "baseline_text": " longer",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 7248,
+          "dflash_id": 382,
+          "baseline_text": " supported",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 334,
+          "dflash_id": 44364,
+          "baseline_text": "**",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 304,
+          "dflash_id": 565,
+          "baseline_text": " in",
+          "dflash_text": "##"
+        },
+        {
+          "pos": 82,
+          "baseline_id": 393,
+          "dflash_id": 25521,
+          "baseline_text": " P",
+          "dflash_text": " \ufffd"
+        },
+        {
+          "pos": 83,
+          "baseline_id": 3923,
+          "dflash_id": 227,
+          "baseline_text": "yl",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 396,
+          "dflash_id": 21517,
+          "baseline_text": "int",
+          "dflash_text": " Summary"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 220,
+          "dflash_id": 271,
+          "baseline_text": " ",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 86,
+          "baseline_id": 17,
+          "dflash_id": 12,
+          "baseline_text": "2",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 87,
+          "baseline_id": 13,
+          "dflash_id": 3070,
+          "baseline_text": ".",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 16,
+          "dflash_id": 47,
+          "baseline_text": "1",
+          "dflash_text": "P"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 17,
+          "dflash_id": 3923,
+          "baseline_text": "2",
+          "dflash_text": "yl"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 13,
+          "dflash_id": 396,
+          "baseline_text": ".",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 91,
+          "baseline_id": 17,
+          "dflash_id": 220,
+          "baseline_text": "2",
+          "dflash_text": " "
+        },
+        {
+          "pos": 92,
+          "baseline_id": 382,
+          "dflash_id": 16,
+          "baseline_text": ".\n\n",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 44364,
+          "dflash_id": 13,
+          "baseline_text": "---\n\n",
+          "dflash_text": "."
+        },
+        {
+          "pos": 94,
+          "baseline_id": 565,
+          "dflash_id": 22,
+          "baseline_text": "##",
+          "dflash_text": "7"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 25521,
+          "dflash_id": 13,
+          "baseline_text": " \ufffd",
+          "dflash_text": "."
+        },
+        {
+          "pos": 96,
+          "baseline_id": 227,
+          "dflash_id": 19,
+          "baseline_text": "\ufffd",
+          "dflash_text": "4"
+        },
+        {
+          "pos": 97,
+          "baseline_id": 21517,
+          "dflash_id": 334,
+          "baseline_text": " Summary",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 98,
+          "baseline_id": 271,
+          "dflash_id": 11554,
+          "baseline_text": "\n\n",
+          "dflash_text": " supports"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 12,
+          "dflash_id": 264,
+          "baseline_text": "-",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 47,
+          "dflash_id": 35671,
+          "baseline_text": "P",
+          "dflash_text": "dictionary"
+        },
+        {
+          "pos": 102,
+          "baseline_id": 3923,
+          "dflash_id": 11297,
+          "baseline_text": "yl",
+          "dflash_text": "-style"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 396,
+          "dflash_id": 334,
+          "baseline_text": "int",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 220,
+          "dflash_id": 1943,
+          "baseline_text": " ",
+          "dflash_text": " message"
+        },
+        {
+          "pos": 105,
+          "baseline_id": 16,
+          "dflash_id": 3811,
+          "baseline_text": "1",
+          "dflash_text": " template"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 13,
+          "dflash_id": 19482,
+          "baseline_text": ".",
+          "dflash_text": " syntax"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 22,
+          "dflash_id": 25,
+          "baseline_text": "7",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 13,
+          "dflash_id": 1565,
+          "baseline_text": ".",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 19,
+          "dflash_id": 2979,
+          "baseline_text": "4",
+          "dflash_text": "{{"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 334,
+          "dflash_id": 330,
+          "baseline_text": "**",
+          "dflash_text": " \""
+        },
+        {
+          "pos": 111,
+          "baseline_id": 11554,
+          "dflash_id": 6746,
+          "baseline_text": " supports",
+          "dflash_text": "Category"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 279,
+          "dflash_id": 788,
+          "baseline_text": " the",
+          "dflash_text": "\":"
+        },
+        {
+          "pos": 113,
+          "baseline_id": 1565,
+          "dflash_id": 13868,
+          "baseline_text": " `",
+          "dflash_text": " \"{"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 2979,
+          "dflash_id": 5471,
+          "baseline_text": "{{",
+          "dflash_text": "category"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 2503,
+          "dflash_id": 9863,
+          "baseline_text": " ...",
+          "dflash_text": "}\""
+        },
+        {
+          "pos": 117,
+          "baseline_id": 63,
+          "dflash_id": 18639,
+          "baseline_text": "`",
+          "dflash_text": "`.\n"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 19482,
+          "dflash_id": 12,
+          "baseline_text": " syntax",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 369,
+          "dflash_id": 3070,
+          "baseline_text": " for",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 1943,
+          "dflash_id": 47,
+          "baseline_text": " message",
+          "dflash_text": "P"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 19911,
+          "dflash_id": 3923,
+          "baseline_text": " templates",
+          "dflash_text": "yl"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 624,
+          "dflash_id": 396,
+          "baseline_text": ".\n",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 12,
+          "dflash_id": 220,
+          "baseline_text": "-",
+          "dflash_text": " "
+        },
+        {
+          "pos": 124,
+          "baseline_id": 3070,
+          "dflash_id": 17,
+          "baseline_text": " **",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 125,
+          "baseline_id": 47,
+          "dflash_id": 13,
+          "baseline_text": "P",
+          "dflash_text": "."
+        },
+        {
+          "pos": 126,
+          "baseline_id": 3923,
+          "dflash_id": 16,
+          "baseline_text": "yl",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 396,
+          "dflash_id": 17,
+          "baseline_text": "int",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 220,
+          "dflash_id": 13,
+          "baseline_text": " ",
+          "dflash_text": "."
+        },
+        {
+          "pos": 130,
+          "baseline_id": 13,
+          "dflash_id": 334,
+          "baseline_text": ".",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 16,
+          "dflash_id": 320,
+          "baseline_text": "1",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 132,
+          "baseline_id": 17,
+          "dflash_id": 437,
+          "baseline_text": "2",
+          "dflash_text": "and"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 13,
+          "dflash_id": 25546,
+          "baseline_text": ".",
+          "dflash_text": " newer"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 17,
+          "dflash_id": 10795,
+          "baseline_text": "2",
+          "dflash_text": " versions"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 334,
+          "dflash_id": 8,
+          "baseline_text": "**",
+          "dflash_text": ")"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 5497,
+          "dflash_id": 3070,
+          "baseline_text": " changed",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 279,
+          "dflash_id": 2152,
+          "baseline_text": " the",
+          "dflash_text": "no"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 1943,
+          "dflash_id": 5021,
+          "baseline_text": " message",
+          "dflash_text": " longer"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 3811,
+          "dflash_id": 11554,
+          "baseline_text": " template",
+          "dflash_text": " supports"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 19482,
+          "dflash_id": 334,
+          "baseline_text": " syntax",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 141,
+          "baseline_id": 311,
+          "dflash_id": 419,
+          "baseline_text": " to",
+          "dflash_text": " this"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 990,
+          "dflash_id": 19482,
+          "baseline_text": " use",
+          "dflash_text": " syntax"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 3070,
+          "dflash_id": 624,
+          "baseline_text": " **",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 63,
+          "dflash_id": 12,
+          "baseline_text": "`",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 90,
+          "dflash_id": 576,
+          "baseline_text": "{",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 5541,
+          "dflash_id": 501,
+          "baseline_text": "}`",
+          "dflash_text": " new"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 334,
+          "dflash_id": 19482,
+          "baseline_text": "**",
+          "dflash_text": " syntax"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 4518,
+          "dflash_id": 374,
+          "baseline_text": " instead",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 315,
+          "dflash_id": 3070,
+          "baseline_text": " of",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 1565,
+          "dflash_id": 63,
+          "baseline_text": " `",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 2979,
+          "dflash_id": 90,
+          "baseline_text": "{{",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 2503,
+          "dflash_id": 330,
+          "baseline_text": " ...",
+          "dflash_text": " \""
+        },
+        {
+          "pos": 153,
+          "baseline_id": 3869,
+          "dflash_id": 6746,
+          "baseline_text": " }}",
+          "dflash_text": "Category"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 18639,
+          "dflash_id": 788,
+          "baseline_text": "`.\n",
+          "dflash_text": "\":"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 12,
+          "dflash_id": 13868,
+          "baseline_text": "-",
+          "dflash_text": " \"{"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 576,
+          "dflash_id": 5471,
+          "baseline_text": " The",
+          "dflash_text": "category"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 9958,
+          "dflash_id": 9863,
+          "baseline_text": " warning",
+          "dflash_text": "}\""
+        },
+        {
+          "pos": 158,
+          "baseline_id": 498,
+          "dflash_id": 335,
+          "baseline_text": " you",
+          "dflash_text": " }"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 2299,
+          "dflash_id": 63,
+          "baseline_text": "'re",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 9120,
+          "dflash_id": 334,
+          "baseline_text": " seeing",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 374,
+          "dflash_id": 320,
+          "baseline_text": " is",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 162,
+          "baseline_id": 264,
+          "dflash_id": 28996,
+          "baseline_text": " a",
+          "dflash_text": "without"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 3070,
+          "dflash_id": 279,
+          "baseline_text": " **",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 18928,
+          "dflash_id": 15955,
+          "baseline_text": "warning",
+          "dflash_text": " outer"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 97219,
+          "dflash_id": 1565,
+          "baseline_text": "**,",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 537,
+          "dflash_id": 2979,
+          "baseline_text": " not",
+          "dflash_text": "{{"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 458,
+          "dflash_id": 2503,
+          "baseline_text": " an",
+          "dflash_text": " ..."
+        },
+        {
+          "pos": 168,
+          "baseline_id": 1465,
+          "dflash_id": 3869,
+          "baseline_text": " error",
+          "dflash_text": " }}"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 11,
+          "dflash_id": 63,
+          "baseline_text": ",",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 323,
+          "dflash_id": 3593,
+          "baseline_text": " and",
+          "dflash_text": ").\n\n"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 432,
+          "dflash_id": 44364,
+          "baseline_text": " it",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 594,
+          "dflash_id": 565,
+          "baseline_text": "'s",
+          "dflash_text": "##"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 61925,
+          "dflash_id": 95069,
+          "baseline_text": " informing",
+          "dflash_text": " \ufffd"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 498,
+          "dflash_id": 235,
+          "baseline_text": " you",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 429,
+          "dflash_id": 3555,
+          "baseline_text": " that",
+          "dflash_text": " What"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 279,
+          "dflash_id": 594,
+          "baseline_text": " the",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 19482,
+          "dflash_id": 46294,
+          "baseline_text": " syntax",
+          "dflash_text": " Changed"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 374,
+          "dflash_id": 1939,
+          "baseline_text": " is",
+          "dflash_text": "?\n\n"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 537,
+          "dflash_id": 641,
+          "baseline_text": " not",
+          "dflash_text": "In"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 14975,
+          "dflash_id": 3070,
+          "baseline_text": " recognized",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 382,
+          "dflash_id": 47,
+          "baseline_text": ".\n\n",
+          "dflash_text": "P"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 44364,
+          "dflash_id": 3923,
+          "baseline_text": "---\n\n",
+          "dflash_text": "yl"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 565,
+          "dflash_id": 396,
+          "baseline_text": "##",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 95069,
+          "dflash_id": 220,
+          "baseline_text": " \ufffd",
+          "dflash_text": " "
+        },
+        {
+          "pos": 185,
+          "baseline_id": 235,
+          "dflash_id": 17,
+          "baseline_text": "\ufffd",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 3555,
+          "dflash_id": 13,
+          "baseline_text": " What",
+          "dflash_text": "."
+        },
+        {
+          "pos": 187,
+          "baseline_id": 594,
+          "dflash_id": 16,
+          "baseline_text": "'s",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 279,
+          "dflash_id": 17,
+          "baseline_text": " the",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 55080,
+          "dflash_id": 13,
+          "baseline_text": " Difference",
+          "dflash_text": "."
+        },
+        {
+          "pos": 190,
+          "baseline_id": 1939,
+          "dflash_id": 17,
+          "baseline_text": "?\n\n",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 14374,
+          "dflash_id": 97219,
+          "baseline_text": "###",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 25521,
+          "dflash_id": 279,
+          "baseline_text": " \ufffd",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 227,
+          "dflash_id": 1565,
+          "baseline_text": "\ufffd",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 393,
+          "dflash_id": 313,
+          "baseline_text": " P",
+          "dflash_text": "--"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 3923,
+          "dflash_id": 3236,
+          "baseline_text": "yl",
+          "dflash_text": "msg"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 396,
+          "dflash_id": 33409,
+          "baseline_text": "int",
+          "dflash_text": "-template"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 220,
+          "dflash_id": 63,
+          "baseline_text": " ",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 16,
+          "dflash_id": 2999,
+          "baseline_text": "1",
+          "dflash_text": " option"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 13,
+          "dflash_id": 1431,
+          "baseline_text": ".",
+          "dflash_text": " now"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 22,
+          "dflash_id": 5711,
+          "baseline_text": "7",
+          "dflash_text": " uses"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 13,
+          "dflash_id": 3070,
+          "baseline_text": ".",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 19,
+          "dflash_id": 30280,
+          "baseline_text": "4",
+          "dflash_text": "Python"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 320,
+          "dflash_id": 282,
+          "baseline_text": " (",
+          "dflash_text": " f"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 18284,
+          "dflash_id": 12,
+          "baseline_text": "Old",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 261,
+          "dflash_id": 18594,
+          "baseline_text": "er",
+          "dflash_text": "strings"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 32117,
+          "dflash_id": 334,
+          "baseline_text": " Syntax",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 340,
+          "dflash_id": 323,
+          "baseline_text": ")\n",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 73594,
+          "dflash_id": 3070,
+          "baseline_text": "```",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 21384,
+          "dflash_id": 35671,
+          "baseline_text": "shell",
+          "dflash_text": "dictionary"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 198,
+          "dflash_id": 36566,
+          "baseline_text": "\n",
+          "dflash_text": " formatting"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 313,
+          "dflash_id": 334,
+          "baseline_text": "--",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 3236,
+          "dflash_id": 13,
+          "baseline_text": "msg",
+          "dflash_text": "."
+        },
+        {
+          "pos": 213,
+          "baseline_id": 33409,
+          "dflash_id": 576,
+          "baseline_text": "-template",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 1131,
+          "dflash_id": 2310,
+          "baseline_text": "='",
+          "dflash_text": " old"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 2979,
+          "dflash_id": 19482,
+          "baseline_text": "{{",
+          "dflash_text": " syntax"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 330,
+          "dflash_id": 1565,
+          "baseline_text": " \"",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 6746,
+          "dflash_id": 2979,
+          "baseline_text": "Category",
+          "dflash_text": "{{"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 788,
+          "dflash_id": 2503,
+          "baseline_text": "\":",
+          "dflash_text": " ..."
+        },
+        {
+          "pos": 219,
+          "baseline_id": 13868,
+          "dflash_id": 3869,
+          "baseline_text": " \"{",
+          "dflash_text": " }}"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 5471,
+          "dflash_id": 63,
+          "baseline_text": "category",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 9863,
+          "dflash_id": 374,
+          "baseline_text": "}\"",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 3869,
+          "dflash_id": 902,
+          "baseline_text": " }}",
+          "dflash_text": " no"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 1248,
+          "dflash_id": 5021,
+          "baseline_text": "'\n",
+          "dflash_text": " longer"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 13874,
+          "dflash_id": 7248,
+          "baseline_text": "``",
+          "dflash_text": " supported"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 19324,
+          "dflash_id": 382,
+          "baseline_text": "`\n\n",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 1986,
+          "dflash_id": 14374,
+          "baseline_text": "This",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 374,
+          "dflash_id": 25521,
+          "baseline_text": " is",
+          "dflash_text": " \ufffd"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 3070,
+          "dflash_id": 227,
+          "baseline_text": " **",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 18216,
+          "dflash_id": 39970,
+          "baseline_text": "supported",
+          "dflash_text": " Correct"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 334,
+          "dflash_id": 32117,
+          "baseline_text": "**",
+          "dflash_text": " Syntax"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 304,
+          "dflash_id": 369,
+          "baseline_text": " in",
+          "dflash_text": " for"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 16,
+          "dflash_id": 17,
+          "baseline_text": "1",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 22,
+          "dflash_id": 16,
+          "baseline_text": "7",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 13,
+          "dflash_id": 17,
+          "baseline_text": ".",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 19,
+          "dflash_id": 13,
+          "baseline_text": "4",
+          "dflash_text": "."
+        },
+        {
+          "pos": 241,
+          "baseline_id": 323,
+          "dflash_id": 17,
+          "baseline_text": " and",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 6788,
+          "dflash_id": 323,
+          "baseline_text": " earlier",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 10795,
+          "dflash_id": 24885,
+          "baseline_text": " versions",
+          "dflash_text": " Later"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 13,
+          "dflash_id": 1447,
+          "baseline_text": ".",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 1084,
+          "dflash_id": 73594,
+          "baseline_text": " It",
+          "dflash_text": "```"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 5711,
+          "dflash_id": 21384,
+          "baseline_text": " uses",
+          "dflash_text": "shell"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 279,
+          "dflash_id": 198,
+          "baseline_text": " the",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 3070,
+          "dflash_id": 3288,
+          "baseline_text": " **",
+          "dflash_text": "py"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 63,
+          "dflash_id": 14957,
+          "baseline_text": "`",
+          "dflash_text": "lint"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 2979,
+          "dflash_id": 1273,
+          "baseline_text": "{{",
+          "dflash_text": " test"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 2503,
+          "dflash_id": 7197,
+          "baseline_text": " ...",
+          "dflash_text": ".py"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 3869,
+          "dflash_id": 1177,
+          "baseline_text": " }}",
+          "dflash_text": " --"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 63,
+          "dflash_id": 3236,
+          "baseline_text": "`",
+          "dflash_text": "msg"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 334,
+          "dflash_id": 33409,
+          "baseline_text": "**",
+          "dflash_text": "-template"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 19482,
+          "dflash_id": 54973,
+          "baseline_text": " syntax",
+          "dflash_text": "='{"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 5,
+      "is_warmup": false,
+      "num_input_tokens": 312,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.499828436877578,
+      "baseline_tps": 95.23965139161629,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 4.6337299381775665,
+      "dflash_tps": 215.80886528602858,
+      "tau": 3.8358208955223883,
+      "num_drafts": 67,
+      "acceptance_lengths": [
+        4,
+        2,
+        3,
+        3,
+        3,
+        2,
+        1,
+        3,
+        3,
+        3,
+        3,
+        7,
+        4,
+        1,
+        1,
+        1,
+        4,
+        3,
+        3,
+        1,
+        2,
+        6,
+        1,
+        1,
+        4,
+        1,
+        1,
+        3,
+        2,
+        3,
+        2,
+        7,
+        2,
+        1,
+        2,
+        3,
+        4,
+        3,
+        6,
+        2,
+        1,
+        2,
+        12,
+        2,
+        5,
+        1,
+        1,
+        4,
+        8,
+        3,
+        4,
+        3,
+        2,
+        1,
+        1,
+        10,
+        12,
+        6,
+        1,
+        16,
+        12,
+        14,
+        1,
+        7,
+        3,
+        9,
+        5
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 135,
+          "baseline_id": 3171,
+          "dflash_id": 1558,
+          "baseline_text": " doesn",
+          "dflash_text": " does"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 944,
+          "dflash_id": 537,
+          "baseline_text": "'t",
+          "dflash_text": " not"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 44364,
+          "dflash_id": 73594,
+          "baseline_text": "---\n\n",
+          "dflash_text": "```"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 14374,
+          "dflash_id": 12669,
+          "baseline_text": "###",
+          "dflash_text": "python"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 25521,
+          "dflash_id": 198,
+          "baseline_text": " \ufffd",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 227,
+          "dflash_id": 1499,
+          "baseline_text": "\ufffd",
+          "dflash_text": "from"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 3070,
+          "dflash_id": 8262,
+          "baseline_text": " **",
+          "dflash_text": " django"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 33092,
+          "dflash_id": 7076,
+          "baseline_text": "Correct",
+          "dflash_text": ".db"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 291,
+          "dflash_id": 1159,
+          "baseline_text": "ed",
+          "dflash_text": " import"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 21248,
+          "dflash_id": 17063,
+          "baseline_text": " Migration",
+          "dflash_text": " migrations"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 13383,
+          "dflash_id": 271,
+          "baseline_text": " Example",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 56177,
+          "dflash_id": 1040,
+          "baseline_text": "**\n\n",
+          "dflash_text": "class"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 73594,
+          "dflash_id": 21248,
+          "baseline_text": "```",
+          "dflash_text": " Migration"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 12669,
+          "dflash_id": 1255,
+          "baseline_text": "python",
+          "dflash_text": "(m"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 198,
+          "dflash_id": 17824,
+          "baseline_text": "\n",
+          "dflash_text": "igrations"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 1499,
+          "dflash_id": 1321,
+          "baseline_text": "from",
+          "dflash_text": ".M"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 8262,
+          "dflash_id": 5033,
+          "baseline_text": " django",
+          "dflash_text": "igration"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 7076,
+          "dflash_id": 982,
+          "baseline_text": ".db",
+          "dflash_text": "):\n"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 1159,
+          "dflash_id": 262,
+          "baseline_text": " import",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 167,
+          "baseline_id": 17063,
+          "dflash_id": 19543,
+          "baseline_text": " migrations",
+          "dflash_text": " dependencies"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 271,
+          "dflash_id": 284,
+          "baseline_text": "\n\n",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 169,
+          "baseline_id": 1040,
+          "dflash_id": 2278,
+          "baseline_text": "class",
+          "dflash_text": " [\n"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 21248,
+          "dflash_id": 286,
+          "baseline_text": " Migration",
+          "dflash_text": "       "
+        },
+        {
+          "pos": 171,
+          "baseline_id": 1255,
+          "dflash_id": 4319,
+          "baseline_text": "(m",
+          "dflash_text": " ('"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 17824,
+          "dflash_id": 676,
+          "baseline_text": "igrations",
+          "dflash_text": "app"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 1321,
+          "dflash_id": 16,
+          "baseline_text": ".M",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 5033,
+          "dflash_id": 516,
+          "baseline_text": "igration",
+          "dflash_text": "',"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 982,
+          "dflash_id": 364,
+          "baseline_text": "):\n",
+          "dflash_text": " '"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 262,
+          "dflash_id": 15,
+          "baseline_text": "   ",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 19543,
+          "dflash_id": 15,
+          "baseline_text": " dependencies",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 284,
+          "dflash_id": 15,
+          "baseline_text": " =",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 2278,
+          "dflash_id": 16,
+          "baseline_text": " [\n",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 286,
+          "dflash_id": 15809,
+          "baseline_text": "       ",
+          "dflash_text": "_initial"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 4319,
+          "dflash_id": 3299,
+          "baseline_text": " ('",
+          "dflash_text": "'),\n"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 676,
+          "dflash_id": 262,
+          "baseline_text": "app",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 183,
+          "baseline_id": 16,
+          "dflash_id": 10444,
+          "baseline_text": "1",
+          "dflash_text": " ]\n\n"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 516,
+          "dflash_id": 262,
+          "baseline_text": "',",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 185,
+          "baseline_id": 364,
+          "dflash_id": 7525,
+          "baseline_text": " '",
+          "dflash_text": " operations"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 15,
+          "dflash_id": 284,
+          "baseline_text": "0",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 187,
+          "baseline_id": 15,
+          "dflash_id": 2278,
+          "baseline_text": "0",
+          "dflash_text": " [\n"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 15,
+          "dflash_id": 286,
+          "baseline_text": "0",
+          "dflash_text": "       "
+        },
+        {
+          "pos": 189,
+          "baseline_id": 16,
+          "dflash_id": 17063,
+          "baseline_text": "1",
+          "dflash_text": " migrations"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 15809,
+          "dflash_id": 2013,
+          "baseline_text": "_initial",
+          "dflash_text": ".R"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 3299,
+          "dflash_id": 1840,
+          "baseline_text": "'),\n",
+          "dflash_text": "ename"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 262,
+          "dflash_id": 1877,
+          "baseline_text": "   ",
+          "dflash_text": "Field"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 10444,
+          "dflash_id": 1006,
+          "baseline_text": " ]\n\n",
+          "dflash_text": "(\n"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 262,
+          "dflash_id": 310,
+          "baseline_text": "   ",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 195,
+          "baseline_id": 7525,
+          "dflash_id": 1614,
+          "baseline_text": " operations",
+          "dflash_text": " model"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 284,
+          "dflash_id": 1269,
+          "baseline_text": " =",
+          "dflash_text": "_name"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 2278,
+          "dflash_id": 1131,
+          "baseline_text": " [\n",
+          "dflash_text": "='"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 286,
+          "dflash_id": 2528,
+          "baseline_text": "       ",
+          "dflash_text": "model"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 17063,
+          "dflash_id": 64,
+          "baseline_text": " migrations",
+          "dflash_text": "a"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 2013,
+          "dflash_id": 751,
+          "baseline_text": ".R",
+          "dflash_text": "',\n"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 1840,
+          "dflash_id": 310,
+          "baseline_text": "ename",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 202,
+          "baseline_id": 1877,
+          "dflash_id": 2310,
+          "baseline_text": "Field",
+          "dflash_text": " old"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 1006,
+          "dflash_id": 1269,
+          "baseline_text": "(\n",
+          "dflash_text": "_name"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 310,
+          "dflash_id": 1131,
+          "baseline_text": "           ",
+          "dflash_text": "='"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 1614,
+          "dflash_id": 2566,
+          "baseline_text": " model",
+          "dflash_text": "field"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 1269,
+          "dflash_id": 75198,
+          "baseline_text": "_name",
+          "dflash_text": "_wrong"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 1131,
+          "dflash_id": 751,
+          "baseline_text": "='",
+          "dflash_text": "',\n"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 2528,
+          "dflash_id": 310,
+          "baseline_text": "model",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 209,
+          "baseline_id": 64,
+          "dflash_id": 501,
+          "baseline_text": "a",
+          "dflash_text": " new"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 751,
+          "dflash_id": 1269,
+          "baseline_text": "',\n",
+          "dflash_text": "_name"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 310,
+          "dflash_id": 1131,
+          "baseline_text": "           ",
+          "dflash_text": "='"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 2310,
+          "dflash_id": 2566,
+          "baseline_text": " old",
+          "dflash_text": "field"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 1269,
+          "dflash_id": 37839,
+          "baseline_text": "_name",
+          "dflash_text": "_fixed"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 1131,
+          "dflash_id": 751,
+          "baseline_text": "='",
+          "dflash_text": "',\n"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 2566,
+          "dflash_id": 286,
+          "baseline_text": "field",
+          "dflash_text": "       "
+        },
+        {
+          "pos": 216,
+          "baseline_id": 75198,
+          "dflash_id": 2837,
+          "baseline_text": "_wrong",
+          "dflash_text": " ),\n"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 751,
+          "dflash_id": 286,
+          "baseline_text": "',\n",
+          "dflash_text": "       "
+        },
+        {
+          "pos": 218,
+          "baseline_id": 310,
+          "dflash_id": 17063,
+          "baseline_text": "           ",
+          "dflash_text": " migrations"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 501,
+          "dflash_id": 76442,
+          "baseline_text": " new",
+          "dflash_text": ".Alter"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 1269,
+          "dflash_id": 1877,
+          "baseline_text": "_name",
+          "dflash_text": "Field"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 1131,
+          "dflash_id": 1006,
+          "baseline_text": "='",
+          "dflash_text": "(\n"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 2566,
+          "dflash_id": 310,
+          "baseline_text": "field",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 223,
+          "baseline_id": 37839,
+          "dflash_id": 1614,
+          "baseline_text": "_fixed",
+          "dflash_text": " model"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 751,
+          "dflash_id": 1269,
+          "baseline_text": "',\n",
+          "dflash_text": "_name"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 286,
+          "dflash_id": 1131,
+          "baseline_text": "       ",
+          "dflash_text": "='"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 2837,
+          "dflash_id": 2528,
+          "baseline_text": " ),\n",
+          "dflash_text": "model"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 286,
+          "dflash_id": 65,
+          "baseline_text": "       ",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 17063,
+          "dflash_id": 751,
+          "baseline_text": " migrations",
+          "dflash_text": "',\n"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 76442,
+          "dflash_id": 310,
+          "baseline_text": ".Alter",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1877,
+          "dflash_id": 829,
+          "baseline_text": "Field",
+          "dflash_text": " name"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 1006,
+          "dflash_id": 1131,
+          "baseline_text": "(\n",
+          "dflash_text": "='"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 310,
+          "dflash_id": 2566,
+          "baseline_text": "           ",
+          "dflash_text": "field"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 1614,
+          "dflash_id": 65886,
+          "baseline_text": " model",
+          "dflash_text": "_fk"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 1269,
+          "dflash_id": 751,
+          "baseline_text": "_name",
+          "dflash_text": "',\n"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 1131,
+          "dflash_id": 310,
+          "baseline_text": "='",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 236,
+          "baseline_id": 2528,
+          "dflash_id": 2070,
+          "baseline_text": "model",
+          "dflash_text": " field"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 65,
+          "dflash_id": 27410,
+          "baseline_text": "b",
+          "dflash_text": "=models"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 751,
+          "dflash_id": 20392,
+          "baseline_text": "',\n",
+          "dflash_text": ".ForeignKey"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 310,
+          "dflash_id": 1006,
+          "baseline_text": "           ",
+          "dflash_text": "(\n"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 829,
+          "dflash_id": 394,
+          "baseline_text": " name",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 241,
+          "baseline_id": 1131,
+          "dflash_id": 10113,
+          "baseline_text": "='",
+          "dflash_text": " blank"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 2566,
+          "dflash_id": 3618,
+          "baseline_text": "field",
+          "dflash_text": "=True"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 65886,
+          "dflash_id": 345,
+          "baseline_text": "_fk",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 516,
+          "dflash_id": 394,
+          "baseline_text": "',",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 245,
+          "baseline_id": 220,
+          "dflash_id": 845,
+          "baseline_text": " ",
+          "dflash_text": " null"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 671,
+          "dflash_id": 3618,
+          "baseline_text": " #",
+          "dflash_text": "=True"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 7405,
+          "dflash_id": 345,
+          "baseline_text": " Make",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 2704,
+          "dflash_id": 394,
+          "baseline_text": " sure",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 249,
+          "baseline_id": 279,
+          "dflash_id": 389,
+          "baseline_text": " the",
+          "dflash_text": " on"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 829,
+          "dflash_id": 11353,
+          "baseline_text": " name",
+          "dflash_text": "_delete"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 9071,
+          "dflash_id": 27410,
+          "baseline_text": " matches",
+          "dflash_text": "=models"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 279,
+          "dflash_id": 43170,
+          "baseline_text": " the",
+          "dflash_text": ".CASCADE"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 5042,
+          "dflash_id": 345,
+          "baseline_text": " actual",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 2070,
+          "dflash_id": 394,
+          "baseline_text": " field",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 255,
+          "baseline_id": 304,
+          "dflash_id": 311,
+          "baseline_text": " in",
+          "dflash_text": " to"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 6,
+      "is_warmup": false,
+      "num_input_tokens": 1400,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.66750525842508,
+      "baseline_tps": 93.74263014402648,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 20.873500640846032,
+      "dflash_tps": 47.907632610658666,
+      "tau": 3.3896103896103895,
+      "num_drafts": 77,
+      "acceptance_lengths": [
+        10,
+        4,
+        2,
+        1,
+        4,
+        2,
+        1,
+        8,
+        2,
+        1,
+        2,
+        1,
+        3,
+        2,
+        2,
+        4,
+        2,
+        5,
+        10,
+        1,
+        9,
+        3,
+        3,
+        4,
+        8,
+        2,
+        2,
+        4,
+        4,
+        4,
+        3,
+        2,
+        3,
+        5,
+        4,
+        3,
+        4,
+        3,
+        8,
+        3,
+        2,
+        1,
+        2,
+        3,
+        2,
+        4,
+        3,
+        1,
+        1,
+        2,
+        2,
+        6,
+        6,
+        5,
+        3,
+        5,
+        2,
+        3,
+        1,
+        4,
+        3,
+        4,
+        2,
+        1,
+        3,
+        3,
+        3,
+        7,
+        8,
+        2,
+        1,
+        1,
+        1,
+        1,
+        4,
+        3,
+        8
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 106,
+          "baseline_id": 3070,
+          "dflash_id": 15114,
+          "baseline_text": " **",
+          "dflash_text": " incorrect"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 1921,
+          "dflash_id": 13,
+          "baseline_text": "not",
+          "dflash_text": "."
+        },
+        {
+          "pos": 108,
+          "baseline_id": 4396,
+          "dflash_id": 576,
+          "baseline_text": " correct",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 334,
+          "dflash_id": 1565,
+          "baseline_text": "**",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 13,
+          "dflash_id": 4469,
+          "baseline_text": ".",
+          "dflash_text": "plot"
+        },
+        {
+          "pos": 111,
+          "baseline_id": 576,
+          "dflash_id": 63,
+          "baseline_text": " The",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 1565,
+          "dflash_id": 729,
+          "baseline_text": " `",
+          "dflash_text": " function"
+        },
+        {
+          "pos": 113,
+          "baseline_id": 4469,
+          "dflash_id": 24297,
+          "baseline_text": "plot",
+          "dflash_text": " expects"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 63,
+          "dflash_id": 264,
+          "baseline_text": "`",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 729,
+          "dflash_id": 3070,
+          "baseline_text": " function",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 116,
+          "baseline_id": 304,
+          "dflash_id": 3423,
+          "baseline_text": " in",
+          "dflash_text": "color"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 1565,
+          "dflash_id": 334,
+          "baseline_text": " `",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 80427,
+          "dflash_id": 320,
+          "baseline_text": "matplotlib",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 119,
+          "baseline_id": 63,
+          "dflash_id": 68,
+          "baseline_text": "`",
+          "dflash_text": "e"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 24297,
+          "dflash_id": 1302,
+          "baseline_text": " expects",
+          "dflash_text": ".g"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 264,
+          "dflash_id": 2572,
+          "baseline_text": " a",
+          "dflash_text": ".,"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 3070,
+          "dflash_id": 72911,
+          "baseline_text": " **",
+          "dflash_text": " `'"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 3423,
+          "dflash_id": 81,
+          "baseline_text": "color",
+          "dflash_text": "r"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 334,
+          "dflash_id": 6,
+          "baseline_text": "**",
+          "dflash_text": "'"
+        },
+        {
+          "pos": 125,
+          "baseline_id": 320,
+          "dflash_id": 7808,
+          "baseline_text": " (",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 68,
+          "dflash_id": 72911,
+          "baseline_text": "e",
+          "dflash_text": " `'"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 1302,
+          "dflash_id": 65,
+          "baseline_text": ".g",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 2572,
+          "dflash_id": 6,
+          "baseline_text": ".,",
+          "dflash_text": "'"
+        },
+        {
+          "pos": 129,
+          "baseline_id": 72911,
+          "dflash_id": 7808,
+          "baseline_text": " `'",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 81,
+          "dflash_id": 72911,
+          "baseline_text": "r",
+          "dflash_text": " `'"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 6,
+          "dflash_id": 70,
+          "baseline_text": "'",
+          "dflash_text": "g"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 7808,
+          "dflash_id": 6,
+          "baseline_text": "`,",
+          "dflash_text": "'"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 72911,
+          "dflash_id": 32881,
+          "baseline_text": " `'",
+          "dflash_text": "`)"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 65,
+          "dflash_id": 476,
+          "baseline_text": "b",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 6,
+          "dflash_id": 264,
+          "baseline_text": "'",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 7808,
+          "dflash_id": 3070,
+          "baseline_text": "`,",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 72911,
+          "dflash_id": 1056,
+          "baseline_text": " `'",
+          "dflash_text": "line"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 70,
+          "dflash_id": 1707,
+          "baseline_text": "g",
+          "dflash_text": " style"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 6,
+          "dflash_id": 334,
+          "baseline_text": "'",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 32881,
+          "dflash_id": 320,
+          "baseline_text": "`)",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 141,
+          "baseline_id": 476,
+          "dflash_id": 68,
+          "baseline_text": " or",
+          "dflash_text": "e"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 264,
+          "dflash_id": 1302,
+          "baseline_text": " a",
+          "dflash_text": ".g"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 3070,
+          "dflash_id": 2572,
+          "baseline_text": " **",
+          "dflash_text": ".,"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 1056,
+          "dflash_id": 72911,
+          "baseline_text": "line",
+          "dflash_text": " `'"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 1707,
+          "dflash_id": 313,
+          "baseline_text": " style",
+          "dflash_text": "--"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 334,
+          "dflash_id": 6,
+          "baseline_text": "**",
+          "dflash_text": "'"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 320,
+          "dflash_id": 7808,
+          "baseline_text": " (",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 68,
+          "dflash_id": 1565,
+          "baseline_text": "e",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 1302,
+          "dflash_id": 24293,
+          "baseline_text": ".g",
+          "dflash_text": "'-"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 2572,
+          "dflash_id": 3159,
+          "baseline_text": ".,",
+          "dflash_text": ".'"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 72911,
+          "dflash_id": 7808,
+          "baseline_text": " `'",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 313,
+          "dflash_id": 1565,
+          "baseline_text": "--",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 6,
+          "dflash_id": 9987,
+          "baseline_text": "'",
+          "dflash_text": "':'"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 7808,
+          "dflash_id": 63,
+          "baseline_text": "`,",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 1565,
+          "dflash_id": 701,
+          "baseline_text": " `",
+          "dflash_text": "),"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 24293,
+          "dflash_id": 3070,
+          "baseline_text": "'-",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 3159,
+          "dflash_id": 1921,
+          "baseline_text": ".'",
+          "dflash_text": "not"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 7808,
+          "dflash_id": 334,
+          "baseline_text": "`,",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 1565,
+          "dflash_id": 264,
+          "baseline_text": " `",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 9987,
+          "dflash_id": 914,
+          "baseline_text": "':'",
+          "dflash_text": " string"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 63,
+          "dflash_id": 1075,
+          "baseline_text": "`",
+          "dflash_text": " like"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 701,
+          "dflash_id": 72911,
+          "baseline_text": "),",
+          "dflash_text": " `'"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 3070,
+          "dflash_id": 81,
+          "baseline_text": " **",
+          "dflash_text": "r"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 1921,
+          "dflash_id": 22512,
+          "baseline_text": "not",
+          "dflash_text": "-'"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 334,
+          "dflash_id": 63,
+          "baseline_text": "**",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 264,
+          "dflash_id": 429,
+          "baseline_text": " a",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 914,
+          "dflash_id": 32411,
+          "baseline_text": " string",
+          "dflash_text": " combines"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 1075,
+          "dflash_id": 2176,
+          "baseline_text": " like",
+          "dflash_text": " both"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 72911,
+          "dflash_id": 382,
+          "baseline_text": " `'",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 81,
+          "dflash_id": 14374,
+          "baseline_text": "r",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 22512,
+          "dflash_id": 220,
+          "baseline_text": "-'",
+          "dflash_text": " "
+        },
+        {
+          "pos": 172,
+          "baseline_id": 63,
+          "dflash_id": 17,
+          "baseline_text": "`",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 429,
+          "dflash_id": 13,
+          "baseline_text": " that",
+          "dflash_text": "."
+        },
+        {
+          "pos": 174,
+          "baseline_id": 32411,
+          "dflash_id": 3070,
+          "baseline_text": " combines",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 2176,
+          "dflash_id": 40468,
+          "baseline_text": " both",
+          "dflash_text": "Incorrect"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 382,
+          "dflash_id": 2885,
+          "baseline_text": ".\n\n",
+          "dflash_text": " Data"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 14374,
+          "dflash_id": 20768,
+          "baseline_text": "###",
+          "dflash_text": " Types"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 220,
+          "dflash_id": 1019,
+          "baseline_text": " ",
+          "dflash_text": "**\n"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 17,
+          "dflash_id": 2610,
+          "baseline_text": "2",
+          "dflash_text": "You"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 13,
+          "dflash_id": 2299,
+          "baseline_text": ".",
+          "dflash_text": "'re"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 3070,
+          "dflash_id": 1667,
+          "baseline_text": " **",
+          "dflash_text": " using"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 40468,
+          "dflash_id": 1565,
+          "baseline_text": "Incorrect",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 2885,
+          "dflash_id": 6199,
+          "baseline_text": " Data",
+          "dflash_text": "np"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 20768,
+          "dflash_id": 7234,
+          "baseline_text": " Types",
+          "dflash_text": ".array"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 1019,
+          "dflash_id": 6425,
+          "baseline_text": "**\n",
+          "dflash_text": "(['"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 2610,
+          "dflash_id": 2408,
+          "baseline_text": "You",
+          "dflash_text": "my"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 2299,
+          "dflash_id": 526,
+          "baseline_text": "'re",
+          "dflash_text": " int"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 1667,
+          "dflash_id": 1372,
+          "baseline_text": " using",
+          "dflash_text": " number"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 1565,
+          "dflash_id": 1140,
+          "baseline_text": " `",
+          "dflash_text": " list"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 6199,
+          "dflash_id": 5078,
+          "baseline_text": "np",
+          "dflash_text": "'])"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 7234,
+          "dflash_id": 7808,
+          "baseline_text": ".array",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 6425,
+          "dflash_id": 892,
+          "baseline_text": "(['",
+          "dflash_text": " which"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 2408,
+          "dflash_id": 374,
+          "baseline_text": "my",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 526,
+          "dflash_id": 3070,
+          "baseline_text": " int",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 1372,
+          "dflash_id": 1921,
+          "baseline_text": " number",
+          "dflash_text": "not"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 1140,
+          "dflash_id": 334,
+          "baseline_text": " list",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 5078,
+          "dflash_id": 264,
+          "baseline_text": "'])",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 7808,
+          "dflash_id": 16212,
+          "baseline_text": "`,",
+          "dflash_text": " Num"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 892,
+          "dflash_id": 13828,
+          "baseline_text": " which",
+          "dflash_text": "Py"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 374,
+          "dflash_id": 1334,
+          "baseline_text": " is",
+          "dflash_text": " array"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 3070,
+          "dflash_id": 315,
+          "baseline_text": " **",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 1921,
+          "dflash_id": 5109,
+          "baseline_text": "not",
+          "dflash_text": " numbers"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 334,
+          "dflash_id": 13,
+          "baseline_text": "**",
+          "dflash_text": "."
+        },
+        {
+          "pos": 204,
+          "baseline_id": 264,
+          "dflash_id": 12090,
+          "baseline_text": " a",
+          "dflash_text": " Instead"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 16212,
+          "dflash_id": 11,
+          "baseline_text": " Num",
+          "dflash_text": ","
+        },
+        {
+          "pos": 206,
+          "baseline_id": 13828,
+          "dflash_id": 432,
+          "baseline_text": "Py",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 1334,
+          "dflash_id": 594,
+          "baseline_text": " array",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 315,
+          "dflash_id": 264,
+          "baseline_text": " of",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 5109,
+          "dflash_id": 3070,
+          "baseline_text": " numbers",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 13,
+          "dflash_id": 1607,
+          "baseline_text": ".",
+          "dflash_text": "list"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 12090,
+          "dflash_id": 315,
+          "baseline_text": " Instead",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 11,
+          "dflash_id": 9069,
+          "baseline_text": ",",
+          "dflash_text": " strings"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 432,
+          "dflash_id": 97219,
+          "baseline_text": " it",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 594,
+          "dflash_id": 892,
+          "baseline_text": "'s",
+          "dflash_text": " which"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 264,
+          "dflash_id": 11137,
+          "baseline_text": " a",
+          "dflash_text": " causes"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 3070,
+          "dflash_id": 4714,
+          "baseline_text": " **",
+          "dflash_text": " issues"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 1607,
+          "dflash_id": 979,
+          "baseline_text": "list",
+          "dflash_text": " when"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 315,
+          "dflash_id": 498,
+          "baseline_text": " of",
+          "dflash_text": " you"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 9069,
+          "dflash_id": 1430,
+          "baseline_text": " strings",
+          "dflash_text": " try"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 97219,
+          "dflash_id": 311,
+          "baseline_text": "**,",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 892,
+          "dflash_id": 5508,
+          "baseline_text": " which",
+          "dflash_text": " convert"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 11137,
+          "dflash_id": 1105,
+          "baseline_text": " causes",
+          "dflash_text": " them"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 4714,
+          "dflash_id": 311,
+          "baseline_text": " issues",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 979,
+          "dflash_id": 25780,
+          "baseline_text": " when",
+          "dflash_text": " integers"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 498,
+          "dflash_id": 448,
+          "baseline_text": " you",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 1430,
+          "dflash_id": 1565,
+          "baseline_text": " try",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 311,
+          "dflash_id": 396,
+          "baseline_text": " to",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 5508,
+          "dflash_id": 2075,
+          "baseline_text": " convert",
+          "dflash_text": "(x"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 1105,
+          "dflash_id": 643,
+          "baseline_text": " them",
+          "dflash_text": "_s"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 311,
+          "dflash_id": 62,
+          "baseline_text": " to",
+          "dflash_text": "_"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 25780,
+          "dflash_id": 15,
+          "baseline_text": " integers",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 1667,
+          "dflash_id": 7669,
+          "baseline_text": " using",
+          "dflash_text": "[n"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 1565,
+          "dflash_id": 2467,
+          "baseline_text": " `",
+          "dflash_text": "])"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 396,
+          "dflash_id": 62338,
+          "baseline_text": "int",
+          "dflash_text": "`.\n\n"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 2075,
+          "dflash_id": 14374,
+          "baseline_text": "(x",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 643,
+          "dflash_id": 220,
+          "baseline_text": "_s",
+          "dflash_text": " "
+        },
+        {
+          "pos": 237,
+          "baseline_id": 62,
+          "dflash_id": 18,
+          "baseline_text": "_",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 15,
+          "dflash_id": 13,
+          "baseline_text": "0",
+          "dflash_text": "."
+        },
+        {
+          "pos": 239,
+          "baseline_id": 7669,
+          "dflash_id": 3070,
+          "baseline_text": "[n",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 2467,
+          "dflash_id": 6033,
+          "baseline_text": "])",
+          "dflash_text": "Red"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 62338,
+          "dflash_id": 1241,
+          "baseline_text": "`.\n\n",
+          "dflash_text": "und"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 14374,
+          "dflash_id": 517,
+          "baseline_text": "###",
+          "dflash_text": "ant"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 220,
+          "dflash_id": 1565,
+          "baseline_text": " ",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 18,
+          "dflash_id": 396,
+          "baseline_text": "3",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 13,
+          "dflash_id": 54258,
+          "baseline_text": ".",
+          "dflash_text": "()`"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 3070,
+          "dflash_id": 65748,
+          "baseline_text": " **",
+          "dflash_text": " Casting"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 6033,
+          "dflash_id": 1019,
+          "baseline_text": "Red",
+          "dflash_text": "**\n"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 1241,
+          "dflash_id": 2610,
+          "baseline_text": "und",
+          "dflash_text": "You"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 517,
+          "dflash_id": 2299,
+          "baseline_text": "ant",
+          "dflash_text": "'re"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 1565,
+          "dflash_id": 1667,
+          "baseline_text": " `",
+          "dflash_text": " using"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 396,
+          "dflash_id": 1565,
+          "baseline_text": "int",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 54258,
+          "dflash_id": 396,
+          "baseline_text": "()`",
+          "dflash_text": "int"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 65748,
+          "dflash_id": 2075,
+          "baseline_text": " Casting",
+          "dflash_text": "(x"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 1019,
+          "dflash_id": 643,
+          "baseline_text": "**\n",
+          "dflash_text": "_s"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 2610,
+          "dflash_id": 62,
+          "baseline_text": "You",
+          "dflash_text": "_"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 7,
+      "is_warmup": false,
+      "num_input_tokens": 488,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 10.56416839492158,
+      "baseline_tps": 94.65960429793236,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 6.156930308861774,
+      "dflash_tps": 162.41859982736577,
+      "tau": 3.240506329113924,
+      "num_drafts": 79,
+      "acceptance_lengths": [
+        5,
+        7,
+        4,
+        2,
+        3,
+        1,
+        3,
+        5,
+        5,
+        2,
+        2,
+        1,
+        1,
+        2,
+        5,
+        1,
+        1,
+        3,
+        3,
+        3,
+        1,
+        1,
+        4,
+        4,
+        4,
+        5,
+        3,
+        3,
+        3,
+        1,
+        2,
+        2,
+        5,
+        1,
+        6,
+        1,
+        3,
+        2,
+        4,
+        11,
+        11,
+        1,
+        2,
+        8,
+        5,
+        2,
+        3,
+        6,
+        4,
+        4,
+        2,
+        2,
+        3,
+        2,
+        1,
+        1,
+        6,
+        4,
+        5,
+        2,
+        2,
+        3,
+        1,
+        6,
+        4,
+        3,
+        6,
+        3,
+        1,
+        1,
+        3,
+        2,
+        2,
+        5,
+        8,
+        4,
+        1,
+        1,
+        1
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 228,
+          "baseline_id": 979,
+          "dflash_id": 421,
+          "baseline_text": " when",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 624,
+          "dflash_id": 320,
+          "baseline_text": ".\n",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 254,
+          "baseline_id": 220,
+          "dflash_id": 8088,
+          "baseline_text": " ",
+          "dflash_text": "but"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 481,
+          "dflash_id": 1221,
+          "baseline_text": " -",
+          "dflash_text": " then"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    }
+  ]
+}
