@@ -1,0 +1,267 @@
+{
+  "part1_dflash": [
+    {
+      "K": 16,
+      "per_layer_ms": 0.787,
+      "std_ms": 0.002,
+      "full_model_ms": 3.936,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "per_layer_ms": 0.764,
+      "std_ms": 0.003,
+      "full_model_ms": 3.821,
+      "ratio": 0.97
+    },
+    {
+      "K": 64,
+      "per_layer_ms": 0.795,
+      "std_ms": 0.005,
+      "full_model_ms": 3.974,
+      "ratio": 1.01
+    },
+    {
+      "K": 128,
+      "per_layer_ms": 0.859,
+      "std_ms": 0.005,
+      "full_model_ms": 4.295,
+      "ratio": 1.09
+    },
+    {
+      "K": 129,
+      "per_layer_ms": 0.884,
+      "std_ms": 0.003,
+      "full_model_ms": 4.419,
+      "ratio": 1.12
+    },
+    {
+      "K": 256,
+      "per_layer_ms": 1.095,
+      "std_ms": 0.002,
+      "full_model_ms": 5.473,
+      "ratio": 1.39
+    }
+  ],
+  "part2_target": [
+    {
+      "K": 16,
+      "per_layer_ms": 0.781,
+      "std_ms": 0.002,
+      "full_model_ms": 28.12,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "per_layer_ms": 0.76,
+      "std_ms": 0.002,
+      "full_model_ms": 27.376,
+      "ratio": 0.97
+    },
+    {
+      "K": 64,
+      "per_layer_ms": 0.789,
+      "std_ms": 0.002,
+      "full_model_ms": 28.418,
+      "ratio": 1.01
+    },
+    {
+      "K": 128,
+      "per_layer_ms": 0.853,
+      "std_ms": 0.003,
+      "full_model_ms": 30.696,
+      "ratio": 1.09
+    },
+    {
+      "K": 129,
+      "per_layer_ms": 0.883,
+      "std_ms": 0.003,
+      "full_model_ms": 31.804,
+      "ratio": 1.13
+    },
+    {
+      "K": 256,
+      "per_layer_ms": 1.094,
+      "std_ms": 0.002,
+      "full_model_ms": 39.384,
+      "ratio": 1.4
+    }
+  ],
+  "part3_attention": {
+    "64": [
+      {
+        "K": 16,
+        "mean_ms": 0.023,
+        "std_ms": 0.002,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.024,
+        "std_ms": 0.002,
+        "ratio": 1.02
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.024,
+        "std_ms": 0.002,
+        "ratio": 1.01
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.024,
+        "std_ms": 0.001,
+        "ratio": 1.04
+      },
+      {
+        "K": 129,
+        "mean_ms": 0.025,
+        "std_ms": 0.001,
+        "ratio": 1.08
+      },
+      {
+        "K": 256,
+        "mean_ms": 0.029,
+        "std_ms": 0.0,
+        "ratio": 1.25
+      }
+    ],
+    "256": [
+      {
+        "K": 16,
+        "mean_ms": 0.024,
+        "std_ms": 0.0,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.024,
+        "std_ms": 0.001,
+        "ratio": 1.02
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.029,
+        "std_ms": 0.002,
+        "ratio": 1.21
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.038,
+        "std_ms": 0.001,
+        "ratio": 1.59
+      },
+      {
+        "K": 129,
+        "mean_ms": 0.042,
+        "std_ms": 0.001,
+        "ratio": 1.76
+      },
+      {
+        "K": 256,
+        "mean_ms": 0.034,
+        "std_ms": 0.001,
+        "ratio": 1.45
+      }
+    ],
+    "512": [
+      {
+        "K": 16,
+        "mean_ms": 0.028,
+        "std_ms": 0.001,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.028,
+        "std_ms": 0.001,
+        "ratio": 1.02
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.037,
+        "std_ms": 0.001,
+        "ratio": 1.33
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.057,
+        "std_ms": 0.015,
+        "ratio": 2.04
+      },
+      {
+        "K": 129,
+        "mean_ms": 0.063,
+        "std_ms": 0.001,
+        "ratio": 2.26
+      },
+      {
+        "K": 256,
+        "mean_ms": 0.054,
+        "std_ms": 0.002,
+        "ratio": 1.93
+      }
+    ],
+    "1024": [
+      {
+        "K": 16,
+        "mean_ms": 0.037,
+        "std_ms": 0.002,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.038,
+        "std_ms": 0.001,
+        "ratio": 1.03
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.055,
+        "std_ms": 0.001,
+        "ratio": 1.51
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.09,
+        "std_ms": 0.001,
+        "ratio": 2.46
+      },
+      {
+        "K": 129,
+        "mean_ms": 0.106,
+        "std_ms": 0.003,
+        "ratio": 2.9
+      },
+      {
+        "K": 256,
+        "mean_ms": 0.099,
+        "std_ms": 0.002,
+        "ratio": 2.7
+      }
+    ]
+  },
+  "metadata": {
+    "gpu": "NVIDIA RTX 2000 Ada Generation",
+    "cuda_version": "12.4",
+    "pytorch_version": "2.4.1+cu124",
+    "trials": 50,
+    "warmup": 10,
+    "dtype": "bfloat16",
+    "draft_hidden": 2560,
+    "draft_intermediate": 9728,
+    "draft_layers": 5,
+    "target_hidden": 2560,
+    "target_intermediate": 9728,
+    "target_layers": 36,
+    "num_heads": 32,
+    "head_dim": 80,
+    "tpu_reference": {
+      "device": "TPU v4-8",
+      "dflash_128_ratio": 0.95,
+      "target_128_ratio": 0.96,
+      "attention_128_ratio_kv256": 0.97,
+      "source": "Doc 37 (benchmarks/drafter_scaling.py)"
+    }
+  }
+}
