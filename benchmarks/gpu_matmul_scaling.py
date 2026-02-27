@@ -175,7 +175,7 @@ def main():
             g = torch.mm(x, tw_gate)
             u = torch.mm(x, tw_up)
             h = g * u
-            o = torch.mm(h, w_down)
+            o = torch.mm(h, tw_down)
             gpu_sync()
 
         latencies = []
