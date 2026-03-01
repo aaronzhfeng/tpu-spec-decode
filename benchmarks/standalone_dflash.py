@@ -215,17 +215,32 @@ def load_models(config: StandaloneVllmConfig, mesh: Mesh):
     """Load target and draft models via get_flax_model."""
     rng = jax.random.PRNGKey(42)
 
+    def _unpack_flax_result(flax_result):
+        """Unpack get_flax_model result (handles 7-tuple old and 8-tuple new)."""
+        model_fn = flax_result[0]
+        logits_fn = flax_result[1]
+        # Old 7-tuple: model_fn, logits, combine, multimodal, state, lora, model
+        # New 8-tuple: model_fn, logits, _not_support, combine, multimodal, state, lora, model
+        if len(flax_result) == 8:
+            combine_fn = flax_result[3]
+        else:
+            combine_fn = flax_result[2]
+        state = flax_result[-3]
+        return model_fn, logits_fn, combine_fn, state
+
     print("[INFO] Loading target model...")
-    with jax.default_device(jax.devices()[0]):
-        (target_model_fn, target_logits_fn, target_combine_fn,
-         _, target_state, _, _) = get_flax_model(
+    with jax.default_device(jax.devices()[0]), jax.set_mesh(mesh):
+        flax_result = get_flax_model(
             config, rng, mesh, is_draft_model=False)
+        target_model_fn, target_logits_fn, target_combine_fn, target_state = \
+            _unpack_flax_result(flax_result)
 
     print("[INFO] Loading draft model...")
-    with jax.default_device(jax.devices()[0]):
-        (draft_model_fn, draft_logits_fn, draft_combine_fn,
-         _, draft_state, _, _) = get_flax_model(
+    with jax.default_device(jax.devices()[0]), jax.set_mesh(mesh):
+        flax_result = get_flax_model(
             config, rng, mesh, is_draft_model=True)
+        draft_model_fn, draft_logits_fn, draft_combine_fn, draft_state = \
+            _unpack_flax_result(flax_result)
 
     # Share target embedding with draft model
     target_embed = getattr(target_state.model, "embed_tokens", None)
@@ -335,58 +350,107 @@ def dflash_generate(
     first_token = int(jnp.argmax(logits, axis=-1)[0])
     output_ids[num_input_tokens] = first_token
 
+    print(f"  [DEBUG] aux_hidden_states type={type(aux_hidden_states)}, "
+          f"len={len(aux_hidden_states) if hasattr(aux_hidden_states, '__len__') else 'N/A'}")
+    if hasattr(aux_hidden_states, '__len__') and len(aux_hidden_states) > 0:
+        print(f"  [DEBUG] aux[0] shape={aux_hidden_states[0].shape}")
     if len(aux_hidden_states) > 0:
         raw = jnp.concatenate(aux_hidden_states, axis=-1)
         projected_all = draft_combine_fn(draft_state, raw)
+        print(f"  [DEBUG] projected_all shape={projected_all.shape}")
     else:
         projected_all = None
+        print(f"  [DEBUG] projected_all is None — no aux hidden states!")
 
     tpu_sync()
     time_to_first_token = time.perf_counter() - prefill_start
 
-    # --- Context buffer init (mirrors DFlashProposer._update_ctx) ---
+    # --- Context buffer init ---
+    # Store projected prefill features, but prev_ctx_len stays 0 because
+    # the draft model hasn't consumed any context yet.
     ctx_buf = np.zeros((max_model_len, hidden_size), dtype=np.float32)
-    ctx_len = 0
+    prev_ctx_len = 0  # how much context the draft model has been fed
 
     if projected_all is not None:
         proj_np = np.asarray(projected_all, dtype=np.float32)
         n = min(num_input_tokens, max_model_len)
         ctx_buf[:n] = proj_np[:n]
-        ctx_len = n
+        # Note: prev_ctx_len stays 0 — draft hasn't seen this yet
 
     # --- Decode loop ---
     decode_start = time.perf_counter()
     start = num_input_tokens
     acceptance_lengths = []
+    draft_cache_len = 0
+    prev_seq_len = 0
     draft_prefill_done = False
 
     while start < max_length:
         seq_len = start
 
-        # (a) Build noise block: [next_token, mask, mask, ..., mask]
+        # (a) Crop draft cache to prev_seq_len (DynamicCache.crop semantics)
+        draft_cache_len = prev_seq_len
+
+        # (b) Compute new context features for the draft model.
+        # Only pass NEW features the draft hasn't seen yet.
+        num_new = seq_len - prev_ctx_len
+        if num_new > 0 and projected_all is not None:
+            proj_np = np.asarray(projected_all, dtype=np.float32)
+            n_copy = min(num_new, len(proj_np))
+            end = min(prev_ctx_len + n_copy, max_model_len)
+            ctx_buf[prev_ctx_len:end] = proj_np[:n_copy]
+            new_ctx_np = proj_np[:n_copy].copy()
+            actual_ctx_count = n_copy
+            prev_ctx_len = seq_len
+            new_ctx_np = pad_context(new_ctx_np)
+        else:
+            actual_ctx_count = 0
+            new_ctx_np = np.zeros((16, hidden_size), dtype=np.float32)
+
+        # (c) Build noise block: [next_token, mask, mask, ..., mask]
         next_token = output_ids[start]
         noise_ids = np.full(block_size, mask_token_id, dtype=np.int32)
         noise_ids[0] = next_token
         noise_ids_jax = jnp.array(noise_ids, dtype=jnp.int32)
 
-        # (b) Get full accumulated context (padded to power-of-2)
-        padded_len = min(next_padded_size(ctx_len), max_model_len)
-        ctx_jax = jnp.array(ctx_buf[:padded_len], dtype=jnp.bfloat16)
+        # (d) Pack target_hidden_states as 3-tuple for Phase 3 model
+        ctx_jax = jnp.array(new_ctx_np, dtype=jnp.bfloat16)
+        cache_len_arr = jnp.array([draft_cache_len], dtype=jnp.int32)
+        ctx_count_arr = jnp.array([actual_ctx_count], dtype=jnp.int32)
+        target_hidden = (ctx_jax, cache_len_arr, ctx_count_arr)
 
-        # (c) Draft forward with noise positions starting at seq_len
+        # (e) Draft forward
         noise_positions = jnp.arange(block_size, dtype=jnp.int32) + seq_len
         draft_metadata = make_attn_metadata(
             noise_positions, seq_len + block_size, block_size, block_tables)
 
         draft_kv_caches, draft_hidden, _ = draft_model_fn(
             draft_state, draft_kv_caches, noise_ids_jax,
-            ctx_jax, draft_metadata,
+            target_hidden, draft_metadata,
         )
+
+        # DEBUG: Print draft hidden stats on first iteration
+        if len(acceptance_lengths) == 0:
+            dh = jnp.asarray(draft_hidden, dtype=jnp.float32)
+            print(f"  [DEBUG] draft_hidden shape={dh.shape}, "
+                  f"mean={float(dh.mean()):.6f}, std={float(dh.std()):.6f}, "
+                  f"min={float(dh.min()):.6f}, max={float(dh.max()):.6f}")
+            print(f"  [DEBUG] ctx shape={new_ctx_np.shape}, "
+                  f"cache_len={draft_cache_len}, ctx_count={actual_ctx_count}")
+
+        # Update draft KV cache tracking
+        draft_cache_len = draft_cache_len + actual_ctx_count + block_size
+        prev_seq_len = seq_len
 
         # (d) Sample draft tokens using target LM head
         draft_logits = target_logits_fn(
             target_state, draft_hidden[1:block_size], None)
         draft_tokens = np.array(jnp.argmax(draft_logits, axis=-1))
+
+        # DEBUG: Print draft token info on first iteration
+        if len(acceptance_lengths) == 0:
+            print(f"  [DEBUG] draft_logits shape={draft_logits.shape}, "
+                  f"argmax first 5={draft_tokens[:5]}")
 
         output_ids[start + 1 : start + block_size] = draft_tokens
         block_ids = jnp.array(
@@ -422,16 +486,14 @@ def dflash_generate(
         acceptance_lengths.append(acceptance_length + 1)
         start += acceptance_length + 1
 
-        # (g) Update context buffer with projected aux hidden states
+        # (g) Update context for next iteration
         if len(aux_hidden_states) > 0:
             raw = jnp.concatenate(aux_hidden_states, axis=-1)
-            projected_all = draft_combine_fn(draft_state, raw)
-            proj_np = np.asarray(projected_all, dtype=np.float32)
-            n_accepted = acceptance_length + 1
-            n_copy = min(n_accepted, len(proj_np))
-            end = min(ctx_len + n_copy, max_model_len)
-            ctx_buf[ctx_len:end] = proj_np[:end - ctx_len]
-            ctx_len = end
+            proj = draft_combine_fn(draft_state, raw)
+            # Trim to accepted portion only
+            projected_all = proj[:acceptance_length + 1]
+        else:
+            projected_all = None
 
         # (h) Check stop
         if eos_token_id in output_ids[num_input_tokens : start + 1]:
