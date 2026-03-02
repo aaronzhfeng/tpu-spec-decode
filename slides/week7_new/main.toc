@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{Recap}{2}{0}{1}
+\beamer@sectionintoc {2}{Analysis}{4}{0}{2}
+\beamer@sectionintoc {3}{Key Discovery}{6}{0}{3}
+\beamer@sectionintoc {4}{Experiments}{9}{0}{4}
+\beamer@sectionintoc {5}{Research Direction}{13}{0}{5}
+\beamer@sectionintoc {6}{Summary}{19}{0}{6}

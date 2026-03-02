@@ -1,0 +1,418 @@
+\documentclass[10pt]{beamer}
+
+\usetheme{metropolis}
+\usepackage{appendixnumberbeamer}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{colortbl}
+\usepackage{array}
+
+% Python listing style
+\definecolor{codebg}{HTML}{F5F5F5}
+\definecolor{codegreen}{HTML}{28A745}
+\definecolor{codepurple}{HTML}{6F42C1}
+\definecolor{codeorange}{HTML}{D73A49}
+\definecolor{codegray}{HTML}{6A737D}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\tiny,
+  keywordstyle=\color{codeorange}\bfseries,
+  commentstyle=\color{codegray}\itshape,
+  stringstyle=\color{codegreen},
+  backgroundcolor=\color{codebg},
+  frame=single,
+  framerule=0.4pt,
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true,
+  tabsize=4,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=4pt,
+  belowskip=4pt,
+  morekeywords={jnp,lax,self,replace},
+}
+
+% Green highlight for table rows
+\definecolor{rowgreen}{HTML}{D4EDDA}
+
+\title{Porting DFlash Speculative Decoding\\from GPU/PyTorch to TPU/JAX}
+\subtitle{UCSD DSC 180 Capstone}
+\date{Winter 2025}
+\author{Aaron Feng \and Zhongyan Luo \and Son Nguyen \and Andy Huang}
+\institute{Mentor: Hao Zhang \quad TA: Yiming Zhao}
+
+\begin{document}
+
+% ============================================================
+% Slide 1 -- Title
+% ============================================================
+\maketitle
+
+% ============================================================
+% Slide 2 -- Problem: The Autoregressive Bottleneck
+% ============================================================
+\section{Problem}
+
+\begin{frame}{The Autoregressive Bottleneck}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\begin{itemize}
+  \item Standard LLM decoding: \textbf{1 forward pass per token}
+  \item Latency scales linearly with output length
+  \item \textbf{Speculative decoding:} cheap draft model proposes tokens, target model verifies in parallel
+  \item Key metric: \textbf{$\tau$} = expected accepted tokens per step
+  \item Existing drafters (Eagle, Medusa) cap at $\tau \approx 2$--$3$
+\end{itemize}
+\end{column}
+\begin{column}{0.42\textwidth}
+\vspace{1em}
+\centering
+\footnotesize
+\begin{tabular}{lc}
+\toprule
+\textbf{Method} & \textbf{Fwd passes} \\
+\midrule
+Autoregressive & $n$ \\
+Spec.\ Decoding & $\sim n / \tau$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\footnotesize
+Higher $\tau$ $\Rightarrow$ fewer passes $\Rightarrow$ lower latency.
+
+\vspace{0.5em}
+With $\tau = 7$: generate 7 tokens per step instead of 1.
+\end{column}
+\end{columns}
+\end{frame}
+
+% ============================================================
+% Slide 3 -- DFlash: Block Diffusion Drafting
+% ============================================================
+\begin{frame}{DFlash: Block Diffusion Drafting}
+\begin{itemize}
+  \item Drafts \textbf{16 tokens in one forward pass} (block diffusion, non-causal attention)
+  \item Conditioned on target hidden states from layers \texttt{[1, 9, 17, 25, 33]}
+  \item Shares target model's embedding layer and LM head (no extra parameters)
+  \item GPU baseline: $\tau = 7.07$, \textbf{5.53$\times$ speedup}
+\end{itemize}
+
+\begin{alertblock}{Why DFlash is different}
+1 draft pass (16 tokens) + 1 verify pass \quad vs.\quad Eagle3: 3 sequential drafts + 1 verify
+\end{alertblock}
+\end{frame}
+
+% ============================================================
+% Slide 4 -- Our Contribution
+% ============================================================
+\section{Approach}
+
+\begin{frame}{Our Contribution}
+\begin{itemize}
+  \item \textbf{Goal:} port DFlash from GPU/PyTorch $\rightarrow$ TPU/JAX in \texttt{tpu-inference}
+  \item Target: \textbf{Qwen3-4B} \quad Draft: \textbf{DFlash-b16}
+  \item Full \textbf{vLLM integration} --- zero vLLM source changes required
+  \item Standalone benchmark harness for direct GPU comparison
+  \item Hardware: \textbf{TPU v4-8} (4 chips, 8 cores)
+\end{itemize}
+\end{frame}
+
+% ============================================================
+% Slide 5 -- Architecture: Dual KV Cache
+% ============================================================
+\begin{frame}{Architecture: Dual KV Cache}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Target Model}
+\begin{itemize}
+  \item Paged KV cache
+  \item \texttt{ragged\_paged\_attention}
+  \item Extracts \texttt{aux\_hidden\_states} from layers [1,9,17,25,33]
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Draft Model (DFlash)}
+\begin{itemize}
+  \item Static KV cache
+  \item \texttt{dynamic\_update\_slice} writes
+  \item \texttt{flash\_attention} (causal=False)
+\end{itemize}
+\end{column}
+\end{columns}
+
+\vspace{1em}
+\centering
+\small
+Target aux features $\xrightarrow{\text{FC projection}}$ Draft context input $\xrightarrow{\text{diffusion}}$ 16 logits $\xrightarrow{\text{verify}}$ accepted tokens
+\end{frame}
+
+% ============================================================
+% Slide 6 -- Code: Two-Phase KV Cache Write
+% ============================================================
+\section{Technical Challenges}
+
+\begin{frame}[fragile]{Code: Two-Phase KV Cache Write}
+\begin{lstlisting}
+# Phase A: write padded context (with zeros) at cache_len
+k_ctx_4d = k_ctx.transpose(1, 0, 2)[jnp.newaxis, :, :, :]
+v_ctx_4d = v_ctx.transpose(1, 0, 2)[jnp.newaxis, :, :, :]
+kv_cache_k = lax.dynamic_update_slice(
+    kv_cache_k, k_ctx_4d, (0, 0, cache_len, 0)
+)
+kv_cache_v = lax.dynamic_update_slice(
+    kv_cache_v, v_ctx_4d, (0, 0, cache_len, 0)
+)
+
+# Phase B: write noise at cache_len + actual_ctx_count,
+# overwriting padding zeros from Phase A
+noise_start = cache_len + actual_ctx_count
+k_noise_4d = k_noise.transpose(1, 0, 2)[jnp.newaxis, :, :, :]
+v_noise_4d = v_noise.transpose(1, 0, 2)[jnp.newaxis, :, :, :]
+kv_cache_k = lax.dynamic_update_slice(
+    kv_cache_k, k_noise_4d, (0, 0, noise_start, 0)
+)
+kv_cache_v = lax.dynamic_update_slice(
+    kv_cache_v, v_noise_4d, (0, 0, noise_start, 0)
+)
+\end{lstlisting}
+\vspace{-0.5em}
+{\footnotesize Source: \texttt{models/jax/dflash.py} --- context+noise must be written in two phases because context length varies per step.}
+\end{frame}
+
+% ============================================================
+% Slide 7 -- The seq_len Inflation Bug
+% ============================================================
+\begin{frame}[fragile]{The \texttt{seq\_len} Inflation Bug}
+\textbf{Symptom:} $\tau = 2.49$, 10\% acceptance, 13 A/B tests inconclusive
+
+\vspace{0.5em}
+\textbf{Root cause:} \texttt{attn\_metadata.seq\_lens} includes \emph{unverified} draft tokens
+\begin{itemize}
+  \item Actual generated: 100 tokens
+  \item Value passed to proposer: $100 + 16 = 116$ (includes draft tokens being verified)
+  \item DFlash builds KV cache at wrong position $\Rightarrow$ stale context accumulates
+\end{itemize}
+
+\begin{alertblock}{The 4-line fix}
+\begin{lstlisting}[backgroundcolor=\color{white},frame=none,xleftmargin=0pt]
+accepted_seq_lens = self.runner.input_batch.num_tokens_no_spec[
+    :attn_metadata.seq_lens.shape[0]].copy()
+accepted_attn_metadata = replace(
+    attn_metadata, seq_lens=device_array(
+        self.runner.mesh, accepted_seq_lens.astype(np.int32)))
+\end{lstlisting}
+\end{alertblock}
+
+\textbf{Result:} $\tau$: $2.49 \rightarrow 4.48$ \quad Speedup: $1.30\times \rightarrow 2.31\times$
+\end{frame}
+
+% ============================================================
+% Slide 8 -- Why the Bug Was Hard to Find
+% ============================================================
+\begin{frame}{Why the Bug Was Hard to Find}
+\begin{enumerate}
+  \item \textbf{No visible errors} --- tokens were valid English, just suboptimal; model ``recovered'' from bad context
+  \item \textbf{Eagle3 unaffected} --- Eagle3 has no persistent draft-side KV cache, so the same seq\_len value worked fine
+  \item \textbf{Gradual accumulation} --- 10--16 phantom tokens added per decoding step; quality degrades slowly over generations
+  \item \textbf{Bug is upstream} --- located in the speculative decoding \emph{manager}, not the DFlash proposer; proposer code was correct
+\end{enumerate}
+\end{frame}
+
+% ============================================================
+% Slide 9 -- Results: Standalone TPU vs GPU
+% ============================================================
+\section{Results}
+
+\begin{frame}{Results: Standalone TPU vs GPU}
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{l ccc ccc}
+\toprule
+& \multicolumn{3}{c}{\textbf{TPU v4}} & \multicolumn{3}{c}{\textbf{GPU (A100)}} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+\textbf{Dataset} & $\tau$ & Speedup & TPS & $\tau$ & Speedup & TPS \\
+\midrule
+GSM8K   & 6.25 & 3.67$\times$ & 222 & 6.69 & 5.53$\times$ & --- \\
+\rowcolor{rowgreen}
+Math500 & \textbf{8.72} & 4.49$\times$ & 276 & 7.84 & 5.12$\times$ & --- \\
+AIME24  & 5.17 & 3.00$\times$ & 191 & 6.45 & 5.07$\times$ & --- \\
+AIME25  & 6.53 & 3.53$\times$ & 218 & 7.30 & 5.38$\times$ & --- \\
+\midrule
+\textbf{Avg} & \textbf{6.67} & \textbf{3.67$\times$} & \textbf{227} & \textbf{7.07} & \textbf{5.53$\times$} & --- \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.8em}
+\begin{itemize}
+  \item TPU achieves \textbf{94\% of GPU $\tau$} (6.67 vs 7.07) --- algorithmic quality transfers
+  \item Math500: TPU $\tau$ \textbf{exceeds} GPU (8.72 vs 7.84)
+  \item Speedup gap ($3.67\times$ vs $5.53\times$) is hardware overhead, not algorithm quality
+\end{itemize}
+\end{frame}
+
+% ============================================================
+% Slide 10 -- Results: vLLM Pipeline
+% ============================================================
+\begin{frame}{Results: vLLM Pipeline}
+\begin{columns}[T]
+\begin{column}{0.45\textwidth}
+\textbf{Pipeline Metrics (GSM8K)}
+\vspace{0.3em}
+
+\footnotesize
+\begin{tabular}{lr}
+\toprule
+$\tau$ & 4.48 \\
+Speedup & 2.31$\times$ \\
+Spec TPS & 212 \\
+Baseline TPS & 92 \\
+Acceptance & 23.2\% \\
+\bottomrule
+\end{tabular}
+\end{column}
+\begin{column}{0.52\textwidth}
+\textbf{Standalone vs Pipeline}
+\vspace{0.3em}
+
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+& Standalone & vLLM \\
+\midrule
+$\tau$ & 6.25 & 4.48 \\
+Speedup & 3.67$\times$ & 2.31$\times$ \\
+TPS & 222 & 212 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\footnotesize
+$\tau$ gap from vLLM scheduler/batch overhead (draft tokens rejected at batch boundaries). Same pattern reported in GPU DFlash paper.
+\end{column}
+\end{columns}
+\end{frame}
+
+% ============================================================
+% Slide 11 -- DFlash vs Eagle3 on TPU
+% ============================================================
+\begin{frame}{DFlash vs Eagle3 on TPU}
+\centering
+\begin{tabular}{lcc}
+\toprule
+\textbf{Metric} & \textbf{DFlash} & \textbf{Eagle3} \\
+\midrule
+Draft tokens/step & 15 & 3 \\
+$\tau$ & 4.48 & 2.18 \\
+TPS & 212 & 78 \\
+Speedup & 2.31$\times$ & 1.53$\times$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\begin{itemize}
+  \item DFlash $\tau$ is \textbf{2.06$\times$ Eagle3} on TPU (4.48 vs 2.18)
+  \item Advantage transfers proportionally from GPU results
+  \item Both measured under identical vLLM pipeline conditions
+\end{itemize}
+\end{frame}
+
+% ============================================================
+% Slide 12 -- Output Quality Verification
+% ============================================================
+\begin{frame}{Output Quality Verification}
+\centering
+\begin{tabular}{lc}
+\toprule
+\textbf{Comparison} & \textbf{Count (of 8)} \\
+\midrule
+Bit-exact match & 4 \\
+Same final answer & 7 \\
+Different answer & 1 \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\begin{itemize}
+  \item Divergences caused by \textbf{bf16 precision}: top-2 logits differ by $< 10^{-4}$; sampling flips at decision boundaries
+  \item \textbf{Not} algorithmic error --- verified by inspecting logit distributions
+  \item Divergent outputs are coherent alternative phrasings, not corruption
+  \item Quality consistent with GPU speculative decoding guarantees
+\end{itemize}
+\end{frame}
+
+% ============================================================
+% Slide 13 -- Impact: The 4-Line Fix
+% ============================================================
+\begin{frame}{Impact: The 4-Line Fix}
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Metric} & \textbf{Before} & \textbf{After} & \textbf{Change} \\
+\midrule
+$\tau$ & 2.49 & 4.48 & \textbf{+80\%} \\
+Speedup & 1.30$\times$ & 2.31$\times$ & \textbf{+77\%} \\
+Acceptance rate & 9.9\% & 23.2\% & \textbf{+134\%} \\
+Tokens/sec & 120.8 & 212.4 & \textbf{+76\%} \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\footnotesize
+\begin{tabular}{l cccc}
+\toprule
+& \multicolumn{2}{c}{\textbf{$\tau$}} & \multicolumn{2}{c}{\textbf{Speedup}} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+\textbf{Dataset} & Before & After & Before & After \\
+\midrule
+GSM8K   & 2.49 & 4.48 & 1.30$\times$ & 2.31$\times$ \\
+Math500 & 2.61 & 4.71 & 1.36$\times$ & 2.42$\times$ \\
+AIME24  & 2.33 & 4.20 & 1.22$\times$ & 2.15$\times$ \\
+AIME25  & 2.42 & 4.39 & 1.27$\times$ & 2.27$\times$ \\
+\bottomrule
+\end{tabular}
+\end{frame}
+
+% ============================================================
+% Slide 14 -- Future Work
+% ============================================================
+\section{Future Work}
+
+\begin{frame}{Future Work}
+\begin{itemize}
+  \item \textbf{PR to tpu-inference} --- upstream the DFlash proposer and seq\_len fix
+  \item \textbf{TPU v5 benchmarks} --- v4 is experimental; v5 is fully supported with better matmul throughput
+  \item \textbf{Concurrent serving benchmarks} --- 1--32 simultaneous clients; measure throughput under contention
+  \item \textbf{Diffusion targets on TPU} --- port FailFast (diffusion-based target model) for end-to-end diffusion pipeline
+\end{itemize}
+\end{frame}
+
+% ============================================================
+% Slide 15 -- Summary
+% ============================================================
+\section{Conclusion}
+
+\begin{frame}{Summary}
+\begin{block}{What We Built}
+Complete port of DFlash speculative decoding from GPU/PyTorch to TPU/JAX with full vLLM integration and zero upstream changes.
+\end{block}
+
+\begin{block}{Key Numbers}
+\begin{itemize}
+  \item Standalone: $\tau = 6.67$ (94\% of GPU), Math500 \emph{exceeds} GPU
+  \item vLLM pipeline: $2.31\times$ speedup, 212 TPS
+  \item DFlash $>$ Eagle3: $2.06\times$ higher $\tau$ on TPU
+  \item Output quality: 7/8 same answer, 4/8 bit-exact
+\end{itemize}
+\end{block}
+
+\begin{alertblock}{Key Finding}
+A 4-line \texttt{seq\_len} fix doubled all performance metrics --- the hardest bugs leave no trace.
+\end{alertblock}
+\end{frame}
+
+\end{document}

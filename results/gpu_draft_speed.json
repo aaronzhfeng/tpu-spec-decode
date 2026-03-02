@@ -1,0 +1,43 @@
+{
+  "single_pass": [
+    {
+      "K": 16,
+      "mean_ms": 6.741,
+      "std_ms": 0.101,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "mean_ms": 6.88,
+      "std_ms": 0.158,
+      "ratio": 1.02
+    },
+    {
+      "K": 64,
+      "mean_ms": 7.122,
+      "std_ms": 0.074,
+      "ratio": 1.06
+    },
+    {
+      "K": 128,
+      "mean_ms": 8.216,
+      "std_ms": 0.113,
+      "ratio": 1.22
+    }
+  ],
+  "practical": {
+    "8x_k16_ms": 51.519,
+    "8x_k16_std": 0.059,
+    "1x_k128_ms": 8.217,
+    "1x_k128_std": 0.04,
+    "speedup": 6.27
+  },
+  "metadata": {
+    "gpu": "NVIDIA RTX 2000 Ada Generation",
+    "pytorch_version": "2.4.1+cu124",
+    "model": "z-lab/Qwen3-4B-DFlash-b16",
+    "trials": 50,
+    "warmup": 20,
+    "dtype": "bfloat16"
+  }
+}

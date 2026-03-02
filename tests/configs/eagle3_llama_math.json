@@ -1,0 +1,29 @@
+{
+  "name": "eagle3_llama_math",
+  "model": "meta-llama/Llama-3.1-8B-Instruct",
+  "draft_model": "unkmaster/EAGLE3-LLaMA3.1-Instruct-8B",
+  "prompt_source": "external",
+  "use_chat_template": true,
+  "datasets": ["gsm8k", "math500", "aime24", "aime25"],
+  "max_samples": 8,
+  "methods": ["baseline", "eagle3"],
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": 1,
+    "max_tokens": 256,
+    "ignore_eos": true
+  },
+  "runtime": {
+    "tensor_parallel_size": 1,
+    "max_model_len": 2048,
+    "max_num_seqs": 1,
+    "num_speculative_tokens": 3,
+    "draft_tensor_parallel_size": 1,
+    "warmup_prompts": 2,
+    "inter_method_sleep_sec": 3.0,
+    "async_scheduling": 0,
+    "disable_log_stats": false,
+    "seed": 0
+  }
+}
