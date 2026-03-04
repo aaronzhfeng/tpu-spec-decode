@@ -1,0 +1,10 @@
+dataset,category,v5p_tau,v5p_speedup,v5p_baseline_tpot_ms,v5p_dflash_tpot_ms,v4_tau,v4_speedup,v4_baseline_tpot_ms,v4_dflash_tpot_ms,baseline_improvement,dflash_improvement
+gsm8k,math,5.40,3.00,6.35,2.12,5.17,3.36,10.75,3.20,1.69x,1.51x
+math500,math,8.80,4.93,6.37,1.29,8.72,5.70,10.73,1.88,1.68x,1.46x
+aime24,math,6.48,3.57,6.31,1.77,6.32,3.93,10.68,2.72,1.69x,1.54x
+aime25,math,6.14,3.39,6.38,1.88,6.48,4.18,10.74,2.57,1.68x,1.37x
+humaneval,code,5.76,3.17,6.31,1.99,5.75,3.59,10.81,3.01,1.71x,1.51x
+mbpp,code,6.16,3.27,6.40,1.96,5.95,3.26,10.66,3.27,1.67x,1.67x
+mt-bench,chat,3.87,2.29,6.27,2.74,3.84,2.58,10.69,4.15,1.71x,1.51x
+alpaca,chat,2.86,1.63,6.29,3.86,2.83,1.95,10.65,5.47,1.69x,1.42x
+swe-bench,code,3.35,1.86,6.32,3.40,3.28,1.27,10.65,8.42,1.69x,2.48x

@@ -1,0 +1,1670 @@
+========================================
+  V5P PR Benchmark Suite (pr/dflash)
+  Started: Wed Mar  4 01:55:25 UTC 2026
+  Datasets: math500 aime24 aime25 humaneval mbpp swe-bench mt-bench alpaca
+========================================
+
+[1/8] Running math500 ... (01:55:25)
+----------------------------------------
+INFO 03-04 01:55:34 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 01:55:35 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 01:55:35 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 01:55:35 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 01:55:42 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 01:55:42 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 01:55:51 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 01:55:51 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 01:55:52 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 01:55:52 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 01:55:52 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 01:55:52 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 01:55:52 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 01:55:52 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.89s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.13s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.33s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.80s/it]
+
+INFO 03-04 01:56:06 [default_loader.py:293] Loading weights took 8.39 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 01:56:07 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 01:56:08 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: math500, samples: 8
+
+[1/8] Prompt length: 259
+WARNING 03-04 01:56:12 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 01:56:12 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 01:56:29 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=22.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(259, 2560)
+  [DEBUG] projected_all shape=(259, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.001423, std=2.750606, min=-88.000000, max=68.000000
+  [DEBUG] ctx shape=(512, 2560), cache_len=0, ctx_count=259
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264  3070 37451]
+INFO 03-04 01:56:39 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=27.6ms, tau=4.45
+  Quality:  MATCH (first 256 output tokens identical)
+
+[2/8] Prompt length: 74
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(74, 2560)
+  [DEBUG] projected_all shape=(74, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.046468, std=2.840834, min=-87.000000, max=65.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=74
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   429  3070 22388]
+  DFlash:   256 tokens, TPOT=1.6ms, tau=8.47
+  Quality:  MATCH (first 256 output tokens identical)
+
+[3/8] Prompt length: 61
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(61, 2560)
+  [DEBUG] projected_all shape=(61, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.043668, std=2.689547, min=-84.500000, max=56.750000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=61
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661 1447   12 3070]
+  DFlash:   256 tokens, TPOT=1.5ms, tau=8.32
+  Quality:  MISMATCH — 27 divergent tokens (first at output pos 229: baseline=' the' vs dflash=' $\')
+    Baseline [224:239]: ...$$
+
+Now, convert the improper fraction to a **mixed number**:
+
+...
+    DFlash   [224:239]: ...$$
+
+Now, convert $\frac{275}{2}$ to...
+
+[4/8] Prompt length: 71
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(71, 2560)
+  [DEBUG] projected_all shape=(71, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.045021, std=2.755825, min=-85.500000, max=59.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=71
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   279 47311  1447]
+  DFlash:   256 tokens, TPOT=1.2ms, tau=9.85
+  Quality:  MISMATCH — 5 divergent tokens (first at output pos 251: baseline=' the' vs dflash=' complex')
+    Baseline [246:256]: ...}
+$$
+
+These are the **complex cube roots...
+    DFlash   [246:256]: ...}
+$$
+
+These are complex numbers. Let’s...
+
+[5/8] Prompt length: 138
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(138, 2560)
+  [DEBUG] projected_all shape=(138, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.028479, std=2.840821, min=-85.000000, max=63.750000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=138
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  429   12  362]
+  DFlash:   256 tokens, TPOT=1.6ms, tau=7.37
+  Quality:  MATCH (first 256 output tokens identical)
+  Answer:   SAME (\boxed{12})
+
+[6/8] Prompt length: 97
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(97, 2560)
+  [DEBUG] projected_all shape=(97, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.028251, std=2.787258, min=-85.000000, max=66.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=97
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  429 1447   12]
+  DFlash:   256 tokens, TPOT=1.7ms, tau=7.16
+  Quality:  MISMATCH — 149 divergent tokens (first at output pos 105: baseline=' asked' vs dflash=' to')
+    Baseline [100:115]: ...
+$$
+
+We are asked to evaluate the sum:
+
+$$
+S =...
+    DFlash   [100:115]: ...
+$$
+
+We are to evaluate the sum:
+
+$$
+S = \...
+
+[7/8] Prompt length: 64
+  Baseline: 149 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(64, 2560)
+  [DEBUG] projected_all shape=(64, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.033680, std=2.765956, min=-81.000000, max=65.500000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=64
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264  1290 21495]
+  DFlash:   148 tokens, TPOT=1.1ms, tau=10.64
+  Quality:  MISMATCH — 61 divergent tokens (first at output pos 87: baseline=' that' vs dflash=':
+
+')
+    Baseline [82:97]: ...$$
+
+We are given that:
+
+$$
+\sin A = 2...
+    DFlash   [82:97]: ...$$
+
+We are given:
+
+$$
+\sin A = 2 \...
+  Answer:   SAME (\boxed{2})
+
+[8/8] Prompt length: 100
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(100, 2560)
+  [DEBUG] projected_all shape=(100, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.051572, std=2.751298, min=-80.500000, max=62.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=100
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  429  400  264]
+  DFlash:   256 tokens, TPOT=0.9ms, tau=12.95
+  Quality:  MISMATCH — 1 divergent tokens (first at output pos 211: baseline=' gives' vs dflash=' becomes')
+    Baseline [206:221]: ... 1 $, this gives:
+
+$$
+\left( \frac{...
+    DFlash   [206:221]: ... 1 $, this becomes:
+
+$$
+\left( \frac{...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  6.79 ms (147.2 TPS)
+DFlash TPOT:    1.39 ms (721.4 TPS)
+Speedup:        4.90x
+Tau (avg acceptance length): 8.80
+Total drafts: 195
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.959 ######################################
+  pos  2: 0.841 #################################
+  pos  3: 0.759 ##############################
+  pos  4: 0.692 ###########################
+  pos  5: 0.636 #########################
+  pos  6: 0.595 #######################
+  pos  7: 0.528 #####################
+  pos  8: 0.482 ###################
+  pos  9: 0.451 ##################
+  pos 10: 0.385 ###############
+  pos 11: 0.349 #############
+  pos 12: 0.323 ############
+  pos 13: 0.303 ############
+  pos 14: 0.272 ##########
+  pos 15: 0.226 #########
+
+Acceptance length histogram: ['0.0%', '4.1%', '11.8%', '8.2%', '6.7%', '5.6%', '4.1%', '6.7%', '4.6%', '3.1%', '6.7%', '3.6%', '2.6%', '2.1%', '3.1%', '4.6%', '22.6%']
+
+Output quality: 3/8 samples match baseline exactly
+Final answer:   2/2 samples have same \boxed{} answer
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 2: 27 mismatched tokens out of 256 (first at pos 229)
+  Sample 3: 5 mismatched tokens out of 256 (first at pos 251)
+  Sample 5: 149 mismatched tokens out of 256 (first at pos 105)
+  Sample 6: 61 mismatched tokens out of 148 (first at pos 87, answer=SAME (2 vs 2))
+  Sample 7: 1 mismatched tokens out of 256 (first at pos 211)
+
+Results saved to /output/v5p-pr/v5p_pr_math500.json
+[1/8] math500 DONE
+
+[2/8] Running aime24 ... (01:58:56)
+----------------------------------------
+INFO 03-04 01:59:05 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 01:59:06 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 01:59:06 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 01:59:06 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 01:59:13 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 01:59:13 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 01:59:22 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 01:59:22 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 01:59:23 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 01:59:23 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 01:59:23 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 01:59:23 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 01:59:23 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 01:59:23 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.90s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.11s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.32s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.78s/it]
+
+INFO 03-04 01:59:37 [default_loader.py:293] Loading weights took 8.35 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 01:59:39 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 01:59:39 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: aime24, samples: 8
+
+[1/8] Prompt length: 128
+WARNING 03-04 01:59:42 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 01:59:42 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 01:59:59 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.3ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(128, 2560)
+  [DEBUG] projected_all shape=(128, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.047466, std=2.827497, min=-88.000000, max=67.500000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=128
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  264  400   20]
+INFO 03-04 02:00:07 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=27.4ms, tau=4.59
+  Quality:  MISMATCH — 248 divergent tokens (first at output pos 6: baseline=' **' vs dflash=' $')
+    Baseline [1:16]: ... are given:
+
+- A **5×5 grid** (25 cells...
+    DFlash   [1:16]: ... are given:
+
+- A $5 \times 5$ grid (2...
+
+[2/8] Prompt length: 80
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(80, 2560)
+  [DEBUG] projected_all shape=(80, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.031011, std=2.780822, min=-85.000000, max=60.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=80
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264 21495   400]
+  DFlash:   256 tokens, TPOT=2.5ms, tau=5.63
+  Quality:  MATCH (first 256 output tokens identical)
+
+[3/8] Prompt length: 77
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(77, 2560)
+  [DEBUG] projected_all shape=(77, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.020224, std=2.806220, min=-85.000000, max=67.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=77
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   279  1447 14085]
+  DFlash:   256 tokens, TPOT=1.2ms, tau=9.85
+  Quality:  MISMATCH — 210 divergent tokens (first at output pos 46: baseline=' given' vs dflash=' where')
+    Baseline [41:56]: ... of $ xy $, given that $ x > 1 $ and $...
+    DFlash   [41:56]: ... of $ xy $, where $ x > 1 $ and $ y...
+
+[4/8] Prompt length: 89
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(89, 2560)
+  [DEBUG] projected_all shape=(89, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.058272, std=2.773874, min=-85.000000, max=70.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=89
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264  3070 12027]
+  DFlash:   256 tokens, TPOT=2.2ms, tau=5.54
+  Quality:  MATCH (first 256 output tokens identical)
+
+[5/8] Prompt length: 171
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(171, 2560)
+  [DEBUG] projected_all shape=(171, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.030974, std=2.788909, min=-82.500000, max=65.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=171
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  279 2701  315]
+  DFlash:   256 tokens, TPOT=1.4ms, tau=8.71
+  Quality:  MISMATCH — 92 divergent tokens (first at output pos 163: baseline='We' vs dflash='Rec')
+    Baseline [158:173]: ... equations to exponential form
+
+We use the identity:
+
+$$
+\log_b...
+    DFlash   [158:173]: ... equations to exponential form
+
+Recall that $ \log_b(a) =...
+
+[6/8] Prompt length: 103
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(103, 2560)
+  [DEBUG] projected_all shape=(103, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.024084, std=2.824667, min=-86.000000, max=64.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=103
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  264 1140  315]
+  DFlash:   256 tokens, TPOT=2.0ms, tau=6.10
+  Quality:  MISMATCH — 41 divergent tokens (first at output pos 213: baseline=' \' vs dflash=' a')
+    Baseline [208:223]: ..., a_2, \dots, a_n
+$$
+with $...
+    DFlash   [208:223]: ..., a_2, a_3, \dots, a_n
+...
+
+[7/8] Prompt length: 179
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(179, 2560)
+  [DEBUG] projected_all shape=(179, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.003554, std=2.791576, min=-83.000000, max=68.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=179
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264 27853 32507]
+  DFlash:   256 tokens, TPOT=1.5ms, tau=8.68
+  Quality:  MISMATCH — 184 divergent tokens (first at output pos 70: baseline=' **' vs dflash=' inside')
+    Baseline [65:80]: ... a point $I$ **inside** the tetrahedron such that...
+    DFlash   [65:80]: ... a point $I$ inside the tetrahedron such that the **...
+
+[8/8] Prompt length: 206
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(206, 2560)
+  [DEBUG] projected_all shape=(206, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.061079, std=2.846294, min=-87.500000, max=66.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=206
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264  3070 22308]
+  DFlash:   256 tokens, TPOT=2.7ms, tau=4.39
+  Quality:  MISMATCH — 173 divergent tokens (first at output pos 70: baseline=' Geometry' vs dflash=' structure')
+    Baseline [65:80]: ... 1: Understand the Geometry
+
+A **regular dodecagon**...
+    DFlash   [65:80]: ... 1: Understand the structure of a regular dodecagon
+
+A...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  6.79 ms (147.4 TPS)
+DFlash TPOT:    1.94 ms (514.8 TPS)
+Speedup:        3.49x
+Tau (avg acceptance length): 6.48
+Total drafts: 283
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.887 ###################################
+  pos  2: 0.728 #############################
+  pos  3: 0.633 #########################
+  pos  4: 0.495 ###################
+  pos  5: 0.438 #################
+  pos  6: 0.406 ################
+  pos  7: 0.357 ##############
+  pos  8: 0.290 ###########
+  pos  9: 0.272 ##########
+  pos 10: 0.237 #########
+  pos 11: 0.198 #######
+  pos 12: 0.170 ######
+  pos 13: 0.148 #####
+  pos 14: 0.120 ####
+  pos 15: 0.106 ####
+
+Acceptance length histogram: ['0.0%', '11.3%', '15.9%', '9.5%', '13.8%', '5.7%', '3.2%', '4.9%', '6.7%', '1.8%', '3.5%', '3.9%', '2.8%', '2.1%', '2.8%', '1.4%', '10.6%']
+
+Output quality: 2/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 0: 248 mismatched tokens out of 256 (first at pos 6)
+  Sample 2: 210 mismatched tokens out of 256 (first at pos 46)
+  Sample 4: 92 mismatched tokens out of 256 (first at pos 163)
+  Sample 5: 41 mismatched tokens out of 256 (first at pos 213)
+  Sample 6: 184 mismatched tokens out of 256 (first at pos 70)
+  Sample 7: 173 mismatched tokens out of 256 (first at pos 70)
+
+Results saved to /output/v5p-pr/v5p_pr_aime24.json
+[2/8] aime24 DONE
+
+[3/8] Running aime25 ... (02:02:38)
+----------------------------------------
+INFO 03-04 02:02:46 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:02:47 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:02:47 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:02:47 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:02:55 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:02:55 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:03:05 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:03:05 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:03:05 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:03:05 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:03:05 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:03:05 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:03:05 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:03:05 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.91s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.11s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.32s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.79s/it]
+
+INFO 03-04 02:03:19 [default_loader.py:293] Loading weights took 8.36 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:03:21 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:03:21 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: aime25, samples: 8
+
+[1/8] Prompt length: 108
+WARNING 03-04 02:03:24 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:03:24 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 02:03:41 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.2ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(108, 2560)
+  [DEBUG] projected_all shape=(108, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.012474, std=2.780315, min=-85.000000, max=62.250000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=108
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  279  729 1447]
+INFO 03-04 02:03:49 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=26.6ms, tau=6.40
+  Quality:  MISMATCH — 22 divergent tokens (first at output pos 234: baseline=' value' vs dflash='**')
+    Baseline [229:244]: ... attains its **minimum value**.
+
+---
+
+### Step 2: Analy...
+    DFlash   [229:244]: ... attains its **minimum**.
+
+---
+
+### Step 2: Analyze...
+
+[2/8] Prompt length: 60
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(60, 2560)
+  [DEBUG] projected_all shape=(60, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.030939, std=2.831119, min=-88.000000, max=68.500000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=60
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  279 2971 1447]
+  DFlash:   256 tokens, TPOT=1.7ms, tau=8.80
+  Quality:  MISMATCH — 245 divergent tokens (first at output pos 8: baseline='\' vs dflash='n')
+    Baseline [3:18]: ... the expression:
+
+$$
+\frac{3(n+3)(n^...
+    DFlash   [3:18]: ... the expression:
+
+$$
+n + 2 \mid 3(n +...
+
+[3/8] Prompt length: 140
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(140, 2560)
+  [DEBUG] projected_all shape=(140, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.014313, std=2.804352, min=-82.500000, max=69.000000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=140
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  264 1849  315]
+  DFlash:   256 tokens, TPOT=1.7ms, tau=7.39
+  Quality:  MATCH (first 256 output tokens identical)
+
+[4/8] Prompt length: 83
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(83, 2560)
+  [DEBUG] projected_all shape=(83, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.036908, std=2.808993, min=-85.500000, max=71.500000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=83
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661   264  3070 22308]
+  DFlash:   256 tokens, TPOT=3.1ms, tau=3.97
+  Quality:  MISMATCH — 75 divergent tokens (first at output pos 180: baseline='step' vs dflash='minimum')
+    Baseline [175:190]: ... is determined by the **step size** $ k $, where $ k...
+    DFlash   [175:190]: ... is determined by the **minimum number of edges** between them along the perimeter...
+
+[5/8] Prompt length: 94
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(94, 2560)
+  [DEBUG] projected_all shape=(94, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.043412, std=2.840541, min=-87.500000, max=65.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=94
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  429   12   16]
+  DFlash:   256 tokens, TPOT=2.0ms, tau=5.95
+  Quality:  MATCH (first 256 output tokens identical)
+
+[6/8] Prompt length: 319
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(319, 2560)
+  [DEBUG] projected_all shape=(319, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.044363, std=2.840287, min=-87.000000, max=67.500000
+  [DEBUG] ctx shape=(512, 2560), cache_len=0, ctx_count=319
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661  429 3070  315]
+  DFlash:   256 tokens, TPOT=3.0ms, tau=4.02
+  Quality:  MISMATCH — 41 divergent tokens (first at output pos 215: baseline=' for' vs dflash='.')
+    Baseline [210:225]: ... minimal number of coins** for all values of $ N $, but in...
+    DFlash   [210:225]: ... minimal number of coins**. For example, in the problem statement:
+
+-...
+
+[7/8] Prompt length: 108
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(108, 2560)
+  [DEBUG] projected_all shape=(108, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.052528, std=2.858922, min=-80.000000, max=66.500000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=108
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661 1447   12 1527]
+  DFlash:   256 tokens, TPOT=1.3ms, tau=9.14
+  Quality:  MATCH (first 256 output tokens identical)
+
+[8/8] Prompt length: 118
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(118, 2560)
+  [DEBUG] projected_all shape=(118, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.033852, std=2.855248, min=-86.000000, max=66.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=118
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 525 2661 1447   12  400]
+  DFlash:   256 tokens, TPOT=1.4ms, tau=8.70
+  Quality:  MISMATCH — 176 divergent tokens (first at output pos 71: baseline=' the' vs dflash=' its')
+    Baseline [66:81]: ... (LCM)** of the elements of $ B $ is **exactly...
+    DFlash   [66:81]: ... (LCM)** of its elements is **exactly 202...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  6.79 ms (147.4 TPS)
+DFlash TPOT:    2.04 ms (489.9 TPS)
+Speedup:        3.32x
+Tau (avg acceptance length): 6.14
+Total drafts: 297
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.869 ##################################
+  pos  2: 0.737 #############################
+  pos  3: 0.596 #######################
+  pos  4: 0.522 ####################
+  pos  5: 0.431 #################
+  pos  6: 0.367 ##############
+  pos  7: 0.293 ###########
+  pos  8: 0.253 ##########
+  pos  9: 0.229 #########
+  pos 10: 0.212 ########
+  pos 11: 0.182 #######
+  pos 12: 0.145 #####
+  pos 13: 0.121 ####
+  pos 14: 0.101 ####
+  pos 15: 0.084 ###
+
+Acceptance length histogram: ['0.0%', '13.1%', '13.1%', '14.1%', '7.4%', '9.1%', '6.4%', '7.4%', '4.0%', '2.4%', '1.7%', '3.0%', '3.7%', '2.4%', '2.0%', '1.7%', '8.4%']
+
+Output quality: 3/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 0: 22 mismatched tokens out of 256 (first at pos 234)
+  Sample 1: 245 mismatched tokens out of 256 (first at pos 8)
+  Sample 3: 75 mismatched tokens out of 256 (first at pos 180)
+  Sample 5: 41 mismatched tokens out of 256 (first at pos 215)
+  Sample 7: 176 mismatched tokens out of 256 (first at pos 71)
+
+Results saved to /output/v5p-pr/v5p_pr_aime25.json
+[3/8] aime25 DONE
+
+[4/8] Running humaneval ... (02:06:05)
+----------------------------------------
+INFO 03-04 02:06:13 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:06:14 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:06:14 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:06:14 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:06:22 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:06:22 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:06:31 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:06:31 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:06:31 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:06:31 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:06:32 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:06:32 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:06:32 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:06:32 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.87s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.10s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.32s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.78s/it]
+
+INFO 03-04 02:06:46 [default_loader.py:293] Loading weights took 8.33 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:06:47 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:06:47 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: humaneval, samples: 8
+
+[1/8] Prompt length: 110
+WARNING 03-04 02:06:51 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:06:51 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 02:07:08 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.5ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(110, 2560)
+  [DEBUG] projected_all shape=(110, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.063788, std=2.706590, min=-48.250000, max=58.750000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=110
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   279 13027]
+INFO 03-04 02:07:17 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=26.6ms, tau=6.47
+  Quality:  MATCH (first 256 output tokens identical)
+
+[2/8] Prompt length: 163
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(163, 2560)
+  [DEBUG] projected_all shape=(163, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.070590, std=2.773105, min=-86.000000, max=62.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=163
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  594   264 13027   729   429]
+  DFlash:   256 tokens, TPOT=2.7ms, tau=5.20
+  Quality:  MISMATCH — 38 divergent tokens (first at output pos 218: baseline=' =' vs dflash='.is')
+    Baseline [213:228]: ...- **`last_char = txt[-1]`**: Get the last...
+    DFlash   [213:228]: ...- **`last_char.isalpha()`**: Checks if the last character is...
+
+[3/8] Prompt length: 148
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(148, 2560)
+  [DEBUG] projected_all shape=(148, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.037872, std=2.764850, min=-85.500000, max=61.750000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=148
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  594   279 13027   729   429]
+  DFlash:   256 tokens, TPOT=1.8ms, tau=7.62
+  Quality:  MISMATCH — 35 divergent tokens (first at output pos 221: baseline=' checks' vs dflash=' includes')
+    Baseline [216:231]: ... input string.
+- It checks if the character is **not** in the...
+    DFlash   [216:231]: ... input string.
+- It includes only those characters that are **not** in...
+
+[4/8] Prompt length: 146
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(146, 2560)
+  [DEBUG] projected_all shape=(146, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.039732, std=2.700986, min=-48.000000, max=62.250000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=146
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   279 13027]
+  DFlash:   256 tokens, TPOT=1.6ms, tau=7.71
+  Quality:  MISMATCH — 253 divergent tokens (first at output pos 2: baseline=' Here' vs dflash=' Let')
+    Baseline [0:12]: ...Sure! Here's the solution to the problem. The task...
+    DFlash   [0:12]: ...Sure! Let's break down the problem and then provide a...
+
+[5/8] Prompt length: 194
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(194, 2560)
+  [DEBUG] projected_all shape=(194, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.040272, std=2.789947, min=-77.500000, max=74.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=194
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[11625   279  3491    11   582]
+  DFlash:   256 tokens, TPOT=2.2ms, tau=5.65
+  Quality:  MISMATCH — 41 divergent tokens (first at output pos 150: baseline='.
+
+' vs dflash='
+
+')
+    Baseline [145:160]: ... is divisible by 3.
+
+### Efficient Approach:
+
+Instead of checking all possible...
+    DFlash   [145:160]: ... is divisible by 3
+
+### Efficient Approach:
+
+Instead of checking all possible...
+
+[6/8] Prompt length: 142
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(142, 2560)
+  [DEBUG] projected_all shape=(142, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.047102, std=2.726521, min=-52.250000, max=52.000000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=142
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   0 5692  594  279 6291]
+  DFlash:   256 tokens, TPOT=2.6ms, tau=4.85
+  Quality:  MATCH (first 256 output tokens identical)
+
+[7/8] Prompt length: 79
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(79, 2560)
+  [DEBUG] projected_all shape=(79, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.057891, std=2.771603, min=-86.500000, max=70.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=79
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  594   264 13027  6291   429]
+  DFlash:   256 tokens, TPOT=2.4ms, tau=5.04
+  Quality:  MATCH (first 256 output tokens identical)
+
+[8/8] Prompt length: 167
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(167, 2560)
+  [DEBUG] projected_all shape=(167, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.058669, std=2.755598, min=-85.500000, max=58.750000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=167
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  594   264 13027  6291   429]
+  DFlash:   256 tokens, TPOT=2.2ms, tau=5.55
+  Quality:  MATCH (first 256 output tokens identical)
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  6.86 ms (145.7 TPS)
+DFlash TPOT:    2.22 ms (450.3 TPS)
+Speedup:        3.09x
+Tau (avg acceptance length): 5.76
+Total drafts: 317
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.877 ###################################
+  pos  2: 0.669 ##########################
+  pos  3: 0.549 #####################
+  pos  4: 0.473 ##################
+  pos  5: 0.363 ##############
+  pos  6: 0.315 ############
+  pos  7: 0.265 ##########
+  pos  8: 0.230 #########
+  pos  9: 0.205 ########
+  pos 10: 0.186 #######
+  pos 11: 0.174 ######
+  pos 12: 0.136 #####
+  pos 13: 0.117 ####
+  pos 14: 0.104 ####
+  pos 15: 0.098 ###
+
+Acceptance length histogram: ['0.0%', '12.3%', '20.8%', '12.0%', '7.6%', '11.0%', '4.7%', '5.0%', '3.5%', '2.5%', '1.9%', '1.3%', '3.8%', '1.9%', '1.3%', '0.6%', '9.8%']
+
+Output quality: 4/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 1: 38 mismatched tokens out of 256 (first at pos 218)
+  Sample 2: 35 mismatched tokens out of 256 (first at pos 221)
+  Sample 3: 253 mismatched tokens out of 256 (first at pos 2)
+  Sample 4: 41 mismatched tokens out of 256 (first at pos 150)
+
+Results saved to /output/v5p-pr/v5p_pr_humaneval.json
+[4/8] humaneval DONE
+
+[5/8] Running mbpp ... (02:09:50)
+----------------------------------------
+INFO 03-04 02:09:59 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:09:59 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:09:59 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:10:00 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:10:08 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:10:08 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:10:17 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:10:17 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:10:18 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:10:18 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:10:18 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:10:18 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:10:18 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:10:18 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.87s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.11s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.32s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.78s/it]
+
+INFO 03-04 02:10:32 [default_loader.py:293] Loading weights took 8.34 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:10:34 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:10:34 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: mbpp, samples: 8
+
+[1/8] Prompt length: 24
+WARNING 03-04 02:10:38 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:10:38 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=24
+INFO 03-04 02:10:53 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 99 tokens, TPOT=49.0ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(24, 2560)
+  [DEBUG] projected_all shape=(24, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.022280, std=2.693033, min=-45.250000, max=61.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=24
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   0 5692  594  264 4285]
+INFO 03-04 02:11:01 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   99 tokens, TPOT=63.8ms, tau=7.54
+  Quality:  MATCH (first 99 output tokens identical)
+
+[2/8] Prompt length: 28
+INFO 03-04 02:11:08 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=28
+  Baseline: 213 tokens, TPOT=9.3ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(28, 2560)
+  [DEBUG] projected_all shape=(28, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.028519, std=2.715231, min=-48.750000, max=58.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=28
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   0 5692  594  264 4285]
+  DFlash:   209 tokens, TPOT=2.5ms, tau=6.36
+  Quality:  MISMATCH — 95 divergent tokens (first at output pos 114: baseline=' `' vs dflash=' by')
+    Baseline [109:124]: ... if the remainder when dividing `n` by 11 is zero....
+    DFlash   [109:124]: ... if the remainder when dividing by 11 is zero. If it is...
+
+[3/8] Prompt length: 25
+INFO 03-04 02:11:25 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=25
+  Baseline: 175 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(25, 2560)
+  [DEBUG] projected_all shape=(25, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.050725, std=2.710120, min=-45.250000, max=58.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=25
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   264 13027]
+  DFlash:   175 tokens, TPOT=2.5ms, tau=5.87
+  Quality:  MATCH (first 175 output tokens identical)
+
+[4/8] Prompt length: 29
+INFO 03-04 02:11:42 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=29
+  Baseline: 252 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(29, 2560)
+  [DEBUG] projected_all shape=(29, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.047396, std=2.687731, min=-44.500000, max=72.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=29
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   264 13027]
+  DFlash:   256 tokens, TPOT=1.4ms, tau=8.67
+  Quality:  MISMATCH — 36 divergent tokens (first at output pos 47: baseline=' frequency' vs dflash=' freq')
+    Baseline [42:57]: ... of each character
+    frequency = {}
+
+    # First pass: count the...
+    DFlash   [42:57]: ... of each character
+    freq = {}
+
+    # First pass: count the...
+
+[5/8] Prompt length: 29
+  Baseline: 188 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(29, 2560)
+  [DEBUG] projected_all shape=(29, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.034784, std=2.753459, min=-49.250000, max=70.000000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=29
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   0 5692  594  264 4285]
+  DFlash:   193 tokens, TPOT=1.6ms, tau=7.46
+  Quality:  MISMATCH — 168 divergent tokens (first at output pos 13: baseline=' times' vs dflash=' occurrences')
+    Baseline [8:23]: ... that counts the number of times a number appears in a list:
+
+```python...
+    DFlash   [8:23]: ... that counts the number of occurrences of a number in a given list:
+
+```...
+
+[6/8] Prompt length: 25
+  Baseline: 193 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(25, 2560)
+  [DEBUG] projected_all shape=(25, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.041629, std=2.732965, min=-54.000000, max=58.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=25
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   264 13027]
+  DFlash:   199 tokens, TPOT=1.6ms, tau=7.41
+  Quality:  MISMATCH — 128 divergent tokens (first at output pos 58: baseline='2' vs dflash='1')
+    Baseline [53:68]: ...python
+numbers = [2, 3, 4, 5...
+    DFlash   [53:68]: ...python
+numbers = [1, 2, 3, 4...
+
+[7/8] Prompt length: 32
+INFO 03-04 02:12:04 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(32, 2560)
+  [DEBUG] projected_all shape=(32, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.057196, std=2.821977, min=-82.500000, max=70.000000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=32
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 1477   279  3070 73648 19246]
+  DFlash:   256 tokens, TPOT=2.7ms, tau=4.50
+  Quality:  MATCH (first 256 output tokens identical)
+
+[8/8] Prompt length: 36
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(36, 2560)
+  [DEBUG] projected_all shape=(36, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.057037, std=2.652277, min=-50.750000, max=47.000000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=36
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0  5692   594   264 13027]
+  DFlash:   256 tokens, TPOT=2.3ms, tau=5.24
+  Quality:  MISMATCH — 194 divergent tokens (first at output pos 9: baseline=' whether' vs dflash=' if')
+    Baseline [4:19]: ... a Python function that checks whether an input string contains sequences of lowercase letters joined...
+    DFlash   [4:19]: ... a Python function that checks if an input string contains sequences of lowercase letters joined...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  7.11 ms (140.6 TPS)
+DFlash TPOT:    2.08 ms (479.9 TPS)
+Speedup:        3.41x
+Tau (avg acceptance length): 6.16
+Total drafts: 253
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.858 ##################################
+  pos  2: 0.739 #############################
+  pos  3: 0.640 #########################
+  pos  4: 0.538 #####################
+  pos  5: 0.455 ##################
+  pos  6: 0.391 ###############
+  pos  7: 0.332 #############
+  pos  8: 0.281 ###########
+  pos  9: 0.229 #########
+  pos 10: 0.194 #######
+  pos 11: 0.154 ######
+  pos 12: 0.123 ####
+  pos 13: 0.099 ###
+  pos 14: 0.063 ##
+  pos 15: 0.063 ##
+
+Acceptance length histogram: ['0.0%', '14.2%', '11.9%', '9.9%', '10.3%', '8.3%', '6.3%', '5.9%', '5.1%', '5.1%', '3.6%', '4.0%', '3.2%', '2.4%', '3.6%', '0.0%', '6.3%']
+
+Output quality: 3/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 1: 95 mismatched tokens out of 209 (first at pos 114)
+  Sample 3: 36 mismatched tokens out of 252 (first at pos 47)
+  Sample 4: 168 mismatched tokens out of 188 (first at pos 13)
+  Sample 5: 128 mismatched tokens out of 193 (first at pos 58)
+  Sample 7: 194 mismatched tokens out of 256 (first at pos 9)
+
+Results saved to /output/v5p-pr/v5p_pr_mbpp.json
+[5/8] mbpp DONE
+
+[6/8] Running swe-bench ... (02:12:50)
+----------------------------------------
+INFO 03-04 02:12:58 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:12:59 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:12:59 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:12:59 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:13:08 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:13:08 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:13:17 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:13:17 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:13:17 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:13:17 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:13:18 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:13:18 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:13:18 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:13:18 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.88s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.13s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.33s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.79s/it]
+
+INFO 03-04 02:13:32 [default_loader.py:293] Loading weights took 8.37 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:13:33 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:13:33 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: swe-bench, samples: 8
+
+[1/8] Prompt length: 689
+WARNING 03-04 02:13:37 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:13:37 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 02:13:56 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.2ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(689, 2560)
+  [DEBUG] projected_all shape=(689, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.032954, std=2.841086, min=-90.000000, max=68.000000
+  [DEBUG] ctx shape=(1024, 2560), cache_len=0, ctx_count=689
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 1465   498  2299 91272   374]
+INFO 03-04 02:14:06 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=28.6ms, tau=2.81
+  Quality:  MISMATCH — 106 divergent tokens (first at output pos 150: baseline=' comparison' vs dflash=' the')
+    Baseline [145:160]: ... complex expression), and thus comparison with `<` is invalid.
+
+### Solution
+
+...
+    DFlash   [145:160]: ... complex expression), and thus the comparison is invalid.
+
+### Solution
+
+To fix...
+
+[2/8] Prompt length: 648
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(648, 2560)
+  [DEBUG] projected_all shape=(648, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.021411, std=2.938801, min=-93.500000, max=86.000000
+  [DEBUG] ctx shape=(1024, 2560), cache_len=0, ctx_count=648
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 4265   498  2299 91272   374]
+  DFlash:   256 tokens, TPOT=4.0ms, tau=3.60
+  Quality:  MISMATCH — 224 divergent tokens (first at output pos 31: baseline=' unit' vs dflash=' vector')
+    Baseline [26:41]: ... when printing expressions that involve unit vectors (like `xhat`, `y...
+    DFlash   [26:41]: ... when printing expressions that involve vector components and units. The `pprint`...
+
+[3/8] Prompt length: 204
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(204, 2560)
+  [DEBUG] projected_all shape=(204, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.041344, std=2.842221, min=-86.000000, max=67.500000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=204
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[2299  389  279 1290 3754]
+  DFlash:   256 tokens, TPOT=4.6ms, tau=2.63
+  Quality:  MISMATCH — 188 divergent tokens (first at output pos 66: baseline='e' vs dflash='not')
+    Baseline [61:76]: ... a **model** (e.g., `MyModel`), the `...
+    DFlash   [61:76]: ... a **model** (not an inline), if you specify `verbose_name...
+
+[4/8] Prompt length: 147
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(147, 2560)
+  [DEBUG] projected_all shape=(147, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.038717, std=2.851450, min=-91.500000, max=71.000000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=147
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 4265   498   279 97913   374]
+  DFlash:   256 tokens, TPOT=3.4ms, tau=3.47
+  Quality:  MISMATCH — 62 divergent tokens (first at output pos 91: baseline='usually' vs dflash='typically')
+    Baseline [86:101]: ... sum over an index (usually denoted as `i_1`),...
+    DFlash   [86:101]: ... sum over an index (typically denoted as `i_1`),...
+
+[5/8] Prompt length: 641
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(641, 2560)
+  [DEBUG] projected_all shape=(641, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.068093, std=2.864961, min=-89.500000, max=71.000000
+  [DEBUG] ctx shape=(1024, 2560), cache_len=0, ctx_count=641
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[4265  498 2299  264  374]
+  DFlash:   256 tokens, TPOT=3.6ms, tau=3.55
+  Quality:  MISMATCH — 179 divergent tokens (first at output pos 72: baseline=' for' vs dflash=' you')
+    Baseline [67:82]: ...int, and the syntax for message templates has **changed**.
+
+---
+
+##...
+    DFlash   [67:82]: ...int, and the syntax you're using is **no longer supported** in...
+
+[6/8] Prompt length: 312
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(312, 2560)
+  [DEBUG] projected_all shape=(312, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.029672, std=2.870995, min=-87.000000, max=74.500000
+  [DEBUG] ctx shape=(512, 2560), cache_len=0, ctx_count=312
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 2299 91272   264  4265  4265]
+  DFlash:   256 tokens, TPOT=3.2ms, tau=3.71
+  Quality:  MISMATCH — 85 divergent tokens (first at output pos 168: baseline=',' vs dflash='
+
+')
+    Baseline [163:178]: ...from django.db import migrations, models
+
+class Migration(migrations.Migration):
+...
+    DFlash   [163:178]: ...from django.db import migrations
+
+class Migration(migrations.Migration):
+    dependencies...
+
+[7/8] Prompt length: 1400
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(1400, 2560)
+  [DEBUG] projected_all shape=(1400, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.011221, std=2.912569, min=-91.500000, max=79.000000
+  [DEBUG] ctx shape=(2048, 2560), cache_len=0, ctx_count=1400
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 1465   498  2299 91272   374]
+  DFlash:   256 tokens, TPOT=3.6ms, tau=3.43
+  Quality:  MISMATCH — 195 divergent tokens (first at output pos 45: baseline=' the' vs dflash=' `')
+    Baseline [40:55]: ...'re passing the data to the `plot` function and the way you're...
+    DFlash   [40:55]: ...'re passing the data to `ax.plot()` and the way you're using...
+
+[8/8] Prompt length: 488
+  Baseline: 256 tokens, TPOT=10.3ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(488, 2560)
+  [DEBUG] projected_all shape=(488, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.001729, std=2.886802, min=-87.000000, max=71.500000
+  [DEBUG] ctx shape=(512, 2560), cache_len=0, ctx_count=488
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 2299 91272   264  3070  1565]
+  DFlash:   256 tokens, TPOT=3.6ms, tau=3.34
+  Quality:  MISMATCH — 225 divergent tokens (first at output pos 31: baseline=' symbols' vs dflash=' assumptions')
+    Baseline [26:41]: ...Piecewise`, and real symbols. This issue is **related to how Sym...
+    DFlash   [26:41]: ...Piecewise`, and real assumptions on symbols. This is a **bug in...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  7.30 ms (137.0 TPS)
+DFlash TPOT:    3.71 ms (269.4 TPS)
+Speedup:        1.97x
+Tau (avg acceptance length): 3.35
+Total drafts: 540
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.722 ############################
+  pos  2: 0.515 ####################
+  pos  3: 0.311 ############
+  pos  4: 0.213 ########
+  pos  5: 0.157 ######
+  pos  6: 0.106 ####
+  pos  7: 0.070 ##
+  pos  8: 0.059 ##
+  pos  9: 0.048 #
+  pos 10: 0.043 #
+  pos 11: 0.037 #
+  pos 12: 0.028 #
+  pos 13: 0.019 
+  pos 14: 0.013 
+  pos 15: 0.013 
+
+Acceptance length histogram: ['0.0%', '27.8%', '20.7%', '20.4%', '9.8%', '5.6%', '5.2%', '3.5%', '1.1%', '1.1%', '0.6%', '0.6%', '0.9%', '0.9%', '0.6%', '0.0%', '1.3%']
+
+Output quality: 0/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 0: 106 mismatched tokens out of 256 (first at pos 150)
+  Sample 1: 224 mismatched tokens out of 256 (first at pos 31)
+  Sample 2: 188 mismatched tokens out of 256 (first at pos 66)
+  Sample 3: 62 mismatched tokens out of 256 (first at pos 91)
+  Sample 4: 179 mismatched tokens out of 256 (first at pos 72)
+  Sample 5: 85 mismatched tokens out of 256 (first at pos 168)
+  Sample 6: 195 mismatched tokens out of 256 (first at pos 45)
+  Sample 7: 225 mismatched tokens out of 256 (first at pos 31)
+
+Results saved to /output/v5p-pr/v5p_pr_swe-bench.json
+[6/8] swe-bench DONE
+
+[7/8] Running mt-bench ... (02:16:57)
+----------------------------------------
+INFO 03-04 02:17:05 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:17:06 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:17:06 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:17:06 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:17:15 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:17:15 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:17:24 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:17:24 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:17:24 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:17:24 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:17:25 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:17:25 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:17:25 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:17:25 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.87s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.18s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.36s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.82s/it]
+
+INFO 03-04 02:17:39 [default_loader.py:293] Loading weights took 8.47 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:17:40 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:17:40 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: mt-bench, samples: 8
+
+[1/8] Prompt length: 34
+WARNING 03-04 02:17:44 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:17:44 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+INFO 03-04 02:18:01 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.0ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(34, 2560)
+  [DEBUG] projected_all shape=(34, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.035998, std=2.815630, min=-76.000000, max=63.750000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=34
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 1477   279 18927   429 20097]
+INFO 03-04 02:18:09 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=27.1ms, tau=5.86
+  Quality:  MISMATCH — 104 divergent tokens (first at output pos 147: baseline='Alternatively' vs dflash='Instead')
+    Baseline [142:157]: ... 12**.
+
+Alternatively, it's easier to find the **com...
+    DFlash   [142:157]: ... 12**.
+
+Instead of counting all of these, it's easier...
+
+[2/8] Prompt length: 211
+  Baseline: 16 tokens, TPOT=6.5ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(211, 2560)
+  [DEBUG] projected_all shape=(211, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.033174, std=2.975454, min=-75.500000, max=70.000000
+  [DEBUG] ctx shape=(256, 2560), cache_len=0, ctx_count=211
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   13 46370  2303    16    13]
+  DFlash:   16 tokens, TPOT=2.1ms, tau=5.67
+  Quality:  MATCH (first 16 output tokens identical)
+
+[3/8] Prompt length: 39
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(39, 2560)
+  [DEBUG] projected_all shape=(39, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.039597, std=2.781906, min=-60.500000, max=68.500000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=39
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[    0 21193   374   264 13027]
+  DFlash:   256 tokens, TPOT=2.0ms, tau=6.14
+  Quality:  MISMATCH — 86 divergent tokens (first at output pos 78: baseline='�' vs dflash='�')
+    Baseline [73:88]: ... words.
+
+---
+
+### 🧩 Python Code:
+
+```python
+import os...
+    DFlash   [73:88]: ... words.
+
+---
+
+### 📝 Python Code:
+
+```python
+import os...
+
+[4/8] Prompt length: 64
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(64, 2560)
+  [DEBUG] projected_all shape=(64, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.041137, std=2.752101, min=-75.000000, max=62.250000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=64
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 594 1438  419  279 3019]
+  DFlash:   256 tokens, TPOT=2.5ms, tau=4.93
+  Quality:  MISMATCH — 98 divergent tokens (first at output pos 156: baseline='in' vs dflash='by')
+    Baseline [151:166]: ... pole** is cast **in the opposite direction of the sun**.
+-...
+    DFlash   [151:166]: ... pole** is cast **by the sun**.
+- The **shadow is...
+
+[5/8] Prompt length: 55
+  Baseline: 256 tokens, TPOT=9.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(55, 2560)
+  [DEBUG] projected_all shape=(55, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.047979, std=2.911821, min=-78.500000, max=68.000000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=55
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  264 23210   594   304   264]
+  DFlash:   256 tokens, TPOT=2.8ms, tau=4.43
+  Quality:  MISMATCH — 196 divergent tokens (first at output pos 59: baseline='In' vs dflash='A')
+    Baseline [54:69]: ... the Satellite's Motion**
+
+In a **circular orbit**, the **cent...
+    DFlash   [54:69]: ... the Satellite's Motion**
+
+A satellite in a **circular orbit** moves...
+
+[6/8] Prompt length: 84
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(84, 2560)
+  [DEBUG] projected_all shape=(84, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.016027, std=2.770584, min=-83.500000, max=60.500000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=84
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  525  2661  2326 12239 12239]
+  DFlash:   256 tokens, TPOT=2.0ms, tau=5.93
+  Quality:  MISMATCH — 178 divergent tokens (first at output pos 77: baseline=' based' vs dflash='.
+
+')
+    Baseline [72:87]: ... false, or uncertain** based on that.
+
+---
+
+### Step 1:...
+    DFlash   [72:87]: ... false, or uncertain**.
+
+---
+
+### Step 1: Translate the first...
+
+[7/8] Prompt length: 34
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(34, 2560)
+  [DEBUG] projected_all shape=(34, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.076224, std=3.101525, min=-76.500000, max=65.000000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=34
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 3851    25 42580    25   362]
+  DFlash:   256 tokens, TPOT=6.0ms, tau=2.00
+  Quality:  MISMATCH — 187 divergent tokens (first at output pos 66: baseline=' exploring' vs dflash=' visiting')
+    Baseline [61:76]: ... I had the privilege of exploring the Big Island of Hawaii, and I can...
+    DFlash   [61:76]: ... I had the privilege of visiting Hawaii, and I can confidently say it was...
+
+[8/8] Prompt length: 38
+  Baseline: 256 tokens, TPOT=6.9ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(38, 2560)
+  [DEBUG] projected_all shape=(38, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.016870, std=2.831380, min=-85.500000, max=74.500000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=38
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[30128  2070    11  3070 30448]
+  DFlash:   256 tokens, TPOT=3.8ms, tau=3.32
+  Quality:  MISMATCH — 194 divergent tokens (first at output pos 60: baseline=' **' vs dflash=' super')
+    Baseline [55:70]: ... quantum system is in a **superposition**, it is in a combination of...
+    DFlash   [55:70]: ... quantum system is in a superposition of states, it means that it is...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  7.21 ms (138.7 TPS)
+DFlash TPOT:    3.03 ms (329.6 TPS)
+Speedup:        2.38x
+Tau (avg acceptance length): 3.87
+Total drafts: 407
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.757 ##############################
+  pos  2: 0.523 ####################
+  pos  3: 0.361 ##############
+  pos  4: 0.270 ##########
+  pos  5: 0.201 ########
+  pos  6: 0.157 ######
+  pos  7: 0.123 ####
+  pos  8: 0.101 ####
+  pos  9: 0.084 ###
+  pos 10: 0.066 ##
+  pos 11: 0.054 ##
+  pos 12: 0.052 ##
+  pos 13: 0.044 #
+  pos 14: 0.042 #
+  pos 15: 0.032 #
+
+Acceptance length histogram: ['0.0%', '24.3%', '23.3%', '16.2%', '9.1%', '6.9%', '4.4%', '3.4%', '2.2%', '1.7%', '1.7%', '1.2%', '0.2%', '0.7%', '0.2%', '1.0%', '3.2%']
+
+Output quality: 1/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 0: 104 mismatched tokens out of 256 (first at pos 147)
+  Sample 2: 86 mismatched tokens out of 256 (first at pos 78)
+  Sample 3: 98 mismatched tokens out of 256 (first at pos 156)
+  Sample 4: 196 mismatched tokens out of 256 (first at pos 59)
+  Sample 5: 178 mismatched tokens out of 256 (first at pos 77)
+  Sample 6: 187 mismatched tokens out of 256 (first at pos 66)
+  Sample 7: 194 mismatched tokens out of 256 (first at pos 60)
+
+Results saved to /output/v5p-pr/v5p_pr_mt-bench.json
+[7/8] mt-bench DONE
+
+[8/8] Running alpaca ... (02:20:09)
+----------------------------------------
+INFO 03-04 02:20:18 [__init__.py:59] TPU info: node_name=aaron-v5p-node6 | tpu_type=v5p-8 | worker_id=0 | num_chips=4 | num_cores_per_chip=2
+WARNING:absl:Tensorflow library not found, tensorflow.io.gfile operations will use native shim calls. GCS paths (i.e. 'gs://...') cannot be accessed.
+INFO 03-04 02:20:19 [importing.py:44] Triton is installed but 0 active driver(s) found (expected 1). Disabling Triton to prevent runtime errors.
+INFO 03-04 02:20:19 [importing.py:68] Triton not installed or not compatible; certain GPU-related functions will not be available.
+WARNING 03-04 02:20:19 [interface.py:226] Failed to import from vllm._C: ModuleNotFoundError("No module named 'vllm._C'")
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+[INFO] JAX devices: 4
+INFO 03-04 02:20:28 [model.py:530] Resolved architecture: Qwen3ForCausalLM
+INFO 03-04 02:20:28 [model.py:1553] Using max model len 40960
+The argument `trust_remote_code` is to be used with Auto classes. It has no effect here and is ignored.
+INFO 03-04 02:20:37 [model.py:803] Resolved `--runner auto` to `--runner pooling`. Pass the value explicitly to silence this message.
+INFO 03-04 02:20:37 [model.py:855] Resolved `--convert auto` to `--convert embed`. Pass the value explicitly to silence this message.
+INFO 03-04 02:20:37 [model.py:530] Resolved architecture: TransformersEmbeddingModel
+INFO 03-04 02:20:37 [model.py:1553] Using max model len 40960
+[INFO] Block size: 16, mask_token_id: 151669
+[INFO] Draft hidden_size: 2560
+[INFO] Loading target model...
+WARNING 03-04 02:20:38 [__init__.py:80] The quantization method 'awq' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.awq.VllmAWQConfig'>.
+WARNING 03-04 02:20:38 [__init__.py:80] The quantization method 'compressed-tensors' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.compressed_tensors.compressed_tensors.VllmCompressedTensorsConfig'>.
+WARNING 03-04 02:20:38 [__init__.py:80] The quantization method 'fp8' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.fp8.VllmFp8Config'>.
+WARNING 03-04 02:20:38 [__init__.py:80] The quantization method 'mxfp4' already exists and will be overwritten by the quantization config <class 'tpu_inference.layers.vllm.quantization.mxfp4.VllmMxfp4Config'>.
+Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  33% Completed | 1/3 [00:03<00:07,  3.96s/it]
+Loading safetensors checkpoint shards:  67% Completed | 2/3 [00:08<00:04,  4.15s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.34s/it]
+Loading safetensors checkpoint shards: 100% Completed | 3/3 [00:08<00:00,  2.81s/it]
+
+INFO 03-04 02:20:52 [default_loader.py:293] Loading weights took 8.43 seconds
+WARNING:root:Duplicate op registration for aten.__and__
+[INFO] Loading draft model...
+INFO 03-04 02:20:53 [weight_utils.py:145] Downloading weights from HF z-lab/Qwen3-4B-DFlash-b16
+INFO 03-04 02:20:53 [weight_utils.py:167] Loading weights from /hf-cache/hub/models--z-lab--Qwen3-4B-DFlash-b16/snapshots/61ab4992e5b5ec5913c7f8a9618367b4309533a3/model.safetensors
+[INFO] Shared target embedding with draft model.
+[INFO] Dataset: alpaca, samples: 8
+
+[1/8] Prompt length: 27
+WARNING 03-04 02:20:57 [tuned_block_sizes.py:4368] Couldn`t find tuned sizes for the RPA v3 kernel with ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None')
+INFO 03-04 02:20:57 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=27
+INFO 03-04 02:21:13 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=1
+  Baseline: 256 tokens, TPOT=23.3ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(27, 2560)
+  [DEBUG] projected_all shape=(27, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.082612, std=2.914714, min=-85.500000, max=71.000000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=27
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  264  1697   879   702 54552]
+INFO 03-04 02:21:21 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=16
+  DFlash:   256 tokens, TPOT=29.4ms, tau=2.26
+  Quality:  MISMATCH — 188 divergent tokens (first at output pos 68: baseline='####' vs dflash='1')
+    Baseline [63:78]: ... Exercise for Arthritis:
+
+#### 1. **Low-Impact Aer...
+    DFlash   [63:78]: ... Exercise for Arthritis:
+
+1. **Low-Impact Aerobic Exercise...
+
+[2/8] Prompt length: 19
+INFO 03-04 02:21:28 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=19
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(19, 2560)
+  [DEBUG] projected_all shape=(19, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.006534, std=2.842554, min=-81.500000, max=78.000000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=19
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[11047   279  3070  6618  3072]
+  DFlash:   256 tokens, TPOT=3.9ms, tau=3.52
+  Quality:  MATCH (first 256 output tokens identical)
+
+[3/8] Prompt length: 67
+INFO 03-04 02:21:46 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=32
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(67, 2560)
+  [DEBUG] projected_all shape=(67, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.068217, std=2.883314, min=-77.500000, max=75.000000
+  [DEBUG] ctx shape=(128, 2560), cache_len=0, ctx_count=67
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[5508  279 2661 7868  311]
+  DFlash:   256 tokens, TPOT=2.0ms, tau=6.60
+  Quality:  MATCH (first 256 output tokens identical)
+
+[4/8] Prompt length: 31
+INFO 03-04 02:22:04 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=31
+  Baseline: 33 tokens, TPOT=6.6ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(31, 2560)
+  [DEBUG] projected_all shape=(31, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.016152, std=2.923847, min=-62.000000, max=52.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=31
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[  572 26115    13  6252  4445]
+  DFlash:   33 tokens, TPOT=5.6ms, tau=2.12
+  Quality:  MATCH (first 33 output tokens identical)
+
+[5/8] Prompt length: 30
+INFO 03-04 02:22:21 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=30
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(30, 2560)
+  [DEBUG] projected_all shape=(30, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.048137, std=2.824147, min=-49.500000, max=58.500000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=30
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[   0 5692  525 2326 3204]
+  DFlash:   256 tokens, TPOT=5.5ms, tau=2.26
+  Quality:  MISMATCH — 212 divergent tokens (first at output pos 26: baseline=' Adventure' vs dflash=' Sprint')
+    Baseline [21:36]: ... **"Skateboard Adventure Challenge" – Social Media Contest**
+**Concept...
+    DFlash   [21:36]: ... **"Skateboard Sprint Challenge" – Social Media Competition**
+**Concept...
+
+[6/8] Prompt length: 31
+  Baseline: 9 tokens, TPOT=6.1ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(31, 2560)
+  [DEBUG] projected_all shape=(31, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.003039, std=2.829256, min=-62.000000, max=57.000000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=31
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[ 705  279 2311  504  279]
+  DFlash:   9 tokens, TPOT=0.9ms, tau=9.00
+  Quality:  MATCH (first 9 output tokens identical)
+
+[7/8] Prompt length: 35
+  Baseline: 256 tokens, TPOT=6.8ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(35, 2560)
+  [DEBUG] projected_all shape=(35, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=0.037443, std=2.935935, min=-77.000000, max=57.500000
+  [DEBUG] ctx shape=(64, 2560), cache_len=0, ctx_count=35
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[26972   292 69151 56177 13322]
+  DFlash:   256 tokens, TPOT=5.8ms, tau=2.04
+  Quality:  MISMATCH — 193 divergent tokens (first at output pos 7: baseline=' Friends' vs dflash=' People')
+    Baseline [2:17]: ... Picnic Vacation with Four Friends**
+
+The sun was shining brightly as four friends...
+    DFlash   [2:17]: ... Picnic Vacation with Four People**
+
+The sun was shining brightly as four friends...
+
+[8/8] Prompt length: 28
+INFO 03-04 02:23:00 [tuned_block_sizes.py:4389] RPA v3 kernel tuned block sizes for ('TPU v5', 16, 'q_bfloat16_kv_bfloat16', 'q_head-32_kv_head-8_head-128', 'max_model_len-4096-sw-None'): bkv_p=128, bq=28
+  Baseline: 256 tokens, TPOT=6.7ms
+  [DEBUG] aux_hidden_states type=<class 'list'>, len=5
+  [DEBUG] aux[0] shape=(28, 2560)
+  [DEBUG] projected_all shape=(28, 2560)
+  [DEBUG] draft_hidden shape=(16, 2560), mean=-0.023515, std=2.822026, min=-86.000000, max=56.250000
+  [DEBUG] ctx shape=(32, 2560), cache_len=0, ctx_count=28
+  [DEBUG] draft_logits shape=(15, 151936), argmax first 5=[15636  2885   334 19257   311]
+  DFlash:   256 tokens, TPOT=4.4ms, tau=2.64
+  Quality:  MISMATCH — 78 divergent tokens (first at output pos 174: baseline=' decisions' vs dflash=' business')
+    Baseline [169:184]: ... analytics to make more informed decisions based on real-time insights rather than intuition or...
+    DFlash   [169:184]: ... analytics to make more informed business decisions.
+   - Data-driven insights help in...
+
+============================================================
+RESULTS
+(excluding first 1 warmup sample(s))
+============================================================
+
+Samples:        7 (+ 1 warmup)
+Baseline TPOT:  6.62 ms (151.1 TPS)
+DFlash TPOT:    4.01 ms (249.4 TPS)
+Speedup:        1.65x
+Tau (avg acceptance length): 2.86
+Total drafts: 470
+
+Per-position acceptance rate:
+  pos  0: 1.000 ########################################
+  pos  1: 0.619 ########################
+  pos  2: 0.366 ##############
+  pos  3: 0.228 #########
+  pos  4: 0.155 ######
+  pos  5: 0.098 ###
+  pos  6: 0.085 ###
+  pos  7: 0.064 ##
+  pos  8: 0.047 #
+  pos  9: 0.038 #
+  pos 10: 0.032 #
+  pos 11: 0.028 #
+  pos 12: 0.026 #
+  pos 13: 0.023 
+  pos 14: 0.023 
+  pos 15: 0.023 
+
+Acceptance length histogram: ['0.0%', '38.1%', '25.3%', '13.8%', '7.2%', '5.7%', '1.3%', '2.1%', '1.7%', '0.9%', '0.6%', '0.4%', '0.2%', '0.2%', '0.0%', '0.0%', '2.3%']
+
+Output quality: 4/8 samples match baseline exactly
+  (Mismatches are expected with bf16 speculative decoding — batch-16 verify vs single-token baseline can produce different floating-point accumulation, flipping argmax at decision boundaries.)
+  Sample 0: 188 mismatched tokens out of 256 (first at pos 68)
+  Sample 4: 212 mismatched tokens out of 256 (first at pos 26)
+  Sample 6: 193 mismatched tokens out of 256 (first at pos 7)
+  Sample 7: 78 mismatched tokens out of 256 (first at pos 174)
+
+Results saved to /output/v5p-pr/v5p_pr_alpaca.json
+[8/8] alpaca DONE
+
+========================================
+  All 8 benchmarks complete!
+  Total time: 27m 52s
+  Results in: /dev/shm/dflash-test-outputs/v5p-pr/
+========================================
+total 1128
+drwxrwxr-x 2 aaronfeng aaronfeng    220 Mar  4 02:23 .
+drwxrwxr-x 3 aaronfeng aaronfeng    240 Mar  3 18:58 ..
+-rw-r--r-- 1 root      root      168891 Mar  4 02:02 v5p_pr_aime24.json
+-rw-r--r-- 1 root      root      103161 Mar  4 02:05 v5p_pr_aime25.json
+-rw-r--r-- 1 root      root      127779 Mar  4 02:23 v5p_pr_alpaca.json
+-rw-r--r-- 1 root      root       81933 Mar  4 01:10 v5p_pr_gsm8k.json
+-rw-r--r-- 1 root      root       72059 Mar  4 02:09 v5p_pr_humaneval.json
+-rw-r--r-- 1 root      root       49665 Mar  4 01:58 v5p_pr_math500.json
+-rw-r--r-- 1 root      root      114188 Mar  4 02:12 v5p_pr_mbpp.json
+-rw-r--r-- 1 root      root      188017 Mar  4 02:20 v5p_pr_mt-bench.json
+-rw-r--r-- 1 root      root      227146 Mar  4 02:16 v5p_pr_swe-bench.json

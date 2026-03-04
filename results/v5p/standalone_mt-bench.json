@@ -1,0 +1,7989 @@
+{
+  "config": {
+    "target_model": "Qwen/Qwen3-4B",
+    "draft_model": "z-lab/Qwen3-4B-DFlash-b16",
+    "dataset": "mt-bench",
+    "block_size": 16,
+    "max_new_tokens": 256,
+    "max_model_len": 2048,
+    "temperature": 0.0,
+    "warmup_samples": 1,
+    "measured_samples": 7,
+    "total_samples": 8,
+    "num_devices": 1
+  },
+  "summary": {
+    "baseline_tpot_ms": 6.273305703026771,
+    "baseline_tps": 159.40559050350694,
+    "dflash_tpot_ms": 2.7385309079233724,
+    "dflash_tps": 365.15928927685536,
+    "speedup": 2.290755851933699,
+    "tau": 3.8673218673218672,
+    "total_drafts": 407,
+    "acceptance_rate_per_pos": [
+      1.0,
+      0.7567567567567568,
+      0.5233415233415234,
+      0.36117936117936117,
+      0.2702702702702703,
+      0.20147420147420148,
+      0.15724815724815724,
+      0.12285012285012285,
+      0.10073710073710074,
+      0.08353808353808354,
+      0.06633906633906633,
+      0.05405405405405406,
+      0.051597051597051594,
+      0.044226044226044224,
+      0.04176904176904177,
+      0.03194103194103194
+    ],
+    "acceptance_histogram": [
+      0.0,
+      0.24324324324324326,
+      0.2334152334152334,
+      0.16216216216216217,
+      0.09090909090909091,
+      0.0687960687960688,
+      0.044226044226044224,
+      0.0343980343980344,
+      0.022113022113022112,
+      0.0171990171990172,
+      0.0171990171990172,
+      0.012285012285012284,
+      0.002457002457002457,
+      0.007371007371007371,
+      0.002457002457002457,
+      0.009828009828009828,
+      0.03194103194103194
+    ]
+  },
+  "quality": {
+    "total_samples": 8,
+    "exact_matches": 1,
+    "match_rate": 0.125,
+    "answer_matches": 0,
+    "answer_total": 0
+  },
+  "per_sample": [
+    {
+      "sample_index": 0,
+      "is_warmup": true,
+      "num_input_tokens": 34,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 22.587092343769655,
+      "baseline_tps": 44.27307352271203,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 27.03860317183171,
+      "dflash_tps": 36.984159042719355,
+      "tau": 5.863636363636363,
+      "num_drafts": 44,
+      "acceptance_lengths": [
+        5,
+        2,
+        3,
+        9,
+        12,
+        4,
+        3,
+        5,
+        2,
+        9,
+        16,
+        10,
+        8,
+        4,
+        1,
+        2,
+        3,
+        1,
+        5,
+        5,
+        3,
+        13,
+        5,
+        6,
+        11,
+        3,
+        2,
+        2,
+        10,
+        2,
+        11,
+        1,
+        6,
+        3,
+        16,
+        6,
+        9,
+        7,
+        2,
+        5,
+        3,
+        6,
+        14,
+        3
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 147,
+          "baseline_id": 92014,
+          "dflash_id": 30787,
+          "baseline_text": "Alternatively",
+          "dflash_text": "Instead"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 11,
+          "dflash_id": 315,
+          "baseline_text": ",",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 432,
+          "dflash_id": 25009,
+          "baseline_text": " it",
+          "dflash_text": " counting"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 594,
+          "dflash_id": 678,
+          "baseline_text": "'s",
+          "dflash_text": " all"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 8661,
+          "dflash_id": 315,
+          "baseline_text": " easier",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 311,
+          "dflash_id": 1493,
+          "baseline_text": " to",
+          "dflash_text": " these"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 1477,
+          "dflash_id": 11,
+          "baseline_text": " find",
+          "dflash_text": ","
+        },
+        {
+          "pos": 154,
+          "baseline_id": 279,
+          "dflash_id": 432,
+          "baseline_text": " the",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 3070,
+          "dflash_id": 594,
+          "baseline_text": " **",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 874,
+          "dflash_id": 8661,
+          "baseline_text": "com",
+          "dflash_text": " easier"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 2764,
+          "dflash_id": 311,
+          "baseline_text": "plement",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 334,
+          "dflash_id": 1477,
+          "baseline_text": "**",
+          "dflash_text": " find"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 1959,
+          "dflash_id": 279,
+          "baseline_text": " \u2014",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 279,
+          "dflash_id": 3070,
+          "baseline_text": " the",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 18927,
+          "dflash_id": 874,
+          "baseline_text": " probability",
+          "dflash_text": "com"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 429,
+          "dflash_id": 2764,
+          "baseline_text": " that",
+          "dflash_text": "plement"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 279,
+          "dflash_id": 334,
+          "baseline_text": " the",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 2790,
+          "dflash_id": 1959,
+          "baseline_text": " total",
+          "dflash_text": " \u2014"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 374,
+          "dflash_id": 279,
+          "baseline_text": " is",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 3070,
+          "dflash_id": 1372,
+          "baseline_text": " **",
+          "dflash_text": " number"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 1717,
+          "dflash_id": 315,
+          "baseline_text": "less",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 1091,
+          "dflash_id": 19554,
+          "baseline_text": " than",
+          "dflash_text": " outcomes"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 220,
+          "dflash_id": 1380,
+          "baseline_text": " ",
+          "dflash_text": " where"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 18,
+          "dflash_id": 279,
+          "baseline_text": "3",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 97219,
+          "dflash_id": 2790,
+          "baseline_text": "**,",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 323,
+          "dflash_id": 374,
+          "baseline_text": " and",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 1221,
+          "dflash_id": 3070,
+          "baseline_text": " then",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 32256,
+          "dflash_id": 1717,
+          "baseline_text": " subtract",
+          "dflash_text": "less"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 429,
+          "dflash_id": 1091,
+          "baseline_text": " that",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 504,
+          "dflash_id": 220,
+          "baseline_text": " from",
+          "dflash_text": " "
+        },
+        {
+          "pos": 177,
+          "baseline_id": 220,
+          "dflash_id": 18,
+          "baseline_text": " ",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 16,
+          "dflash_id": 97219,
+          "baseline_text": "1",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 382,
+          "dflash_id": 600,
+          "baseline_text": ".\n\n",
+          "dflash_text": " i"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 44364,
+          "dflash_id": 1734,
+          "baseline_text": "---\n\n",
+          "dflash_text": ".e"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 14374,
+          "dflash_id": 2572,
+          "baseline_text": "###",
+          "dflash_text": ".,"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 14822,
+          "dflash_id": 3070,
+          "baseline_text": " Step",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 220,
+          "dflash_id": 16,
+          "baseline_text": " ",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 18,
+          "dflash_id": 476,
+          "baseline_text": "3",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 25,
+          "dflash_id": 220,
+          "baseline_text": ":",
+          "dflash_text": " "
+        },
+        {
+          "pos": 186,
+          "baseline_id": 7379,
+          "dflash_id": 17,
+          "baseline_text": " Find",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 279,
+          "dflash_id": 334,
+          "baseline_text": " the",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 1372,
+          "dflash_id": 1959,
+          "baseline_text": " number",
+          "dflash_text": " \u2014"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 315,
+          "dflash_id": 323,
+          "baseline_text": " of",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 19554,
+          "dflash_id": 32256,
+          "baseline_text": " outcomes",
+          "dflash_text": " subtract"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 1380,
+          "dflash_id": 429,
+          "baseline_text": " where",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 279,
+          "dflash_id": 504,
+          "baseline_text": " the",
+          "dflash_text": " from"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 2790,
+          "dflash_id": 279,
+          "baseline_text": " total",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 374,
+          "dflash_id": 2790,
+          "baseline_text": " is",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 3070,
+          "dflash_id": 382,
+          "baseline_text": " **",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 1717,
+          "dflash_id": 44364,
+          "baseline_text": "less",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 1091,
+          "dflash_id": 14374,
+          "baseline_text": " than",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 220,
+          "dflash_id": 14822,
+          "baseline_text": " ",
+          "dflash_text": " Step"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 18,
+          "dflash_id": 220,
+          "baseline_text": "3",
+          "dflash_text": " "
+        },
+        {
+          "pos": 200,
+          "baseline_id": 56177,
+          "dflash_id": 18,
+          "baseline_text": "**\n\n",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 785,
+          "dflash_id": 25,
+          "baseline_text": "The",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 3204,
+          "dflash_id": 4504,
+          "baseline_text": " possible",
+          "dflash_text": " Count"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 43645,
+          "dflash_id": 279,
+          "baseline_text": " totals",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 2686,
+          "dflash_id": 1372,
+          "baseline_text": " less",
+          "dflash_text": " number"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 1091,
+          "dflash_id": 315,
+          "baseline_text": " than",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 220,
+          "dflash_id": 19554,
+          "baseline_text": " ",
+          "dflash_text": " outcomes"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 18,
+          "dflash_id": 1380,
+          "baseline_text": "3",
+          "dflash_text": " where"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 525,
+          "dflash_id": 279,
+          "baseline_text": " are",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 1447,
+          "dflash_id": 2790,
+          "baseline_text": ":\n\n",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 12,
+          "dflash_id": 374,
+          "baseline_text": "-",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 10657,
+          "dflash_id": 3070,
+          "baseline_text": " Total",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 284,
+          "dflash_id": 1717,
+          "baseline_text": " =",
+          "dflash_text": "less"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 220,
+          "dflash_id": 1091,
+          "baseline_text": " ",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 17,
+          "dflash_id": 220,
+          "baseline_text": "2",
+          "dflash_text": " "
+        },
+        {
+          "pos": 215,
+          "baseline_id": 198,
+          "dflash_id": 18,
+          "baseline_text": "\n",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 12,
+          "dflash_id": 56177,
+          "baseline_text": "-",
+          "dflash_text": "**\n\n"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 10657,
+          "dflash_id": 12,
+          "baseline_text": " Total",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 284,
+          "dflash_id": 3070,
+          "baseline_text": " =",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 220,
+          "dflash_id": 7595,
+          "baseline_text": " ",
+          "dflash_text": "Total"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 16,
+          "dflash_id": 284,
+          "baseline_text": "1",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 221,
+          "baseline_id": 271,
+          "dflash_id": 220,
+          "baseline_text": "\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 222,
+          "baseline_id": 3983,
+          "dflash_id": 16,
+          "baseline_text": "But",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 279,
+          "dflash_id": 95518,
+          "baseline_text": " the",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 3070,
+          "dflash_id": 8278,
+          "baseline_text": " **",
+          "dflash_text": " Only"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 37988,
+          "dflash_id": 3204,
+          "baseline_text": "minimum",
+          "dflash_text": " possible"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 2790,
+          "dflash_id": 421,
+          "baseline_text": " total",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 334,
+          "dflash_id": 2176,
+          "baseline_text": "**",
+          "dflash_text": " both"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 979,
+          "dflash_id": 22120,
+          "baseline_text": " when",
+          "dflash_text": " dice"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 20097,
+          "dflash_id": 1473,
+          "baseline_text": " rolling",
+          "dflash_text": " show"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1378,
+          "dflash_id": 220,
+          "baseline_text": " two",
+          "dflash_text": " "
+        },
+        {
+          "pos": 231,
+          "baseline_id": 22120,
+          "dflash_id": 16,
+          "baseline_text": " dice",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 374,
+          "dflash_id": 13,
+          "baseline_text": " is",
+          "dflash_text": "."
+        },
+        {
+          "pos": 233,
+          "baseline_id": 3070,
+          "dflash_id": 2303,
+          "baseline_text": " **",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 17,
+          "dflash_id": 220,
+          "baseline_text": "2",
+          "dflash_text": " "
+        },
+        {
+          "pos": 235,
+          "baseline_id": 334,
+          "dflash_id": 11397,
+          "baseline_text": "**",
+          "dflash_text": " \u2192"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 488,
+          "dflash_id": 11,
+          "baseline_text": " +",
+          "dflash_text": ","
+        },
+        {
+          "pos": 241,
+          "baseline_id": 701,
+          "dflash_id": 8,
+          "baseline_text": "),",
+          "dflash_text": ")"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 773,
+          "dflash_id": 11397,
+          "baseline_text": " so",
+          "dflash_text": " \u2192"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 279,
+          "dflash_id": 220,
+          "baseline_text": " the",
+          "dflash_text": " "
+        },
+        {
+          "pos": 244,
+          "baseline_id": 1172,
+          "dflash_id": 16,
+          "baseline_text": " only",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 2790,
+          "dflash_id": 15274,
+          "baseline_text": " total",
+          "dflash_text": " outcome"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 2686,
+          "dflash_id": 271,
+          "baseline_text": " less",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 1091,
+          "dflash_id": 12,
+          "baseline_text": " than",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 220,
+          "dflash_id": 3070,
+          "baseline_text": " ",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 18,
+          "dflash_id": 7595,
+          "baseline_text": "3",
+          "dflash_text": "Total"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 374,
+          "dflash_id": 284,
+          "baseline_text": " is",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 251,
+          "baseline_id": 3070,
+          "dflash_id": 220,
+          "baseline_text": " **",
+          "dflash_text": " "
+        },
+        {
+          "pos": 253,
+          "baseline_id": 334,
+          "dflash_id": 95518,
+          "baseline_text": "**",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 382,
+          "dflash_id": 36107,
+          "baseline_text": ".\n\n",
+          "dflash_text": " Possible"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 7039,
+          "dflash_id": 27459,
+          "baseline_text": "Now",
+          "dflash_text": " combinations"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 1,
+      "is_warmup": false,
+      "num_input_tokens": 211,
+      "baseline_num_output_tokens": 16,
+      "baseline_tpot_ms": 6.1249288119142875,
+      "baseline_tps": 163.26720370280674,
+      "dflash_num_output_tokens": 16,
+      "dflash_tpot_ms": 1.977430500119226,
+      "dflash_tps": 505.70677449331674,
+      "tau": 5.666666666666667,
+      "num_drafts": 3,
+      "acceptance_lengths": [
+        4,
+        6,
+        7
+      ],
+      "quality_match": true,
+      "quality_mismatches": [],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 2,
+      "is_warmup": false,
+      "num_input_tokens": 39,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.293321425800968,
+      "baseline_tps": 158.898605734686,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 1.7712117538621897,
+      "dflash_tps": 564.5852325784676,
+      "tau": 6.142857142857143,
+      "num_drafts": 42,
+      "acceptance_lengths": [
+        10,
+        2,
+        2,
+        5,
+        7,
+        5,
+        12,
+        4,
+        2,
+        4,
+        2,
+        7,
+        4,
+        6,
+        8,
+        16,
+        3,
+        2,
+        4,
+        7,
+        1,
+        2,
+        15,
+        1,
+        16,
+        10,
+        11,
+        10,
+        5,
+        1,
+        3,
+        16,
+        3,
+        4,
+        15,
+        10,
+        10,
+        1,
+        1,
+        3,
+        2,
+        6
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 78,
+          "baseline_id": 100,
+          "dflash_id": 241,
+          "baseline_text": "\ufffd",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 102,
+          "dflash_id": 251,
+          "baseline_text": "\ufffd",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 1005,
+          "dflash_id": 741,
+          "baseline_text": "().",
+          "dflash_text": "()\n"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 14772,
+          "dflash_id": 503,
+          "baseline_text": "lower",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 174,
+          "baseline_id": 368,
+          "dflash_id": 671,
+          "baseline_text": "()",
+          "dflash_text": " #"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 220,
+          "dflash_id": 5443,
+          "baseline_text": " ",
+          "dflash_text": " Use"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 671,
+          "dflash_id": 20180,
+          "baseline_text": " #",
+          "dflash_text": " regex"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 7169,
+          "dflash_id": 311,
+          "baseline_text": " Convert",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 311,
+          "dflash_id": 1477,
+          "baseline_text": " to",
+          "dflash_text": " find"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 42047,
+          "dflash_id": 678,
+          "baseline_text": " lowercase",
+          "dflash_text": " all"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 369,
+          "dflash_id": 4244,
+          "baseline_text": " for",
+          "dflash_text": " words"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 1142,
+          "dflash_id": 320,
+          "baseline_text": " case",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 182,
+          "baseline_id": 21853,
+          "dflash_id": 6960,
+          "baseline_text": "-ins",
+          "dflash_text": "split"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 18723,
+          "dflash_id": 389,
+          "baseline_text": "ensitive",
+          "dflash_text": " on"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 25009,
+          "dflash_id": 2477,
+          "baseline_text": " counting",
+          "dflash_text": " non"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 198,
+          "dflash_id": 18779,
+          "baseline_text": "\n",
+          "dflash_text": "-al"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 503,
+          "dflash_id": 65788,
+          "baseline_text": "                   ",
+          "dflash_text": "phanumeric"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 671,
+          "dflash_id": 5766,
+          "baseline_text": " #",
+          "dflash_text": " characters"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 5443,
+          "dflash_id": 340,
+          "baseline_text": " Use",
+          "dflash_text": ")\n"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 20180,
+          "dflash_id": 503,
+          "baseline_text": " regex",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 190,
+          "baseline_id": 311,
+          "dflash_id": 4244,
+          "baseline_text": " to",
+          "dflash_text": " words"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 1477,
+          "dflash_id": 284,
+          "baseline_text": " find",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 192,
+          "baseline_id": 678,
+          "dflash_id": 312,
+          "baseline_text": " all",
+          "dflash_text": " re"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 4244,
+          "dflash_id": 37433,
+          "baseline_text": " words",
+          "dflash_text": ".findall"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 320,
+          "dflash_id": 2601,
+          "baseline_text": " (",
+          "dflash_text": "(r"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 278,
+          "dflash_id": 15777,
+          "baseline_text": "al",
+          "dflash_text": "'\\"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 65788,
+          "dflash_id": 65,
+          "baseline_text": "phanumeric",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 323,
+          "dflash_id": 59,
+          "baseline_text": " and",
+          "dflash_text": "\\"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 38471,
+          "dflash_id": 86,
+          "baseline_text": " apost",
+          "dflash_text": "w"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 21990,
+          "dflash_id": 41715,
+          "baseline_text": "roph",
+          "dflash_text": "+\\"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 288,
+          "dflash_id": 65,
+          "baseline_text": "es",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 340,
+          "dflash_id": 516,
+          "baseline_text": ")\n",
+          "dflash_text": "',"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 503,
+          "dflash_id": 1467,
+          "baseline_text": "                   ",
+          "dflash_text": " text"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 4244,
+          "dflash_id": 18073,
+          "baseline_text": " words",
+          "dflash_text": ".lower"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 284,
+          "dflash_id": 2398,
+          "baseline_text": " =",
+          "dflash_text": "())\n"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 312,
+          "dflash_id": 503,
+          "baseline_text": " re",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 206,
+          "baseline_id": 37433,
+          "dflash_id": 3409,
+          "baseline_text": ".findall",
+          "dflash_text": " word"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 2601,
+          "dflash_id": 25977,
+          "baseline_text": "(r",
+          "dflash_text": "_counts"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 15777,
+          "dflash_id": 5317,
+          "baseline_text": "'\\",
+          "dflash_text": ".update"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 65,
+          "dflash_id": 36289,
+          "baseline_text": "b",
+          "dflash_text": "(words"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 26056,
+          "dflash_id": 340,
+          "baseline_text": "[\\",
+          "dflash_text": ")\n"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 86,
+          "dflash_id": 310,
+          "baseline_text": "w",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 212,
+          "baseline_id": 660,
+          "dflash_id": 3650,
+          "baseline_text": "']",
+          "dflash_text": " except"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 41715,
+          "dflash_id": 4112,
+          "baseline_text": "+\\",
+          "dflash_text": " Exception"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 65,
+          "dflash_id": 438,
+          "baseline_text": "b",
+          "dflash_text": " as"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 516,
+          "dflash_id": 384,
+          "baseline_text": "',",
+          "dflash_text": " e"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 1467,
+          "dflash_id": 510,
+          "baseline_text": " text",
+          "dflash_text": ":\n"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 340,
+          "dflash_id": 394,
+          "baseline_text": ")\n",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 218,
+          "baseline_id": 503,
+          "dflash_id": 1173,
+          "baseline_text": "                   ",
+          "dflash_text": " print"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 3409,
+          "dflash_id": 955,
+          "baseline_text": " word",
+          "dflash_text": "(f"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 25977,
+          "dflash_id": 1,
+          "baseline_text": "_counts",
+          "dflash_text": "\""
+        },
+        {
+          "pos": 221,
+          "baseline_id": 5317,
+          "dflash_id": 1454,
+          "baseline_text": ".update",
+          "dflash_text": "Error"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 36289,
+          "dflash_id": 5290,
+          "baseline_text": "(words",
+          "dflash_text": " reading"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 340,
+          "dflash_id": 314,
+          "baseline_text": ")\n",
+          "dflash_text": " {"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 310,
+          "dflash_id": 8404,
+          "baseline_text": "           ",
+          "dflash_text": "filename"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 3650,
+          "dflash_id": 16097,
+          "baseline_text": " except",
+          "dflash_text": "}:"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 4112,
+          "dflash_id": 314,
+          "baseline_text": " Exception",
+          "dflash_text": " {"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 438,
+          "dflash_id": 68,
+          "baseline_text": " as",
+          "dflash_text": "e"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 384,
+          "dflash_id": 55266,
+          "baseline_text": " e",
+          "dflash_text": "}\")\n\n"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 510,
+          "dflash_id": 262,
+          "baseline_text": ":\n",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 230,
+          "baseline_id": 394,
+          "dflash_id": 470,
+          "baseline_text": "               ",
+          "dflash_text": " return"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 1173,
+          "dflash_id": 3409,
+          "baseline_text": " print",
+          "dflash_text": " word"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 955,
+          "dflash_id": 25977,
+          "baseline_text": "(f",
+          "dflash_text": "_counts"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 1,
+          "dflash_id": 271,
+          "baseline_text": "\"",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 1454,
+          "dflash_id": 750,
+          "baseline_text": "Error",
+          "dflash_text": "def"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 5290,
+          "dflash_id": 1887,
+          "baseline_text": " reading",
+          "dflash_text": " main"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 314,
+          "dflash_id": 3932,
+          "baseline_text": " {",
+          "dflash_text": "():\n"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 8404,
+          "dflash_id": 262,
+          "baseline_text": "filename",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 238,
+          "baseline_id": 16097,
+          "dflash_id": 6220,
+          "baseline_text": "}:",
+          "dflash_text": " directory"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 314,
+          "dflash_id": 284,
+          "baseline_text": " {",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 240,
+          "baseline_id": 68,
+          "dflash_id": 1946,
+          "baseline_text": "e",
+          "dflash_text": " input"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 55266,
+          "dflash_id": 445,
+          "baseline_text": "}\")\n\n",
+          "dflash_text": "(\""
+        },
+        {
+          "pos": 242,
+          "baseline_id": 262,
+          "dflash_id": 6269,
+          "baseline_text": "   ",
+          "dflash_text": "Enter"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 470,
+          "dflash_id": 279,
+          "baseline_text": " return",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 3409,
+          "dflash_id": 6220,
+          "baseline_text": " word",
+          "dflash_text": " directory"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 25977,
+          "dflash_id": 1815,
+          "baseline_text": "_counts",
+          "dflash_text": " path"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 271,
+          "dflash_id": 8482,
+          "baseline_text": "\n\n",
+          "dflash_text": " containing"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 750,
+          "dflash_id": 1467,
+          "baseline_text": "def",
+          "dflash_text": " text"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 1887,
+          "dflash_id": 3542,
+          "baseline_text": " main",
+          "dflash_text": " files"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 3932,
+          "dflash_id": 25,
+          "baseline_text": "():\n",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 262,
+          "dflash_id": 27510,
+          "baseline_text": "   ",
+          "dflash_text": " \")."
+        },
+        {
+          "pos": 251,
+          "baseline_id": 6220,
+          "dflash_id": 13105,
+          "baseline_text": " directory",
+          "dflash_text": "strip"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 284,
+          "dflash_id": 741,
+          "baseline_text": " =",
+          "dflash_text": "()\n"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 1946,
+          "dflash_id": 262,
+          "baseline_text": " input",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 254,
+          "baseline_id": 445,
+          "dflash_id": 421,
+          "baseline_text": "(\"",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 6269,
+          "dflash_id": 537,
+          "baseline_text": "Enter",
+          "dflash_text": " not"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 3,
+      "is_warmup": false,
+      "num_input_tokens": 64,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.296968730453045,
+      "baseline_tps": 158.80656912966018,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 2.265288414037059,
+      "dflash_tps": 441.44489231632144,
+      "tau": 4.925925925925926,
+      "num_drafts": 54,
+      "acceptance_lengths": [
+        3,
+        2,
+        6,
+        3,
+        1,
+        3,
+        6,
+        4,
+        2,
+        16,
+        8,
+        5,
+        2,
+        2,
+        16,
+        2,
+        6,
+        2,
+        2,
+        3,
+        5,
+        6,
+        1,
+        6,
+        1,
+        1,
+        6,
+        2,
+        3,
+        3,
+        10,
+        5,
+        4,
+        7,
+        2,
+        2,
+        4,
+        2,
+        2,
+        1,
+        2,
+        1,
+        3,
+        9,
+        4,
+        5,
+        4,
+        4,
+        15,
+        8,
+        13,
+        2,
+        16,
+        13
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 156,
+          "baseline_id": 258,
+          "dflash_id": 1694,
+          "baseline_text": "in",
+          "dflash_text": "by"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 14002,
+          "dflash_id": 7015,
+          "baseline_text": " opposite",
+          "dflash_text": " sun"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 5106,
+          "dflash_id": 334,
+          "baseline_text": " direction",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 315,
+          "dflash_id": 624,
+          "baseline_text": " of",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 279,
+          "dflash_id": 12,
+          "baseline_text": " the",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 7015,
+          "dflash_id": 576,
+          "baseline_text": " sun",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 334,
+          "dflash_id": 3070,
+          "baseline_text": "**",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 624,
+          "dflash_id": 32952,
+          "baseline_text": ".\n",
+          "dflash_text": "shadow"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 12,
+          "dflash_id": 374,
+          "baseline_text": "-",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 2055,
+          "dflash_id": 2677,
+          "baseline_text": " So",
+          "dflash_text": " always"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 11,
+          "dflash_id": 14002,
+          "baseline_text": ",",
+          "dflash_text": " opposite"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 421,
+          "dflash_id": 279,
+          "baseline_text": " if",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 279,
+          "dflash_id": 5106,
+          "baseline_text": " the",
+          "dflash_text": " direction"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 7015,
+          "dflash_id": 279,
+          "baseline_text": " sun",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 374,
+          "dflash_id": 7015,
+          "baseline_text": " is",
+          "dflash_text": " sun"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 304,
+          "dflash_id": 374,
+          "baseline_text": " in",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 279,
+          "dflash_id": 47925,
+          "baseline_text": " the",
+          "dflash_text": " shining"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 3070,
+          "dflash_id": 334,
+          "baseline_text": " **",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 60501,
+          "dflash_id": 624,
+          "baseline_text": "east",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 97219,
+          "dflash_id": 12,
+          "baseline_text": "**,",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 279,
+          "dflash_id": 2055,
+          "baseline_text": " the",
+          "dflash_text": " So"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 12455,
+          "dflash_id": 11,
+          "baseline_text": " shadow",
+          "dflash_text": ","
+        },
+        {
+          "pos": 179,
+          "baseline_id": 686,
+          "dflash_id": 421,
+          "baseline_text": " will",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 387,
+          "dflash_id": 279,
+          "baseline_text": " be",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 304,
+          "dflash_id": 3070,
+          "baseline_text": " in",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 279,
+          "dflash_id": 39519,
+          "baseline_text": " the",
+          "dflash_text": "sun"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 3070,
+          "dflash_id": 374,
+          "baseline_text": " **",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 11039,
+          "dflash_id": 304,
+          "baseline_text": "west",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 334,
+          "dflash_id": 279,
+          "baseline_text": "**",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 624,
+          "dflash_id": 10984,
+          "baseline_text": ".\n",
+          "dflash_text": " east"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 12,
+          "dflash_id": 97219,
+          "baseline_text": "-",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 1416,
+          "dflash_id": 279,
+          "baseline_text": " If",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 279,
+          "dflash_id": 3070,
+          "baseline_text": " the",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 7015,
+          "dflash_id": 32952,
+          "baseline_text": " sun",
+          "dflash_text": "shadow"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 374,
+          "dflash_id": 686,
+          "baseline_text": " is",
+          "dflash_text": " will"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 304,
+          "dflash_id": 387,
+          "baseline_text": " in",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 279,
+          "dflash_id": 311,
+          "baseline_text": " the",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 3070,
+          "dflash_id": 279,
+          "baseline_text": " **",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 66484,
+          "dflash_id": 9710,
+          "baseline_text": "south",
+          "dflash_text": " west"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 97219,
+          "dflash_id": 334,
+          "baseline_text": "**,",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 279,
+          "dflash_id": 624,
+          "baseline_text": " the",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 12455,
+          "dflash_id": 12,
+          "baseline_text": " shadow",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 686,
+          "dflash_id": 1416,
+          "baseline_text": " will",
+          "dflash_text": " If"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 387,
+          "dflash_id": 279,
+          "baseline_text": " be",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 304,
+          "dflash_id": 3070,
+          "baseline_text": " in",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 279,
+          "dflash_id": 39519,
+          "baseline_text": " the",
+          "dflash_text": "sun"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 3070,
+          "dflash_id": 374,
+          "baseline_text": " **",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 61895,
+          "dflash_id": 304,
+          "baseline_text": "north",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 334,
+          "dflash_id": 279,
+          "baseline_text": "**",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 624,
+          "dflash_id": 9806,
+          "baseline_text": ".\n",
+          "dflash_text": " south"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 12,
+          "dflash_id": 97219,
+          "baseline_text": "-",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 1416,
+          "dflash_id": 279,
+          "baseline_text": " If",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 279,
+          "dflash_id": 3070,
+          "baseline_text": " the",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 7015,
+          "dflash_id": 32952,
+          "baseline_text": " sun",
+          "dflash_text": "shadow"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 374,
+          "dflash_id": 686,
+          "baseline_text": " is",
+          "dflash_text": " will"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 304,
+          "dflash_id": 387,
+          "baseline_text": " in",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 279,
+          "dflash_id": 311,
+          "baseline_text": " the",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 3070,
+          "dflash_id": 279,
+          "baseline_text": " **",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 61895,
+          "dflash_id": 10200,
+          "baseline_text": "north",
+          "dflash_text": " north"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 97219,
+          "dflash_id": 334,
+          "baseline_text": "**,",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 279,
+          "dflash_id": 624,
+          "baseline_text": " the",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 12455,
+          "dflash_id": 12,
+          "baseline_text": " shadow",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 686,
+          "dflash_id": 1416,
+          "baseline_text": " will",
+          "dflash_text": " If"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 387,
+          "dflash_id": 279,
+          "baseline_text": " be",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 304,
+          "dflash_id": 3070,
+          "baseline_text": " in",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 279,
+          "dflash_id": 39519,
+          "baseline_text": " the",
+          "dflash_text": "sun"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 3070,
+          "dflash_id": 374,
+          "baseline_text": " **",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 66484,
+          "dflash_id": 304,
+          "baseline_text": "south",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 334,
+          "dflash_id": 279,
+          "baseline_text": "**",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 624,
+          "dflash_id": 10200,
+          "baseline_text": ".\n",
+          "dflash_text": " north"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 12,
+          "dflash_id": 97219,
+          "baseline_text": "-",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 1416,
+          "dflash_id": 279,
+          "baseline_text": " If",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 279,
+          "dflash_id": 3070,
+          "baseline_text": " the",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 7015,
+          "dflash_id": 32952,
+          "baseline_text": " sun",
+          "dflash_text": "shadow"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 374,
+          "dflash_id": 686,
+          "baseline_text": " is",
+          "dflash_text": " will"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 304,
+          "dflash_id": 387,
+          "baseline_text": " in",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 279,
+          "dflash_id": 311,
+          "baseline_text": " the",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 3070,
+          "dflash_id": 279,
+          "baseline_text": " **",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 11039,
+          "dflash_id": 9806,
+          "baseline_text": "west",
+          "dflash_text": " south"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 97219,
+          "dflash_id": 334,
+          "baseline_text": "**,",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 279,
+          "dflash_id": 624,
+          "baseline_text": " the",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 12455,
+          "dflash_id": 12,
+          "baseline_text": " shadow",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 686,
+          "dflash_id": 1416,
+          "baseline_text": " will",
+          "dflash_text": " If"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 387,
+          "dflash_id": 279,
+          "baseline_text": " be",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 304,
+          "dflash_id": 3070,
+          "baseline_text": " in",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 279,
+          "dflash_id": 39519,
+          "baseline_text": " the",
+          "dflash_text": "sun"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 3070,
+          "dflash_id": 374,
+          "baseline_text": " **",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 60501,
+          "dflash_id": 304,
+          "baseline_text": "east",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 334,
+          "dflash_id": 279,
+          "baseline_text": "**",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 382,
+          "dflash_id": 9710,
+          "baseline_text": ".\n\n",
+          "dflash_text": " west"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 44364,
+          "dflash_id": 97219,
+          "baseline_text": "---\n\n",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 14374,
+          "dflash_id": 279,
+          "baseline_text": "###",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 14822,
+          "dflash_id": 3070,
+          "baseline_text": " Step",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 220,
+          "dflash_id": 32952,
+          "baseline_text": " ",
+          "dflash_text": "shadow"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 18,
+          "dflash_id": 686,
+          "baseline_text": "3",
+          "dflash_text": " will"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 25,
+          "dflash_id": 387,
+          "baseline_text": ":",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 29901,
+          "dflash_id": 311,
+          "baseline_text": " Determine",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 7015,
+          "dflash_id": 10984,
+          "baseline_text": " sun",
+          "dflash_text": " east"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 4,
+      "is_warmup": false,
+      "num_input_tokens": 55,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.300861523413914,
+      "baseline_tps": 158.7084553888407,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 2.435684968759233,
+      "dflash_tps": 410.5621263941256,
+      "tau": 4.431034482758621,
+      "num_drafts": 58,
+      "acceptance_lengths": [
+        3,
+        5,
+        3,
+        2,
+        4,
+        2,
+        3,
+        1,
+        1,
+        3,
+        2,
+        3,
+        2,
+        1,
+        4,
+        3,
+        10,
+        1,
+        2,
+        1,
+        1,
+        2,
+        3,
+        6,
+        1,
+        1,
+        1,
+        2,
+        5,
+        5,
+        3,
+        9,
+        2,
+        1,
+        1,
+        1,
+        1,
+        9,
+        7,
+        8,
+        16,
+        14,
+        16,
+        7,
+        7,
+        7,
+        2,
+        3,
+        3,
+        16,
+        2,
+        8,
+        4,
+        3,
+        15,
+        3,
+        2,
+        4
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 59,
+          "baseline_id": 641,
+          "dflash_id": 32,
+          "baseline_text": "In",
+          "dflash_text": "A"
+        },
+        {
+          "pos": 60,
+          "baseline_id": 264,
+          "dflash_id": 23210,
+          "baseline_text": " a",
+          "dflash_text": " satellite"
+        },
+        {
+          "pos": 61,
+          "baseline_id": 3070,
+          "dflash_id": 304,
+          "baseline_text": " **",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 62,
+          "baseline_id": 66,
+          "dflash_id": 264,
+          "baseline_text": "c",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 63,
+          "baseline_id": 21472,
+          "dflash_id": 3070,
+          "baseline_text": "ircular",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 64,
+          "baseline_id": 26507,
+          "dflash_id": 66,
+          "baseline_text": " orbit",
+          "dflash_text": "c"
+        },
+        {
+          "pos": 65,
+          "baseline_id": 97219,
+          "dflash_id": 21472,
+          "baseline_text": "**,",
+          "dflash_text": "ircular"
+        },
+        {
+          "pos": 66,
+          "baseline_id": 279,
+          "dflash_id": 26507,
+          "baseline_text": " the",
+          "dflash_text": " orbit"
+        },
+        {
+          "pos": 67,
+          "baseline_id": 3070,
+          "dflash_id": 334,
+          "baseline_text": " **",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 68,
+          "baseline_id": 1168,
+          "dflash_id": 10797,
+          "baseline_text": "cent",
+          "dflash_text": " moves"
+        },
+        {
+          "pos": 69,
+          "baseline_id": 4561,
+          "dflash_id": 1212,
+          "baseline_text": "rip",
+          "dflash_text": " under"
+        },
+        {
+          "pos": 70,
+          "baseline_id": 21323,
+          "dflash_id": 279,
+          "baseline_text": "etal",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 71,
+          "baseline_id": 5344,
+          "dflash_id": 10173,
+          "baseline_text": " force",
+          "dflash_text": " influence"
+        },
+        {
+          "pos": 72,
+          "baseline_id": 334,
+          "dflash_id": 315,
+          "baseline_text": "**",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 73,
+          "baseline_id": 2567,
+          "dflash_id": 3070,
+          "baseline_text": " required",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 74,
+          "baseline_id": 311,
+          "dflash_id": 35390,
+          "baseline_text": " to",
+          "dflash_text": "grav"
+        },
+        {
+          "pos": 75,
+          "baseline_id": 2506,
+          "dflash_id": 49824,
+          "baseline_text": " keep",
+          "dflash_text": "itational"
+        },
+        {
+          "pos": 76,
+          "baseline_id": 279,
+          "dflash_id": 5344,
+          "baseline_text": " the",
+          "dflash_text": " force"
+        },
+        {
+          "pos": 77,
+          "baseline_id": 23210,
+          "dflash_id": 334,
+          "baseline_text": " satellite",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 304,
+          "dflash_id": 504,
+          "baseline_text": " in",
+          "dflash_text": " from"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 26507,
+          "dflash_id": 279,
+          "baseline_text": " orbit",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 374,
+          "dflash_id": 9237,
+          "baseline_text": " is",
+          "dflash_text": " Earth"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 3897,
+          "dflash_id": 13,
+          "baseline_text": " provided",
+          "dflash_text": "."
+        },
+        {
+          "pos": 82,
+          "baseline_id": 553,
+          "dflash_id": 576,
+          "baseline_text": " by",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 83,
+          "baseline_id": 279,
+          "dflash_id": 69919,
+          "baseline_text": " the",
+          "dflash_text": " gravitational"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 3070,
+          "dflash_id": 5344,
+          "baseline_text": " **",
+          "dflash_text": " force"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 35390,
+          "dflash_id": 5707,
+          "baseline_text": "grav",
+          "dflash_text": " provides"
+        },
+        {
+          "pos": 86,
+          "baseline_id": 49824,
+          "dflash_id": 279,
+          "baseline_text": "itational",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 87,
+          "baseline_id": 5344,
+          "dflash_id": 3070,
+          "baseline_text": " force",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 334,
+          "dflash_id": 1168,
+          "baseline_text": "**",
+          "dflash_text": "cent"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 315,
+          "dflash_id": 4561,
+          "baseline_text": " of",
+          "dflash_text": "rip"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 279,
+          "dflash_id": 21323,
+          "baseline_text": " the",
+          "dflash_text": "etal"
+        },
+        {
+          "pos": 91,
+          "baseline_id": 9237,
+          "dflash_id": 5344,
+          "baseline_text": " Earth",
+          "dflash_text": " force"
+        },
+        {
+          "pos": 92,
+          "baseline_id": 1447,
+          "dflash_id": 334,
+          "baseline_text": ":\n\n",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 14085,
+          "dflash_id": 2567,
+          "baseline_text": "$$",
+          "dflash_text": " required"
+        },
+        {
+          "pos": 94,
+          "baseline_id": 198,
+          "dflash_id": 369,
+          "baseline_text": "\n",
+          "dflash_text": " for"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 37,
+          "dflash_id": 26931,
+          "baseline_text": "F",
+          "dflash_text": " circular"
+        },
+        {
+          "pos": 96,
+          "baseline_id": 15159,
+          "dflash_id": 11379,
+          "baseline_text": "_{",
+          "dflash_text": " motion"
+        },
+        {
+          "pos": 97,
+          "baseline_id": 59,
+          "dflash_id": 382,
+          "baseline_text": "\\",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 98,
+          "baseline_id": 1318,
+          "dflash_id": 785,
+          "baseline_text": "text",
+          "dflash_text": "The"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 90,
+          "dflash_id": 1376,
+          "baseline_text": "{",
+          "dflash_text": " key"
+        },
+        {
+          "pos": 100,
+          "baseline_id": 70791,
+          "dflash_id": 23606,
+          "baseline_text": "gravity",
+          "dflash_text": " equation"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 3417,
+          "dflash_id": 374,
+          "baseline_text": "}}",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 102,
+          "baseline_id": 284,
+          "dflash_id": 1447,
+          "baseline_text": " =",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 1124,
+          "dflash_id": 14085,
+          "baseline_text": " \\",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 37018,
+          "dflash_id": 198,
+          "baseline_text": "frac",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 105,
+          "baseline_id": 90,
+          "dflash_id": 37,
+          "baseline_text": "{",
+          "dflash_text": "F"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 38,
+          "dflash_id": 15159,
+          "baseline_text": "G",
+          "dflash_text": "_{"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 386,
+          "dflash_id": 59,
+          "baseline_text": " M",
+          "dflash_text": "\\"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 296,
+          "dflash_id": 1318,
+          "baseline_text": " m",
+          "dflash_text": "text"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 15170,
+          "dflash_id": 90,
+          "baseline_text": "}{",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 81,
+          "dflash_id": 70791,
+          "baseline_text": "r",
+          "dflash_text": "gravity"
+        },
+        {
+          "pos": 111,
+          "baseline_id": 61,
+          "dflash_id": 3417,
+          "baseline_text": "^",
+          "dflash_text": "}}"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 17,
+          "dflash_id": 284,
+          "baseline_text": "2",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 113,
+          "baseline_id": 532,
+          "dflash_id": 1124,
+          "baseline_text": "}\n",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 14085,
+          "dflash_id": 37018,
+          "baseline_text": "$$",
+          "dflash_text": "frac"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 271,
+          "dflash_id": 90,
+          "baseline_text": "\n\n",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 116,
+          "baseline_id": 14085,
+          "dflash_id": 38,
+          "baseline_text": "$$",
+          "dflash_text": "G"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 198,
+          "dflash_id": 386,
+          "baseline_text": "\n",
+          "dflash_text": " M"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 37,
+          "dflash_id": 296,
+          "baseline_text": "F",
+          "dflash_text": " m"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 15159,
+          "dflash_id": 15170,
+          "baseline_text": "_{",
+          "dflash_text": "}{"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 59,
+          "dflash_id": 81,
+          "baseline_text": "\\",
+          "dflash_text": "r"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 1318,
+          "dflash_id": 61,
+          "baseline_text": "text",
+          "dflash_text": "^"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 90,
+          "dflash_id": 17,
+          "baseline_text": "{",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 1168,
+          "dflash_id": 92,
+          "baseline_text": "cent",
+          "dflash_text": "}"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 4561,
+          "dflash_id": 284,
+          "baseline_text": "rip",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 125,
+          "baseline_id": 21323,
+          "dflash_id": 1124,
+          "baseline_text": "etal",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 3417,
+          "dflash_id": 37018,
+          "baseline_text": "}}",
+          "dflash_text": "frac"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 284,
+          "dflash_id": 90,
+          "baseline_text": " =",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 1124,
+          "dflash_id": 76,
+          "baseline_text": " \\",
+          "dflash_text": "m"
+        },
+        {
+          "pos": 129,
+          "baseline_id": 37018,
+          "dflash_id": 348,
+          "baseline_text": "frac",
+          "dflash_text": " v"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 90,
+          "dflash_id": 61,
+          "baseline_text": "{",
+          "dflash_text": "^"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 76,
+          "dflash_id": 17,
+          "baseline_text": "m",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 348,
+          "dflash_id": 15170,
+          "baseline_text": " v",
+          "dflash_text": "}{"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 61,
+          "dflash_id": 81,
+          "baseline_text": "^",
+          "dflash_text": "r"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 17,
+          "dflash_id": 532,
+          "baseline_text": "2",
+          "dflash_text": "}\n"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 15170,
+          "dflash_id": 14085,
+          "baseline_text": "}{",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 81,
+          "dflash_id": 271,
+          "baseline_text": "r",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 532,
+          "dflash_id": 9064,
+          "baseline_text": "}\n",
+          "dflash_text": "Where"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 14085,
+          "dflash_id": 510,
+          "baseline_text": "$$",
+          "dflash_text": ":\n"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 271,
+          "dflash_id": 12,
+          "baseline_text": "\n\n",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 2461,
+          "dflash_id": 400,
+          "baseline_text": "For",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 141,
+          "baseline_id": 264,
+          "dflash_id": 479,
+          "baseline_text": " a",
+          "dflash_text": " G"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 15175,
+          "dflash_id": 400,
+          "baseline_text": " stable",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 26931,
+          "dflash_id": 374,
+          "baseline_text": " circular",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 26507,
+          "dflash_id": 279,
+          "baseline_text": " orbit",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 11,
+          "dflash_id": 69919,
+          "baseline_text": ",",
+          "dflash_text": " gravitational"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 1493,
+          "dflash_id": 6783,
+          "baseline_text": " these",
+          "dflash_text": " constant"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 8437,
+          "dflash_id": 345,
+          "baseline_text": " forces",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 1969,
+          "dflash_id": 12,
+          "baseline_text": " must",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 387,
+          "dflash_id": 400,
+          "baseline_text": " be",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 6144,
+          "dflash_id": 386,
+          "baseline_text": " equal",
+          "dflash_text": " M"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 1447,
+          "dflash_id": 400,
+          "baseline_text": ":\n\n",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 14085,
+          "dflash_id": 374,
+          "baseline_text": "$$",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 198,
+          "dflash_id": 279,
+          "baseline_text": "\n",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 59,
+          "dflash_id": 3072,
+          "baseline_text": "\\",
+          "dflash_text": " mass"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 37018,
+          "dflash_id": 315,
+          "baseline_text": "frac",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 90,
+          "dflash_id": 279,
+          "baseline_text": "{",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 38,
+          "dflash_id": 9237,
+          "baseline_text": "G",
+          "dflash_text": " Earth"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 386,
+          "dflash_id": 345,
+          "baseline_text": " M",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 296,
+          "dflash_id": 12,
+          "baseline_text": " m",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 15170,
+          "dflash_id": 400,
+          "baseline_text": "}{",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 81,
+          "dflash_id": 296,
+          "baseline_text": "r",
+          "dflash_text": " m"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 61,
+          "dflash_id": 400,
+          "baseline_text": "^",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 17,
+          "dflash_id": 374,
+          "baseline_text": "2",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 92,
+          "dflash_id": 279,
+          "baseline_text": "}",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 284,
+          "dflash_id": 3072,
+          "baseline_text": " =",
+          "dflash_text": " mass"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 1124,
+          "dflash_id": 315,
+          "baseline_text": " \\",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 37018,
+          "dflash_id": 279,
+          "baseline_text": "frac",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 90,
+          "dflash_id": 23210,
+          "baseline_text": "{",
+          "dflash_text": " satellite"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 76,
+          "dflash_id": 345,
+          "baseline_text": "m",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 348,
+          "dflash_id": 12,
+          "baseline_text": " v",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 61,
+          "dflash_id": 400,
+          "baseline_text": "^",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 17,
+          "dflash_id": 435,
+          "baseline_text": "2",
+          "dflash_text": " r"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 15170,
+          "dflash_id": 400,
+          "baseline_text": "}{",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 81,
+          "dflash_id": 374,
+          "baseline_text": "r",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 532,
+          "dflash_id": 279,
+          "baseline_text": "}\n",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 14085,
+          "dflash_id": 64591,
+          "baseline_text": "$$",
+          "dflash_text": " orbital"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 271,
+          "dflash_id": 10578,
+          "baseline_text": "\n\n",
+          "dflash_text": " radius"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 50,
+          "dflash_id": 345,
+          "baseline_text": "S",
+          "dflash_text": ",\n"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 6383,
+          "dflash_id": 12,
+          "baseline_text": "impl",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 7766,
+          "dflash_id": 400,
+          "baseline_text": "ifying",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 1447,
+          "dflash_id": 348,
+          "baseline_text": ":\n\n",
+          "dflash_text": " v"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 14085,
+          "dflash_id": 400,
+          "baseline_text": "$$",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 198,
+          "dflash_id": 374,
+          "baseline_text": "\n",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 85,
+          "dflash_id": 279,
+          "baseline_text": "v",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 284,
+          "dflash_id": 64591,
+          "baseline_text": " =",
+          "dflash_text": " orbital"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 1124,
+          "dflash_id": 4628,
+          "baseline_text": " \\",
+          "dflash_text": " speed"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 26888,
+          "dflash_id": 382,
+          "baseline_text": "sqrt",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 35702,
+          "dflash_id": 3830,
+          "baseline_text": "{\\",
+          "dflash_text": "From"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 37018,
+          "dflash_id": 419,
+          "baseline_text": "frac",
+          "dflash_text": " this"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 90,
+          "dflash_id": 11,
+          "baseline_text": "{",
+          "dflash_text": ","
+        },
+        {
+          "pos": 191,
+          "baseline_id": 38,
+          "dflash_id": 582,
+          "baseline_text": "G",
+          "dflash_text": " we"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 386,
+          "dflash_id": 646,
+          "baseline_text": " M",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 15170,
+          "dflash_id": 42430,
+          "baseline_text": "}{",
+          "dflash_text": " derive"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 81,
+          "dflash_id": 279,
+          "baseline_text": "r",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 11248,
+          "dflash_id": 5025,
+          "baseline_text": "}}\n",
+          "dflash_text": " relationship"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 14085,
+          "dflash_id": 1948,
+          "baseline_text": "$$",
+          "dflash_text": " between"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 271,
+          "dflash_id": 64591,
+          "baseline_text": "\n\n",
+          "dflash_text": " orbital"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 1986,
+          "dflash_id": 4628,
+          "baseline_text": "This",
+          "dflash_text": " speed"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 4933,
+          "dflash_id": 323,
+          "baseline_text": " shows",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 429,
+          "dflash_id": 10578,
+          "baseline_text": " that",
+          "dflash_text": " radius"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 279,
+          "dflash_id": 1447,
+          "baseline_text": " the",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 3070,
+          "dflash_id": 14085,
+          "baseline_text": " **",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 29886,
+          "dflash_id": 198,
+          "baseline_text": "orb",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 2174,
+          "dflash_id": 85,
+          "baseline_text": "ital",
+          "dflash_text": "v"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 4628,
+          "dflash_id": 284,
+          "baseline_text": " speed",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 206,
+          "baseline_id": 334,
+          "dflash_id": 1124,
+          "baseline_text": "**",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 400,
+          "dflash_id": 26888,
+          "baseline_text": " $",
+          "dflash_text": "sqrt"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 348,
+          "dflash_id": 35702,
+          "baseline_text": " v",
+          "dflash_text": "{\\"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 400,
+          "dflash_id": 37018,
+          "baseline_text": " $",
+          "dflash_text": "frac"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 374,
+          "dflash_id": 90,
+          "baseline_text": " is",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 3070,
+          "dflash_id": 38,
+          "baseline_text": " **",
+          "dflash_text": "G"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 258,
+          "dflash_id": 386,
+          "baseline_text": "in",
+          "dflash_text": " M"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 3004,
+          "dflash_id": 15170,
+          "baseline_text": "vers",
+          "dflash_text": "}{"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 974,
+          "dflash_id": 81,
+          "baseline_text": "ely",
+          "dflash_text": "r"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 54172,
+          "dflash_id": 11248,
+          "baseline_text": " proportional",
+          "dflash_text": "}}\n"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 311,
+          "dflash_id": 14085,
+          "baseline_text": " to",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 279,
+          "dflash_id": 271,
+          "baseline_text": " the",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 9334,
+          "dflash_id": 1986,
+          "baseline_text": " square",
+          "dflash_text": "This"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 3704,
+          "dflash_id": 4933,
+          "baseline_text": " root",
+          "dflash_text": " shows"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 315,
+          "dflash_id": 429,
+          "baseline_text": " of",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 64591,
+          "dflash_id": 3070,
+          "baseline_text": " orbital",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 10578,
+          "dflash_id": 29886,
+          "baseline_text": " radius",
+          "dflash_text": "orb"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 334,
+          "dflash_id": 2174,
+          "baseline_text": "**",
+          "dflash_text": "ital"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 400,
+          "dflash_id": 4628,
+          "baseline_text": " $",
+          "dflash_text": " speed"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 435,
+          "dflash_id": 334,
+          "baseline_text": " r",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 400,
+          "dflash_id": 374,
+          "baseline_text": " $",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 1447,
+          "dflash_id": 3070,
+          "baseline_text": ":\n\n",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 14085,
+          "dflash_id": 258,
+          "baseline_text": "$$",
+          "dflash_text": "in"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 198,
+          "dflash_id": 3004,
+          "baseline_text": "\n",
+          "dflash_text": "vers"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 85,
+          "dflash_id": 974,
+          "baseline_text": "v",
+          "dflash_text": "ely"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 1124,
+          "dflash_id": 54172,
+          "baseline_text": " \\",
+          "dflash_text": " proportional"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 776,
+          "dflash_id": 311,
+          "baseline_text": "pro",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 57991,
+          "dflash_id": 279,
+          "baseline_text": "pto",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 1124,
+          "dflash_id": 9334,
+          "baseline_text": " \\",
+          "dflash_text": " square"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 37018,
+          "dflash_id": 3704,
+          "baseline_text": "frac",
+          "dflash_text": " root"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 90,
+          "dflash_id": 315,
+          "baseline_text": "{",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 16,
+          "dflash_id": 279,
+          "baseline_text": "1",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 15170,
+          "dflash_id": 64591,
+          "baseline_text": "}{",
+          "dflash_text": " orbital"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 59,
+          "dflash_id": 10578,
+          "baseline_text": "\\",
+          "dflash_text": " radius"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 26888,
+          "dflash_id": 334,
+          "baseline_text": "sqrt",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 90,
+          "dflash_id": 382,
+          "baseline_text": "{",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 81,
+          "dflash_id": 44364,
+          "baseline_text": "r",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 11248,
+          "dflash_id": 14374,
+          "baseline_text": "}}\n",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 14085,
+          "dflash_id": 3070,
+          "baseline_text": "$$",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 271,
+          "dflash_id": 17,
+          "baseline_text": "\n\n",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 44364,
+          "dflash_id": 13,
+          "baseline_text": "---\n\n",
+          "dflash_text": "."
+        },
+        {
+          "pos": 248,
+          "baseline_id": 14374,
+          "dflash_id": 3555,
+          "baseline_text": "###",
+          "dflash_text": " What"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 3070,
+          "dflash_id": 34700,
+          "baseline_text": " **",
+          "dflash_text": " Happ"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 17,
+          "dflash_id": 724,
+          "baseline_text": "2",
+          "dflash_text": "ens"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 13,
+          "dflash_id": 3197,
+          "baseline_text": ".",
+          "dflash_text": " When"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 3555,
+          "dflash_id": 279,
+          "baseline_text": " What",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 34700,
+          "dflash_id": 60557,
+          "baseline_text": " Happ",
+          "dflash_text": " Satellite"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 724,
+          "dflash_id": 594,
+          "baseline_text": "ens",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 3197,
+          "dflash_id": 15181,
+          "baseline_text": " When",
+          "dflash_text": " Speed"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 5,
+      "is_warmup": false,
+      "num_input_tokens": 84,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.286719609306601,
+      "baseline_tps": 159.065468502785,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 1.8532439257796796,
+      "dflash_tps": 539.5943761581677,
+      "tau": 5.931818181818182,
+      "num_drafts": 44,
+      "acceptance_lengths": [
+        5,
+        11,
+        16,
+        11,
+        1,
+        5,
+        2,
+        13,
+        5,
+        6,
+        9,
+        3,
+        4,
+        7,
+        5,
+        16,
+        4,
+        2,
+        5,
+        5,
+        11,
+        1,
+        5,
+        6,
+        6,
+        5,
+        1,
+        11,
+        5,
+        3,
+        2,
+        16,
+        5,
+        3,
+        4,
+        7,
+        7,
+        1,
+        6,
+        9,
+        2,
+        2,
+        2,
+        6
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 77,
+          "baseline_id": 3118,
+          "dflash_id": 382,
+          "baseline_text": " based",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 389,
+          "dflash_id": 44364,
+          "baseline_text": " on",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 429,
+          "dflash_id": 14374,
+          "baseline_text": " that",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 382,
+          "dflash_id": 14822,
+          "baseline_text": ".\n\n",
+          "dflash_text": " Step"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 44364,
+          "dflash_id": 220,
+          "baseline_text": "---\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 82,
+          "baseline_id": 14374,
+          "dflash_id": 16,
+          "baseline_text": "###",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 83,
+          "baseline_id": 14822,
+          "dflash_id": 25,
+          "baseline_text": " Step",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 220,
+          "dflash_id": 37740,
+          "baseline_text": " ",
+          "dflash_text": " Translate"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 16,
+          "dflash_id": 279,
+          "baseline_text": "1",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 86,
+          "baseline_id": 25,
+          "dflash_id": 1156,
+          "baseline_text": ":",
+          "dflash_text": " first"
+        },
+        {
+          "pos": 87,
+          "baseline_id": 37740,
+          "dflash_id": 1378,
+          "baseline_text": " Translate",
+          "dflash_text": " two"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 279,
+          "dflash_id": 12239,
+          "baseline_text": " the",
+          "dflash_text": " statements"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 1156,
+          "dflash_id": 1119,
+          "baseline_text": " first",
+          "dflash_text": " into"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 1378,
+          "dflash_id": 19819,
+          "baseline_text": " two",
+          "dflash_text": " logical"
+        },
+        {
+          "pos": 91,
+          "baseline_id": 12239,
+          "dflash_id": 11871,
+          "baseline_text": " statements",
+          "dflash_text": " relationships"
+        },
+        {
+          "pos": 92,
+          "baseline_id": 1119,
+          "dflash_id": 382,
+          "baseline_text": " into",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 19819,
+          "dflash_id": 10061,
+          "baseline_text": " logical",
+          "dflash_text": "Let"
+        },
+        {
+          "pos": 94,
+          "baseline_id": 11871,
+          "dflash_id": 748,
+          "baseline_text": " relationships",
+          "dflash_text": "\u2019s"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 382,
+          "dflash_id": 6979,
+          "baseline_text": ".\n\n",
+          "dflash_text": " define"
+        },
+        {
+          "pos": 96,
+          "baseline_id": 10061,
+          "dflash_id": 1447,
+          "baseline_text": "Let",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 97,
+          "baseline_id": 748,
+          "dflash_id": 12,
+          "baseline_text": "\u2019s",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 98,
+          "baseline_id": 6979,
+          "dflash_id": 400,
+          "baseline_text": " define",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 1447,
+          "dflash_id": 506,
+          "baseline_text": ":\n\n",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 100,
+          "baseline_id": 12,
+          "dflash_id": 400,
+          "baseline_text": "-",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 400,
+          "dflash_id": 284,
+          "baseline_text": " $",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 102,
+          "baseline_id": 506,
+          "dflash_id": 2783,
+          "baseline_text": " O",
+          "dflash_text": " cost"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 400,
+          "dflash_id": 315,
+          "baseline_text": " $",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 284,
+          "dflash_id": 84038,
+          "baseline_text": " =",
+          "dflash_text": " oranges"
+        },
+        {
+          "pos": 105,
+          "baseline_id": 2783,
+          "dflash_id": 2303,
+          "baseline_text": " cost",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 315,
+          "dflash_id": 12,
+          "baseline_text": " of",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 84038,
+          "dflash_id": 400,
+          "baseline_text": " oranges",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 2303,
+          "dflash_id": 362,
+          "baseline_text": "  \n",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 12,
+          "dflash_id": 400,
+          "baseline_text": "-",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 400,
+          "dflash_id": 284,
+          "baseline_text": " $",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 111,
+          "baseline_id": 362,
+          "dflash_id": 2783,
+          "baseline_text": " A",
+          "dflash_text": " cost"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 400,
+          "dflash_id": 315,
+          "baseline_text": " $",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 113,
+          "baseline_id": 284,
+          "dflash_id": 40676,
+          "baseline_text": " =",
+          "dflash_text": " apples"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 2783,
+          "dflash_id": 2303,
+          "baseline_text": " cost",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 315,
+          "dflash_id": 12,
+          "baseline_text": " of",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 116,
+          "baseline_id": 40676,
+          "dflash_id": 400,
+          "baseline_text": " apples",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 2303,
+          "dflash_id": 425,
+          "baseline_text": "  \n",
+          "dflash_text": " B"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 12,
+          "dflash_id": 400,
+          "baseline_text": "-",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 400,
+          "dflash_id": 284,
+          "baseline_text": " $",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 120,
+          "baseline_id": 425,
+          "dflash_id": 2783,
+          "baseline_text": " B",
+          "dflash_text": " cost"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 400,
+          "dflash_id": 315,
+          "baseline_text": " $",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 284,
+          "dflash_id": 67342,
+          "baseline_text": " =",
+          "dflash_text": " bananas"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 2783,
+          "dflash_id": 271,
+          "baseline_text": " cost",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 315,
+          "dflash_id": 3830,
+          "baseline_text": " of",
+          "dflash_text": "From"
+        },
+        {
+          "pos": 125,
+          "baseline_id": 67342,
+          "dflash_id": 5114,
+          "baseline_text": " bananas",
+          "dflash_text": " statement"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 271,
+          "dflash_id": 220,
+          "baseline_text": "\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 127,
+          "baseline_id": 3830,
+          "dflash_id": 16,
+          "baseline_text": "From",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 5114,
+          "dflash_id": 25,
+          "baseline_text": " statement",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 129,
+          "baseline_id": 220,
+          "dflash_id": 2303,
+          "baseline_text": " ",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 16,
+          "dflash_id": 14085,
+          "baseline_text": "1",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 25,
+          "dflash_id": 198,
+          "baseline_text": ":",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 2303,
+          "dflash_id": 46,
+          "baseline_text": "  \n",
+          "dflash_text": "O"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 14085,
+          "dflash_id": 861,
+          "baseline_text": "$$",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 198,
+          "dflash_id": 362,
+          "baseline_text": "\n",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 46,
+          "dflash_id": 198,
+          "baseline_text": "O",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 861,
+          "dflash_id": 14085,
+          "baseline_text": " >",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 362,
+          "dflash_id": 271,
+          "baseline_text": " A",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 198,
+          "dflash_id": 3830,
+          "baseline_text": "\n",
+          "dflash_text": "From"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 14085,
+          "dflash_id": 5114,
+          "baseline_text": "$$",
+          "dflash_text": " statement"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 271,
+          "dflash_id": 220,
+          "baseline_text": "\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 141,
+          "baseline_id": 3830,
+          "dflash_id": 17,
+          "baseline_text": "From",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 5114,
+          "dflash_id": 25,
+          "baseline_text": " statement",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 220,
+          "dflash_id": 2303,
+          "baseline_text": " ",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 17,
+          "dflash_id": 14085,
+          "baseline_text": "2",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 25,
+          "dflash_id": 198,
+          "baseline_text": ":",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 2303,
+          "dflash_id": 33,
+          "baseline_text": "  \n",
+          "dflash_text": "B"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 14085,
+          "dflash_id": 861,
+          "baseline_text": "$$",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 198,
+          "dflash_id": 506,
+          "baseline_text": "\n",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 33,
+          "dflash_id": 198,
+          "baseline_text": "B",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 861,
+          "dflash_id": 14085,
+          "baseline_text": " >",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 506,
+          "dflash_id": 271,
+          "baseline_text": " O",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 198,
+          "dflash_id": 44364,
+          "baseline_text": "\n",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 14085,
+          "dflash_id": 14374,
+          "baseline_text": "$$",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 271,
+          "dflash_id": 14822,
+          "baseline_text": "\n\n",
+          "dflash_text": " Step"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 44364,
+          "dflash_id": 220,
+          "baseline_text": "---\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 156,
+          "baseline_id": 14374,
+          "dflash_id": 17,
+          "baseline_text": "###",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 14822,
+          "dflash_id": 25,
+          "baseline_text": " Step",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 220,
+          "dflash_id": 37427,
+          "baseline_text": " ",
+          "dflash_text": " Analy"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 17,
+          "dflash_id": 2986,
+          "baseline_text": "2",
+          "dflash_text": "ze"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 25,
+          "dflash_id": 279,
+          "baseline_text": ":",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 46812,
+          "dflash_id": 4843,
+          "baseline_text": " Combine",
+          "dflash_text": " third"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 279,
+          "dflash_id": 5114,
+          "baseline_text": " the",
+          "dflash_text": " statement"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 1378,
+          "dflash_id": 382,
+          "baseline_text": " two",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 92234,
+          "dflash_id": 8636,
+          "baseline_text": " inequalities",
+          "dflash_text": "Statement"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 382,
+          "dflash_id": 220,
+          "baseline_text": ".\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 166,
+          "baseline_id": 3830,
+          "dflash_id": 18,
+          "baseline_text": "From",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 400,
+          "dflash_id": 25,
+          "baseline_text": " $",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 506,
+          "dflash_id": 2303,
+          "baseline_text": " O",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 861,
+          "dflash_id": 334,
+          "baseline_text": " >",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 362,
+          "dflash_id": 50241,
+          "baseline_text": " A",
+          "dflash_text": "Ban"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 400,
+          "dflash_id": 25908,
+          "baseline_text": " $",
+          "dflash_text": "anas"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 323,
+          "dflash_id": 2783,
+          "baseline_text": " and",
+          "dflash_text": " cost"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 400,
+          "dflash_id": 803,
+          "baseline_text": " $",
+          "dflash_text": " more"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 425,
+          "dflash_id": 1091,
+          "baseline_text": " B",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 861,
+          "dflash_id": 40676,
+          "baseline_text": " >",
+          "dflash_text": " apples"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 506,
+          "dflash_id": 323,
+          "baseline_text": " O",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 400,
+          "dflash_id": 67342,
+          "baseline_text": " $",
+          "dflash_text": " bananas"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 11,
+          "dflash_id": 2783,
+          "baseline_text": ",",
+          "dflash_text": " cost"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 582,
+          "dflash_id": 803,
+          "baseline_text": " we",
+          "dflash_text": " more"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 646,
+          "dflash_id": 1091,
+          "baseline_text": " can",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 8781,
+          "dflash_id": 84038,
+          "baseline_text": " chain",
+          "dflash_text": " oranges"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 279,
+          "dflash_id": 13,
+          "baseline_text": " the",
+          "dflash_text": "."
+        },
+        {
+          "pos": 183,
+          "baseline_id": 92234,
+          "dflash_id": 56177,
+          "baseline_text": " inequalities",
+          "dflash_text": "**\n\n"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 1447,
+          "dflash_id": 1986,
+          "baseline_text": ":\n\n",
+          "dflash_text": "This"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 14085,
+          "dflash_id": 374,
+          "baseline_text": "$$",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 198,
+          "dflash_id": 264,
+          "baseline_text": "\n",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 33,
+          "dflash_id": 23628,
+          "baseline_text": "B",
+          "dflash_text": " compound"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 861,
+          "dflash_id": 5114,
+          "baseline_text": " >",
+          "dflash_text": " statement"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 506,
+          "dflash_id": 25,
+          "baseline_text": " O",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 861,
+          "dflash_id": 2303,
+          "baseline_text": " >",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 362,
+          "dflash_id": 14085,
+          "baseline_text": " A",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 14085,
+          "dflash_id": 33,
+          "baseline_text": "$$",
+          "dflash_text": "B"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 271,
+          "dflash_id": 861,
+          "baseline_text": "\n\n",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 1986,
+          "dflash_id": 362,
+          "baseline_text": "This",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 3363,
+          "dflash_id": 1124,
+          "baseline_text": " means",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 1447,
+          "dflash_id": 31610,
+          "baseline_text": ":\n\n",
+          "dflash_text": "quad"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 12,
+          "dflash_id": 1124,
+          "baseline_text": "-",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 22730,
+          "dflash_id": 1318,
+          "baseline_text": " Ban",
+          "dflash_text": "text"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 25908,
+          "dflash_id": 90,
+          "baseline_text": "anas",
+          "dflash_text": "{"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 525,
+          "dflash_id": 437,
+          "baseline_text": " are",
+          "dflash_text": "and"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 803,
+          "dflash_id": 92,
+          "baseline_text": " more",
+          "dflash_text": "}"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 11392,
+          "dflash_id": 1124,
+          "baseline_text": " expensive",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 1091,
+          "dflash_id": 31610,
+          "baseline_text": " than",
+          "dflash_text": "quad"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 84038,
+          "dflash_id": 425,
+          "baseline_text": " oranges",
+          "dflash_text": " B"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 624,
+          "dflash_id": 861,
+          "baseline_text": ".\n",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 12,
+          "dflash_id": 506,
+          "baseline_text": "-",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 2521,
+          "dflash_id": 198,
+          "baseline_text": " Or",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 5520,
+          "dflash_id": 14085,
+          "baseline_text": "anges",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 525,
+          "dflash_id": 271,
+          "baseline_text": " are",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 803,
+          "dflash_id": 1654,
+          "baseline_text": " more",
+          "dflash_text": "We"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 11392,
+          "dflash_id": 2669,
+          "baseline_text": " expensive",
+          "dflash_text": " already"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 1091,
+          "dflash_id": 1414,
+          "baseline_text": " than",
+          "dflash_text": " know"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 40676,
+          "dflash_id": 504,
+          "baseline_text": " apples",
+          "dflash_text": " from"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 382,
+          "dflash_id": 279,
+          "baseline_text": ".\n\n",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 4416,
+          "dflash_id": 1156,
+          "baseline_text": "So",
+          "dflash_text": " first"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 11,
+          "dflash_id": 1378,
+          "baseline_text": ",",
+          "dflash_text": " two"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 279,
+          "dflash_id": 12239,
+          "baseline_text": " the",
+          "dflash_text": " statements"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 3070,
+          "dflash_id": 429,
+          "baseline_text": " **",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 31727,
+          "dflash_id": 1447,
+          "baseline_text": "third",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 5114,
+          "dflash_id": 12,
+          "baseline_text": " statement",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 334,
+          "dflash_id": 400,
+          "baseline_text": "**",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 2727,
+          "dflash_id": 506,
+          "baseline_text": " says",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 1447,
+          "dflash_id": 861,
+          "baseline_text": ":\n\n",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 29,
+          "dflash_id": 362,
+          "baseline_text": ">",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 22730,
+          "dflash_id": 400,
+          "baseline_text": " Ban",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 25908,
+          "dflash_id": 2303,
+          "baseline_text": "anas",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 2783,
+          "dflash_id": 12,
+          "baseline_text": " cost",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 803,
+          "dflash_id": 400,
+          "baseline_text": " more",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1091,
+          "dflash_id": 425,
+          "baseline_text": " than",
+          "dflash_text": " B"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 40676,
+          "dflash_id": 861,
+          "baseline_text": " apples",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 3070,
+          "dflash_id": 506,
+          "baseline_text": " **",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 437,
+          "dflash_id": 84500,
+          "baseline_text": "and",
+          "dflash_text": " $\n\n"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 334,
+          "dflash_id": 3830,
+          "baseline_text": "**",
+          "dflash_text": "From"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 67342,
+          "dflash_id": 400,
+          "baseline_text": " bananas",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 2783,
+          "dflash_id": 425,
+          "baseline_text": " cost",
+          "dflash_text": " B"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 803,
+          "dflash_id": 861,
+          "baseline_text": " more",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 1091,
+          "dflash_id": 506,
+          "baseline_text": " than",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 84038,
+          "dflash_id": 400,
+          "baseline_text": " oranges",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 382,
+          "dflash_id": 323,
+          "baseline_text": ".\n\n",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 1986,
+          "dflash_id": 400,
+          "baseline_text": "This",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 374,
+          "dflash_id": 506,
+          "baseline_text": " is",
+          "dflash_text": " O"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 6896,
+          "dflash_id": 861,
+          "baseline_text": " exactly",
+          "dflash_text": " >"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 1128,
+          "dflash_id": 362,
+          "baseline_text": " what",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 582,
+          "dflash_id": 400,
+          "baseline_text": " we",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 1101,
+          "dflash_id": 11,
+          "baseline_text": " just",
+          "dflash_text": ","
+        },
+        {
+          "pos": 247,
+          "baseline_id": 14257,
+          "dflash_id": 582,
+          "baseline_text": " derived",
+          "dflash_text": " we"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 504,
+          "dflash_id": 646,
+          "baseline_text": " from",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 279,
+          "dflash_id": 7681,
+          "baseline_text": " the",
+          "dflash_text": " ded"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 1156,
+          "dflash_id": 10521,
+          "baseline_text": " first",
+          "dflash_text": "uce"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 1378,
+          "dflash_id": 320,
+          "baseline_text": " two",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 252,
+          "baseline_id": 12239,
+          "dflash_id": 1694,
+          "baseline_text": " statements",
+          "dflash_text": "by"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 382,
+          "dflash_id": 1356,
+          "baseline_text": ".\n\n",
+          "dflash_text": " trans"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 44364,
+          "dflash_id": 18055,
+          "baseline_text": "---\n\n",
+          "dflash_text": "itivity"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 14374,
+          "dflash_id": 1648,
+          "baseline_text": "###",
+          "dflash_text": "):"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 6,
+      "is_warmup": false,
+      "num_input_tokens": 34,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.332394421860954,
+      "baseline_tps": 157.91814807804116,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 5.580748156262416,
+      "dflash_tps": 179.18744440704668,
+      "tau": 2.0,
+      "num_drafts": 128,
+      "acceptance_lengths": [
+        1,
+        4,
+        3,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        4,
+        3,
+        1,
+        2,
+        1,
+        1,
+        2,
+        2,
+        3,
+        4,
+        1,
+        3,
+        4,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        3,
+        1,
+        3,
+        2,
+        2,
+        1,
+        2,
+        2,
+        1,
+        2,
+        1,
+        5,
+        3,
+        2,
+        1,
+        3,
+        1,
+        1,
+        3,
+        1,
+        2,
+        2,
+        2,
+        2,
+        5,
+        2,
+        1,
+        2,
+        2,
+        2,
+        1,
+        3,
+        1,
+        1,
+        2,
+        4,
+        3,
+        3,
+        5,
+        2,
+        2,
+        4,
+        1,
+        2,
+        1,
+        2,
+        3,
+        4,
+        3,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        3,
+        1,
+        1,
+        1,
+        2,
+        4,
+        4,
+        2,
+        1,
+        2,
+        3,
+        2,
+        2,
+        1,
+        1,
+        1,
+        3,
+        4,
+        3,
+        4,
+        1,
+        3,
+        4,
+        4,
+        1,
+        2,
+        1,
+        2,
+        1,
+        3,
+        1,
+        1,
+        1,
+        3,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 66,
+          "baseline_id": 23966,
+          "dflash_id": 16721,
+          "baseline_text": " exploring",
+          "dflash_text": " visiting"
+        },
+        {
+          "pos": 67,
+          "baseline_id": 279,
+          "dflash_id": 27521,
+          "baseline_text": " the",
+          "dflash_text": " Hawaii"
+        },
+        {
+          "pos": 68,
+          "baseline_id": 6164,
+          "dflash_id": 11,
+          "baseline_text": " Big",
+          "dflash_text": ","
+        },
+        {
+          "pos": 69,
+          "baseline_id": 10720,
+          "dflash_id": 323,
+          "baseline_text": " Island",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 70,
+          "baseline_id": 315,
+          "dflash_id": 358,
+          "baseline_text": " of",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 71,
+          "baseline_id": 27521,
+          "dflash_id": 646,
+          "baseline_text": " Hawaii",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 72,
+          "baseline_id": 11,
+          "dflash_id": 76976,
+          "baseline_text": ",",
+          "dflash_text": " confidently"
+        },
+        {
+          "pos": 73,
+          "baseline_id": 323,
+          "dflash_id": 1977,
+          "baseline_text": " and",
+          "dflash_text": " say"
+        },
+        {
+          "pos": 74,
+          "baseline_id": 358,
+          "dflash_id": 432,
+          "baseline_text": " I",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 75,
+          "baseline_id": 646,
+          "dflash_id": 572,
+          "baseline_text": " can",
+          "dflash_text": " was"
+        },
+        {
+          "pos": 76,
+          "baseline_id": 76976,
+          "dflash_id": 825,
+          "baseline_text": " confidently",
+          "dflash_text": " one"
+        },
+        {
+          "pos": 77,
+          "baseline_id": 1977,
+          "dflash_id": 315,
+          "baseline_text": " say",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 432,
+          "dflash_id": 279,
+          "baseline_text": " it",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 572,
+          "dflash_id": 1429,
+          "baseline_text": " was",
+          "dflash_text": " most"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 825,
+          "dflash_id": 59998,
+          "baseline_text": " one",
+          "dflash_text": " unforgettable"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 315,
+          "dflash_id": 22466,
+          "baseline_text": " of",
+          "dflash_text": " trips"
+        },
+        {
+          "pos": 82,
+          "baseline_id": 279,
+          "dflash_id": 358,
+          "baseline_text": " the",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 83,
+          "baseline_id": 1429,
+          "dflash_id": 3982,
+          "baseline_text": " most",
+          "dflash_text": "\u2019ve"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 59998,
+          "dflash_id": 3512,
+          "baseline_text": " unforgettable",
+          "dflash_text": " ever"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 22466,
+          "dflash_id": 4429,
+          "baseline_text": " trips",
+          "dflash_text": " taken"
+        },
+        {
+          "pos": 86,
+          "baseline_id": 358,
+          "dflash_id": 13,
+          "baseline_text": " I",
+          "dflash_text": "."
+        },
+        {
+          "pos": 87,
+          "baseline_id": 3982,
+          "dflash_id": 5542,
+          "baseline_text": "\u2019ve",
+          "dflash_text": " From"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 3512,
+          "dflash_id": 279,
+          "baseline_text": " ever",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 4429,
+          "dflash_id": 32976,
+          "baseline_text": " taken",
+          "dflash_text": " vibrant"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 382,
+          "dflash_id": 7674,
+          "baseline_text": ".\n\n",
+          "dflash_text": " culture"
+        },
+        {
+          "pos": 91,
+          "baseline_id": 14374,
+          "dflash_id": 311,
+          "baseline_text": "###",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 92,
+          "baseline_id": 362,
+          "dflash_id": 279,
+          "baseline_text": " A",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 20166,
+          "dflash_id": 56092,
+          "baseline_text": " Welcome",
+          "dflash_text": " breathtaking"
+        },
+        {
+          "pos": 94,
+          "baseline_id": 311,
+          "dflash_id": 5810,
+          "baseline_text": " to",
+          "dflash_text": " natural"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 279,
+          "dflash_id": 13143,
+          "baseline_text": " the",
+          "dflash_text": " beauty"
+        },
+        {
+          "pos": 96,
+          "baseline_id": 11426,
+          "dflash_id": 11,
+          "baseline_text": " Land",
+          "dflash_text": ","
+        },
+        {
+          "pos": 97,
+          "baseline_id": 315,
+          "dflash_id": 1449,
+          "baseline_text": " of",
+          "dflash_text": " every"
+        },
+        {
+          "pos": 98,
+          "baseline_id": 279,
+          "dflash_id": 4445,
+          "baseline_text": " the",
+          "dflash_text": " moment"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 94454,
+          "dflash_id": 572,
+          "baseline_text": " Alo",
+          "dflash_text": " was"
+        },
+        {
+          "pos": 100,
+          "baseline_id": 4223,
+          "dflash_id": 264,
+          "baseline_text": "ha",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 16899,
+          "dflash_id": 24916,
+          "baseline_text": " Spirit",
+          "dflash_text": " celebration"
+        },
+        {
+          "pos": 102,
+          "baseline_id": 271,
+          "dflash_id": 315,
+          "baseline_text": "\n\n",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 2121,
+          "dflash_id": 2272,
+          "baseline_text": "As",
+          "dflash_text": " life"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 358,
+          "dflash_id": 11,
+          "baseline_text": " I",
+          "dflash_text": ","
+        },
+        {
+          "pos": 105,
+          "baseline_id": 24326,
+          "dflash_id": 13815,
+          "baseline_text": " stepped",
+          "dflash_text": " tradition"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 1007,
+          "dflash_id": 11,
+          "baseline_text": " off",
+          "dflash_text": ","
+        },
+        {
+          "pos": 107,
+          "baseline_id": 279,
+          "dflash_id": 323,
+          "baseline_text": " the",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 11031,
+          "dflash_id": 3633,
+          "baseline_text": " plane",
+          "dflash_text": " connection"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 304,
+          "dflash_id": 382,
+          "baseline_text": " in",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 472,
+          "dflash_id": 44364,
+          "baseline_text": " H",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 111,
+          "baseline_id": 18045,
+          "dflash_id": 14374,
+          "baseline_text": "ilo",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 11,
+          "dflash_id": 3070,
+          "baseline_text": ",",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 113,
+          "baseline_id": 279,
+          "dflash_id": 32,
+          "baseline_text": " the",
+          "dflash_text": "A"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 8205,
+          "dflash_id": 40233,
+          "baseline_text": " warm",
+          "dflash_text": " Cultural"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 45285,
+          "dflash_id": 15335,
+          "baseline_text": " breeze",
+          "dflash_text": " Imm"
+        },
+        {
+          "pos": 116,
+          "baseline_id": 323,
+          "dflash_id": 1325,
+          "baseline_text": " and",
+          "dflash_text": "ersion"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 279,
+          "dflash_id": 25,
+          "baseline_text": " the",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 118,
+          "baseline_id": 5112,
+          "dflash_id": 83938,
+          "baseline_text": " sound",
+          "dflash_text": " Connecting"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 315,
+          "dflash_id": 448,
+          "baseline_text": " of",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 16876,
+          "dflash_id": 279,
+          "baseline_text": " waves",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 45474,
+          "dflash_id": 11426,
+          "baseline_text": " crashing",
+          "dflash_text": " Land"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 2348,
+          "dflash_id": 323,
+          "baseline_text": " against",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 279,
+          "dflash_id": 8853,
+          "baseline_text": " the",
+          "dflash_text": " People"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 30184,
+          "dflash_id": 56177,
+          "baseline_text": " shore",
+          "dflash_text": "**\n\n"
+        },
+        {
+          "pos": 125,
+          "baseline_id": 7069,
+          "dflash_id": 39,
+          "baseline_text": " immediately",
+          "dflash_text": "H"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 19472,
+          "dflash_id": 70954,
+          "baseline_text": " wrapped",
+          "dflash_text": "awaii"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 752,
+          "dflash_id": 374,
+          "baseline_text": " me",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 304,
+          "dflash_id": 264,
+          "baseline_text": " in",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 129,
+          "baseline_id": 264,
+          "dflash_id": 1992,
+          "baseline_text": " a",
+          "dflash_text": " place"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 5530,
+          "dflash_id": 1380,
+          "baseline_text": " sense",
+          "dflash_text": " where"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 315,
+          "dflash_id": 279,
+          "baseline_text": " of",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 8919,
+          "dflash_id": 3267,
+          "baseline_text": " peace",
+          "dflash_text": " past"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 13,
+          "dflash_id": 323,
+          "baseline_text": ".",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 576,
+          "dflash_id": 3042,
+          "baseline_text": " The",
+          "dflash_text": " present"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 58003,
+          "dflash_id": 1062,
+          "baseline_text": " Hawaiian",
+          "dflash_text": " co"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 1251,
+          "dflash_id": 28575,
+          "baseline_text": " people",
+          "dflash_text": "exist"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 525,
+          "dflash_id": 304,
+          "baseline_text": " are",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 3881,
+          "dflash_id": 25281,
+          "baseline_text": " known",
+          "dflash_text": " harmony"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 369,
+          "dflash_id": 13,
+          "baseline_text": " for",
+          "dflash_text": "."
+        },
+        {
+          "pos": 140,
+          "baseline_id": 862,
+          "dflash_id": 5542,
+          "baseline_text": " their",
+          "dflash_text": " From"
+        },
+        {
+          "pos": 141,
+          "baseline_id": 35287,
+          "dflash_id": 279,
+          "baseline_text": " welcoming",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 6993,
+          "dflash_id": 4445,
+          "baseline_text": " nature",
+          "dflash_text": " moment"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 11,
+          "dflash_id": 358,
+          "baseline_text": ",",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 323,
+          "dflash_id": 11465,
+          "baseline_text": " and",
+          "dflash_text": " arrived"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 358,
+          "dflash_id": 11,
+          "baseline_text": " I",
+          "dflash_text": ","
+        },
+        {
+          "pos": 146,
+          "baseline_id": 572,
+          "dflash_id": 358,
+          "baseline_text": " was",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 43765,
+          "dflash_id": 572,
+          "baseline_text": " greeted",
+          "dflash_text": " was"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 448,
+          "dflash_id": 43765,
+          "baseline_text": " with",
+          "dflash_text": " greeted"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 42532,
+          "dflash_id": 553,
+          "baseline_text": " smiles",
+          "dflash_text": " by"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 323,
+          "dflash_id": 279,
+          "baseline_text": " and",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 279,
+          "dflash_id": 8205,
+          "baseline_text": " the",
+          "dflash_text": " warm"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 8606,
+          "dflash_id": 42532,
+          "baseline_text": " traditional",
+          "dflash_text": " smiles"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 42113,
+          "dflash_id": 315,
+          "baseline_text": " greeting",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 315,
+          "dflash_id": 24914,
+          "baseline_text": " of",
+          "dflash_text": " locals"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 1036,
+          "dflash_id": 323,
+          "baseline_text": " \u201c",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 94454,
+          "dflash_id": 279,
+          "baseline_text": " Alo",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 4223,
+          "dflash_id": 28071,
+          "baseline_text": "ha",
+          "dflash_text": " rhyth"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 1987,
+          "dflash_id": 21220,
+          "baseline_text": ".\u201d",
+          "dflash_text": "mic"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 5542,
+          "dflash_id": 10362,
+          "baseline_text": " From",
+          "dflash_text": " sounds"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 429,
+          "dflash_id": 315,
+          "baseline_text": " that",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 4445,
+          "dflash_id": 8606,
+          "baseline_text": " moment",
+          "dflash_text": " traditional"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 389,
+          "dflash_id": 4627,
+          "baseline_text": " on",
+          "dflash_text": " music"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 11,
+          "dflash_id": 13,
+          "baseline_text": ",",
+          "dflash_text": "."
+        },
+        {
+          "pos": 165,
+          "baseline_id": 6476,
+          "dflash_id": 1030,
+          "baseline_text": " felt",
+          "dflash_text": " had"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 1075,
+          "dflash_id": 279,
+          "baseline_text": " like",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 264,
+          "dflash_id": 6638,
+          "baseline_text": " a",
+          "dflash_text": " opportunity"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 8640,
+          "dflash_id": 311,
+          "baseline_text": " guest",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 304,
+          "dflash_id": 3947,
+          "baseline_text": " in",
+          "dflash_text": " visit"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 264,
+          "dflash_id": 3807,
+          "baseline_text": " a",
+          "dflash_text": " several"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 1992,
+          "dflash_id": 12752,
+          "baseline_text": " place",
+          "dflash_text": " cultural"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 1380,
+          "dflash_id": 18652,
+          "baseline_text": " where",
+          "dflash_text": " centers"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 46509,
+          "dflash_id": 323,
+          "baseline_text": " hospitality",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 374,
+          "dflash_id": 15759,
+          "baseline_text": " is",
+          "dflash_text": " participate"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 537,
+          "dflash_id": 304,
+          "baseline_text": " not",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 1101,
+          "dflash_id": 2205,
+          "baseline_text": " just",
+          "dflash_text": " local"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 264,
+          "dflash_id": 4357,
+          "baseline_text": " a",
+          "dflash_text": " events"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 3409,
+          "dflash_id": 429,
+          "baseline_text": " word",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 11,
+          "dflash_id": 9428,
+          "baseline_text": ",",
+          "dflash_text": " truly"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 714,
+          "dflash_id": 7117,
+          "baseline_text": " but",
+          "dflash_text": " brought"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 264,
+          "dflash_id": 279,
+          "baseline_text": " a",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 1616,
+          "dflash_id": 8913,
+          "baseline_text": " way",
+          "dflash_text": " spirit"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 2272,
+          "dflash_id": 27521,
+          "baseline_text": " life",
+          "dflash_text": " Hawaii"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 382,
+          "dflash_id": 311,
+          "baseline_text": ".\n\n",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 14374,
+          "dflash_id": 2272,
+          "baseline_text": "###",
+          "dflash_text": " life"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 40233,
+          "dflash_id": 382,
+          "baseline_text": " Cultural",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 15335,
+          "dflash_id": 3966,
+          "baseline_text": " Imm",
+          "dflash_text": "One"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 1325,
+          "dflash_id": 315,
+          "baseline_text": "ersion",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 25,
+          "dflash_id": 279,
+          "baseline_text": ":",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 83938,
+          "dflash_id": 1429,
+          "baseline_text": " Connecting",
+          "dflash_text": " most"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 448,
+          "dflash_id": 32496,
+          "baseline_text": " with",
+          "dflash_text": " memorable"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 279,
+          "dflash_id": 11449,
+          "baseline_text": " the",
+          "dflash_text": " experiences"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 23640,
+          "dflash_id": 572,
+          "baseline_text": " Past",
+          "dflash_text": " was"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 271,
+          "dflash_id": 264,
+          "baseline_text": "\n\n",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 3966,
+          "dflash_id": 3947,
+          "baseline_text": "One",
+          "dflash_text": " visit"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 315,
+          "dflash_id": 311,
+          "baseline_text": " of",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 21314,
+          "dflash_id": 3070,
+          "baseline_text": " highlights",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 315,
+          "dflash_id": 39,
+          "baseline_text": " of",
+          "dflash_text": "H"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 847,
+          "dflash_id": 70954,
+          "baseline_text": " my",
+          "dflash_text": "awaii"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 8411,
+          "dflash_id": 40233,
+          "baseline_text": " trip",
+          "dflash_text": " Cultural"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 572,
+          "dflash_id": 5832,
+          "baseline_text": " was",
+          "dflash_text": " Center"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 16721,
+          "dflash_id": 304,
+          "baseline_text": " visiting",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 279,
+          "dflash_id": 28514,
+          "baseline_text": " the",
+          "dflash_text": " Wa"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 3070,
+          "dflash_id": 1579,
+          "baseline_text": " **",
+          "dflash_text": "ik"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 39,
+          "dflash_id": 7570,
+          "baseline_text": "H",
+          "dflash_text": "iki"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 35969,
+          "dflash_id": 334,
+          "baseline_text": "awai",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 1103,
+          "dflash_id": 13,
+          "baseline_text": "ian",
+          "dflash_text": "."
+        },
+        {
+          "pos": 210,
+          "baseline_id": 40233,
+          "dflash_id": 2619,
+          "baseline_text": " Cultural",
+          "dflash_text": " There"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 5832,
+          "dflash_id": 11,
+          "baseline_text": " Center",
+          "dflash_text": ","
+        },
+        {
+          "pos": 212,
+          "baseline_id": 334,
+          "dflash_id": 358,
+          "baseline_text": "**",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 304,
+          "dflash_id": 572,
+          "baseline_text": " in",
+          "dflash_text": " was"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 472,
+          "dflash_id": 2952,
+          "baseline_text": " H",
+          "dflash_text": " able"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 18045,
+          "dflash_id": 311,
+          "baseline_text": "ilo",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 13,
+          "dflash_id": 3960,
+          "baseline_text": ".",
+          "dflash_text": " learn"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 1096,
+          "dflash_id": 911,
+          "baseline_text": " This",
+          "dflash_text": " about"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 32976,
+          "dflash_id": 279,
+          "baseline_text": " vibrant",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 4126,
+          "dflash_id": 3840,
+          "baseline_text": " center",
+          "dflash_text": " history"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 6081,
+          "dflash_id": 315,
+          "baseline_text": " offers",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 264,
+          "dflash_id": 279,
+          "baseline_text": " a",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 5538,
+          "dflash_id": 29000,
+          "baseline_text": " deep",
+          "dflash_text": " islands"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 29863,
+          "dflash_id": 11,
+          "baseline_text": " dive",
+          "dflash_text": ","
+        },
+        {
+          "pos": 224,
+          "baseline_id": 1119,
+          "dflash_id": 279,
+          "baseline_text": " into",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 279,
+          "dflash_id": 25361,
+          "baseline_text": " the",
+          "dflash_text": " significance"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 3840,
+          "dflash_id": 315,
+          "baseline_text": " history",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 11,
+          "dflash_id": 279,
+          "baseline_text": ",",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 4128,
+          "dflash_id": 58003,
+          "baseline_text": " language",
+          "dflash_text": " Hawaiian"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 11,
+          "dflash_id": 4128,
+          "baseline_text": ",",
+          "dflash_text": " language"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 323,
+          "dflash_id": 11,
+          "baseline_text": " and",
+          "dflash_text": ","
+        },
+        {
+          "pos": 231,
+          "baseline_id": 30906,
+          "dflash_id": 323,
+          "baseline_text": " traditions",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 315,
+          "dflash_id": 279,
+          "baseline_text": " of",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 279,
+          "dflash_id": 5538,
+          "baseline_text": " the",
+          "dflash_text": " deep"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 58003,
+          "dflash_id": 17849,
+          "baseline_text": " Hawaiian",
+          "dflash_text": " spiritual"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 1251,
+          "dflash_id": 3633,
+          "baseline_text": " people",
+          "dflash_text": " connection"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 13,
+          "dflash_id": 21437,
+          "baseline_text": ".",
+          "dflash_text": " Hawai"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 358,
+          "dflash_id": 5380,
+          "baseline_text": " I",
+          "dflash_text": "ians"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 30308,
+          "dflash_id": 614,
+          "baseline_text": " participated",
+          "dflash_text": " have"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 304,
+          "dflash_id": 448,
+          "baseline_text": " in",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 264,
+          "dflash_id": 862,
+          "baseline_text": " a",
+          "dflash_text": " their"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 8606,
+          "dflash_id": 4268,
+          "baseline_text": " traditional",
+          "dflash_text": " land"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 305,
+          "dflash_id": 13,
+          "baseline_text": " h",
+          "dflash_text": "."
+        },
+        {
+          "pos": 243,
+          "baseline_id": 5607,
+          "dflash_id": 358,
+          "baseline_text": "ula",
+          "dflash_text": " I"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 15254,
+          "dflash_id": 1496,
+          "baseline_text": " dance",
+          "dflash_text": " even"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 536,
+          "dflash_id": 1030,
+          "baseline_text": " class",
+          "dflash_text": " had"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 11,
+          "dflash_id": 279,
+          "baseline_text": ",",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 1380,
+          "dflash_id": 6012,
+          "baseline_text": " where",
+          "dflash_text": " chance"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 358,
+          "dflash_id": 311,
+          "baseline_text": " I",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 9498,
+          "dflash_id": 1430,
+          "baseline_text": " learned",
+          "dflash_text": " try"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 279,
+          "dflash_id": 847,
+          "baseline_text": " the",
+          "dflash_text": " my"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 7343,
+          "dflash_id": 1424,
+          "baseline_text": " stories",
+          "dflash_text": " hand"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 4815,
+          "dflash_id": 518,
+          "baseline_text": " behind",
+          "dflash_text": " at"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 1817,
+          "dflash_id": 8606,
+          "baseline_text": " each",
+          "dflash_text": " traditional"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 7203,
+          "dflash_id": 305,
+          "baseline_text": " movement",
+          "dflash_text": " h"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 323,
+          "dflash_id": 5607,
+          "baseline_text": " and",
+          "dflash_text": "ula"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 7,
+      "is_warmup": false,
+      "num_input_tokens": 38,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.277945398437623,
+      "baseline_tps": 159.2877823131223,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 3.286108636643803,
+      "dflash_tps": 304.3113026906282,
+      "tau": 3.3205128205128207,
+      "num_drafts": 78,
+      "acceptance_lengths": [
+        2,
+        9,
+        3,
+        4,
+        5,
+        5,
+        8,
+        1,
+        1,
+        2,
+        2,
+        3,
+        2,
+        6,
+        5,
+        2,
+        3,
+        3,
+        1,
+        2,
+        1,
+        3,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        2,
+        2,
+        1,
+        4,
+        2,
+        2,
+        7,
+        2,
+        1,
+        2,
+        3,
+        4,
+        2,
+        2,
+        3,
+        5,
+        8,
+        5,
+        16,
+        8,
+        3,
+        2,
+        1,
+        3,
+        3,
+        2,
+        2,
+        7,
+        1,
+        6,
+        4,
+        9,
+        6,
+        2,
+        3,
+        1,
+        1,
+        3,
+        3,
+        1,
+        3,
+        3,
+        1,
+        3,
+        8,
+        1,
+        1,
+        3,
+        2,
+        4
+      ],
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 60,
+          "baseline_id": 3070,
+          "dflash_id": 2256,
+          "baseline_text": " **",
+          "dflash_text": " super"
+        },
+        {
+          "pos": 61,
+          "baseline_id": 9522,
+          "dflash_id": 3487,
+          "baseline_text": "super",
+          "dflash_text": "position"
+        },
+        {
+          "pos": 62,
+          "baseline_id": 3487,
+          "dflash_id": 315,
+          "baseline_text": "position",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 63,
+          "baseline_id": 97219,
+          "dflash_id": 5302,
+          "baseline_text": "**,",
+          "dflash_text": " states"
+        },
+        {
+          "pos": 64,
+          "baseline_id": 432,
+          "dflash_id": 11,
+          "baseline_text": " it",
+          "dflash_text": ","
+        },
+        {
+          "pos": 65,
+          "baseline_id": 374,
+          "dflash_id": 432,
+          "baseline_text": " is",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 66,
+          "baseline_id": 304,
+          "dflash_id": 3363,
+          "baseline_text": " in",
+          "dflash_text": " means"
+        },
+        {
+          "pos": 67,
+          "baseline_id": 264,
+          "dflash_id": 429,
+          "baseline_text": " a",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 68,
+          "baseline_id": 10601,
+          "dflash_id": 432,
+          "baseline_text": " combination",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 69,
+          "baseline_id": 315,
+          "dflash_id": 374,
+          "baseline_text": " of",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 70,
+          "baseline_id": 5248,
+          "dflash_id": 304,
+          "baseline_text": " multiple",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 71,
+          "baseline_id": 3204,
+          "dflash_id": 264,
+          "baseline_text": " possible",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 72,
+          "baseline_id": 5302,
+          "dflash_id": 10601,
+          "baseline_text": " states",
+          "dflash_text": " combination"
+        },
+        {
+          "pos": 73,
+          "baseline_id": 13,
+          "dflash_id": 315,
+          "baseline_text": ".",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 74,
+          "baseline_id": 1752,
+          "dflash_id": 3204,
+          "baseline_text": " For",
+          "dflash_text": " possible"
+        },
+        {
+          "pos": 75,
+          "baseline_id": 3110,
+          "dflash_id": 5302,
+          "baseline_text": " example",
+          "dflash_text": " states"
+        },
+        {
+          "pos": 77,
+          "baseline_id": 264,
+          "dflash_id": 1817,
+          "baseline_text": " a",
+          "dflash_text": " each"
+        },
+        {
+          "pos": 78,
+          "baseline_id": 2804,
+          "dflash_id": 448,
+          "baseline_text": " q",
+          "dflash_text": " with"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 59220,
+          "dflash_id": 264,
+          "baseline_text": "ubit",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 80,
+          "baseline_id": 320,
+          "dflash_id": 3654,
+          "baseline_text": " (",
+          "dflash_text": " certain"
+        },
+        {
+          "pos": 81,
+          "baseline_id": 1782,
+          "dflash_id": 18927,
+          "baseline_text": "the",
+          "dflash_text": " probability"
+        },
+        {
+          "pos": 82,
+          "baseline_id": 6770,
+          "dflash_id": 13,
+          "baseline_text": " basic",
+          "dflash_text": "."
+        },
+        {
+          "pos": 83,
+          "baseline_id": 4982,
+          "dflash_id": 1752,
+          "baseline_text": " unit",
+          "dflash_text": " For"
+        },
+        {
+          "pos": 84,
+          "baseline_id": 315,
+          "dflash_id": 3110,
+          "baseline_text": " of",
+          "dflash_text": " example"
+        },
+        {
+          "pos": 85,
+          "baseline_id": 30128,
+          "dflash_id": 11,
+          "baseline_text": " quantum",
+          "dflash_text": ","
+        },
+        {
+          "pos": 86,
+          "baseline_id": 1995,
+          "dflash_id": 2908,
+          "baseline_text": " information",
+          "dflash_text": " consider"
+        },
+        {
+          "pos": 87,
+          "baseline_id": 8,
+          "dflash_id": 264,
+          "baseline_text": ")",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 88,
+          "baseline_id": 646,
+          "dflash_id": 2804,
+          "baseline_text": " can",
+          "dflash_text": " q"
+        },
+        {
+          "pos": 89,
+          "baseline_id": 387,
+          "dflash_id": 59220,
+          "baseline_text": " be",
+          "dflash_text": "ubit"
+        },
+        {
+          "pos": 90,
+          "baseline_id": 304,
+          "dflash_id": 320,
+          "baseline_text": " in",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 91,
+          "baseline_id": 264,
+          "dflash_id": 1782,
+          "baseline_text": " a",
+          "dflash_text": "the"
+        },
+        {
+          "pos": 92,
+          "baseline_id": 1584,
+          "dflash_id": 6770,
+          "baseline_text": " state",
+          "dflash_text": " basic"
+        },
+        {
+          "pos": 93,
+          "baseline_id": 429,
+          "dflash_id": 4982,
+          "baseline_text": " that",
+          "dflash_text": " unit"
+        },
+        {
+          "pos": 94,
+          "baseline_id": 374,
+          "dflash_id": 315,
+          "baseline_text": " is",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 95,
+          "baseline_id": 264,
+          "dflash_id": 30128,
+          "baseline_text": " a",
+          "dflash_text": " quantum"
+        },
+        {
+          "pos": 96,
+          "baseline_id": 10601,
+          "dflash_id": 1995,
+          "baseline_text": " combination",
+          "dflash_text": " information"
+        },
+        {
+          "pos": 97,
+          "baseline_id": 315,
+          "dflash_id": 568,
+          "baseline_text": " of",
+          "dflash_text": ")."
+        },
+        {
+          "pos": 98,
+          "baseline_id": 2176,
+          "dflash_id": 362,
+          "baseline_text": " both",
+          "dflash_text": " A"
+        },
+        {
+          "pos": 99,
+          "baseline_id": 220,
+          "dflash_id": 2804,
+          "baseline_text": " ",
+          "dflash_text": " q"
+        },
+        {
+          "pos": 100,
+          "baseline_id": 15,
+          "dflash_id": 59220,
+          "baseline_text": "0",
+          "dflash_text": "ubit"
+        },
+        {
+          "pos": 101,
+          "baseline_id": 323,
+          "dflash_id": 646,
+          "baseline_text": " and",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 102,
+          "baseline_id": 220,
+          "dflash_id": 387,
+          "baseline_text": " ",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 103,
+          "baseline_id": 16,
+          "dflash_id": 304,
+          "baseline_text": "1",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 104,
+          "baseline_id": 24303,
+          "dflash_id": 264,
+          "baseline_text": " simultaneously",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 105,
+          "baseline_id": 11,
+          "dflash_id": 1584,
+          "baseline_text": ",",
+          "dflash_text": " state"
+        },
+        {
+          "pos": 106,
+          "baseline_id": 4751,
+          "dflash_id": 429,
+          "baseline_text": " rather",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 107,
+          "baseline_id": 1091,
+          "dflash_id": 374,
+          "baseline_text": " than",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 108,
+          "baseline_id": 1660,
+          "dflash_id": 264,
+          "baseline_text": " being",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 109,
+          "baseline_id": 304,
+          "dflash_id": 10601,
+          "baseline_text": " in",
+          "dflash_text": " combination"
+        },
+        {
+          "pos": 110,
+          "baseline_id": 264,
+          "dflash_id": 315,
+          "baseline_text": " a",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 111,
+          "baseline_id": 43770,
+          "dflash_id": 2176,
+          "baseline_text": " definite",
+          "dflash_text": " both"
+        },
+        {
+          "pos": 112,
+          "baseline_id": 1584,
+          "dflash_id": 220,
+          "baseline_text": " state",
+          "dflash_text": " "
+        },
+        {
+          "pos": 113,
+          "baseline_id": 1075,
+          "dflash_id": 15,
+          "baseline_text": " like",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 114,
+          "baseline_id": 264,
+          "dflash_id": 323,
+          "baseline_text": " a",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 115,
+          "baseline_id": 28824,
+          "dflash_id": 220,
+          "baseline_text": " classical",
+          "dflash_text": " "
+        },
+        {
+          "pos": 116,
+          "baseline_id": 2699,
+          "dflash_id": 16,
+          "baseline_text": " bit",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 117,
+          "baseline_id": 382,
+          "dflash_id": 11,
+          "baseline_text": ".\n\n",
+          "dflash_text": ","
+        },
+        {
+          "pos": 118,
+          "baseline_id": 8815,
+          "dflash_id": 537,
+          "baseline_text": "Math",
+          "dflash_text": " not"
+        },
+        {
+          "pos": 119,
+          "baseline_id": 336,
+          "dflash_id": 1101,
+          "baseline_text": "em",
+          "dflash_text": " just"
+        },
+        {
+          "pos": 120,
+          "baseline_id": 7022,
+          "dflash_id": 825,
+          "baseline_text": "atically",
+          "dflash_text": " one"
+        },
+        {
+          "pos": 121,
+          "baseline_id": 11,
+          "dflash_id": 476,
+          "baseline_text": ",",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 122,
+          "baseline_id": 264,
+          "dflash_id": 279,
+          "baseline_text": " a",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 123,
+          "baseline_id": 2804,
+          "dflash_id": 1008,
+          "baseline_text": " q",
+          "dflash_text": " other"
+        },
+        {
+          "pos": 124,
+          "baseline_id": 59220,
+          "dflash_id": 13,
+          "baseline_text": "ubit",
+          "dflash_text": "."
+        },
+        {
+          "pos": 125,
+          "baseline_id": 304,
+          "dflash_id": 4149,
+          "baseline_text": " in",
+          "dflash_text": " Math"
+        },
+        {
+          "pos": 126,
+          "baseline_id": 2256,
+          "dflash_id": 336,
+          "baseline_text": " super",
+          "dflash_text": "em"
+        },
+        {
+          "pos": 127,
+          "baseline_id": 3487,
+          "dflash_id": 7022,
+          "baseline_text": "position",
+          "dflash_text": "atically"
+        },
+        {
+          "pos": 128,
+          "baseline_id": 646,
+          "dflash_id": 11,
+          "baseline_text": " can",
+          "dflash_text": ","
+        },
+        {
+          "pos": 129,
+          "baseline_id": 387,
+          "dflash_id": 419,
+          "baseline_text": " be",
+          "dflash_text": " this"
+        },
+        {
+          "pos": 130,
+          "baseline_id": 15251,
+          "dflash_id": 374,
+          "baseline_text": " represented",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 131,
+          "baseline_id": 438,
+          "dflash_id": 15251,
+          "baseline_text": " as",
+          "dflash_text": " represented"
+        },
+        {
+          "pos": 132,
+          "baseline_id": 1447,
+          "dflash_id": 438,
+          "baseline_text": ":\n\n",
+          "dflash_text": " as"
+        },
+        {
+          "pos": 133,
+          "baseline_id": 14085,
+          "dflash_id": 1447,
+          "baseline_text": "$$",
+          "dflash_text": ":\n\n"
+        },
+        {
+          "pos": 134,
+          "baseline_id": 198,
+          "dflash_id": 14085,
+          "baseline_text": "\n",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 135,
+          "baseline_id": 22957,
+          "dflash_id": 198,
+          "baseline_text": "|\\",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 136,
+          "baseline_id": 30765,
+          "dflash_id": 22957,
+          "baseline_text": "psi",
+          "dflash_text": "|\\"
+        },
+        {
+          "pos": 137,
+          "baseline_id": 12016,
+          "dflash_id": 30765,
+          "baseline_text": "\\r",
+          "dflash_text": "psi"
+        },
+        {
+          "pos": 138,
+          "baseline_id": 4044,
+          "dflash_id": 12016,
+          "baseline_text": "angle",
+          "dflash_text": "\\r"
+        },
+        {
+          "pos": 139,
+          "baseline_id": 284,
+          "dflash_id": 4044,
+          "baseline_text": " =",
+          "dflash_text": "angle"
+        },
+        {
+          "pos": 140,
+          "baseline_id": 1124,
+          "dflash_id": 284,
+          "baseline_text": " \\",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 141,
+          "baseline_id": 7141,
+          "dflash_id": 1124,
+          "baseline_text": "alpha",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 142,
+          "baseline_id": 760,
+          "dflash_id": 7141,
+          "baseline_text": " |",
+          "dflash_text": "alpha"
+        },
+        {
+          "pos": 143,
+          "baseline_id": 15,
+          "dflash_id": 760,
+          "baseline_text": "0",
+          "dflash_text": " |"
+        },
+        {
+          "pos": 144,
+          "baseline_id": 12016,
+          "dflash_id": 15,
+          "baseline_text": "\\r",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 145,
+          "baseline_id": 4044,
+          "dflash_id": 12016,
+          "baseline_text": "angle",
+          "dflash_text": "\\r"
+        },
+        {
+          "pos": 146,
+          "baseline_id": 488,
+          "dflash_id": 4044,
+          "baseline_text": " +",
+          "dflash_text": "angle"
+        },
+        {
+          "pos": 147,
+          "baseline_id": 1124,
+          "dflash_id": 488,
+          "baseline_text": " \\",
+          "dflash_text": " +"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 19127,
+          "dflash_id": 1124,
+          "baseline_text": "beta",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 760,
+          "dflash_id": 19127,
+          "baseline_text": " |",
+          "dflash_text": "beta"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 16,
+          "dflash_id": 760,
+          "baseline_text": "1",
+          "dflash_text": " |"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 12016,
+          "dflash_id": 16,
+          "baseline_text": "\\r",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 4044,
+          "dflash_id": 12016,
+          "baseline_text": "angle",
+          "dflash_text": "\\r"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 198,
+          "dflash_id": 4044,
+          "baseline_text": "\n",
+          "dflash_text": "angle"
+        },
+        {
+          "pos": 154,
+          "baseline_id": 14085,
+          "dflash_id": 198,
+          "baseline_text": "$$",
+          "dflash_text": "\n"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 271,
+          "dflash_id": 14085,
+          "baseline_text": "\n\n",
+          "dflash_text": "$$"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 2870,
+          "dflash_id": 271,
+          "baseline_text": "where",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 400,
+          "dflash_id": 2870,
+          "baseline_text": " $",
+          "dflash_text": "where"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 1124,
+          "dflash_id": 400,
+          "baseline_text": " \\",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 7141,
+          "dflash_id": 1124,
+          "baseline_text": "alpha",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 400,
+          "dflash_id": 7141,
+          "baseline_text": " $",
+          "dflash_text": "alpha"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 323,
+          "dflash_id": 400,
+          "baseline_text": " and",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 400,
+          "dflash_id": 323,
+          "baseline_text": " $",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 1124,
+          "dflash_id": 400,
+          "baseline_text": " \\",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 19127,
+          "dflash_id": 1124,
+          "baseline_text": "beta",
+          "dflash_text": " \\"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 400,
+          "dflash_id": 19127,
+          "baseline_text": " $",
+          "dflash_text": "beta"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 525,
+          "dflash_id": 400,
+          "baseline_text": " are",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 6351,
+          "dflash_id": 525,
+          "baseline_text": " complex",
+          "dflash_text": " are"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 5109,
+          "dflash_id": 6351,
+          "baseline_text": " numbers",
+          "dflash_text": " complex"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 1741,
+          "dflash_id": 5109,
+          "baseline_text": " such",
+          "dflash_text": " numbers"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 429,
+          "dflash_id": 14064,
+          "baseline_text": " that",
+          "dflash_text": " representing"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 400,
+          "dflash_id": 279,
+          "baseline_text": " $",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 63596,
+          "dflash_id": 44109,
+          "baseline_text": " |\\",
+          "dflash_text": " amplitude"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 7141,
+          "dflash_id": 315,
+          "baseline_text": "alpha",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 96750,
+          "dflash_id": 1817,
+          "baseline_text": "|^",
+          "dflash_text": " each"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 17,
+          "dflash_id": 1584,
+          "baseline_text": "2",
+          "dflash_text": " state"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 488,
+          "dflash_id": 11,
+          "baseline_text": " +",
+          "dflash_text": ","
+        },
+        {
+          "pos": 177,
+          "baseline_id": 63596,
+          "dflash_id": 323,
+          "baseline_text": " |\\",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 19127,
+          "dflash_id": 400,
+          "baseline_text": "beta",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 96750,
+          "dflash_id": 63596,
+          "baseline_text": "|^",
+          "dflash_text": " |\\"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 17,
+          "dflash_id": 7141,
+          "baseline_text": "2",
+          "dflash_text": "alpha"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 284,
+          "dflash_id": 96750,
+          "baseline_text": " =",
+          "dflash_text": "|^"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 220,
+          "dflash_id": 17,
+          "baseline_text": " ",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 16,
+          "dflash_id": 400,
+          "baseline_text": "1",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 8672,
+          "dflash_id": 323,
+          "baseline_text": " $.",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 576,
+          "dflash_id": 400,
+          "baseline_text": " The",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 9334,
+          "dflash_id": 63596,
+          "baseline_text": " square",
+          "dflash_text": " |\\"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 315,
+          "dflash_id": 19127,
+          "baseline_text": " of",
+          "dflash_text": "beta"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 279,
+          "dflash_id": 96750,
+          "baseline_text": " the",
+          "dflash_text": "|^"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 10740,
+          "dflash_id": 17,
+          "baseline_text": " absolute",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 897,
+          "dflash_id": 400,
+          "baseline_text": " value",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 315,
+          "dflash_id": 2968,
+          "baseline_text": " of",
+          "dflash_text": " give"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 36829,
+          "dflash_id": 48216,
+          "baseline_text": " coefficients",
+          "dflash_text": " probabilities"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 6696,
+          "dflash_id": 315,
+          "baseline_text": " gives",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 279,
+          "dflash_id": 28990,
+          "baseline_text": " the",
+          "dflash_text": " measuring"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 18927,
+          "dflash_id": 279,
+          "baseline_text": " probability",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 315,
+          "dflash_id": 1849,
+          "baseline_text": " of",
+          "dflash_text": " system"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 28990,
+          "dflash_id": 304,
+          "baseline_text": " measuring",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 279,
+          "dflash_id": 1584,
+          "baseline_text": " the",
+          "dflash_text": " state"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 2804,
+          "dflash_id": 400,
+          "baseline_text": " q",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 59220,
+          "dflash_id": 760,
+          "baseline_text": "ubit",
+          "dflash_text": " |"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 304,
+          "dflash_id": 15,
+          "baseline_text": " in",
+          "dflash_text": "0"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 1584,
+          "dflash_id": 12016,
+          "baseline_text": " state",
+          "dflash_text": "\\r"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 400,
+          "dflash_id": 4044,
+          "baseline_text": " $",
+          "dflash_text": "angle"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 760,
+          "dflash_id": 400,
+          "baseline_text": " |",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 15,
+          "dflash_id": 476,
+          "baseline_text": "0",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 12016,
+          "dflash_id": 400,
+          "baseline_text": "\\r",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 4044,
+          "dflash_id": 760,
+          "baseline_text": "angle",
+          "dflash_text": " |"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 400,
+          "dflash_id": 16,
+          "baseline_text": " $",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 476,
+          "dflash_id": 12016,
+          "baseline_text": " or",
+          "dflash_text": "\\r"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 400,
+          "dflash_id": 4044,
+          "baseline_text": " $",
+          "dflash_text": "angle"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 760,
+          "dflash_id": 400,
+          "baseline_text": " |",
+          "dflash_text": " $"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 16,
+          "dflash_id": 11,
+          "baseline_text": "1",
+          "dflash_text": ","
+        },
+        {
+          "pos": 214,
+          "baseline_id": 12016,
+          "dflash_id": 15576,
+          "baseline_text": "\\r",
+          "dflash_text": " respectively"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 4044,
+          "dflash_id": 382,
+          "baseline_text": "angle",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 400,
+          "dflash_id": 19284,
+          "baseline_text": " $",
+          "dflash_text": "Super"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 382,
+          "dflash_id": 3487,
+          "baseline_text": ".\n\n",
+          "dflash_text": "position"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 14374,
+          "dflash_id": 374,
+          "baseline_text": "###",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 2585,
+          "dflash_id": 537,
+          "baseline_text": " How",
+          "dflash_text": " not"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 12553,
+          "dflash_id": 264,
+          "baseline_text": " Does",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 7297,
+          "dflash_id": 28824,
+          "baseline_text": " Super",
+          "dflash_text": " classical"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 3487,
+          "dflash_id": 7286,
+          "baseline_text": "position",
+          "dflash_text": " concept"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 6512,
+          "dflash_id": 13,
+          "baseline_text": " Rel",
+          "dflash_text": "."
+        },
+        {
+          "pos": 224,
+          "baseline_id": 349,
+          "dflash_id": 758,
+          "baseline_text": "ate",
+          "dflash_text": " In"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 311,
+          "dflash_id": 28824,
+          "baseline_text": " to",
+          "dflash_text": " classical"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 55313,
+          "dflash_id": 21321,
+          "baseline_text": " Quantum",
+          "dflash_text": " physics"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 4863,
+          "dflash_id": 11,
+          "baseline_text": " Ent",
+          "dflash_text": ","
+        },
+        {
+          "pos": 228,
+          "baseline_id": 524,
+          "dflash_id": 264,
+          "baseline_text": "ang",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 986,
+          "dflash_id": 1849,
+          "baseline_text": "lement",
+          "dflash_text": " system"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1939,
+          "dflash_id": 374,
+          "baseline_text": "?\n\n",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 334,
+          "dflash_id": 2677,
+          "baseline_text": "**",
+          "dflash_text": " always"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 44220,
+          "dflash_id": 304,
+          "baseline_text": "Quant",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 372,
+          "dflash_id": 264,
+          "baseline_text": "um",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 1197,
+          "dflash_id": 43770,
+          "baseline_text": " ent",
+          "dflash_text": " definite"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 524,
+          "dflash_id": 1584,
+          "baseline_text": "ang",
+          "dflash_text": " state"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 986,
+          "dflash_id": 11,
+          "baseline_text": "lement",
+          "dflash_text": ","
+        },
+        {
+          "pos": 237,
+          "baseline_id": 334,
+          "dflash_id": 714,
+          "baseline_text": "**",
+          "dflash_text": " but"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 374,
+          "dflash_id": 304,
+          "baseline_text": " is",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 264,
+          "dflash_id": 30128,
+          "baseline_text": " a",
+          "dflash_text": " quantum"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 24844,
+          "dflash_id": 29026,
+          "baseline_text": " phenomenon",
+          "dflash_text": " mechanics"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 1380,
+          "dflash_id": 11,
+          "baseline_text": " where",
+          "dflash_text": ","
+        },
+        {
+          "pos": 242,
+          "baseline_id": 1378,
+          "dflash_id": 264,
+          "baseline_text": " two",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 476,
+          "dflash_id": 1849,
+          "baseline_text": " or",
+          "dflash_text": " system"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 803,
+          "dflash_id": 646,
+          "baseline_text": " more",
+          "dflash_text": " can"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 30128,
+          "dflash_id": 387,
+          "baseline_text": " quantum",
+          "dflash_text": " be"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 18730,
+          "dflash_id": 304,
+          "baseline_text": " particles",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 3635,
+          "dflash_id": 264,
+          "baseline_text": " become",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 48293,
+          "dflash_id": 330,
+          "baseline_text": " correlated",
+          "dflash_text": " \""
+        },
+        {
+          "pos": 249,
+          "baseline_id": 304,
+          "dflash_id": 56685,
+          "baseline_text": " in",
+          "dflash_text": "mixed"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 1741,
+          "dflash_id": 1,
+          "baseline_text": " such",
+          "dflash_text": "\""
+        },
+        {
+          "pos": 251,
+          "baseline_id": 264,
+          "dflash_id": 1584,
+          "baseline_text": " a",
+          "dflash_text": " state"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 1616,
+          "dflash_id": 315,
+          "baseline_text": " way",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 429,
+          "dflash_id": 23607,
+          "baseline_text": " that",
+          "dflash_text": " possibilities"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 279,
+          "dflash_id": 3080,
+          "baseline_text": " the",
+          "dflash_text": " until"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 1584,
+          "dflash_id": 432,
+          "baseline_text": " state",
+          "dflash_text": " it"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+dataset,category,tpu_tau,tpu_speedup,tpu_baseline_tpot_ms,tpu_dflash_tpot_ms,tpu_baseline_tps,tpu_dflash_tps,exact_match,match_rate,answer_match
+gsm8k,math,5.40,3.00,6.35,2.12,157.5,471.9,5/8,62.5%,2/3
+math500,math,8.80,4.93,6.37,1.29,156.9,772.7,3/8,37.5%,2/2
+aime24,math,6.48,3.57,6.31,1.77,158.4,565.0,2/8,25.0%,N/A
+aime25,math,6.14,3.39,6.38,1.88,156.9,532.0,3/8,37.5%,N/A
+humaneval,code,5.76,3.17,6.31,1.99,158.4,501.9,4/8,50.0%,N/A
+mbpp,code,6.16,3.27,6.40,1.96,156.4,510.7,3/8,37.5%,N/A
+mt-bench,chat,3.87,2.29,6.27,2.74,159.4,365.2,1/8,12.5%,N/A
+alpaca,chat,2.86,1.63,6.29,3.86,158.9,259.2,4/8,50.0%,N/A
+swe-bench,code,3.35,1.86,6.32,3.40,158.2,294.5,0/8,0.0%,N/A
