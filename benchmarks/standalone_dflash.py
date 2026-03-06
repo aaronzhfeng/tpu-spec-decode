@@ -861,6 +861,9 @@ def main():
                 "tau": s_tau,
                 "num_drafts": len(df.acceptance_lengths),
                 "acceptance_lengths": [int(a) for a in df.acceptance_lengths],
+                "baseline_text": tokenizer.decode(bl.output_ids[bl.num_input_tokens:].tolist(), skip_special_tokens=True),
+                "dflash_text": tokenizer.decode(df.output_ids[df.num_input_tokens:].tolist(), skip_special_tokens=True),
+                "prompt_text": tokenizer.decode(bl.output_ids[:bl.num_input_tokens].tolist(), skip_special_tokens=True),
             }
             # Add quality data if available
             if idx < len(quality_results):

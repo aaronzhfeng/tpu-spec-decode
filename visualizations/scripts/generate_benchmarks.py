@@ -1,11 +1,11 @@
 """
-Generate all visualizations from TPU v5p (primary) and v4 (secondary)
-DFlash speculative decoding benchmark results.
+Generate benchmark result visualizations from TPU v5p (primary) and v4 (secondary)
+DFlash speculative decoding results.
 
 Usage:
-    python generate_visualizations.py
+    python visualizations/scripts/generate_benchmarks.py
 
-Outputs PNG files into the same directory as this script.
+Outputs PNG files into visualizations/output/benchmarks/
 """
 
 import json
@@ -16,10 +16,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-RESULTS_DIR = SCRIPT_DIR.parent / "results"
+PROJECT_ROOT = SCRIPT_DIR.parent.parent  # scripts/ -> visualizations/ -> project root
+RESULTS_DIR = PROJECT_ROOT / "results"
 V4_DIR = RESULTS_DIR / "v4"
 V5P_DIR = RESULTS_DIR / "v5p"
-OUT_DIR = SCRIPT_DIR
+OUT_DIR = SCRIPT_DIR.parent / "output" / "benchmarks"
 
 CATEGORY_COLORS = {"math": "#4C72B0", "code": "#55A868", "chat": "#C44E52"}
 CATEGORY_ORDER = ["math", "code", "chat"]

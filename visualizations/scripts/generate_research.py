@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""DFlash TPU Speculative Decoding — Visualization Suite.
+"""DFlash TPU Speculative Decoding — Research Figures.
 
-Generates all static figures for the paper, poster, and website.
+Generates research contribution figures (K-flat, roofline, risk-free zone, etc.)
 
 Usage:
-    python visualizations/visualizations.py --output-dir visualizations/figures
-    python visualizations/visualizations.py --figure k-flat
-    python visualizations/visualizations.py --figure all --format png pdf
+    python visualizations/scripts/generate_research.py
+    python visualizations/scripts/generate_research.py --figure k-flat
+    python visualizations/scripts/generate_research.py --format png pdf
 """
 
 import argparse
@@ -31,7 +31,7 @@ except ImportError:
 # CONFIGURATION
 # ============================================================================
 
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # scripts/ -> visualizations/ -> project root
 RESULTS_V5P = PROJECT_ROOT / "results" / "v5p"
 RESULTS_V4 = PROJECT_ROOT / "results" / "v4"
 RESULTS_ROOT = PROJECT_ROOT / "results"
@@ -578,7 +578,7 @@ FIGURE_REGISTRY = {
 
 def main():
     parser = argparse.ArgumentParser(description="DFlash TPU Visualization Suite")
-    parser.add_argument("--output-dir", default="visualizations/figures")
+    parser.add_argument("--output-dir", default="visualizations/output/research")
     parser.add_argument("--format", nargs="+", default=["png"], choices=["png", "pdf", "svg"])
     parser.add_argument("--dpi", type=int, default=300)
     parser.add_argument("--figure", default="all",

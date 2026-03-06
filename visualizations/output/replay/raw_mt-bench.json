@@ -1,0 +1,1560 @@
+{
+  "config": {
+    "target_model": "Qwen/Qwen3-4B",
+    "draft_model": "z-lab/Qwen3-4B-DFlash-b16",
+    "dataset": "mt-bench",
+    "block_size": 16,
+    "max_new_tokens": 256,
+    "max_model_len": 4096,
+    "temperature": 0.0,
+    "warmup_samples": 1,
+    "measured_samples": 2,
+    "total_samples": 3,
+    "num_devices": 1
+  },
+  "summary": {
+    "baseline_tpot_ms": 6.751167660468127,
+    "baseline_tps": 148.12252491603206,
+    "dflash_tpot_ms": 2.1628874931138853,
+    "dflash_tps": 462.34489920708313,
+    "speedup": 3.1213679315092553,
+    "tau": 6.111111111111111,
+    "total_drafts": 45,
+    "acceptance_rate_per_pos": [
+      1.0,
+      0.8888888888888888,
+      0.7333333333333333,
+      0.6444444444444445,
+      0.5111111111111111,
+      0.4444444444444444,
+      0.37777777777777777,
+      0.28888888888888886,
+      0.26666666666666666,
+      0.26666666666666666,
+      0.15555555555555556,
+      0.13333333333333333,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.1111111111111111,
+      0.06666666666666667
+    ],
+    "acceptance_histogram": [
+      0.0,
+      0.1111111111111111,
+      0.15555555555555556,
+      0.08888888888888889,
+      0.13333333333333333,
+      0.06666666666666667,
+      0.06666666666666667,
+      0.08888888888888889,
+      0.022222222222222223,
+      0.0,
+      0.1111111111111111,
+      0.022222222222222223,
+      0.022222222222222223,
+      0.0,
+      0.0,
+      0.044444444444444446,
+      0.06666666666666667
+    ]
+  },
+  "quality": {
+    "total_samples": 3,
+    "exact_matches": 1,
+    "match_rate": 0.3333333333333333,
+    "answer_matches": 0,
+    "answer_total": 0
+  },
+  "per_sample": [
+    {
+      "sample_index": 0,
+      "is_warmup": true,
+      "num_input_tokens": 34,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 48.65165053115561,
+      "baseline_tps": 20.55428724580718,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 63.246565707004265,
+      "dflash_tps": 15.811135178984976,
+      "tau": 5.886363636363637,
+      "num_drafts": 44,
+      "acceptance_lengths": [
+        5,
+        2,
+        3,
+        9,
+        12,
+        4,
+        3,
+        5,
+        2,
+        9,
+        16,
+        10,
+        8,
+        4,
+        1,
+        2,
+        3,
+        1,
+        5,
+        5,
+        3,
+        13,
+        5,
+        6,
+        11,
+        3,
+        2,
+        2,
+        10,
+        2,
+        11,
+        1,
+        6,
+        3,
+        16,
+        6,
+        9,
+        7,
+        2,
+        5,
+        3,
+        3,
+        16,
+        5
+      ],
+      "baseline_text": "To find the probability that the **total of two dice is at least 3**, we can follow these steps:\n\n---\n\n### Step 1: Total number of possible outcomes\n\nWhen rolling two dice, each die has 6 faces, so the total number of possible outcomes is:\n\n$$\n6 \\times 6 = 36\n$$\n\n---\n\n### Step 2: Find the number of outcomes where the total is **at least 3**\n\nWe want the total to be **3 or more**. That is, we want the total to be **3, 4, 5, 6, 7, 8, 9, 10, 11, or 12**.\n\nAlternatively, it's easier to find the **complement** \u2014 the probability that the total is **less than 3**, and then subtract that from 1.\n\n---\n\n### Step 3: Find the number of outcomes where the total is **less than 3**\n\nThe possible totals less than 3 are:\n\n- Total = 2\n- Total = 1\n\nBut the **minimum total** when rolling two dice is **2** (1 + 1), so the only total less than 3 is **2**.\n\nNow",
+      "dflash_text": "To find the probability that the **total of two dice is at least 3**, we can follow these steps:\n\n---\n\n### Step 1: Total number of possible outcomes\n\nWhen rolling two dice, each die has 6 faces, so the total number of possible outcomes is:\n\n$$\n6 \\times 6 = 36\n$$\n\n---\n\n### Step 2: Find the number of outcomes where the total is **at least 3**\n\nWe want the total to be **3 or more**. That is, we want the total to be **3, 4, 5, 6, 7, 8, 9, 10, 11, or 12**.\n\nInstead of counting all of these, it's easier to find the **complement** \u2014 the number of outcomes where the total is **less than 3**, i.e., **1 or 2** \u2014 and subtract that from the total.\n\n---\n\n### Step 3: Count the number of outcomes where the total is **less than 3**\n\n- **Total = 1**: Only possible if both dice show 1.  \n  \u2192 (1, 1) \u2192 1 outcome\n\n- **Total = 2**: Possible combinations",
+      "prompt_text": "user\nWhen rolling two dice, what is the probability that you roll a total number that is at least 3?\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 147,
+          "baseline_id": 92014,
+          "dflash_id": 30787,
+          "baseline_text": "Alternatively",
+          "dflash_text": "Instead"
+        },
+        {
+          "pos": 148,
+          "baseline_id": 11,
+          "dflash_id": 315,
+          "baseline_text": ",",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 149,
+          "baseline_id": 432,
+          "dflash_id": 25009,
+          "baseline_text": " it",
+          "dflash_text": " counting"
+        },
+        {
+          "pos": 150,
+          "baseline_id": 594,
+          "dflash_id": 678,
+          "baseline_text": "'s",
+          "dflash_text": " all"
+        },
+        {
+          "pos": 151,
+          "baseline_id": 8661,
+          "dflash_id": 315,
+          "baseline_text": " easier",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 152,
+          "baseline_id": 311,
+          "dflash_id": 1493,
+          "baseline_text": " to",
+          "dflash_text": " these"
+        },
+        {
+          "pos": 153,
+          "baseline_id": 1477,
+          "dflash_id": 11,
+          "baseline_text": " find",
+          "dflash_text": ","
+        },
+        {
+          "pos": 154,
+          "baseline_id": 279,
+          "dflash_id": 432,
+          "baseline_text": " the",
+          "dflash_text": " it"
+        },
+        {
+          "pos": 155,
+          "baseline_id": 3070,
+          "dflash_id": 594,
+          "baseline_text": " **",
+          "dflash_text": "'s"
+        },
+        {
+          "pos": 156,
+          "baseline_id": 874,
+          "dflash_id": 8661,
+          "baseline_text": "com",
+          "dflash_text": " easier"
+        },
+        {
+          "pos": 157,
+          "baseline_id": 2764,
+          "dflash_id": 311,
+          "baseline_text": "plement",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 158,
+          "baseline_id": 334,
+          "dflash_id": 1477,
+          "baseline_text": "**",
+          "dflash_text": " find"
+        },
+        {
+          "pos": 159,
+          "baseline_id": 1959,
+          "dflash_id": 279,
+          "baseline_text": " \u2014",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 160,
+          "baseline_id": 279,
+          "dflash_id": 3070,
+          "baseline_text": " the",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 161,
+          "baseline_id": 18927,
+          "dflash_id": 874,
+          "baseline_text": " probability",
+          "dflash_text": "com"
+        },
+        {
+          "pos": 162,
+          "baseline_id": 429,
+          "dflash_id": 2764,
+          "baseline_text": " that",
+          "dflash_text": "plement"
+        },
+        {
+          "pos": 163,
+          "baseline_id": 279,
+          "dflash_id": 334,
+          "baseline_text": " the",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 164,
+          "baseline_id": 2790,
+          "dflash_id": 1959,
+          "baseline_text": " total",
+          "dflash_text": " \u2014"
+        },
+        {
+          "pos": 165,
+          "baseline_id": 374,
+          "dflash_id": 279,
+          "baseline_text": " is",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 166,
+          "baseline_id": 3070,
+          "dflash_id": 1372,
+          "baseline_text": " **",
+          "dflash_text": " number"
+        },
+        {
+          "pos": 167,
+          "baseline_id": 1717,
+          "dflash_id": 315,
+          "baseline_text": "less",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 168,
+          "baseline_id": 1091,
+          "dflash_id": 19554,
+          "baseline_text": " than",
+          "dflash_text": " outcomes"
+        },
+        {
+          "pos": 169,
+          "baseline_id": 220,
+          "dflash_id": 1380,
+          "baseline_text": " ",
+          "dflash_text": " where"
+        },
+        {
+          "pos": 170,
+          "baseline_id": 18,
+          "dflash_id": 279,
+          "baseline_text": "3",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 171,
+          "baseline_id": 97219,
+          "dflash_id": 2790,
+          "baseline_text": "**,",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 323,
+          "dflash_id": 374,
+          "baseline_text": " and",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 1221,
+          "dflash_id": 3070,
+          "baseline_text": " then",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 174,
+          "baseline_id": 32256,
+          "dflash_id": 1717,
+          "baseline_text": " subtract",
+          "dflash_text": "less"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 429,
+          "dflash_id": 1091,
+          "baseline_text": " that",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 504,
+          "dflash_id": 220,
+          "baseline_text": " from",
+          "dflash_text": " "
+        },
+        {
+          "pos": 177,
+          "baseline_id": 220,
+          "dflash_id": 18,
+          "baseline_text": " ",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 16,
+          "dflash_id": 97219,
+          "baseline_text": "1",
+          "dflash_text": "**,"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 382,
+          "dflash_id": 600,
+          "baseline_text": ".\n\n",
+          "dflash_text": " i"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 44364,
+          "dflash_id": 1734,
+          "baseline_text": "---\n\n",
+          "dflash_text": ".e"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 14374,
+          "dflash_id": 2572,
+          "baseline_text": "###",
+          "dflash_text": ".,"
+        },
+        {
+          "pos": 182,
+          "baseline_id": 14822,
+          "dflash_id": 3070,
+          "baseline_text": " Step",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 220,
+          "dflash_id": 16,
+          "baseline_text": " ",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 18,
+          "dflash_id": 476,
+          "baseline_text": "3",
+          "dflash_text": " or"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 25,
+          "dflash_id": 220,
+          "baseline_text": ":",
+          "dflash_text": " "
+        },
+        {
+          "pos": 186,
+          "baseline_id": 7379,
+          "dflash_id": 17,
+          "baseline_text": " Find",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 279,
+          "dflash_id": 334,
+          "baseline_text": " the",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 1372,
+          "dflash_id": 1959,
+          "baseline_text": " number",
+          "dflash_text": " \u2014"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 315,
+          "dflash_id": 323,
+          "baseline_text": " of",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 190,
+          "baseline_id": 19554,
+          "dflash_id": 32256,
+          "baseline_text": " outcomes",
+          "dflash_text": " subtract"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 1380,
+          "dflash_id": 429,
+          "baseline_text": " where",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 192,
+          "baseline_id": 279,
+          "dflash_id": 504,
+          "baseline_text": " the",
+          "dflash_text": " from"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 2790,
+          "dflash_id": 279,
+          "baseline_text": " total",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 374,
+          "dflash_id": 2790,
+          "baseline_text": " is",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 3070,
+          "dflash_id": 382,
+          "baseline_text": " **",
+          "dflash_text": ".\n\n"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 1717,
+          "dflash_id": 44364,
+          "baseline_text": "less",
+          "dflash_text": "---\n\n"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 1091,
+          "dflash_id": 14374,
+          "baseline_text": " than",
+          "dflash_text": "###"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 220,
+          "dflash_id": 14822,
+          "baseline_text": " ",
+          "dflash_text": " Step"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 18,
+          "dflash_id": 220,
+          "baseline_text": "3",
+          "dflash_text": " "
+        },
+        {
+          "pos": 200,
+          "baseline_id": 56177,
+          "dflash_id": 18,
+          "baseline_text": "**\n\n",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 785,
+          "dflash_id": 25,
+          "baseline_text": "The",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 3204,
+          "dflash_id": 4504,
+          "baseline_text": " possible",
+          "dflash_text": " Count"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 43645,
+          "dflash_id": 279,
+          "baseline_text": " totals",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 2686,
+          "dflash_id": 1372,
+          "baseline_text": " less",
+          "dflash_text": " number"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 1091,
+          "dflash_id": 315,
+          "baseline_text": " than",
+          "dflash_text": " of"
+        },
+        {
+          "pos": 206,
+          "baseline_id": 220,
+          "dflash_id": 19554,
+          "baseline_text": " ",
+          "dflash_text": " outcomes"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 18,
+          "dflash_id": 1380,
+          "baseline_text": "3",
+          "dflash_text": " where"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 525,
+          "dflash_id": 279,
+          "baseline_text": " are",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 1447,
+          "dflash_id": 2790,
+          "baseline_text": ":\n\n",
+          "dflash_text": " total"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 12,
+          "dflash_id": 374,
+          "baseline_text": "-",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 10657,
+          "dflash_id": 3070,
+          "baseline_text": " Total",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 212,
+          "baseline_id": 284,
+          "dflash_id": 1717,
+          "baseline_text": " =",
+          "dflash_text": "less"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 220,
+          "dflash_id": 1091,
+          "baseline_text": " ",
+          "dflash_text": " than"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 17,
+          "dflash_id": 220,
+          "baseline_text": "2",
+          "dflash_text": " "
+        },
+        {
+          "pos": 215,
+          "baseline_id": 198,
+          "dflash_id": 18,
+          "baseline_text": "\n",
+          "dflash_text": "3"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 12,
+          "dflash_id": 56177,
+          "baseline_text": "-",
+          "dflash_text": "**\n\n"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 10657,
+          "dflash_id": 12,
+          "baseline_text": " Total",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 218,
+          "baseline_id": 284,
+          "dflash_id": 3070,
+          "baseline_text": " =",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 220,
+          "dflash_id": 7595,
+          "baseline_text": " ",
+          "dflash_text": "Total"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 16,
+          "dflash_id": 284,
+          "baseline_text": "1",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 221,
+          "baseline_id": 271,
+          "dflash_id": 220,
+          "baseline_text": "\n\n",
+          "dflash_text": " "
+        },
+        {
+          "pos": 222,
+          "baseline_id": 3983,
+          "dflash_id": 16,
+          "baseline_text": "But",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 279,
+          "dflash_id": 95518,
+          "baseline_text": " the",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 3070,
+          "dflash_id": 8278,
+          "baseline_text": " **",
+          "dflash_text": " Only"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 37988,
+          "dflash_id": 3204,
+          "baseline_text": "minimum",
+          "dflash_text": " possible"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 2790,
+          "dflash_id": 421,
+          "baseline_text": " total",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 334,
+          "dflash_id": 2176,
+          "baseline_text": "**",
+          "dflash_text": " both"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 979,
+          "dflash_id": 22120,
+          "baseline_text": " when",
+          "dflash_text": " dice"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 20097,
+          "dflash_id": 1473,
+          "baseline_text": " rolling",
+          "dflash_text": " show"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 1378,
+          "dflash_id": 220,
+          "baseline_text": " two",
+          "dflash_text": " "
+        },
+        {
+          "pos": 231,
+          "baseline_id": 22120,
+          "dflash_id": 16,
+          "baseline_text": " dice",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 374,
+          "dflash_id": 13,
+          "baseline_text": " is",
+          "dflash_text": "."
+        },
+        {
+          "pos": 233,
+          "baseline_id": 3070,
+          "dflash_id": 2303,
+          "baseline_text": " **",
+          "dflash_text": "  \n"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 17,
+          "dflash_id": 220,
+          "baseline_text": "2",
+          "dflash_text": " "
+        },
+        {
+          "pos": 235,
+          "baseline_id": 334,
+          "dflash_id": 11397,
+          "baseline_text": "**",
+          "dflash_text": " \u2192"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 488,
+          "dflash_id": 11,
+          "baseline_text": " +",
+          "dflash_text": ","
+        },
+        {
+          "pos": 241,
+          "baseline_id": 701,
+          "dflash_id": 8,
+          "baseline_text": "),",
+          "dflash_text": ")"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 773,
+          "dflash_id": 11397,
+          "baseline_text": " so",
+          "dflash_text": " \u2192"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 279,
+          "dflash_id": 220,
+          "baseline_text": " the",
+          "dflash_text": " "
+        },
+        {
+          "pos": 244,
+          "baseline_id": 1172,
+          "dflash_id": 16,
+          "baseline_text": " only",
+          "dflash_text": "1"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 2790,
+          "dflash_id": 15274,
+          "baseline_text": " total",
+          "dflash_text": " outcome"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 2686,
+          "dflash_id": 271,
+          "baseline_text": " less",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 1091,
+          "dflash_id": 12,
+          "baseline_text": " than",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 220,
+          "dflash_id": 3070,
+          "baseline_text": " ",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 18,
+          "dflash_id": 7595,
+          "baseline_text": "3",
+          "dflash_text": "Total"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 374,
+          "dflash_id": 284,
+          "baseline_text": " is",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 251,
+          "baseline_id": 3070,
+          "dflash_id": 220,
+          "baseline_text": " **",
+          "dflash_text": " "
+        },
+        {
+          "pos": 253,
+          "baseline_id": 334,
+          "dflash_id": 95518,
+          "baseline_text": "**",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 382,
+          "dflash_id": 36107,
+          "baseline_text": ".\n\n",
+          "dflash_text": " Possible"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 7039,
+          "dflash_id": 27459,
+          "baseline_text": "Now",
+          "dflash_text": " combinations"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 1,
+      "is_warmup": false,
+      "num_input_tokens": 211,
+      "baseline_num_output_tokens": 16,
+      "baseline_tpot_ms": 6.583547063200967,
+      "baseline_tps": 151.8938028998904,
+      "dflash_num_output_tokens": 16,
+      "dflash_tpot_ms": 2.2936139394005295,
+      "dflash_tps": 435.99316468287816,
+      "tau": 5.666666666666667,
+      "num_drafts": 3,
+      "acceptance_lengths": [
+        4,
+        6,
+        7
+      ],
+      "baseline_text": "1. Literature  \n2. History  \n3. Science  \n4. Art",
+      "dflash_text": "1. Literature  \n2. History  \n3. Science  \n4. Art",
+      "prompt_text": "user\nGiven these categories - Literature, History, Science, and Art. Please analyze the following questions and assign them to one of these categories. In your response, refrain from uttering any extraneous words. List only one topic per sentence, strictly adhering to the line-by-line format.\n1. Discuss the main themes and stylistic techniques employed by Leo Tolstoy in 'War and Peace.' How do they align with the wider social context of 19th-century Russia?\n2. Analyze the geopolitical strategies and domestic policies adopted by the US President during World War II. How did these actions shape the post-war international order?\n3. Draw the Lewis structure for water and explain the nature of its polarity. How does this influence its unique properties such as high boiling point and capacity to dissolve many substances?\n4. Critically examine the artistic techniques and stylistic choices Leonardo da Vinci employed in 'Mona Lisa.' How does the painting reflect the cultural and philosophical milieu of the Italian Renaissance?\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": true,
+      "quality_mismatches": [],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 2,
+      "is_warmup": false,
+      "num_input_tokens": 39,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.918788257735287,
+      "baseline_tps": 144.53397946988596,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 2.032161046827241,
+      "dflash_tps": 492.0869837364875,
+      "tau": 6.142857142857143,
+      "num_drafts": 42,
+      "acceptance_lengths": [
+        10,
+        2,
+        2,
+        5,
+        7,
+        5,
+        12,
+        4,
+        2,
+        4,
+        2,
+        7,
+        4,
+        6,
+        8,
+        16,
+        3,
+        2,
+        4,
+        7,
+        1,
+        2,
+        15,
+        1,
+        16,
+        10,
+        11,
+        10,
+        5,
+        1,
+        3,
+        16,
+        3,
+        4,
+        15,
+        10,
+        10,
+        1,
+        1,
+        3,
+        2,
+        6
+      ],
+      "baseline_text": "Sure! Below is a Python program that reads all text files in a specified directory, counts the occurrences of each word, and then prints the top 5 most frequent words.\n\n### \u2705 Features:\n- Reads all `.txt` files in a given directory.\n- Tokenizes the text into words.\n- Counts word frequencies.\n- Displays the top 5 most common words.\n\n---\n\n### \ud83e\udde9 Python Code:\n\n```python\nimport os\nfrom collections import Counter\nimport re\n\ndef count_words_in_files(directory):\n    word_counts = Counter()\n\n    # Iterate over all files in the directory\n    for filename in os.listdir(directory):\n        if filename.endswith('.txt'):\n            file_path = os.path.join(directory, filename)\n            try:\n                with open(file_path, 'r', encoding='utf-8') as file:\n                    text = file.read().lower()  # Convert to lowercase for case-insensitive counting\n                    # Use regex to find all words (alphanumeric and apostrophes)\n                    words = re.findall(r'\\b[\\w']+\\b', text)\n                    word_counts.update(words)\n            except Exception as e:\n                print(f\"Error reading {filename}: {e}\")\n\n    return word_counts\n\ndef main():\n    directory = input(\"Enter",
+      "dflash_text": "Sure! Below is a Python program that reads all text files in a specified directory, counts the occurrences of each word, and then prints the top 5 most frequent words.\n\n### \u2705 Features:\n- Reads all `.txt` files in a given directory.\n- Tokenizes the text into words.\n- Counts word frequencies.\n- Displays the top 5 most common words.\n\n---\n\n### \ud83d\udcdd Python Code:\n\n```python\nimport os\nfrom collections import Counter\nimport re\n\ndef count_words_in_files(directory):\n    word_counts = Counter()\n\n    # Iterate over all files in the directory\n    for filename in os.listdir(directory):\n        if filename.endswith('.txt'):\n            file_path = os.path.join(directory, filename)\n            try:\n                with open(file_path, 'r', encoding='utf-8') as file:\n                    text = file.read()\n                    # Use regex to find all words (split on non-alphanumeric characters)\n                    words = re.findall(r'\\b\\w+\\b', text.lower())\n                    word_counts.update(words)\n            except Exception as e:\n                print(f\"Error reading {filename}: {e}\")\n\n    return word_counts\n\ndef main():\n    directory = input(\"Enter the directory path containing text files: \").strip()\n    if not",
+      "prompt_text": "user\nDevelop a Python program that reads all the text files under a directory and reprompt top-5 words with the most number of occurrences.\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 78,
+          "baseline_id": 100,
+          "dflash_id": 241,
+          "baseline_text": "\ufffd",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 79,
+          "baseline_id": 102,
+          "dflash_id": 251,
+          "baseline_text": "\ufffd",
+          "dflash_text": "\ufffd"
+        },
+        {
+          "pos": 172,
+          "baseline_id": 1005,
+          "dflash_id": 741,
+          "baseline_text": "().",
+          "dflash_text": "()\n"
+        },
+        {
+          "pos": 173,
+          "baseline_id": 14772,
+          "dflash_id": 503,
+          "baseline_text": "lower",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 174,
+          "baseline_id": 368,
+          "dflash_id": 671,
+          "baseline_text": "()",
+          "dflash_text": " #"
+        },
+        {
+          "pos": 175,
+          "baseline_id": 220,
+          "dflash_id": 5443,
+          "baseline_text": " ",
+          "dflash_text": " Use"
+        },
+        {
+          "pos": 176,
+          "baseline_id": 671,
+          "dflash_id": 20180,
+          "baseline_text": " #",
+          "dflash_text": " regex"
+        },
+        {
+          "pos": 177,
+          "baseline_id": 7169,
+          "dflash_id": 311,
+          "baseline_text": " Convert",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 178,
+          "baseline_id": 311,
+          "dflash_id": 1477,
+          "baseline_text": " to",
+          "dflash_text": " find"
+        },
+        {
+          "pos": 179,
+          "baseline_id": 42047,
+          "dflash_id": 678,
+          "baseline_text": " lowercase",
+          "dflash_text": " all"
+        },
+        {
+          "pos": 180,
+          "baseline_id": 369,
+          "dflash_id": 4244,
+          "baseline_text": " for",
+          "dflash_text": " words"
+        },
+        {
+          "pos": 181,
+          "baseline_id": 1142,
+          "dflash_id": 320,
+          "baseline_text": " case",
+          "dflash_text": " ("
+        },
+        {
+          "pos": 182,
+          "baseline_id": 21853,
+          "dflash_id": 6960,
+          "baseline_text": "-ins",
+          "dflash_text": "split"
+        },
+        {
+          "pos": 183,
+          "baseline_id": 18723,
+          "dflash_id": 389,
+          "baseline_text": "ensitive",
+          "dflash_text": " on"
+        },
+        {
+          "pos": 184,
+          "baseline_id": 25009,
+          "dflash_id": 2477,
+          "baseline_text": " counting",
+          "dflash_text": " non"
+        },
+        {
+          "pos": 185,
+          "baseline_id": 198,
+          "dflash_id": 18779,
+          "baseline_text": "\n",
+          "dflash_text": "-al"
+        },
+        {
+          "pos": 186,
+          "baseline_id": 503,
+          "dflash_id": 65788,
+          "baseline_text": "                   ",
+          "dflash_text": "phanumeric"
+        },
+        {
+          "pos": 187,
+          "baseline_id": 671,
+          "dflash_id": 5766,
+          "baseline_text": " #",
+          "dflash_text": " characters"
+        },
+        {
+          "pos": 188,
+          "baseline_id": 5443,
+          "dflash_id": 340,
+          "baseline_text": " Use",
+          "dflash_text": ")\n"
+        },
+        {
+          "pos": 189,
+          "baseline_id": 20180,
+          "dflash_id": 503,
+          "baseline_text": " regex",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 190,
+          "baseline_id": 311,
+          "dflash_id": 4244,
+          "baseline_text": " to",
+          "dflash_text": " words"
+        },
+        {
+          "pos": 191,
+          "baseline_id": 1477,
+          "dflash_id": 284,
+          "baseline_text": " find",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 192,
+          "baseline_id": 678,
+          "dflash_id": 312,
+          "baseline_text": " all",
+          "dflash_text": " re"
+        },
+        {
+          "pos": 193,
+          "baseline_id": 4244,
+          "dflash_id": 37433,
+          "baseline_text": " words",
+          "dflash_text": ".findall"
+        },
+        {
+          "pos": 194,
+          "baseline_id": 320,
+          "dflash_id": 2601,
+          "baseline_text": " (",
+          "dflash_text": "(r"
+        },
+        {
+          "pos": 195,
+          "baseline_id": 278,
+          "dflash_id": 15777,
+          "baseline_text": "al",
+          "dflash_text": "'\\"
+        },
+        {
+          "pos": 196,
+          "baseline_id": 65788,
+          "dflash_id": 65,
+          "baseline_text": "phanumeric",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 197,
+          "baseline_id": 323,
+          "dflash_id": 59,
+          "baseline_text": " and",
+          "dflash_text": "\\"
+        },
+        {
+          "pos": 198,
+          "baseline_id": 38471,
+          "dflash_id": 86,
+          "baseline_text": " apost",
+          "dflash_text": "w"
+        },
+        {
+          "pos": 199,
+          "baseline_id": 21990,
+          "dflash_id": 41715,
+          "baseline_text": "roph",
+          "dflash_text": "+\\"
+        },
+        {
+          "pos": 200,
+          "baseline_id": 288,
+          "dflash_id": 65,
+          "baseline_text": "es",
+          "dflash_text": "b"
+        },
+        {
+          "pos": 201,
+          "baseline_id": 340,
+          "dflash_id": 516,
+          "baseline_text": ")\n",
+          "dflash_text": "',"
+        },
+        {
+          "pos": 202,
+          "baseline_id": 503,
+          "dflash_id": 1467,
+          "baseline_text": "                   ",
+          "dflash_text": " text"
+        },
+        {
+          "pos": 203,
+          "baseline_id": 4244,
+          "dflash_id": 18073,
+          "baseline_text": " words",
+          "dflash_text": ".lower"
+        },
+        {
+          "pos": 204,
+          "baseline_id": 284,
+          "dflash_id": 2398,
+          "baseline_text": " =",
+          "dflash_text": "())\n"
+        },
+        {
+          "pos": 205,
+          "baseline_id": 312,
+          "dflash_id": 503,
+          "baseline_text": " re",
+          "dflash_text": "                   "
+        },
+        {
+          "pos": 206,
+          "baseline_id": 37433,
+          "dflash_id": 3409,
+          "baseline_text": ".findall",
+          "dflash_text": " word"
+        },
+        {
+          "pos": 207,
+          "baseline_id": 2601,
+          "dflash_id": 25977,
+          "baseline_text": "(r",
+          "dflash_text": "_counts"
+        },
+        {
+          "pos": 208,
+          "baseline_id": 15777,
+          "dflash_id": 5317,
+          "baseline_text": "'\\",
+          "dflash_text": ".update"
+        },
+        {
+          "pos": 209,
+          "baseline_id": 65,
+          "dflash_id": 36289,
+          "baseline_text": "b",
+          "dflash_text": "(words"
+        },
+        {
+          "pos": 210,
+          "baseline_id": 26056,
+          "dflash_id": 340,
+          "baseline_text": "[\\",
+          "dflash_text": ")\n"
+        },
+        {
+          "pos": 211,
+          "baseline_id": 86,
+          "dflash_id": 310,
+          "baseline_text": "w",
+          "dflash_text": "           "
+        },
+        {
+          "pos": 212,
+          "baseline_id": 660,
+          "dflash_id": 3650,
+          "baseline_text": "']",
+          "dflash_text": " except"
+        },
+        {
+          "pos": 213,
+          "baseline_id": 41715,
+          "dflash_id": 4112,
+          "baseline_text": "+\\",
+          "dflash_text": " Exception"
+        },
+        {
+          "pos": 214,
+          "baseline_id": 65,
+          "dflash_id": 438,
+          "baseline_text": "b",
+          "dflash_text": " as"
+        },
+        {
+          "pos": 215,
+          "baseline_id": 516,
+          "dflash_id": 384,
+          "baseline_text": "',",
+          "dflash_text": " e"
+        },
+        {
+          "pos": 216,
+          "baseline_id": 1467,
+          "dflash_id": 510,
+          "baseline_text": " text",
+          "dflash_text": ":\n"
+        },
+        {
+          "pos": 217,
+          "baseline_id": 340,
+          "dflash_id": 394,
+          "baseline_text": ")\n",
+          "dflash_text": "               "
+        },
+        {
+          "pos": 218,
+          "baseline_id": 503,
+          "dflash_id": 1173,
+          "baseline_text": "                   ",
+          "dflash_text": " print"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 3409,
+          "dflash_id": 955,
+          "baseline_text": " word",
+          "dflash_text": "(f"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 25977,
+          "dflash_id": 1,
+          "baseline_text": "_counts",
+          "dflash_text": "\""
+        },
+        {
+          "pos": 221,
+          "baseline_id": 5317,
+          "dflash_id": 1454,
+          "baseline_text": ".update",
+          "dflash_text": "Error"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 36289,
+          "dflash_id": 5290,
+          "baseline_text": "(words",
+          "dflash_text": " reading"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 340,
+          "dflash_id": 314,
+          "baseline_text": ")\n",
+          "dflash_text": " {"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 310,
+          "dflash_id": 8404,
+          "baseline_text": "           ",
+          "dflash_text": "filename"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 3650,
+          "dflash_id": 16097,
+          "baseline_text": " except",
+          "dflash_text": "}:"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 4112,
+          "dflash_id": 314,
+          "baseline_text": " Exception",
+          "dflash_text": " {"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 438,
+          "dflash_id": 68,
+          "baseline_text": " as",
+          "dflash_text": "e"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 384,
+          "dflash_id": 55266,
+          "baseline_text": " e",
+          "dflash_text": "}\")\n\n"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 510,
+          "dflash_id": 262,
+          "baseline_text": ":\n",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 230,
+          "baseline_id": 394,
+          "dflash_id": 470,
+          "baseline_text": "               ",
+          "dflash_text": " return"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 1173,
+          "dflash_id": 3409,
+          "baseline_text": " print",
+          "dflash_text": " word"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 955,
+          "dflash_id": 25977,
+          "baseline_text": "(f",
+          "dflash_text": "_counts"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 1,
+          "dflash_id": 271,
+          "baseline_text": "\"",
+          "dflash_text": "\n\n"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 1454,
+          "dflash_id": 750,
+          "baseline_text": "Error",
+          "dflash_text": "def"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 5290,
+          "dflash_id": 1887,
+          "baseline_text": " reading",
+          "dflash_text": " main"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 314,
+          "dflash_id": 3932,
+          "baseline_text": " {",
+          "dflash_text": "():\n"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 8404,
+          "dflash_id": 262,
+          "baseline_text": "filename",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 238,
+          "baseline_id": 16097,
+          "dflash_id": 6220,
+          "baseline_text": "}:",
+          "dflash_text": " directory"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 314,
+          "dflash_id": 284,
+          "baseline_text": " {",
+          "dflash_text": " ="
+        },
+        {
+          "pos": 240,
+          "baseline_id": 68,
+          "dflash_id": 1946,
+          "baseline_text": "e",
+          "dflash_text": " input"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 55266,
+          "dflash_id": 445,
+          "baseline_text": "}\")\n\n",
+          "dflash_text": "(\""
+        },
+        {
+          "pos": 242,
+          "baseline_id": 262,
+          "dflash_id": 6269,
+          "baseline_text": "   ",
+          "dflash_text": "Enter"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 470,
+          "dflash_id": 279,
+          "baseline_text": " return",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 3409,
+          "dflash_id": 6220,
+          "baseline_text": " word",
+          "dflash_text": " directory"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 25977,
+          "dflash_id": 1815,
+          "baseline_text": "_counts",
+          "dflash_text": " path"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 271,
+          "dflash_id": 8482,
+          "baseline_text": "\n\n",
+          "dflash_text": " containing"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 750,
+          "dflash_id": 1467,
+          "baseline_text": "def",
+          "dflash_text": " text"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 1887,
+          "dflash_id": 3542,
+          "baseline_text": " main",
+          "dflash_text": " files"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 3932,
+          "dflash_id": 25,
+          "baseline_text": "():\n",
+          "dflash_text": ":"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 262,
+          "dflash_id": 27510,
+          "baseline_text": "   ",
+          "dflash_text": " \")."
+        },
+        {
+          "pos": 251,
+          "baseline_id": 6220,
+          "dflash_id": 13105,
+          "baseline_text": " directory",
+          "dflash_text": "strip"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 284,
+          "dflash_id": 741,
+          "baseline_text": " =",
+          "dflash_text": "()\n"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 1946,
+          "dflash_id": 262,
+          "baseline_text": " input",
+          "dflash_text": "   "
+        },
+        {
+          "pos": 254,
+          "baseline_id": 445,
+          "dflash_id": 421,
+          "baseline_text": "(\"",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 6269,
+          "dflash_id": 537,
+          "baseline_text": "Enter",
+          "dflash_text": " not"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    }
+  ]
+}

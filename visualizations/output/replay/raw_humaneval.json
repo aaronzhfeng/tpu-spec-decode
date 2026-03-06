@@ -1,0 +1,776 @@
+{
+  "config": {
+    "target_model": "Qwen/Qwen3-4B",
+    "draft_model": "z-lab/Qwen3-4B-DFlash-b16",
+    "dataset": "humaneval",
+    "block_size": 16,
+    "max_new_tokens": 256,
+    "max_model_len": 4096,
+    "temperature": 0.0,
+    "warmup_samples": 1,
+    "measured_samples": 2,
+    "total_samples": 3,
+    "num_devices": 1
+  },
+  "summary": {
+    "baseline_tpot_ms": 6.7587337031227435,
+    "baseline_tps": 147.956709633044,
+    "dflash_tpot_ms": 2.2306227791659694,
+    "dflash_tps": 448.3052936336911,
+    "speedup": 3.029976097370366,
+    "tau": 6.178571428571429,
+    "total_drafts": 84,
+    "acceptance_rate_per_pos": [
+      1.0,
+      0.9166666666666666,
+      0.7261904761904762,
+      0.6190476190476191,
+      0.5238095238095238,
+      0.4523809523809524,
+      0.38095238095238093,
+      0.2857142857142857,
+      0.27380952380952384,
+      0.2261904761904762,
+      0.20238095238095238,
+      0.19047619047619047,
+      0.11904761904761904,
+      0.09523809523809523,
+      0.08333333333333333,
+      0.08333333333333333
+    ],
+    "acceptance_histogram": [
+      0.0,
+      0.08333333333333333,
+      0.19047619047619047,
+      0.10714285714285714,
+      0.09523809523809523,
+      0.07142857142857142,
+      0.07142857142857142,
+      0.09523809523809523,
+      0.011904761904761904,
+      0.047619047619047616,
+      0.023809523809523808,
+      0.011904761904761904,
+      0.07142857142857142,
+      0.023809523809523808,
+      0.011904761904761904,
+      0.0,
+      0.08333333333333333
+    ]
+  },
+  "quality": {
+    "total_samples": 3,
+    "exact_matches": 1,
+    "match_rate": 0.3333333333333333,
+    "answer_matches": 0,
+    "answer_total": 0
+  },
+  "per_sample": [
+    {
+      "sample_index": 0,
+      "is_warmup": true,
+      "num_input_tokens": 110,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 48.64315155464283,
+      "baseline_tps": 20.557878509920545,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 62.8582497968182,
+      "dflash_tps": 15.908810748507648,
+      "tau": 6.475,
+      "num_drafts": 40,
+      "acceptance_lengths": [
+        4,
+        2,
+        5,
+        2,
+        5,
+        4,
+        11,
+        3,
+        8,
+        1,
+        3,
+        15,
+        13,
+        10,
+        5,
+        3,
+        11,
+        13,
+        1,
+        4,
+        16,
+        16,
+        16,
+        16,
+        9,
+        4,
+        4,
+        1,
+        8,
+        4,
+        9,
+        2,
+        2,
+        2,
+        3,
+        4,
+        4,
+        4,
+        7,
+        5
+      ],
+      "baseline_text": "Sure! Here's a Python function that solves the problem as described. The function `below_threshold` checks whether **all** numbers in the list `l` are **strictly less than** the threshold `t`.\n\n### \u2705 Solution:\n\n```python\ndef below_threshold(l: list, t: int) -> bool:\n    \"\"\"Return True if all numbers in the list l are below threshold t.\n    \n    Args:\n        l (list): A list of integers.\n        t (int): The threshold value.\n        \n    Returns:\n        bool: True if all elements in l are less than t, otherwise False.\n        \n    Examples:\n        >>> below_threshold([1, 2, 4, 10], 100)\n        True\n        >>> below_threshold([1, 20, 4, 10], 5)\n        False\n    \"\"\"\n    return all(x < t for x in l)\n```\n\n### \ud83e\uddea Explanation:\n\n- The function uses the built-in `all()` function with a generator expression.\n- `x < t for x in l` generates a sequence of boolean values (`True` or `False`) for each element in the list.\n- `all()` returns `True` only if",
+      "dflash_text": "Sure! Here's a Python function that solves the problem as described. The function `below_threshold` checks whether **all** numbers in the list `l` are **strictly less than** the threshold `t`.\n\n### \u2705 Solution:\n\n```python\ndef below_threshold(l: list, t: int) -> bool:\n    \"\"\"Return True if all numbers in the list l are below threshold t.\n    \n    Args:\n        l (list): A list of integers.\n        t (int): The threshold value.\n        \n    Returns:\n        bool: True if all elements in l are less than t, otherwise False.\n        \n    Examples:\n        >>> below_threshold([1, 2, 4, 10], 100)\n        True\n        >>> below_threshold([1, 20, 4, 10], 5)\n        False\n    \"\"\"\n    return all(x < t for x in l)\n```\n\n### \ud83e\uddea Explanation:\n\n- The function uses the built-in `all()` function with a generator expression.\n- `x < t for x in l` generates a sequence of boolean values (`True` or `False`) for each element in the list.\n- `all()` returns `True` only if",
+      "prompt_text": "user\nWrite a solution to the following problem and make sure that it passes the tests:\n```python\n\n\ndef below_threshold(l: list, t: int):\n    \"\"\"Return True if all numbers in the list l are below threshold t.\n    >>> below_threshold([1, 2, 4, 10], 100)\n    True\n    >>> below_threshold([1, 20, 4, 10], 5)\n    False\n    \"\"\"\n\n```\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": true,
+      "quality_mismatches": [],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 1,
+      "is_warmup": false,
+      "num_input_tokens": 163,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.764213707128874,
+      "baseline_tps": 147.83684302376338,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 2.6678425858790433,
+      "dflash_tps": 374.8347092489732,
+      "tau": 5.2,
+      "num_drafts": 50,
+      "acceptance_lengths": [
+        3,
+        5,
+        2,
+        7,
+        11,
+        6,
+        2,
+        6,
+        5,
+        4,
+        7,
+        2,
+        4,
+        2,
+        2,
+        8,
+        9,
+        7,
+        3,
+        6,
+        7,
+        13,
+        9,
+        4,
+        2,
+        7,
+        5,
+        3,
+        4,
+        3,
+        2,
+        1,
+        6,
+        9,
+        1,
+        1,
+        7,
+        12,
+        1,
+        3,
+        5,
+        12,
+        10,
+        12,
+        4,
+        2,
+        5,
+        2,
+        1,
+        6
+      ],
+      "baseline_text": "Here's a solution to the problem that meets the requirements:\n\n```python\ndef check_if_last_char_is_a_letter(txt):\n    '''\n    Returns True if the last character of a given string is an alphabetical character\n    and is not part of a word (i.e., it is a standalone character at the end of the string),\n    and False otherwise.\n    '''\n    if not txt:\n        return False\n\n    # Check if the last character is a letter\n    last_char = txt[-1]\n    if not last_char.isalpha():\n        return False\n\n    # Check if the last character is not part of a word\n    # That is, it should be a standalone character at the end of the string\n    # So, the character before the last (if it exists) should be a space\n    if len(txt) > 1 and txt[-2] != ' ':\n        return False\n\n    return True\n```\n\n### Explanation:\n\n- **`if not txt`**: If the string is empty, return `False`.\n- **`last_char = txt[-1]`**: Get the last character.\n- **`last_char.isalpha()`**: Check if it's an alphabetical character.\n- **`txt[-2] != '",
+      "dflash_text": "Here's a solution to the problem that meets the requirements:\n\n```python\ndef check_if_last_char_is_a_letter(txt):\n    '''\n    Returns True if the last character of a given string is an alphabetical character\n    and is not part of a word (i.e., it is a standalone character at the end of the string),\n    and False otherwise.\n    '''\n    if not txt:\n        return False\n\n    # Check if the last character is a letter\n    last_char = txt[-1]\n    if not last_char.isalpha():\n        return False\n\n    # Check if the last character is not part of a word\n    # That is, it should be a standalone character at the end of the string\n    # So, the character before the last (if it exists) should be a space\n    if len(txt) > 1 and txt[-2] != ' ':\n        return False\n\n    return True\n```\n\n### Explanation:\n\n- **`if not txt`**: If the string is empty, return `False`.\n- **`last_char.isalpha()`**: Checks if the last character is a letter.\n- **`txt[-2] != ' '`**: Ensures that the character before the last is a space, meaning the",
+      "prompt_text": "user\nWrite a solution to the following problem and make sure that it passes the tests:\n```python\n\ndef check_if_last_char_is_a_letter(txt):\n    '''\n    Create a function that returns True if the last character\n    of a given string is an alphabetical character and is not\n    a part of a word, and False otherwise.\n    Note: \"word\" is a group of characters separated by space.\n\n    Examples:\n    check_if_last_char_is_a_letter(\"apple pie\") \u279e False\n    check_if_last_char_is_a_letter(\"apple pi e\") \u279e True\n    check_if_last_char_is_a_letter(\"apple pi e \") \u279e False\n    check_if_last_char_is_a_letter(\"\") \u279e False \n    '''\n\n```\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 218,
+          "baseline_id": 284,
+          "dflash_id": 2079,
+          "baseline_text": " =",
+          "dflash_text": ".is"
+        },
+        {
+          "pos": 219,
+          "baseline_id": 7932,
+          "dflash_id": 7141,
+          "baseline_text": " txt",
+          "dflash_text": "alpha"
+        },
+        {
+          "pos": 220,
+          "baseline_id": 7609,
+          "dflash_id": 54258,
+          "baseline_text": "[-",
+          "dflash_text": "()`"
+        },
+        {
+          "pos": 221,
+          "baseline_id": 16,
+          "dflash_id": 95518,
+          "baseline_text": "1",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 60,
+          "dflash_id": 24843,
+          "baseline_text": "]",
+          "dflash_text": " Checks"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 63,
+          "dflash_id": 421,
+          "baseline_text": "`",
+          "dflash_text": " if"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 95518,
+          "dflash_id": 279,
+          "baseline_text": "**:",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 2126,
+          "dflash_id": 1537,
+          "baseline_text": " Get",
+          "dflash_text": " last"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 279,
+          "dflash_id": 3668,
+          "baseline_text": " the",
+          "dflash_text": " character"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 1537,
+          "dflash_id": 374,
+          "baseline_text": " last",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 3668,
+          "dflash_id": 264,
+          "baseline_text": " character",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 624,
+          "dflash_id": 6524,
+          "baseline_text": ".\n",
+          "dflash_text": " letter"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 12,
+          "dflash_id": 624,
+          "baseline_text": "-",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 3070,
+          "dflash_id": 12,
+          "baseline_text": " **",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 63,
+          "dflash_id": 3070,
+          "baseline_text": "`",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 4259,
+          "dflash_id": 63,
+          "baseline_text": "last",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 9232,
+          "dflash_id": 8586,
+          "baseline_text": "_char",
+          "dflash_text": "txt"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 2079,
+          "dflash_id": 7609,
+          "baseline_text": ".is",
+          "dflash_text": "[-"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 7141,
+          "dflash_id": 17,
+          "baseline_text": "alpha",
+          "dflash_text": "2"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 54258,
+          "dflash_id": 60,
+          "baseline_text": "()`",
+          "dflash_text": "]"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 95518,
+          "dflash_id": 961,
+          "baseline_text": "**:",
+          "dflash_text": " !="
+        },
+        {
+          "pos": 239,
+          "baseline_id": 4248,
+          "dflash_id": 364,
+          "baseline_text": " Check",
+          "dflash_text": " '"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 421,
+          "dflash_id": 55995,
+          "baseline_text": " if",
+          "dflash_text": " '`"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 432,
+          "dflash_id": 95518,
+          "baseline_text": " it",
+          "dflash_text": "**:"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 594,
+          "dflash_id": 57868,
+          "baseline_text": "'s",
+          "dflash_text": " Ens"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 458,
+          "dflash_id": 1413,
+          "baseline_text": " an",
+          "dflash_text": "ures"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 83298,
+          "dflash_id": 429,
+          "baseline_text": " alphabetical",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 3668,
+          "dflash_id": 279,
+          "baseline_text": " character",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 624,
+          "dflash_id": 3668,
+          "baseline_text": ".\n",
+          "dflash_text": " character"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 12,
+          "dflash_id": 1573,
+          "baseline_text": "-",
+          "dflash_text": " before"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 3070,
+          "dflash_id": 279,
+          "baseline_text": " **",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 63,
+          "dflash_id": 1537,
+          "baseline_text": "`",
+          "dflash_text": " last"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 8586,
+          "dflash_id": 374,
+          "baseline_text": "txt",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 7609,
+          "dflash_id": 264,
+          "baseline_text": "[-",
+          "dflash_text": " a"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 17,
+          "dflash_id": 3550,
+          "baseline_text": "2",
+          "dflash_text": " space"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 60,
+          "dflash_id": 11,
+          "baseline_text": "]",
+          "dflash_text": ","
+        },
+        {
+          "pos": 254,
+          "baseline_id": 961,
+          "dflash_id": 7290,
+          "baseline_text": " !=",
+          "dflash_text": " meaning"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 364,
+          "dflash_id": 279,
+          "baseline_text": " '",
+          "dflash_text": " the"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    },
+    {
+      "sample_index": 2,
+      "is_warmup": false,
+      "num_input_tokens": 148,
+      "baseline_num_output_tokens": 256,
+      "baseline_tpot_ms": 6.7532536991166126,
+      "baseline_tps": 148.0767707765531,
+      "dflash_num_output_tokens": 256,
+      "dflash_tpot_ms": 1.7934029724528955,
+      "dflash_tps": 557.5991650288544,
+      "tau": 7.617647058823529,
+      "num_drafts": 34,
+      "acceptance_lengths": [
+        2,
+        4,
+        2,
+        4,
+        12,
+        7,
+        2,
+        3,
+        5,
+        1,
+        3,
+        3,
+        9,
+        13,
+        16,
+        14,
+        16,
+        16,
+        16,
+        16,
+        16,
+        6,
+        16,
+        1,
+        2,
+        2,
+        2,
+        12,
+        2,
+        10,
+        4,
+        12,
+        3,
+        7
+      ],
+      "baseline_text": "Here's a Python function that solves the problem as described. The function `remove_vowels` takes a string and returns a new string with all vowels removed. It handles both lowercase and uppercase vowels, and preserves the original case of the non-vowel characters.\n\n```python\ndef remove_vowels(text):\n    \"\"\"\n    remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n    vowels = \"aeiouAEIOU\"\n    return ''.join(char for char in text if char not in vowels)\n```\n\n### Explanation:\n- The function uses a generator expression to iterate over each character in the input string.\n- It checks if the character is **not** in the string `vowels`, which contains all lowercase and uppercase vowels.\n- The `join` method combines the non-vowel",
+      "dflash_text": "Here's a Python function that solves the problem as described. The function `remove_vowels` takes a string and returns a new string with all vowels removed. It handles both lowercase and uppercase vowels, and preserves the original case of the non-vowel characters.\n\n```python\ndef remove_vowels(text):\n    \"\"\"\n    remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n    vowels = \"aeiouAEIOU\"\n    return ''.join(char for char in text if char not in vowels)\n```\n\n### Explanation:\n- The function uses a generator expression to iterate over each character in the input string.\n- It includes only those characters that are **not** in the string `vowels`, which contains both lowercase and uppercase vowels.\n- The `join` method is used to combine",
+      "prompt_text": "user\nWrite a solution to the following problem and make sure that it passes the tests:\n```python\n\n\ndef remove_vowels(text):\n    \"\"\"\n    remove_vowels is a function that takes string and returns string without vowels.\n    >>> remove_vowels('')\n    ''\n    >>> remove_vowels(\"abcdef\\nghijklm\")\n    'bcdf\\nghjklm'\n    >>> remove_vowels('abcdef')\n    'bcdf'\n    >>> remove_vowels('aaaaa')\n    ''\n    >>> remove_vowels('aaBAA')\n    'B'\n    >>> remove_vowels('zbcd')\n    'zbcd'\n    \"\"\"\n\n```\nassistant\n<think>\n\n</think>\n\n",
+      "quality_match": false,
+      "quality_mismatches": [
+        {
+          "pos": 221,
+          "baseline_id": 12341,
+          "dflash_id": 5646,
+          "baseline_text": " checks",
+          "dflash_text": " includes"
+        },
+        {
+          "pos": 222,
+          "baseline_id": 421,
+          "dflash_id": 1172,
+          "baseline_text": " if",
+          "dflash_text": " only"
+        },
+        {
+          "pos": 223,
+          "baseline_id": 279,
+          "dflash_id": 1846,
+          "baseline_text": " the",
+          "dflash_text": " those"
+        },
+        {
+          "pos": 224,
+          "baseline_id": 3668,
+          "dflash_id": 5766,
+          "baseline_text": " character",
+          "dflash_text": " characters"
+        },
+        {
+          "pos": 225,
+          "baseline_id": 374,
+          "dflash_id": 429,
+          "baseline_text": " is",
+          "dflash_text": " that"
+        },
+        {
+          "pos": 226,
+          "baseline_id": 3070,
+          "dflash_id": 525,
+          "baseline_text": " **",
+          "dflash_text": " are"
+        },
+        {
+          "pos": 227,
+          "baseline_id": 1921,
+          "dflash_id": 3070,
+          "baseline_text": "not",
+          "dflash_text": " **"
+        },
+        {
+          "pos": 228,
+          "baseline_id": 334,
+          "dflash_id": 1921,
+          "baseline_text": "**",
+          "dflash_text": "not"
+        },
+        {
+          "pos": 229,
+          "baseline_id": 304,
+          "dflash_id": 334,
+          "baseline_text": " in",
+          "dflash_text": "**"
+        },
+        {
+          "pos": 230,
+          "baseline_id": 279,
+          "dflash_id": 304,
+          "baseline_text": " the",
+          "dflash_text": " in"
+        },
+        {
+          "pos": 231,
+          "baseline_id": 914,
+          "dflash_id": 279,
+          "baseline_text": " string",
+          "dflash_text": " the"
+        },
+        {
+          "pos": 232,
+          "baseline_id": 1565,
+          "dflash_id": 914,
+          "baseline_text": " `",
+          "dflash_text": " string"
+        },
+        {
+          "pos": 233,
+          "baseline_id": 85,
+          "dflash_id": 1565,
+          "baseline_text": "v",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 234,
+          "baseline_id": 363,
+          "dflash_id": 85,
+          "baseline_text": "ow",
+          "dflash_text": "v"
+        },
+        {
+          "pos": 235,
+          "baseline_id": 2010,
+          "dflash_id": 363,
+          "baseline_text": "els",
+          "dflash_text": "ow"
+        },
+        {
+          "pos": 236,
+          "baseline_id": 7808,
+          "dflash_id": 2010,
+          "baseline_text": "`,",
+          "dflash_text": "els"
+        },
+        {
+          "pos": 237,
+          "baseline_id": 892,
+          "dflash_id": 7808,
+          "baseline_text": " which",
+          "dflash_text": "`,"
+        },
+        {
+          "pos": 238,
+          "baseline_id": 5610,
+          "dflash_id": 892,
+          "baseline_text": " contains",
+          "dflash_text": " which"
+        },
+        {
+          "pos": 239,
+          "baseline_id": 678,
+          "dflash_id": 5610,
+          "baseline_text": " all",
+          "dflash_text": " contains"
+        },
+        {
+          "pos": 240,
+          "baseline_id": 42047,
+          "dflash_id": 2176,
+          "baseline_text": " lowercase",
+          "dflash_text": " both"
+        },
+        {
+          "pos": 241,
+          "baseline_id": 323,
+          "dflash_id": 42047,
+          "baseline_text": " and",
+          "dflash_text": " lowercase"
+        },
+        {
+          "pos": 242,
+          "baseline_id": 39482,
+          "dflash_id": 323,
+          "baseline_text": " uppercase",
+          "dflash_text": " and"
+        },
+        {
+          "pos": 243,
+          "baseline_id": 78456,
+          "dflash_id": 39482,
+          "baseline_text": " vowels",
+          "dflash_text": " uppercase"
+        },
+        {
+          "pos": 244,
+          "baseline_id": 624,
+          "dflash_id": 78456,
+          "baseline_text": ".\n",
+          "dflash_text": " vowels"
+        },
+        {
+          "pos": 245,
+          "baseline_id": 12,
+          "dflash_id": 624,
+          "baseline_text": "-",
+          "dflash_text": ".\n"
+        },
+        {
+          "pos": 246,
+          "baseline_id": 576,
+          "dflash_id": 12,
+          "baseline_text": " The",
+          "dflash_text": "-"
+        },
+        {
+          "pos": 247,
+          "baseline_id": 1565,
+          "dflash_id": 576,
+          "baseline_text": " `",
+          "dflash_text": " The"
+        },
+        {
+          "pos": 248,
+          "baseline_id": 5987,
+          "dflash_id": 1565,
+          "baseline_text": "join",
+          "dflash_text": " `"
+        },
+        {
+          "pos": 249,
+          "baseline_id": 63,
+          "dflash_id": 5987,
+          "baseline_text": "`",
+          "dflash_text": "join"
+        },
+        {
+          "pos": 250,
+          "baseline_id": 1714,
+          "dflash_id": 63,
+          "baseline_text": " method",
+          "dflash_text": "`"
+        },
+        {
+          "pos": 251,
+          "baseline_id": 32411,
+          "dflash_id": 1714,
+          "baseline_text": " combines",
+          "dflash_text": " method"
+        },
+        {
+          "pos": 252,
+          "baseline_id": 279,
+          "dflash_id": 374,
+          "baseline_text": " the",
+          "dflash_text": " is"
+        },
+        {
+          "pos": 253,
+          "baseline_id": 2477,
+          "dflash_id": 1483,
+          "baseline_text": " non",
+          "dflash_text": " used"
+        },
+        {
+          "pos": 254,
+          "baseline_id": 8273,
+          "dflash_id": 311,
+          "baseline_text": "-v",
+          "dflash_text": " to"
+        },
+        {
+          "pos": 255,
+          "baseline_id": 67057,
+          "dflash_id": 15963,
+          "baseline_text": "owel",
+          "dflash_text": " combine"
+        }
+      ],
+      "baseline_answer": null,
+      "dflash_answer": null,
+      "answer_match": true
+    }
+  ]
+}
