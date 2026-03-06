@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFlash vs Autoregressive — Real-Time Inference Comparison</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f172a; color: #e2e8f0; padding: 24px;
+    min-height: 100vh;
+  }
+  h1 { text-align: center; font-size: 1.6em; margin-bottom: 6px; color: #f8fafc; }
+  .subtitle { text-align: center; color: #94a3b8; font-size: 0.9em; margin-bottom: 20px; }
+  .container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; }
+  .panel {
+    flex: 1; background: #1e293b; border-radius: 12px; padding: 20px;
+    border: 1px solid #334155; position: relative; min-height: 400px;
+  }
+  .panel-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #334155;
+  }
+  .panel-title { font-size: 1.1em; font-weight: 600; }
+  .panel-title.ar { color: #94a3b8; }
+  .panel-title.dflash { color: #22d3ee; }
+  .stats { display: flex; gap: 16px; }
+  .stat { text-align: right; }
+  .stat-value { font-size: 1.2em; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .stat-value.ar { color: #94a3b8; }
+  .stat-value.dflash { color: #22d3ee; }
+  .stat-label { font-size: 0.7em; color: #64748b; text-transform: uppercase; }
+  .output-area {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9em; line-height: 1.7; min-height: 300px;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .token { opacity: 0; transition: opacity 0.05s ease-in; }
+  .token.visible { opacity: 1; }
+  .token.burst { color: #34d399; }
+  .cursor {
+    display: inline-block; width: 2px; height: 1.1em;
+    background: #22d3ee; animation: blink 0.8s infinite; vertical-align: text-bottom;
+  }
+  @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+  .progress-bar {
+    height: 4px; background: #334155; border-radius: 2px;
+    margin-top: 16px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.1s linear; width: 0%; }
+  .progress-fill.ar { background: #64748b; }
+  .progress-fill.dflash { background: #22d3ee; }
+  .controls {
+    display: flex; justify-content: center; align-items: center;
+    gap: 12px; margin-top: 20px; max-width: 1200px; margin-left: auto; margin-right: auto;
+  }
+  button {
+    background: #334155; color: #e2e8f0; border: 1px solid #475569;
+    padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em;
+    transition: background 0.15s;
+  }
+  button:hover { background: #475569; }
+  button.active { background: #0ea5e9; border-color: #0ea5e9; color: white; }
+  .speed-group { display: flex; gap: 4px; }
+  .speed-btn { padding: 6px 12px; font-size: 0.8em; }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 0.75em; font-weight: 600; margin-left: 8px;
+  }
+  .badge.speedup { background: #065f46; color: #34d399; }
+  .info-row {
+    display: flex; justify-content: center; gap: 24px; margin-top: 12px;
+    color: #64748b; font-size: 0.8em; max-width: 1200px; margin-left: auto; margin-right: auto;
+  }
+</style>
+</head>
+<body>
+
+<h1>DFlash Speculative Decoding on TPU</h1>
+<p class="subtitle">Real-time inference comparison — Qwen3-4B on TPU v5p</p>
+
+<div class="container">
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title ar">Autoregressive (Baseline)</span>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value ar" id="ar-tps">0</div>
+          <div class="stat-label">tok/s</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value ar" id="ar-count">0</div>
+          <div class="stat-label">tokens</div>
+        </div>
+      </div>
+    </div>
+    <div class="output-area" id="ar-output"><span class="cursor" id="ar-cursor"></span></div>
+    <div class="progress-bar"><div class="progress-fill ar" id="ar-progress"></div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title dflash">DFlash<span class="badge speedup" id="speedup-badge">3.0x faster</span></span>
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-value dflash" id="df-tps">0</div>
+          <div class="stat-label">tok/s</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value dflash" id="df-count">0</div>
+          <div class="stat-label">tokens</div>
+        </div>
+      </div>
+    </div>
+    <div class="output-area" id="df-output"><span class="cursor" id="df-cursor"></span></div>
+    <div class="progress-bar"><div class="progress-fill dflash" id="df-progress"></div></div>
+  </div>
+</div>
+
+<div class="controls">
+  <button id="btn-play" class="active" onclick="togglePlay()">Play</button>
+  <button id="btn-reset" onclick="resetDemo()">Reset</button>
+  <div class="speed-group">
+    <button class="speed-btn" data-speed="1" onclick="setSpeed(1, this)">1x</button>
+    <button class="speed-btn active" data-speed="5" onclick="setSpeed(5, this)">5x</button>
+    <button class="speed-btn" data-speed="20" onclick="setSpeed(20, this)">20x</button>
+    <button class="speed-btn" data-speed="50" onclick="setSpeed(50, this)">50x</button>
+  </div>
+  <select id="sample-select" onchange="changeSample()" style="background:#334155;color:#e2e8f0;border:1px solid #475569;padding:6px 12px;border-radius:8px;font-size:0.85em;">
+    <option value="0">GSM8K — Math Problem</option>
+    <option value="1">HumanEval — Code</option>
+    <option value="2">MT-Bench — Chat</option>
+  </select>
+</div>
+
+<div class="info-row">
+  <span>Model: Qwen3-4B</span>
+  <span>Draft: DFlash-b16</span>
+  <span>Hardware: TPU v5p-8</span>
+  <span>Greedy decoding</span>
+</div>
+
+<script>
+// Demo text samples (representative outputs)
+const SAMPLES = [
+  {
+    name: "GSM8K",
+    text: "To solve this problem, let me work through it step by step.\n\nFirst, I need to find how many apples Janet picked on Monday. She picked 3 baskets with 12 apples each, so that's 3 × 12 = 36 apples.\n\nOn Tuesday, she picked 2 baskets with 15 apples each: 2 × 15 = 30 apples.\n\nThe total number of apples is 36 + 30 = 66 apples.\n\nShe gave 8 apples to her neighbor and 12 apples to her sister: 8 + 12 = 20 apples given away.\n\nRemaining apples: 66 - 20 = 46 apples.\n\nThe answer is 46.",
+    baseline_tpot_ms: 6.35,
+    dflash_tpot_ms: 2.12,
+    tau: 5.4,
+    speedup: 3.0,
+  },
+  {
+    name: "HumanEval",
+    text: "def has_close_elements(numbers, threshold):\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n\n# Alternative O(n log n) approach:\ndef has_close_elements_fast(numbers, threshold):\n    sorted_nums = sorted(numbers)\n    for i in range(len(sorted_nums) - 1):\n        if sorted_nums[i + 1] - sorted_nums[i] < threshold:\n            return True\n    return False",
+    baseline_tpot_ms: 6.31,
+    dflash_tpot_ms: 1.99,
+    tau: 5.76,
+    speedup: 3.17,
+  },
+  {
+    name: "MT-Bench",
+    text: "Here are some tips for improving your public speaking skills:\n\n1. Practice regularly with a mirror or record yourself\n2. Start with smaller audiences and gradually increase\n3. Focus on your breathing — slow, deep breaths help calm nerves\n4. Know your material well so you can speak naturally\n5. Make eye contact with different parts of the audience\n6. Use pauses effectively — silence can be powerful\n7. Tell stories to make your points more memorable\n\nThe most important thing is to practice consistently.",
+    baseline_tpot_ms: 6.27,
+    dflash_tpot_ms: 2.74,
+    tau: 3.87,
+    speedup: 2.29,
+  },
+];
+
+let currentSample = 0;
+let speed = 5;
+let playing = false;
+let arIndex = 0;
+let dfIndex = 0;
+let startTime = 0;
+let animFrameId = null;
+let tokens = [];
+
+function tokenize(text) {
+  // Simple whitespace-aware tokenization (approximate, for visualization)
+  const result = [];
+  let i = 0;
+  while (i < text.length) {
+    if (text[i] === '\n') {
+      result.push('\n');
+      i++;
+    } else if (text[i] === ' ') {
+      let word = ' ';
+      i++;
+      while (i < text.length && text[i] !== ' ' && text[i] !== '\n') {
+        word += text[i]; i++;
+      }
+      result.push(word);
+    } else {
+      let word = '';
+      while (i < text.length && text[i] !== ' ' && text[i] !== '\n') {
+        word += text[i]; i++;
+      }
+      result.push(word);
+    }
+  }
+  return result;
+}
+
+function buildTokenSpans(containerId, cursorId, tokenList) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  const spans = [];
+  for (let i = 0; i < tokenList.length; i++) {
+    const span = document.createElement('span');
+    span.className = 'token';
+    span.textContent = tokenList[i];
+    container.appendChild(span);
+    spans.push(span);
+  }
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+  cursor.id = cursorId;
+  container.appendChild(cursor);
+  return spans;
+}
+
+let arSpans = [], dfSpans = [];
+
+function initSample() {
+  const s = SAMPLES[currentSample];
+  tokens = tokenize(s.text);
+  arSpans = buildTokenSpans('ar-output', 'ar-cursor', tokens);
+  dfSpans = buildTokenSpans('df-output', 'df-cursor', tokens);
+  arIndex = 0; dfIndex = 0;
+  document.getElementById('ar-tps').textContent = '0';
+  document.getElementById('df-tps').textContent = '0';
+  document.getElementById('ar-count').textContent = '0';
+  document.getElementById('df-count').textContent = '0';
+  document.getElementById('ar-progress').style.width = '0%';
+  document.getElementById('df-progress').style.width = '0%';
+  document.getElementById('speedup-badge').textContent = s.speedup.toFixed(1) + 'x faster';
+}
+
+function togglePlay() {
+  if (playing) { pause(); } else { play(); }
+}
+
+function play() {
+  playing = true;
+  document.getElementById('btn-play').textContent = 'Pause';
+  document.getElementById('btn-play').classList.add('active');
+  startTime = performance.now();
+  animate();
+}
+
+function pause() {
+  playing = false;
+  document.getElementById('btn-play').textContent = 'Play';
+  if (animFrameId) cancelAnimationFrame(animFrameId);
+}
+
+function resetDemo() {
+  pause();
+  initSample();
+}
+
+function setSpeed(s, btn) {
+  speed = s;
+  document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function changeSample() {
+  currentSample = parseInt(document.getElementById('sample-select').value);
+  resetDemo();
+}
+
+function animate() {
+  if (!playing) return;
+  const s = SAMPLES[currentSample];
+  const elapsed = (performance.now() - startTime) * speed; // ms in simulated time
+  const total = tokens.length;
+
+  // AR: one token every baseline_tpot_ms
+  const arTarget = Math.min(Math.floor(elapsed / s.baseline_tpot_ms), total);
+  while (arIndex < arTarget) {
+    arSpans[arIndex].classList.add('visible');
+    arIndex++;
+  }
+
+  // DFlash: tokens arrive in bursts. Every ~step_time, tau tokens appear.
+  // step_time ~ dflash_tpot_ms * tau (time for one spec decode step)
+  const stepTime = s.dflash_tpot_ms * s.tau;
+  const stepsElapsed = Math.floor(elapsed / stepTime);
+  const dfTarget = Math.min(Math.floor(stepsElapsed * s.tau), total);
+  while (dfIndex < dfTarget) {
+    dfSpans[dfIndex].classList.add('visible');
+    dfSpans[dfIndex].classList.add('burst');
+    dfIndex++;
+  }
+
+  // Update stats
+  const elapsedSec = elapsed / 1000;
+  if (elapsedSec > 0.01) {
+    document.getElementById('ar-tps').textContent = Math.round(arIndex / elapsedSec);
+    document.getElementById('df-tps').textContent = Math.round(dfIndex / elapsedSec);
+  }
+  document.getElementById('ar-count').textContent = arIndex;
+  document.getElementById('df-count').textContent = dfIndex;
+  document.getElementById('ar-progress').style.width = (arIndex / total * 100) + '%';
+  document.getElementById('df-progress').style.width = (dfIndex / total * 100) + '%';
+
+  // Move cursors
+  if (arIndex < total) {
+    arSpans[arIndex].parentNode.insertBefore(
+      document.getElementById('ar-cursor'), arSpans[arIndex]);
+  }
+  if (dfIndex < total) {
+    dfSpans[dfIndex].parentNode.insertBefore(
+      document.getElementById('df-cursor'), dfSpans[dfIndex]);
+  }
+
+  if (arIndex >= total && dfIndex >= total) {
+    pause();
+    document.getElementById('btn-play').textContent = 'Done';
+    return;
+  }
+
+  animFrameId = requestAnimationFrame(animate);
+}
+
+// Init
+initSample();
+</script>
+</body>
+</html>
