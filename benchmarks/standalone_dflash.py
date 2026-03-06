@@ -381,6 +381,7 @@ def dflash_generate(
     decode_start = time.perf_counter()
     start = num_input_tokens
     acceptance_lengths = []
+    step_timestamps = []
     draft_cache_len = 0
     prev_seq_len = 0
     draft_prefill_done = False
@@ -483,8 +484,10 @@ def dflash_generate(
             block_np[:acceptance_length + 1]
         output_ids[start + acceptance_length + 1] = posterior[acceptance_length]
 
-        acceptance_lengths.append(acceptance_length + 1)
-        start += acceptance_length + 1
+        accepted = acceptance_length + 1
+        acceptance_lengths.append(accepted)
+        step_timestamps.append(((time.perf_counter() - decode_start) * 1000, accepted))
+        start += accepted
 
         # (g) Update context for next iteration
         if len(aux_hidden_states) > 0:
@@ -521,6 +524,7 @@ def dflash_generate(
         time_to_first_token=time_to_first_token,
         time_per_output_token=time_per_token,
         acceptance_lengths=acceptance_lengths,
+        step_timestamps=step_timestamps,
     )
 
 
@@ -562,6 +566,7 @@ def baseline_generate(
 
     # Decode
     decode_start = time.perf_counter()
+    token_timestamps = [0.0]  # first token at t=0
     for pos in range(num_input_tokens + 1, max_length):
         token_jax = jnp.array([next_token], dtype=jnp.int32)
         positions = jnp.array([pos - 1], dtype=jnp.int32)
@@ -573,6 +578,7 @@ def baseline_generate(
         logits = target_logits_fn(target_state, hidden_states, None)
         next_token = int(jnp.argmax(logits, axis=-1)[0])
         output_ids[pos] = next_token
+        token_timestamps.append((time.perf_counter() - decode_start) * 1000)
 
         if next_token == eos_token_id:
             break
@@ -592,6 +598,7 @@ def baseline_generate(
         time_to_first_token=time_to_first_token,
         time_per_output_token=time_per_token,
         acceptance_lengths=[],
+        token_timestamps=token_timestamps,
     )
 
 
@@ -864,6 +871,8 @@ def main():
                 "baseline_text": tokenizer.decode(bl.output_ids[bl.num_input_tokens:].tolist(), skip_special_tokens=True),
                 "dflash_text": tokenizer.decode(df.output_ids[df.num_input_tokens:].tolist(), skip_special_tokens=True),
                 "prompt_text": tokenizer.decode(bl.output_ids[:bl.num_input_tokens].tolist(), skip_special_tokens=True),
+                "baseline_token_timestamps_ms": [round(t, 3) for t in getattr(bl, 'token_timestamps', [])],
+                "dflash_step_timestamps_ms": [{"ms": round(t, 3), "tokens": n} for t, n in getattr(df, 'step_timestamps', [])],
             }
             # Add quality data if available
             if idx < len(quality_results):
