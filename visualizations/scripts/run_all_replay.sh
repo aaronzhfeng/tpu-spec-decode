@@ -1,19 +1,25 @@
 #!/bin/bash
-# Run all 9 benchmarks inside Docker and save replay data.
+# Run replay benchmarks inside Docker on TPU and save replay data.
+# Focuses on datasets that produce long generations for better visualization.
+#
 # Usage: bash visualizations/scripts/run_all_replay.sh
+#        bash visualizations/scripts/run_all_replay.sh aime24   # single dataset
 
 set -e
 
-DATASETS="gsm8k math500 aime24 aime25 humaneval mbpp mt-bench alpaca swe-bench"
-SAMPLES=3
-MAX_TOKENS=256
+# Datasets that produce long chain-of-thought reasoning (best for visualization)
+DATASETS="${1:-aime24 aime25 math500 mt-bench swe-bench}"
+SAMPLES=5
+MAX_TOKENS=2048
 OUTPUT_DIR="visualizations/output/replay"
 
 mkdir -p "$OUTPUT_DIR"
 
 echo "=============================================="
-echo " DFlash Replay Capture — All 9 Benchmarks"
+echo " DFlash Replay Capture"
+echo " Datasets: $DATASETS"
 echo " Samples per dataset: $SAMPLES"
+echo " Max tokens: $MAX_TOKENS"
 echo "=============================================="
 
 for ds in $DATASETS; do
@@ -27,12 +33,13 @@ for ds in $DATASETS; do
         -e VLLM_XLA_CACHE_PATH=/root/.cache/vllm_xla_cache \
         -e HF_HOME=/root/.cache/huggingface \
         vllm/vllm-tpu:latest \
-        bash -c "pip install -q flax==0.12.4 2>/dev/null && python benchmarks/standalone_dflash.py \
+        bash -c "pip install -q flax==0.12.2 2>/dev/null && python benchmarks/standalone_dflash.py \
             --target-model Qwen/Qwen3-4B \
             --draft-model z-lab/Qwen3-4B-DFlash-b16 \
             --dataset $ds \
             --max-samples $SAMPLES \
             --max-new-tokens $MAX_TOKENS \
+            --max-model-len 4096 \
             --output-json $OUTPUT_DIR/raw_${ds}.json"
     echo "<<< $ds done"
 done
@@ -45,6 +52,6 @@ echo "=============================================="
 # Post-process to replay format
 echo ""
 echo "Post-processing to replay format..."
-python visualizations/scripts/capture_replay.py --all --skip-benchmark
+python visualizations/scripts/capture_replay.py --all --skip-benchmark --max-new-tokens $MAX_TOKENS
 
 echo "Done."

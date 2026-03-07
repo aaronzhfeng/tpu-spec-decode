@@ -28,7 +28,7 @@ ALL_DATASETS = ["gsm8k", "math500", "aime24", "aime25",
                 "humaneval", "mbpp", "mt-bench", "alpaca", "swe-bench"]
 
 
-def run_benchmark(dataset, max_samples=3, max_new_tokens=256):
+def run_benchmark(dataset, max_samples=5, max_new_tokens=2048):
     """Run standalone_dflash.py and return the JSON result path."""
     output_dir = PROJECT_ROOT / "visualizations" / "output" / "replay"
     os.makedirs(output_dir, exist_ok=True)
@@ -185,8 +185,8 @@ def main():
     parser = argparse.ArgumentParser(description="Capture DFlash replay data")
     parser.add_argument("--dataset", type=str, default="gsm8k", choices=ALL_DATASETS)
     parser.add_argument("--all", action="store_true", help="Run all 9 datasets")
-    parser.add_argument("--max-samples", type=int, default=3)
-    parser.add_argument("--max-new-tokens", type=int, default=256)
+    parser.add_argument("--max-samples", type=int, default=5)
+    parser.add_argument("--max-new-tokens", type=int, default=2048)
     parser.add_argument("--skip-benchmark", action="store_true",
                         help="Skip benchmark, only postprocess existing raw JSON")
     args = parser.parse_args()
