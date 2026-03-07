@@ -11,6 +11,7 @@
 #   bash tests/benchmark.sh code         # Code: Humaneval, MBPP, LiveCodeBench, SWE-Bench
 #   bash tests/benchmark.sh chat         # Chat: MT-Bench, Alpaca
 #   bash tests/benchmark.sh full         # All datasets
+#   bash tests/benchmark.sh eagle3_qwen3 # Eagle3 (Qwen3-4B) on math datasets
 #   bash tests/benchmark.sh CONFIG_PATH  # Custom manifest JSON path
 #
 # Env overrides:
@@ -27,6 +28,7 @@ case "${SUITE}" in
   code)  CONFIG="${CONFIGS_DIR}/benchmark_code.json"; LABEL="code" ;;
   chat)  CONFIG="${CONFIGS_DIR}/benchmark_chat.json"; LABEL="chat" ;;
   full)  CONFIG="${CONFIGS_DIR}/benchmark_full.json"; LABEL="full" ;;
+  eagle3_qwen3)  CONFIG="${CONFIGS_DIR}/eagle3_qwen3_math.json"; LABEL="eagle3_qwen3" ;;
   *)
     # Treat as a custom config path.
     if [[ -f "${SUITE}" ]]; then
@@ -36,7 +38,7 @@ case "${SUITE}" in
       CONFIG="${CONFIGS_DIR}/${SUITE}"
       LABEL="custom"
     else
-      die "Unknown suite '${SUITE}'. Use: math | code | chat | full | <path-to-config.json>"
+      die "Unknown suite '${SUITE}'. Use: math | code | chat | full | eagle3_qwen3 | <path-to-config.json>"
     fi
     ;;
 esac

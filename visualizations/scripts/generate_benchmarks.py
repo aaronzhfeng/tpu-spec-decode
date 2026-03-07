@@ -21,6 +21,7 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 V4_DIR = RESULTS_DIR / "v4"
 V5P_DIR = RESULTS_DIR / "v5p"
 OUT_DIR = SCRIPT_DIR.parent / "output" / "benchmarks"
+CAPSTONE_FIG_DIR = PROJECT_ROOT / "capstone_report" / "figure"
 
 CATEGORY_COLORS = {"math": "#4C72B0", "code": "#55A868", "chat": "#C44E52"}
 CATEGORY_ORDER = ["math", "code", "chat"]
@@ -697,6 +698,96 @@ def fig13_cost_efficiency():
 
 
 # ──────────────────────────────────────────────
+# Capstone report figures (saved to capstone_report/figure/)
+# ──────────────────────────────────────────────
+
+
+def fig_acceptance_decay_capstone():
+    """Acceptance decay by position (v4 vLLM pipeline) for capstone report."""
+    rows = _read_csv(V4_DIR / "vllm_pipeline_acceptance.csv")
+    pos_data = {r["metric"]: float(r["value"]) for r in rows}
+    positions = list(range(15))
+    rates = [pos_data.get(f"acceptance_pos_{i}", 0) for i in positions]
+
+    fig, ax = plt.subplots(figsize=(6, 3.5))
+    ax.plot(positions, rates, "o-", color="#4C72B0", markersize=5, linewidth=1.5)
+    ax.set_xlabel("Draft Token Position")
+    ax.set_ylabel("Acceptance Rate")
+    ax.set_title("Acceptance Decay by Position (vLLM Pipeline, v4)")
+    ax.set_xticks(positions)
+    ax.set_ylim(0, 1.05)
+    ax.grid(axis="y", alpha=0.3)
+    fig.tight_layout()
+    CAPSTONE_FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig.savefig(CAPSTONE_FIG_DIR / "acceptance_decay.pdf")
+    fig.savefig(CAPSTONE_FIG_DIR / "acceptance_decay.png")
+    plt.close(fig)
+    print("  [capstone] acceptance_decay.pdf")
+
+
+def fig_k_flat_verification_capstone():
+    """K=128/K=16 ratio across hardware (capstone report)."""
+    hardware = ["TPU v4-8", "TPU v5p-8", "H100 SXM", "RTX 2000 Ada"]
+    L256 = [0.97, 1.00, 1.00, 1.24]
+    L1024 = [0.97, 1.00, 1.01, 1.24]
+    L2048 = [np.nan, 0.92, 1.01, 1.24]
+
+    x = np.arange(len(hardware))
+    w = 0.25
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.bar(x - w, L256, w, label="L=256", color="#4C72B0", edgecolor="white")
+    ax.bar(x, L1024, w, label="L=1024", color="#55A868", edgecolor="white")
+    ax.bar(x + w, L2048, w, label="L=2048", color="#C44E52", edgecolor="white")
+    ax.axhline(1.0, color="gray", linestyle="--", linewidth=1)
+    ax.set_ylabel("K=128 / K=16 Ratio")
+    ax.set_title("Verification Cost Scaling: Datacenter vs Workstation")
+    ax.set_xticks(x)
+    ax.set_xticklabels(hardware, rotation=15, ha="right")
+    ax.legend(loc="upper right", fontsize=9)
+    ax.set_ylim(0, 1.4)
+    ax.grid(axis="y", alpha=0.3)
+    fig.tight_layout()
+    CAPSTONE_FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig.savefig(CAPSTONE_FIG_DIR / "k_flat_verification.pdf")
+    fig.savefig(CAPSTONE_FIG_DIR / "k_flat_verification.png")
+    plt.close(fig)
+    print("  [capstone] k_flat_verification.pdf")
+
+
+def fig_speedup_comparison_capstone():
+    """DFlash vs Eagle3 speedup by dataset (v4 vLLM pipeline)."""
+    vllm_rows = _read_csv(V4_DIR / "vllm_pipeline_results.csv")
+    eagle3_rows = _read_csv(V4_DIR / "eagle3_qwen3_results.csv")
+    vllm = {r["dataset"]: float(r["speedup"]) for r in vllm_rows
+            if r["method"] == "dflash" and r["dataset"] != "OVERALL"}
+    eagle3 = {r["dataset"]: float(r["speedup"]) for r in eagle3_rows
+              if r["method"] == "eagle3" and r["dataset"] != "OVERALL"}
+    datasets = ["gsm8k", "math500", "aime24", "aime25"]
+    dflash_vals = [vllm.get(d, 0) for d in datasets]
+    eagle3_vals = [eagle3.get(d, 0) for d in datasets]
+
+    x = np.arange(len(datasets))
+    w = 0.35
+    fig, ax = plt.subplots(figsize=(7, 4))
+    ax.barh(x - w / 2, dflash_vals, w, label="DFlash", color="#10b981", edgecolor="white")
+    ax.barh(x + w / 2, eagle3_vals, w, label="Eagle3", color="#f59e0b", edgecolor="white")
+    ax.set_yticks(x)
+    ax.set_yticklabels([d.upper() for d in datasets])
+    ax.set_xlabel("Speedup")
+    ax.set_title("DFlash vs Eagle3 (Qwen3-4B, vLLM Pipeline)")
+    ax.legend(loc="lower right")
+    ax.axvline(1, color="gray", linestyle="--", linewidth=0.8)
+    ax.set_xlim(0, max(max(dflash_vals), max(eagle3_vals)) * 1.2)
+    ax.grid(axis="x", alpha=0.3)
+    fig.tight_layout()
+    CAPSTONE_FIG_DIR.mkdir(parents=True, exist_ok=True)
+    fig.savefig(CAPSTONE_FIG_DIR / "speedup_comparison.pdf")
+    fig.savefig(CAPSTONE_FIG_DIR / "speedup_comparison.png")
+    plt.close(fig)
+    print("  [capstone] speedup_comparison.pdf")
+
+
+# ──────────────────────────────────────────────
 if __name__ == "__main__":
     print(f"Reading results from: {RESULTS_DIR}")
     print(f"Writing figures to:   {OUT_DIR}\n")
@@ -718,4 +809,9 @@ if __name__ == "__main__":
     fig12_method_comparison()
     fig13_cost_efficiency()
 
-    print("\nAll 13 figures generated successfully.")
+    print("\n=== Capstone Report Figures ===")
+    fig_acceptance_decay_capstone()
+    fig_k_flat_verification_capstone()
+    fig_speedup_comparison_capstone()
+
+    print("\nAll figures generated successfully.")

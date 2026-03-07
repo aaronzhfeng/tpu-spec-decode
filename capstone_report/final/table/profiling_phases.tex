@@ -1,0 +1,17 @@
+\centering
+\begin{tabular}{l|ccc}
+\toprule
+Phase & Mean (ms) & \% of Step & Description \\
+\midrule
+acceptance & 8.28 & 46.9\% & Verify logits + argmax + comparison \\
+verify\_forward & 2.56 & 14.5\% & Target model 16-token forward \\
+draft\_sample & 2.41 & 13.6\% & Draft logits + argmax \\
+aux\_projection & 1.86 & 10.5\% & Context feature projection \\
+host\_device\_xfer & 1.79 & 10.2\% & Noise block + context upload \\
+draft\_forward & 0.47 & 2.7\% & Draft model forward (4 layers) \\
+ctx\_update & 0.27 & 1.5\% & Context buffer (host numpy) \\
+cache\_mgmt & 0.00 & 0.0\% & KV cache bookkeeping \\
+\midrule
+\textbf{Total} & \textbf{17.64} & 100\% & TPU v4, GSM8K \\
+\bottomrule
+\end{tabular}

@@ -7,7 +7,11 @@
 %%%% Title and Authors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Toward Accelerated LLM Inference:\\Porting and Evaluating Diffusion-Based Speculative Decoding on TPU}
+\title{
+Toward Accelerated LLM Inference:\\
+Porting and Evaluating Diffusion-Based\\
+Speculative Decoding on TPU
+}
 
 \author{Aaron Feng \\
   {\tt zhf004@ucsd.edu} \\\And
@@ -30,13 +34,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-Large language model inference is bottlenecked by sequential autoregressive decoding. Speculative decoding alleviates this by using a fast draft model to propose tokens that are verified in parallel by the target model. DFlash is a recent speculative decoding method that replaces autoregressive drafting with a lightweight block diffusion model, generating 16 draft tokens in a single forward pass and achieving over 5$\times$ speedup on GPU. However, DFlash has only been implemented for GPU (PyTorch). In this work, we port DFlash to Google Cloud TPUs by reimplementing the algorithm in JAX within the \texttt{tpu-inference} framework. Our TPU implementation achieves an average acceptance length of $\tau=6.67$ across four math reasoning benchmarks (94\% of the original DFlash $\tau=7.07$ on GPU) and a 4.29$\times$ end-to-end speedup on a single TPU v4 device. On Math500, our TPU $\tau$ of 8.72 exceeds the original 7.84. We also integrate DFlash into the full vLLM serving pipeline on TPU, achieving 2.31$\times$ speedup. The implementation requires zero changes to vLLM and adds DFlash as a new speculative decoding method alongside the existing Eagle3 support in \texttt{tpu-inference}. We verify output quality by comparing DFlash generations against the autoregressive baseline token-by-token, confirming that 7/8 samples produce identical final answers on GSM8K, with divergences attributable to bf16 numerical precision rather than algorithmic error.
+Large language model (LLM) inference is bottlenecked by sequential autoregressive decoding, which requires one forward pass per generated token. Speculative decoding mitigates this limitation by introducing a lightweight draft model whose proposed tokens are verified in parallel by the target model. DFlash is a recent method that replaces autoregressive drafting with a block diffusion model, enabling parallel generation of multiple draft tokens in a single forward pass and demonstrating substantial speedups on GPU.
+
+In this work, we adapt DFlash to TPU systems by reimplementing the algorithm in JAX within the \texttt{tpu-inference} framework. We evaluate on the same math reasoning benchmarks as the original DFlash paper, in both a standalone setting and within the vLLM serving pipeline. Our standalone results match the draft acceptance quality reported on GPU, with remaining speed differences attributable primarily to hardware characteristics. Within the vLLM pipeline, DFlash achieves substantial acceleration over the autoregressive baseline and retains its proportional advantage over autoregressive drafting methods such as Eagle3. We further verify that speculative decoding preserves output quality relative to standard decoding. These results demonstrate that diffusion-based speculative decoding transfers effectively to TPU and maintains its practical benefits over autoregressive drafting.
 \end{abstract}
 
 \begin{center}
-Code: \url{https://github.com/aaronzhfeng/tpu-spec-decode} \\
-Code: \url{https://github.com/aaronzhfeng/tpu-inference}
+\begin{tabular}{r l}
+Code: & \url{https://github.com/aaronzhfeng/tpu-spec-decode} \\
+      & \url{https://github.com/aaronzhfeng/tpu-inference}
+\end{tabular}
 \end{center}
+
+
+\clearpage
 
 \maketoc
 \clearpage
@@ -57,8 +68,7 @@ Most existing speculative decoding methods, including Eagle3 \citep{li2025eagle3
 
 However, DFlash has only been implemented for GPU using PyTorch. Google Cloud TPUs offer a compelling alternative platform: their architecture, optimized for large, dense matrix operations with high memory bandwidth, is naturally suited to the parallel block-prediction pattern of diffusion-style drafting. The \texttt{tpu-inference} framework \citep{tpuinference} provides TPU support for vLLM with speculative decoding infrastructure (currently supporting Eagle3 and n-gram methods), but lacks a DFlash implementation.
 
-\textbf{Our contribution.} We port DFlash from GPU/PyTorch to TPU/JAX, implementing the full algorithm within \texttt{tpu-inference}. We validate the port against the original paper's results on four math reasoning benchmarks (GSM8K, Math500, AIME24, AIME25), achieving 94\% of GPU draft quality ($\tau=6.67$ vs.\ 7.07) and 4.29$\times$ speedup on a single TPU v4 device. We also integrate DFlash into the vLLM serving pipeline, achieving 2.31$\times$ speedup, and verify that the implementation does not degrade output quality. Beyond replication, this work establishes a foundation for investigating the broader interaction between speculative decoding, diffusion models, and TPU hardware, a direction we argue is particularly promising given TPU's architectural affinity for the dense, parallel computation that diffusion-based methods require.
-
+\textbf{Our contribution.} We implement DFlash in JAX within the \texttt{tpu-inference} framework, extending its speculative decoding infrastructure to support diffusion-based drafting on TPU systems. The implementation includes integration into the TPU speculative decoding manager as well as a standalone benchmark independent of the vLLM serving pipeline. We evaluate the system in both standalone and serving settings and compare against existing autoregressive drafting methods. Our results show that diffusion-based speculative decoding transfers effectively to TPU hardware and retains its practical advantages over autoregressive drafting. Beyond replication, this work establishes a foundation for investigating the broader interaction between speculative decoding, diffusion models, and TPU hardware, a direction that is particularly promising given TPU’s architectural affinity for dense, parallel computation.
 
 \section{Background}
 
@@ -94,21 +104,24 @@ Porting DFlash from GPU/PyTorch to TPU/JAX required addressing several architect
 
 The GPU DFlash implementation uses PyTorch's \texttt{DynamicCache} with simple concatenation-based KV management for both the target and draft models. On TPU, the target model uses \emph{paged attention} with Pallas kernels (\texttt{ragged\_paged\_attention}), which stores KV entries in fixed-size pages managed by block tables. The draft model's non-causal attention pattern is incompatible with paged attention.
 
-We implemented a \textbf{dual-cache architecture}: the target model retains its paged KV cache (required for \texttt{ragged\_paged\_attention}), while the draft model uses static on-device JAX arrays with \texttt{dynamic\_update\_slice} writes and a \texttt{cache\_len} pointer for crop semantics. The draft model uses TPU's \texttt{flash\_attention} kernel with \texttt{causal=False}, matching DFlash's non-causal block diffusion design.
+We implemented a \textit{dual-cache architecture}: the target model retains its paged KV cache (required for \texttt{ragged\_paged\_attention}), while the draft model uses static on-device JAX arrays with \texttt{dynamic\_update\_slice} writes and a \texttt{cache\_len} pointer for crop semantics. The draft model uses TPU's \texttt{flash\_attention} kernel with \texttt{causal=False}, matching DFlash's non-causal block diffusion design.
 
 \subsection{Context Buffer Management}
 
 DFlash's draft model is conditioned on projected hidden states from the target model, accumulated across iterations in a \emph{context buffer}. The GPU implementation manages this in host-side numpy arrays with power-of-2 padding for efficient TPU transfers. We replicated this pattern: after each target model forward pass, newly projected features are appended to the context buffer, padded to the next power of two, and passed to the draft model alongside a \texttt{cache\_len} and \texttt{actual\_ctx\_count} to indicate which features are new. This required careful tracking of \texttt{prev\_ctx\_len} (how much context the draft model has already consumed) to avoid feeding duplicate or missing context.
 
-\subsection{The Sequence Length Inflation Bug}
+\subsection{Sequence Length Mismatch in Speculative Verification}
 
-After the initial integration into the vLLM pipeline, acceptance rates were stuck around 10\% ($\tau=2.49$, 1.30$\times$ speedup). We ran 13 systematic A/B tests (toggling flash attention, position schemes, cache modes), all inconclusive. The root cause was upstream of the proposer: the speculative decoding manager passed \texttt{attn\_metadata.seq\_lens} to the proposer, but during verification steps this value includes all draft tokens being verified (e.g., \texttt{seq\_len=116} when the true accepted count is 100). Since DFlash is the only proposer that maintains persistent state across iterations (context buffer, KV cache positions, RoPE offsets), this 10--16 token inflation silently corrupted every iteration.
+During integration into the vLLM pipeline, initial acceptance rates were significantly lower than expected ($\tau=2.49$, 1.30$\times$ speedup). Investigation revealed that the speculative decoding manager forwarded \texttt{attn\_metadata.seq\_lens} to the proposer during verification steps. In this setting, \texttt{seq\_lens} reflects the total sequence length including draft tokens under verification, rather than the number of tokens actually accepted.
 
-The fix was four lines: read the actual accepted count from \texttt{num\_tokens\_no\_spec} and pass a corrected \texttt{attn\_metadata} to the proposer. This single change nearly doubled performance: $\tau$ jumped from 2.49 to 4.48, speedup from 1.30$\times$ to 2.31$\times$.
+Because DFlash maintains persistent state across iterations (including context buffers, KV cache positions, and RoPE offsets), this discrepancy caused systematic misalignment between internal draft state and the true accepted token count. The resulting sequence length inflation introduced cumulative state errors across iterations, degrading acceptance length and overall speedup.
+
+Correcting the proposer to use the true accepted token count (\texttt{num\_tokens\_no\_spec}) restored alignment between draft state and target verification. This change increased acceptance length from $\tau=2.49$ to 4.48 and improved end-to-end speedup from 1.30$\times$ to 2.31$\times$.
 
 \subsection{Standalone Benchmark}
 
-To provide an apples-to-apples comparison with the original DFlash results on GPU (which report standalone numbers without serving overhead) and to prove vLLM independence, we built a standalone JAX benchmark (\texttt{benchmarks/standalone\_dflash.py}). This script loads models directly via \texttt{get\_flax\_model()}, runs a prefill-draft-verify-accept loop, and tracks context buffers and KV state manually, using only existing \texttt{tpu-inference} library imports (\texttt{ModelConfig}, \texttt{LoadConfig}, model loader). No vLLM engine, scheduler, or serving pipeline is involved.
+To provide a direct comparison with the original DFlash results on GPU (which report standalone numbers without serving overhead) and to isolate the implementation from serving-layer effects, we built a standalone JAX benchmark (\texttt{benchmarks/standalone\_dflash.py}). This script loads models directly via \texttt{get\_flax\_model()}, runs a prefill-draft-verify-accept loop, and tracks context buffers and KV state manually, using only existing \texttt{tpu-inference} library imports (\texttt{ModelConfig}, \texttt{LoadConfig}, model loader). No vLLM engine, scheduler, or serving pipeline is involved.
+
 
 
 \section{Results}
@@ -125,7 +138,7 @@ Table \ref{tab:standalone} shows our standalone TPU results compared with the or
 \resizebox{\linewidth}{!}{\input{table/standalone_results}}
 \end{table}
 
-Our TPU implementation achieves $\tau=6.67$ on average, which is 94\% of the original DFlash $\tau=7.07$ on GPU. On Math500, our TPU $\tau$ of 8.72 \textbf{exceeds} the original 7.84. The average end-to-end speedup is 4.29$\times$ compared to the original 5.53$\times$ on GPU. The remaining speedup gap is primarily due to hardware differences (TPU v4 vs.\ H200 GPU) rather than algorithm quality, as the $\tau$ ratio is much closer than the speedup ratio.
+Our TPU implementation achieves $\tau=6.67$ on average, which is 94\% of the original DFlash $\tau=7.07$ on GPU. On Math500, our TPU $\tau$ of 8.72 exceeds the original 7.84. The average end-to-end speedup is 4.29$\times$ compared to the original 5.53$\times$ on GPU. The remaining speedup gap is primarily due to hardware differences (TPU v4 vs.\ H200 GPU) rather than algorithm quality, as the $\tau$ ratio is much closer than the speedup ratio.
 
 \subsection{vLLM Pipeline Integration}
 
@@ -178,7 +191,7 @@ Our $\tau$ (6.67) is 94\% of the original DFlash $\tau$ on GPU (7.07), but our s
 
 \subsection{vLLM Independence}
 
-A key design goal was ensuring the DFlash implementation has \textbf{zero dependency on vLLM changes}. The standalone benchmark imports only \texttt{ModelConfig} and \texttt{LoadConfig} from vLLM, which are existing \texttt{tpu-inference} dependencies used by every model. No new vLLM code is required. The vLLM serving integration requires only a $\sim$10-line config change in a separate repository, which can be upstreamed independently. This means a pull request to \texttt{tpu-inference} can proceed without any coordination with the vLLM project.
+A key design goal was ensuring the DFlash implementation has zero dependency on vLLM changes. The standalone benchmark imports only \texttt{ModelConfig} and \texttt{LoadConfig} from vLLM, which are existing \texttt{tpu-inference} dependencies used by every model. No new vLLM code is required. The vLLM serving integration requires only a $\sim$10-line config change in a separate repository, which can be upstreamed independently. This means a pull request to \texttt{tpu-inference} can proceed without any coordination with the vLLM project.
 
 
 \section{Future Work}
@@ -204,11 +217,13 @@ One hypothesis worth investigating is whether TPU hardware is particularly well-
 
 We plan to investigate these directions by: (1) benchmarking diffusion language models (e.g., Fast-dLLM) as both drafters and targets on TPU, (2) evaluating whether the FailFast adaptive speculation strategy transfers to TPU hardware, and (3) comparing TPU vs.\ GPU speedups for diffusion-based vs.\ autoregressive-based speculative decoding to test whether the hypothesized TPU advantage holds in practice.
 
-
 \section{Conclusion}
 
-We have successfully ported DFlash speculative decoding from GPU/PyTorch to TPU/JAX, achieving 94\% of the original paper's draft quality ($\tau=6.67$ vs.\ 7.07) and 4.29$\times$ speedup on a single TPU v4 device. On Math500, our TPU implementation actually exceeds the original DFlash on GPU ($\tau=8.72$ vs.\ 7.84). The vLLM pipeline integration achieves 2.31$\times$ speedup with zero new vLLM dependencies. Output quality verification confirms DFlash does not degrade model intelligence: 7/8 samples produce the same final answer as the baseline, with divergences attributable to bf16 precision. DFlash's advantage over autoregressive drafting (Eagle3) transfers proportionally from GPU to TPU, validating the algorithm's hardware-agnostic design. The implementation is ready for contribution to the \texttt{tpu-inference} repository.
+We implemented DFlash speculative decoding in JAX within the \texttt{tpu-inference} framework, extending TPU support to diffusion-based drafting. In standalone benchmarks on a single TPU v4 device, our implementation achieves an average 4.29$\times$ end-to-end speedup over autoregressive decoding while reaching 94\% of the draft acceptance length reported on GPU. Within the vLLM serving pipeline, the system achieves 2.31$\times$ speedup over the autoregressive baseline without degrading output quality.
 
+These results demonstrate that diffusion-based speculative decoding transfers effectively from GPU to TPU and retains its proportional advantages over autoregressive drafting in practice. Beyond reproducing prior results on a new hardware platform, this work establishes a foundation for investigating the interaction between speculative decoding, diffusion models, and TPU architectures, particularly in settings where dense, parallel computation aligns with TPU design.
+
+\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% Reference / Bibliography
@@ -244,7 +259,7 @@ File & Change \\
 \end{tabular}
 \end{table}
 
-\subsection{Reproduction Commands}
+\subsection{Reproduction Commands in \texttt{tpu-spec-decode}}
 
 \begin{verbatim}
 # Standalone benchmark (single dataset)
@@ -261,5 +276,131 @@ done
 bash tests/benchmark.sh math
 \end{verbatim}
 
+\subsection{Latest Project Proposal}
+
+\subsubsection*{Project Motivation}
+
+Large language model (LLM) inference remains constrained by the sequential nature of autoregressive decoding. Speculative decoding mitigates this bottleneck by using a lightweight draft model whose proposed tokens are verified in parallel by a target model. Recent work (DFlash) replaces autoregressive drafting with a block diffusion model, enabling parallel generation of multiple draft tokens and achieving significant speedups on GPU.
+
+However, diffusion-based speculative decoding has not been implemented or evaluated on TPU systems. Given TPU’s architectural affinity for dense, parallel matrix operations, diffusion-based drafting may align particularly well with TPU hardware. This project aims to port DFlash to TPU within the \texttt{tpu-inference} framework, evaluate its performance relative to GPU results, and compare it against existing autoregressive drafting methods such as Eagle3.
+
+\subsubsection*{Project Objectives}
+
+\begin{enumerate}
+    \item Implement DFlash in JAX within the \texttt{tpu-inference} framework.
+    \item Integrate DFlash into the TPU speculative decoding manager and vLLM serving pipeline.
+    \item Build a standalone benchmark to isolate algorithmic performance from serving-layer overhead.
+    \item Evaluate draft acceptance length, end-to-end speedup, and output quality on math reasoning benchmarks.
+    \item Compare diffusion-based drafting against autoregressive drafting (Eagle3) on TPU.
+\end{enumerate}
+
+\subsubsection*{Six-Week Plan}
+
+\textbf{Week 1: Background Study and System Design}
+
+\begin{itemize}
+    \item Study the DFlash paper and GPU implementation.
+    \item Analyze TPU architecture and the \texttt{tpu-inference} codebase.
+    \item Identify architectural differences between GPU/PyTorch and TPU/JAX execution.
+    \item Define integration points within speculative decoding infrastructure.
+\end{itemize}
+
+\textbf{Week 2: Core DFlash Port to JAX}
+
+\begin{itemize}
+    \item Implement the DFlash draft model in JAX.
+    \item Reproduce block diffusion drafting logic with non-causal attention.
+    \item Implement shared embedding and LM head reuse.
+    \item Validate functional correctness on small test cases.
+\end{itemize}
+
+\textbf{Week 3: KV Cache Integration and Initial Benchmarking}
+
+\begin{itemize}
+    \item Design dual KV cache architecture for TPU.
+    \item Implement context buffer accumulation and feature projection.
+    \item Integrate proposer into the speculative decoding manager.
+    \item Build standalone JAX benchmark and run initial experiments.
+    \item Measure draft acceptance length ($\tau$), tokens per second, and preliminary speedup.
+\end{itemize}
+
+\textbf{Week 4: vLLM Integration and Comparative Evaluation}
+
+\begin{itemize}
+    \item Integrate DFlash into the full vLLM TPU serving pipeline.
+    \item Benchmark serving-mode performance.
+    \item Compare against autoregressive drafting (Eagle3) on TPU.
+    \item Verify output quality relative to autoregressive decoding.
+\end{itemize}
+
+\textbf{Week 5: Extended Benchmarking and Analysis}
+
+\begin{itemize}
+    \item Expand experiments across GSM8K, Math500, AIME24, and AIME25.
+    \item Analyze TPU vs.\ GPU performance gaps.
+    \item Investigate serving vs.\ standalone performance differences.
+    \item Consolidate benchmark results for reporting.
+\end{itemize}
+
+\textbf{Week 6: Documentation, Website, and Final Deliverables}
+
+\begin{itemize}
+    \item Finalize reproducibility scripts and repository structure.
+    \item Prepare structured project website summarizing motivation, methods, benchmarks, and findings.
+    \item Draft final report and presentation materials.
+    \item Prepare code for potential upstream contribution to \texttt{tpu-inference}.
+\end{itemize}
+
+
+\subsubsection*{Team Roles}
+
+\begin{itemize}
+    \item \textbf{Aaron Feng:} Led integration of DFlash into the \texttt{tpu-inference} framework, including proposer wiring, speculative decoding manager integration, TPU environment setup (v4/v5p), and serving-pipeline validation. Contributed to performance debugging and end-to-end system testing.
+
+    \item \textbf{Zhongyan Luo:} Implemented the JAX standalone version of DFlash, including draft model execution, block diffusion logic, and prefill–draft–verify–accept loop. Led standalone benchmarking, draft acceptance measurement, and comparative evaluation against baseline decoding.
+
+    \item \textbf{Son Nguyen:} Developed the conceptual framing of the project, designed evaluation methodology, analyzed TPU vs.\ GPU performance characteristics, and led report writing, documentation, and project website development. Contributed targeted integration fixes and validation of output correctness.
+
+    \item \textbf{Andy Huang:} Assisted with speculative decoding integration support, experimental configuration management, benchmark orchestration, and result aggregation to ensure reproducibility.
+\end{itemize}
+
+\subsubsection*{Expected Outcomes}
+
+By the end of six weeks, we expect to:
+
+\begin{itemize}
+    \item Deliver a working TPU implementation of DFlash integrated into \texttt{tpu-inference}.
+    \item Provide standalone and serving-mode benchmarks on TPU.
+    \item Demonstrate whether diffusion-based speculative decoding retains its proportional advantages over autoregressive drafting on TPU.
+    \item Release reproducible code and documentation for future research.
+\end{itemize}
+
+\clearpage
+
+\section*{Author Contributions}
+\addcontentsline{toc}{section}{Author Contributions}
+
+\textbf{Aaron Feng}
+
+Aaron led the TPU integration of DFlash within the \texttt{tpu-inference} framework. He implemented proposer wiring, extended the speculative decoding manager to support diffusion-based drafting, and resolved the sequence-length alignment bug that affected acceptance rates. He configured TPU environments (v4 and v5p), validated serving-pipeline execution, and ensured compatibility with vLLM’s speculative decoding infrastructure. He played a central role in debugging integration issues, stabilizing the end-to-end TPU decoding stack, and preparing the implementation for upstream contribution.
+
+\medskip
+
+\textbf{Zhongyan Luo}
+
+Zhongyan implemented the standalone JAX version of DFlash, including the block diffusion drafting logic, non-causal attention configuration, and the full prefill–draft–verify–accept decoding loop. He designed and validated the dual KV cache handling for standalone execution, ensuring correct context buffer updates and draft–target state alignment. He led standalone benchmarking, measured draft acceptance length and throughput, and conducted comparative evaluation against autoregressive baselines. He also contributed to debugging performance discrepancies and validating numerical consistency across runs.
+
+
+\medskip
+
+\textbf{Son Nguyen}
+
+Son developed the conceptual framing of the project and structured the evaluation methodology. He analyzed TPU versus GPU performance differences, interpreted benchmarking results, and led report writing and documentation. He contributed integration validation, correctness verification, and preparation of the project website and reproducibility materials. He additionally explored comparative integration of LLaMA-based DFlash variants within the TPU framework.
+
+\medskip
+
+\textbf{Andy Huang}
+
+Andy contributed to experimental configuration management and benchmark orchestration across standalone and serving settings. He assisted in coordinating dataset runs, organizing evaluation scripts, and aggregating results for comparison. He supported integration testing by verifying execution stability across TPU configurations and checking metric consistency across experiments. He also contributed to documentation refinement and preparation of final project deliverables.
 
 \end{document}
