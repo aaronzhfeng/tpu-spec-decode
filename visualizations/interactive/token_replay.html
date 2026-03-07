@@ -8,6 +8,7 @@
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="../output/replay/replay_data.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -442,6 +443,12 @@ function animate() {
 
 async function loadDataset(name) {
   if (replayData[name]) return;
+  // Use pre-loaded data from replay_data.js (works with file://)
+  if (window.REPLAY_DATA && window.REPLAY_DATA[name]) {
+    replayData[name] = window.REPLAY_DATA[name];
+    return;
+  }
+  // Fallback to fetch (works with HTTP server)
   try {
     const resp = await fetch(`../output/replay/replay_${name}.json`);
     replayData[name] = await resp.json();
