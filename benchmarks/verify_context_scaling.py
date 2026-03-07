@@ -108,9 +108,11 @@ def load_models(config, mesh):
     rng = jax.random.PRNGKey(42)
     print("[INFO] Loading target model...")
     with jax.default_device(jax.devices()[0]):
-        (target_model_fn, target_logits_fn, target_combine_fn,
-         _, target_state, _, _) = get_flax_model(
-            config, rng, mesh, is_draft_model=False)
+        result = get_flax_model(config, rng, mesh, is_draft_model=False)
+        target_model_fn = result[0]
+        target_logits_fn = result[1]
+        # state is at index 5 (model_fn, logits_fn, pooler/combine, combine_hidden, multimodal/None, state, lora, model)
+        target_state = result[5]
     return target_model_fn, target_logits_fn, target_state
 
 
