@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "gpu": "NVIDIA RTX 2000 Ada Generation",
+    "gpu_mem_gb": 16.7,
+    "model": "Qwen/Qwen3-4B",
+    "n_layers": 36,
+    "cuda": "12.4",
+    "pytorch": "2.4.1+cu124",
+    "trials": 30,
+    "warmup": 5
+  },
+  "results": {
+    "256": {
+      "16": {
+        "mean_ms": 50.619,
+        "std_ms": 0.112,
+        "per_token_ms": 3.164
+      },
+      "64": {
+        "mean_ms": 54.387,
+        "std_ms": 0.166,
+        "per_token_ms": 0.85
+      },
+      "128": {
+        "mean_ms": 62.523,
+        "std_ms": 0.092,
+        "per_token_ms": 0.488
+      },
+      "ratio_128_16": 1.235
+    },
+    "512": {
+      "16": {
+        "mean_ms": 54.04,
+        "std_ms": 0.292,
+        "per_token_ms": 3.378
+      },
+      "64": {
+        "mean_ms": 57.303,
+        "std_ms": 0.101,
+        "per_token_ms": 0.895
+      },
+      "128": {
+        "mean_ms": 66.259,
+        "std_ms": 0.2,
+        "per_token_ms": 0.518
+      },
+      "ratio_128_16": 1.226
+    },
+    "1024": {
+      "16": {
+        "mean_ms": 58.711,
+        "std_ms": 0.302,
+        "per_token_ms": 3.669
+      },
+      "64": {
+        "mean_ms": 62.375,
+        "std_ms": 0.118,
+        "per_token_ms": 0.975
+      },
+      "128": {
+        "mean_ms": 72.646,
+        "std_ms": 0.191,
+        "per_token_ms": 0.568
+      },
+      "ratio_128_16": 1.237
+    },
+    "2048": {
+      "16": {
+        "mean_ms": 68.998,
+        "std_ms": 0.303,
+        "per_token_ms": 4.312
+      },
+      "64": {
+        "mean_ms": 73.226,
+        "std_ms": 0.245,
+        "per_token_ms": 1.144
+      },
+      "128": {
+        "mean_ms": 85.413,
+        "std_ms": 0.247,
+        "per_token_ms": 0.667
+      },
+      "ratio_128_16": 1.238
+    }
+  },
+  "summary": {
+    "mean_ratio": 1.234,
+    "min_ratio": 1.226,
+    "max_ratio": 1.238,
+    "is_constant": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "metadata": {
+    "gpu": "NVIDIA RTX 2000 Ada Generation",
+    "pytorch_version": "2.4.1+cu124",
+    "model": "Qwen/Qwen3-4B",
+    "trials": 50,
+    "warmup": 10,
+    "dtype": "bfloat16",
+    "attn_implementation": "sdpa"
+  },
+  "context_lengths": [
+    256,
+    1024
+  ],
+  "k_values": [
+    16,
+    32,
+    48,
+    64,
+    80,
+    96,
+    112,
+    128
+  ],
+  "results": {
+    "256": {
+      "16": {
+        "mean_ms": 50.666,
+        "std_ms": 0.187,
+        "ratio": 1.0
+      },
+      "32": {
+        "mean_ms": 51.617,
+        "std_ms": 0.09,
+        "ratio": 1.02
+      },
+      "48": {
+        "mean_ms": 52.844,
+        "std_ms": 0.15,
+        "ratio": 1.04
+      },
+      "64": {
+        "mean_ms": 54.293,
+        "std_ms": 0.081,
+        "ratio": 1.07
+      },
+      "80": {
+        "mean_ms": 58.731,
+        "std_ms": 0.15,
+        "ratio": 1.16
+      },
+      "96": {
+        "mean_ms": 59.772,
+        "std_ms": 0.103,
+        "ratio": 1.18
+      },
+      "112": {
+        "mean_ms": 61.441,
+        "std_ms": 0.181,
+        "ratio": 1.21
+      },
+      "128": {
+        "mean_ms": 62.793,
+        "std_ms": 0.174,
+        "ratio": 1.24
+      }
+    },
+    "1024": {
+      "16": {
+        "mean_ms": 58.867,
+        "std_ms": 0.24,
+        "ratio": 1.0
+      },
+      "32": {
+        "mean_ms": 59.934,
+        "std_ms": 0.233,
+        "ratio": 1.02
+      },
+      "48": {
+        "mean_ms": 61.188,
+        "std_ms": 0.192,
+        "ratio": 1.04
+      },
+      "64": {
+        "mean_ms": 62.69,
+        "std_ms": 0.149,
+        "ratio": 1.06
+      },
+      "80": {
+        "mean_ms": 68.757,
+        "std_ms": 0.152,
+        "ratio": 1.17
+      },
+      "96": {
+        "mean_ms": 70.054,
+        "std_ms": 0.15,
+        "ratio": 1.19
+      },
+      "112": {
+        "mean_ms": 71.7,
+        "std_ms": 0.154,
+        "ratio": 1.22
+      },
+      "128": {
+        "mean_ms": 73.231,
+        "std_ms": 0.137,
+        "ratio": 1.24
+      }
+    }
+  }
+}
