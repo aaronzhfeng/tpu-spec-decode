@@ -4,23 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DFlash vs Autoregressive — Real-Time Inference Comparison</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #0f172a; color: #e2e8f0; padding: 24px;
-    min-height: 100vh;
+    background: #0f172a; color: #e2e8f0; padding: 20px;
+    height: 100vh; display: flex; flex-direction: column;
   }
-  h1 { text-align: center; font-size: 1.6em; margin-bottom: 6px; color: #f8fafc; }
-  .subtitle { text-align: center; color: #94a3b8; font-size: 0.9em; margin-bottom: 20px; }
-  .container { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; }
+  h1 { text-align: center; font-size: 1.5em; margin-bottom: 4px; color: #f8fafc; }
+  .subtitle { text-align: center; color: #94a3b8; font-size: 0.85em; margin-bottom: 12px; }
+  .container { display: flex; gap: 16px; max-width: 1400px; margin: 0 auto; flex: 1; min-height: 0; width: 100%; }
   .panel {
-    flex: 1; background: #1e293b; border-radius: 12px; padding: 20px;
-    border: 1px solid #334155; position: relative; min-height: 400px;
+    flex: 1; background: #1e293b; border-radius: 12px; padding: 16px;
+    border: 1px solid #334155; position: relative; display: flex; flex-direction: column;
+    overflow: hidden; min-height: 0;
   }
   .panel-header {
     display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #334155;
+    margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #334155;
+    flex-shrink: 0;
   }
   .panel-title { font-size: 1.1em; font-weight: 600; }
   .panel-title.ar { color: #94a3b8; }
@@ -32,46 +38,97 @@
   .stat-value.dflash { color: #22d3ee; }
   .stat-label { font-size: 0.7em; color: #64748b; text-transform: uppercase; }
   .output-area {
+    flex: 1; min-height: 0; overflow-y: auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 0.9em; line-height: 1.6;
+    padding-right: 4px;
+  }
+  .output-area::-webkit-scrollbar { width: 6px; }
+  .output-area::-webkit-scrollbar-track { background: #1e293b; }
+  .output-area::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+  /* Rendered markdown styling */
+  .output-area h1, .output-area h2, .output-area h3, .output-area h4 {
+    color: #f1f5f9; margin: 0.6em 0 0.3em;
+  }
+  .output-area h3 { font-size: 1.05em; }
+  .output-area p { margin: 0.4em 0; }
+  .output-area ul, .output-area ol { margin: 0.3em 0; padding-left: 1.5em; }
+  .output-area code {
+    background: #0f172a; padding: 1px 5px; border-radius: 4px;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace; font-size: 0.9em;
+  }
+  .output-area pre {
+    background: #0f172a; padding: 10px; border-radius: 6px; margin: 0.4em 0;
+    overflow-x: auto;
+  }
+  .output-area pre code { padding: 0; background: none; }
+  .output-area hr { border: none; border-top: 1px solid #334155; margin: 0.5em 0; }
+  .output-area .katex { font-size: 1em; }
+  .output-area .katex-display { margin: 0.5em 0; overflow-x: auto; }
+  .output-area strong { color: #f1f5f9; }
+  .streaming-text {
+    margin: 0; padding: 0; background: none; border: none;
     font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 0.9em; line-height: 1.7; min-height: 300px;
-    white-space: pre-wrap; word-break: break-word;
+    font-size: 0.92em; line-height: 1.6; white-space: pre-wrap; word-break: break-word;
+    color: #e2e8f0;
   }
-  .token { opacity: 0; transition: opacity 0.05s ease-in; }
-  .token.visible { opacity: 1; }
-  .token.burst { color: #34d399; }
-  .cursor {
+  .cursor-blink {
     display: inline-block; width: 2px; height: 1.1em;
-    background: #22d3ee; animation: blink 0.8s infinite; vertical-align: text-bottom;
+    animation: blink 0.8s infinite; vertical-align: text-bottom; margin-left: 1px;
   }
+  .cursor-blink.ar-c { background: #94a3b8; }
+  .cursor-blink.df-c { background: #22d3ee; }
   @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
   .progress-bar {
     height: 4px; background: #334155; border-radius: 2px;
-    margin-top: 16px; overflow: hidden;
+    margin-top: 12px; overflow: hidden; flex-shrink: 0;
   }
   .progress-fill { height: 100%; border-radius: 2px; transition: width 0.1s linear; width: 0%; }
   .progress-fill.ar { background: #64748b; }
   .progress-fill.dflash { background: #22d3ee; }
   .controls {
-    display: flex; justify-content: center; align-items: center;
-    gap: 12px; margin-top: 20px; max-width: 1200px; margin-left: auto; margin-right: auto;
+    display: flex; justify-content: center; align-items: center; flex-wrap: wrap;
+    gap: 10px; margin-top: 12px; max-width: 1400px; margin-left: auto; margin-right: auto;
+    flex-shrink: 0;
   }
   button {
     background: #334155; color: #e2e8f0; border: 1px solid #475569;
-    padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9em;
+    padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85em;
     transition: background 0.15s;
   }
   button:hover { background: #475569; }
   button.active { background: #0ea5e9; border-color: #0ea5e9; color: white; }
   .speed-group { display: flex; gap: 4px; }
-  .speed-btn { padding: 6px 12px; font-size: 0.8em; }
+  .speed-btn { padding: 5px 10px; font-size: 0.8em; }
+  select {
+    background: #334155; color: #e2e8f0; border: 1px solid #475569;
+    padding: 5px 10px; border-radius: 8px; font-size: 0.82em; cursor: pointer;
+  }
   .badge {
     display: inline-block; padding: 2px 8px; border-radius: 4px;
     font-size: 0.75em; font-weight: 600; margin-left: 8px;
   }
   .badge.speedup { background: #065f46; color: #34d399; }
   .info-row {
-    display: flex; justify-content: center; gap: 24px; margin-top: 12px;
-    color: #64748b; font-size: 0.8em; max-width: 1200px; margin-left: auto; margin-right: auto;
+    display: flex; justify-content: center; gap: 20px; margin-top: 8px;
+    color: #64748b; font-size: 0.75em; max-width: 1400px; margin-left: auto; margin-right: auto;
+    flex-shrink: 0;
+  }
+  .prompt-bar {
+    max-width: 1400px; margin: 10px auto 0; background: #1e293b; width: 100%;
+    border: 1px solid #334155; border-radius: 8px; padding: 8px 14px;
+    font-size: 0.78em; color: #94a3b8; max-height: 60px; overflow-y: auto;
+    white-space: pre-wrap; word-break: break-word; flex-shrink: 0;
+  }
+  .prompt-label { color: #64748b; font-weight: 600; margin-right: 8px; }
+  .time-display {
+    font-variant-numeric: tabular-nums; font-size: 0.85em; color: #94a3b8;
+    min-width: 70px; text-align: center;
+  }
+  .finished-overlay {
+    position: absolute; top: 8px; right: 8px; padding: 4px 10px;
+    background: #065f46; color: #34d399; border-radius: 6px;
+    font-size: 0.75em; font-weight: 600; display: none;
   }
 </style>
 </head>
@@ -82,6 +139,7 @@
 
 <div class="container">
   <div class="panel">
+    <div class="finished-overlay" id="ar-finished">DONE</div>
     <div class="panel-header">
       <span class="panel-title ar">Autoregressive (Baseline)</span>
       <div class="stats">
@@ -90,154 +148,188 @@
           <div class="stat-label">tok/s</div>
         </div>
         <div class="stat">
-          <div class="stat-value ar" id="ar-count">0</div>
-          <div class="stat-label">tokens</div>
+          <div class="stat-value ar" id="ar-count">0%</div>
+          <div class="stat-label">progress</div>
         </div>
       </div>
     </div>
-    <div class="output-area" id="ar-output"><span class="cursor" id="ar-cursor"></span></div>
+    <div class="output-area" id="ar-output"></div>
     <div class="progress-bar"><div class="progress-fill ar" id="ar-progress"></div></div>
   </div>
 
   <div class="panel">
+    <div class="finished-overlay" id="df-finished">DONE</div>
     <div class="panel-header">
-      <span class="panel-title dflash">DFlash<span class="badge speedup" id="speedup-badge">3.0x faster</span></span>
+      <span class="panel-title dflash">DFlash<span class="badge speedup" id="speedup-badge">--</span></span>
       <div class="stats">
         <div class="stat">
           <div class="stat-value dflash" id="df-tps">0</div>
           <div class="stat-label">tok/s</div>
         </div>
         <div class="stat">
-          <div class="stat-value dflash" id="df-count">0</div>
-          <div class="stat-label">tokens</div>
+          <div class="stat-value dflash" id="df-count">0%</div>
+          <div class="stat-label">progress</div>
         </div>
       </div>
     </div>
-    <div class="output-area" id="df-output"><span class="cursor" id="df-cursor"></span></div>
+    <div class="output-area" id="df-output"></div>
     <div class="progress-bar"><div class="progress-fill dflash" id="df-progress"></div></div>
   </div>
 </div>
 
 <div class="controls">
-  <button id="btn-play" class="active" onclick="togglePlay()">Play</button>
+  <button id="btn-play" onclick="togglePlay()">Play</button>
   <button id="btn-reset" onclick="resetDemo()">Reset</button>
+  <span class="time-display" id="time-display">0.0s</span>
   <div class="speed-group">
     <button class="speed-btn" data-speed="1" onclick="setSpeed(1, this)">1x</button>
     <button class="speed-btn active" data-speed="5" onclick="setSpeed(5, this)">5x</button>
     <button class="speed-btn" data-speed="20" onclick="setSpeed(20, this)">20x</button>
     <button class="speed-btn" data-speed="50" onclick="setSpeed(50, this)">50x</button>
   </div>
-  <select id="sample-select" onchange="changeSample()" style="background:#334155;color:#e2e8f0;border:1px solid #475569;padding:6px 12px;border-radius:8px;font-size:0.85em;">
-    <option value="0">GSM8K — Math Problem</option>
-    <option value="1">HumanEval — Code</option>
-    <option value="2">MT-Bench — Chat</option>
-  </select>
+  <select id="dataset-select" onchange="changeDataset()"></select>
+  <select id="sample-select" onchange="changeSample()"></select>
+</div>
+
+<div class="prompt-bar" id="prompt-bar">
+  <span class="prompt-label">Prompt:</span><span id="prompt-text">Loading...</span>
 </div>
 
 <div class="info-row">
   <span>Model: Qwen3-4B</span>
   <span>Draft: DFlash-b16</span>
   <span>Hardware: TPU v5p-8</span>
-  <span>Greedy decoding</span>
+  <span>Greedy (temp=0)</span>
+  <span id="tau-display">tau: --</span>
 </div>
 
 <script>
-// Demo text samples (representative outputs)
-const SAMPLES = [
-  {
-    name: "GSM8K",
-    text: "To solve this problem, let me work through it step by step.\n\nFirst, I need to find how many apples Janet picked on Monday. She picked 3 baskets with 12 apples each, so that's 3 × 12 = 36 apples.\n\nOn Tuesday, she picked 2 baskets with 15 apples each: 2 × 15 = 30 apples.\n\nThe total number of apples is 36 + 30 = 66 apples.\n\nShe gave 8 apples to her neighbor and 12 apples to her sister: 8 + 12 = 20 apples given away.\n\nRemaining apples: 66 - 20 = 46 apples.\n\nThe answer is 46.",
-    baseline_tpot_ms: 6.35,
-    dflash_tpot_ms: 2.12,
-    tau: 5.4,
-    speedup: 3.0,
-  },
-  {
-    name: "HumanEval",
-    text: "def has_close_elements(numbers, threshold):\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False\n\n# Alternative O(n log n) approach:\ndef has_close_elements_fast(numbers, threshold):\n    sorted_nums = sorted(numbers)\n    for i in range(len(sorted_nums) - 1):\n        if sorted_nums[i + 1] - sorted_nums[i] < threshold:\n            return True\n    return False",
-    baseline_tpot_ms: 6.31,
-    dflash_tpot_ms: 1.99,
-    tau: 5.76,
-    speedup: 3.17,
-  },
-  {
-    name: "MT-Bench",
-    text: "Here are some tips for improving your public speaking skills:\n\n1. Practice regularly with a mirror or record yourself\n2. Start with smaller audiences and gradually increase\n3. Focus on your breathing — slow, deep breaths help calm nerves\n4. Know your material well so you can speak naturally\n5. Make eye contact with different parts of the audience\n6. Use pauses effectively — silence can be powerful\n7. Tell stories to make your points more memorable\n\nThe most important thing is to practice consistently.",
-    baseline_tpot_ms: 6.27,
-    dflash_tpot_ms: 2.74,
-    tau: 3.87,
-    speedup: 2.29,
-  },
-];
+const DATASETS = ['aime24', 'aime25', 'math500', 'gsm8k', 'humaneval', 'mbpp', 'mt-bench', 'alpaca', 'swe-bench'];
+const DATASET_LABELS = {
+  'aime24': 'AIME 2024', 'aime25': 'AIME 2025', 'math500': 'MATH-500',
+  'gsm8k': 'GSM8K', 'humaneval': 'HumanEval', 'mbpp': 'MBPP',
+  'mt-bench': 'MT-Bench', 'alpaca': 'Alpaca', 'swe-bench': 'SWE-Bench'
+};
 
-let currentSample = 0;
+let replayData = {};
+let currentDataset = 'aime24';
+let currentSampleIdx = 0;
 let speed = 5;
 let playing = false;
-let arIndex = 0;
-let dfIndex = 0;
-let startTime = 0;
 let animFrameId = null;
-let tokens = [];
+let startTime = 0;
+let pausedElapsed = 0;
 
-function tokenize(text) {
-  // Simple whitespace-aware tokenization (approximate, for visualization)
-  const result = [];
-  let i = 0;
-  while (i < text.length) {
-    if (text[i] === '\n') {
-      result.push('\n');
-      i++;
-    } else if (text[i] === ' ') {
-      let word = ' ';
-      i++;
-      while (i < text.length && text[i] !== ' ' && text[i] !== '\n') {
-        word += text[i]; i++;
-      }
-      result.push(word);
-    } else {
-      let word = '';
-      while (i < text.length && text[i] !== ' ' && text[i] !== '\n') {
-        word += text[i]; i++;
-      }
-      result.push(word);
-    }
-  }
-  return result;
+// Current sample state
+let sampleData = null;
+let blText = '', dfText = '';
+let blTotalTime = 0, dfTotalTime = 0; // total generation time in ms
+let blCharsRevealed = 0, dfCharsRevealed = 0;
+let blDone = false, dfDone = false;
+
+// Show plain text during streaming, render markdown+LaTeX only when complete
+function renderStreaming(container, fullText, charCount, cursorClass) {
+  const partial = fullText.slice(0, charCount);
+  // Escape HTML, preserve newlines
+  const escaped = partial.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  container.innerHTML = '<pre class="streaming-text">' + escaped +
+    `<span class="cursor-blink ${cursorClass}"></span></pre>`;
+  container.scrollTop = container.scrollHeight;
 }
 
-function buildTokenSpans(containerId, cursorId, tokenList) {
-  const container = document.getElementById(containerId);
-  container.innerHTML = '';
-  const spans = [];
-  for (let i = 0; i < tokenList.length; i++) {
-    const span = document.createElement('span');
-    span.className = 'token';
-    span.textContent = tokenList[i];
-    container.appendChild(span);
-    spans.push(span);
+function renderFinal(container, fullText) {
+  let html;
+  try {
+    html = marked.parse(fullText, { breaks: true, gfm: true });
+  } catch (e) {
+    html = fullText.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
   }
-  const cursor = document.createElement('span');
-  cursor.className = 'cursor';
-  cursor.id = cursorId;
-  container.appendChild(cursor);
-  return spans;
+  container.innerHTML = html;
+  try {
+    renderMathInElement(container, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\[', right: '\\]', display: true},
+        {left: '\\(', right: '\\)', display: false},
+      ],
+      throwOnError: false,
+    });
+  } catch (e) {}
+  container.scrollTop = container.scrollHeight;
 }
 
-let arSpans = [], dfSpans = [];
+function populateDatasetSelect() {
+  const sel = document.getElementById('dataset-select');
+  sel.innerHTML = '';
+  for (const ds of DATASETS) {
+    const opt = document.createElement('option');
+    opt.value = ds;
+    opt.textContent = DATASET_LABELS[ds] || ds;
+    sel.appendChild(opt);
+  }
+  sel.value = currentDataset;
+}
+
+function populateSampleSelect() {
+  const sel = document.getElementById('sample-select');
+  sel.innerHTML = '';
+  const data = replayData[currentDataset];
+  if (!data) return;
+  data.samples.forEach((s, i) => {
+    const nTokens = s.baseline.num_output_tokens || 0;
+    const truncated = nTokens >= (data.config.max_new_tokens || 2048) ? ' [truncated]' : '';
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `Sample ${i + 1} (${nTokens} tok${truncated})`;
+    sel.appendChild(opt);
+  });
+  sel.value = currentSampleIdx;
+}
 
 function initSample() {
-  const s = SAMPLES[currentSample];
-  tokens = tokenize(s.text);
-  arSpans = buildTokenSpans('ar-output', 'ar-cursor', tokens);
-  dfSpans = buildTokenSpans('df-output', 'df-cursor', tokens);
-  arIndex = 0; dfIndex = 0;
-  document.getElementById('ar-tps').textContent = '0';
-  document.getElementById('df-tps').textContent = '0';
-  document.getElementById('ar-count').textContent = '0';
-  document.getElementById('df-count').textContent = '0';
+  pause();
+  const data = replayData[currentDataset];
+  if (!data || !data.samples.length) return;
+
+  sampleData = data.samples[currentSampleIdx];
+  const bl = sampleData.baseline;
+  const df = sampleData.dflash;
+
+  blText = bl.text || '';
+  dfText = df.text || '';
+  blTotalTime = bl.total_time_ms;
+  dfTotalTime = df.total_time_ms;
+  blCharsRevealed = 0;
+  dfCharsRevealed = 0;
+  blDone = false;
+  dfDone = false;
+  pausedElapsed = 0;
+
+  // Clear outputs
+  document.getElementById('ar-output').innerHTML = '<span class="cursor-blink ar-c"></span>';
+  document.getElementById('df-output').innerHTML = '<span class="cursor-blink df-c"></span>';
+
+  // Update UI
+  document.getElementById('ar-tps').textContent = Math.round(bl.tps);
+  document.getElementById('df-tps').textContent = Math.round(df.tps);
+  document.getElementById('ar-count').textContent = '0%';
+  document.getElementById('df-count').textContent = '0%';
   document.getElementById('ar-progress').style.width = '0%';
   document.getElementById('df-progress').style.width = '0%';
-  document.getElementById('speedup-badge').textContent = s.speedup.toFixed(1) + 'x faster';
+  document.getElementById('ar-finished').style.display = 'none';
+  document.getElementById('df-finished').style.display = 'none';
+  document.getElementById('speedup-badge').textContent =
+    sampleData.speedup.toFixed(1) + 'x faster';
+  document.getElementById('tau-display').textContent =
+    `tau: ${df.tau.toFixed(1)}`;
+  document.getElementById('time-display').textContent = '0.0s';
+  document.getElementById('btn-play').textContent = 'Play';
+
+  // Prompt
+  const promptText = sampleData.prompt_text || '';
+  document.getElementById('prompt-text').textContent =
+    promptText.length > 300 ? promptText.slice(0, 300) + '...' : promptText;
 }
 
 function togglePlay() {
@@ -248,78 +340,98 @@ function play() {
   playing = true;
   document.getElementById('btn-play').textContent = 'Pause';
   document.getElementById('btn-play').classList.add('active');
-  startTime = performance.now();
+  startTime = performance.now() - (pausedElapsed / speed);
   animate();
 }
 
 function pause() {
   playing = false;
   document.getElementById('btn-play').textContent = 'Play';
+  document.getElementById('btn-play').classList.remove('active');
   if (animFrameId) cancelAnimationFrame(animFrameId);
 }
 
-function resetDemo() {
-  pause();
-  initSample();
-}
+function resetDemo() { initSample(); }
 
 function setSpeed(s, btn) {
+  if (playing) {
+    pausedElapsed = (performance.now() - startTime) * speed;
+  }
   speed = s;
+  if (playing) {
+    startTime = performance.now() - (pausedElapsed / speed);
+  }
   document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
 
-function changeSample() {
-  currentSample = parseInt(document.getElementById('sample-select').value);
-  resetDemo();
+function changeDataset() {
+  currentDataset = document.getElementById('dataset-select').value;
+  currentSampleIdx = 0;
+  loadDataset(currentDataset).then(() => {
+    populateSampleSelect();
+    initSample();
+  });
 }
+
+function changeSample() {
+  currentSampleIdx = parseInt(document.getElementById('sample-select').value);
+  initSample();
+}
+
+// Throttle rendering to avoid excessive DOM updates
+let lastBlRender = 0, lastDfRender = 0;
 
 function animate() {
   if (!playing) return;
-  const s = SAMPLES[currentSample];
-  const elapsed = (performance.now() - startTime) * speed; // ms in simulated time
-  const total = tokens.length;
+  const elapsed = (performance.now() - startTime) * speed;
+  pausedElapsed = elapsed;
 
-  // AR: one token every baseline_tpot_ms
-  const arTarget = Math.min(Math.floor(elapsed / s.baseline_tpot_ms), total);
-  while (arIndex < arTarget) {
-    arSpans[arIndex].classList.add('visible');
-    arIndex++;
+  // --- Baseline: linear character reveal based on total time ---
+  const blProgress = Math.min(elapsed / blTotalTime, 1);
+  const blCharTarget = Math.floor(blProgress * blText.length);
+  if (blCharTarget > blCharsRevealed) {
+    blCharsRevealed = blCharTarget;
+    const now = performance.now();
+    if (now - lastBlRender > 50) {
+      renderStreaming(document.getElementById('ar-output'), blText, blCharsRevealed, 'ar-c');
+      lastBlRender = now;
+    }
   }
 
-  // DFlash: tokens arrive in bursts. Every ~step_time, tau tokens appear.
-  // step_time ~ dflash_tpot_ms * tau (time for one spec decode step)
-  const stepTime = s.dflash_tpot_ms * s.tau;
-  const stepsElapsed = Math.floor(elapsed / stepTime);
-  const dfTarget = Math.min(Math.floor(stepsElapsed * s.tau), total);
-  while (dfIndex < dfTarget) {
-    dfSpans[dfIndex].classList.add('visible');
-    dfSpans[dfIndex].classList.add('burst');
-    dfIndex++;
+  // --- DFlash: character reveal proportional to step progress ---
+  const dfProgress = Math.min(elapsed / dfTotalTime, 1);
+  const dfCharTarget = Math.floor(dfProgress * dfText.length);
+  if (dfCharTarget > dfCharsRevealed) {
+    dfCharsRevealed = dfCharTarget;
+    const now = performance.now();
+    if (now - lastDfRender > 50) {
+      renderStreaming(document.getElementById('df-output'), dfText, dfCharsRevealed, 'df-c');
+      lastDfRender = now;
+    }
   }
 
-  // Update stats
+  // --- Update stats ---
   const elapsedSec = elapsed / 1000;
-  if (elapsedSec > 0.01) {
-    document.getElementById('ar-tps').textContent = Math.round(arIndex / elapsedSec);
-    document.getElementById('df-tps').textContent = Math.round(dfIndex / elapsedSec);
-  }
-  document.getElementById('ar-count').textContent = arIndex;
-  document.getElementById('df-count').textContent = dfIndex;
-  document.getElementById('ar-progress').style.width = (arIndex / total * 100) + '%';
-  document.getElementById('df-progress').style.width = (dfIndex / total * 100) + '%';
+  document.getElementById('time-display').textContent = elapsedSec.toFixed(1) + 's';
+  document.getElementById('ar-count').textContent = Math.round(blProgress * 100) + '%';
+  document.getElementById('df-count').textContent = Math.round(dfProgress * 100) + '%';
+  document.getElementById('ar-progress').style.width = (blProgress * 100) + '%';
+  document.getElementById('df-progress').style.width = (dfProgress * 100) + '%';
 
-  // Move cursors
-  if (arIndex < total) {
-    arSpans[arIndex].parentNode.insertBefore(
-      document.getElementById('ar-cursor'), arSpans[arIndex]);
+  // --- Finished indicators ---
+  if (blProgress >= 1 && !blDone) {
+    blDone = true;
+    document.getElementById('ar-finished').style.display = 'block';
+    renderFinal(document.getElementById('ar-output'), blText);
   }
-  if (dfIndex < total) {
-    dfSpans[dfIndex].parentNode.insertBefore(
-      document.getElementById('df-cursor'), dfSpans[dfIndex]);
+  if (dfProgress >= 1 && !dfDone) {
+    dfDone = true;
+    document.getElementById('df-finished').style.display = 'block';
+    renderFinal(document.getElementById('df-output'), dfText);
   }
 
-  if (arIndex >= total && dfIndex >= total) {
+  if (blDone && dfDone) {
     pause();
     document.getElementById('btn-play').textContent = 'Done';
     return;
@@ -328,8 +440,24 @@ function animate() {
   animFrameId = requestAnimationFrame(animate);
 }
 
-// Init
-initSample();
+async function loadDataset(name) {
+  if (replayData[name]) return;
+  try {
+    const resp = await fetch(`../output/replay/replay_${name}.json`);
+    replayData[name] = await resp.json();
+  } catch (e) {
+    console.error(`Failed to load ${name}:`, e);
+  }
+}
+
+async function init() {
+  populateDatasetSelect();
+  await loadDataset(currentDataset);
+  populateSampleSelect();
+  initSample();
+}
+
+init();
 </script>
 </body>
 </html>
