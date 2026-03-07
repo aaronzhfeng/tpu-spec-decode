@@ -30,7 +30,7 @@ source "$VENV_DIR/bin/activate"
 echo "Installing PyTorch + dependencies..."
 pip install --quiet --upgrade pip
 pip install --quiet torch --index-url https://download.pytorch.org/whl/cu124
-pip install --quiet transformers accelerate huggingface-hub
+pip install --quiet transformers accelerate huggingface-hub datasets
 
 # 4. Verify CUDA is accessible from PyTorch
 echo ""

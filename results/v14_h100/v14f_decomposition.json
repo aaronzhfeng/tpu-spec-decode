@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "model": "Qwen/Qwen3-4B",
+    "cuda": "12.4",
+    "pytorch": "2.6.0+cu124",
+    "trials": 20,
+    "warmup": 5
+  },
+  "experiments": {
+    "L=256_K=16": {
+      "context_length": 256,
+      "K": 16,
+      "full_ms": 25.21,
+      "full_std": 1.099,
+      "attn_ms": 14.327,
+      "attn_pct": 56.8,
+      "ffn_ms": 4.191,
+      "ffn_pct": 16.6,
+      "other_ms": 6.693,
+      "other_pct": 26.5
+    },
+    "L=256_K=128": {
+      "context_length": 256,
+      "K": 128,
+      "full_ms": 26.631,
+      "full_std": 2.782,
+      "attn_ms": 15.393,
+      "attn_pct": 57.8,
+      "ffn_ms": 4.31,
+      "ffn_pct": 16.2,
+      "other_ms": 6.927,
+      "other_pct": 26.0
+    },
+    "L=1024_K=16": {
+      "context_length": 1024,
+      "K": 16,
+      "full_ms": 27.54,
+      "full_std": 0.833,
+      "attn_ms": 15.985,
+      "attn_pct": 58.0,
+      "ffn_ms": 4.418,
+      "ffn_pct": 16.0,
+      "other_ms": 7.138,
+      "other_pct": 25.9
+    },
+    "L=1024_K=128": {
+      "context_length": 1024,
+      "K": 128,
+      "full_ms": 28.627,
+      "full_std": 0.985,
+      "attn_ms": 16.931,
+      "attn_pct": 59.1,
+      "ffn_ms": 4.409,
+      "ffn_pct": 15.4,
+      "other_ms": 7.287,
+      "other_pct": 25.5
+    },
+    "blended_L=256": {
+      "ffn_frac": 0.166,
+      "attn_frac": 0.568,
+      "other_frac": 0.265,
+      "ffn_ratio": 1.028,
+      "attn_ratio": 1.074,
+      "other_ratio": 1.035,
+      "blended": 1.056,
+      "measured": 1.056
+    },
+    "blended_L=1024": {
+      "ffn_frac": 0.16,
+      "attn_frac": 0.58,
+      "other_frac": 0.259,
+      "ffn_ratio": 0.998,
+      "attn_ratio": 1.059,
+      "other_ratio": 1.021,
+      "blended": 1.039,
+      "measured": 1.039
+    }
+  }
+}

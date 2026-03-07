@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "pytorch_version": "2.6.0+cu124",
+    "model": "Qwen/Qwen3-4B",
+    "trials": 50,
+    "warmup": 10,
+    "dtype": "bfloat16",
+    "attn_implementation": "sdpa"
+  },
+  "context_lengths": [
+    64,
+    256,
+    512,
+    1024
+  ],
+  "k_values": [
+    16,
+    128
+  ],
+  "results": {
+    "64": {
+      "16": {
+        "mean_ms": 19.867,
+        "std_ms": 0.848,
+        "ratio": 1.0
+      },
+      "128": {
+        "mean_ms": 20.492,
+        "std_ms": 0.906,
+        "ratio": 1.03
+      }
+    },
+    "256": {
+      "16": {
+        "mean_ms": 20.135,
+        "std_ms": 1.049,
+        "ratio": 1.0
+      },
+      "128": {
+        "mean_ms": 20.202,
+        "std_ms": 0.949,
+        "ratio": 1.0
+      }
+    },
+    "512": {
+      "16": {
+        "mean_ms": 19.78,
+        "std_ms": 0.984,
+        "ratio": 1.0
+      },
+      "128": {
+        "mean_ms": 20.479,
+        "std_ms": 1.143,
+        "ratio": 1.04
+      }
+    },
+    "1024": {
+      "16": {
+        "mean_ms": 19.9,
+        "std_ms": 0.928,
+        "ratio": 1.0
+      },
+      "128": {
+        "mean_ms": 20.181,
+        "std_ms": 0.979,
+        "ratio": 1.01
+      }
+    }
+  }
+}

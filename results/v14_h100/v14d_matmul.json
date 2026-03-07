@@ -1,0 +1,191 @@
+{
+  "part1_dflash": [
+    {
+      "K": 16,
+      "per_layer_ms": 0.09,
+      "std_ms": 0.001,
+      "full_model_ms": 0.451,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "per_layer_ms": 0.088,
+      "std_ms": 0.001,
+      "full_model_ms": 0.441,
+      "ratio": 0.98
+    },
+    {
+      "K": 64,
+      "per_layer_ms": 0.086,
+      "std_ms": 0.001,
+      "full_model_ms": 0.432,
+      "ratio": 0.96
+    },
+    {
+      "K": 128,
+      "per_layer_ms": 0.092,
+      "std_ms": 0.002,
+      "full_model_ms": 0.458,
+      "ratio": 1.02
+    }
+  ],
+  "part2_target": [
+    {
+      "K": 16,
+      "per_layer_ms": 0.09,
+      "std_ms": 0.001,
+      "full_model_ms": 3.247,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "per_layer_ms": 0.089,
+      "std_ms": 0.0,
+      "full_model_ms": 3.206,
+      "ratio": 0.99
+    },
+    {
+      "K": 64,
+      "per_layer_ms": 0.086,
+      "std_ms": 0.001,
+      "full_model_ms": 3.109,
+      "ratio": 0.96
+    },
+    {
+      "K": 128,
+      "per_layer_ms": 0.091,
+      "std_ms": 0.001,
+      "full_model_ms": 3.284,
+      "ratio": 1.01
+    }
+  ],
+  "part3_attention": {
+    "64": [
+      {
+        "K": 16,
+        "mean_ms": 0.015,
+        "std_ms": 0.0,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.015,
+        "std_ms": 0.0,
+        "ratio": 1.01
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.015,
+        "std_ms": 0.001,
+        "ratio": 1.01
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.016,
+        "std_ms": 0.0,
+        "ratio": 1.03
+      }
+    ],
+    "256": [
+      {
+        "K": 16,
+        "mean_ms": 0.016,
+        "std_ms": 0.001,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.016,
+        "std_ms": 0.0,
+        "ratio": 0.99
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.017,
+        "std_ms": 0.002,
+        "ratio": 1.11
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.018,
+        "std_ms": 0.001,
+        "ratio": 1.14
+      }
+    ],
+    "512": [
+      {
+        "K": 16,
+        "mean_ms": 0.017,
+        "std_ms": 0.0,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.017,
+        "std_ms": 0.0,
+        "ratio": 1.02
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.019,
+        "std_ms": 0.0,
+        "ratio": 1.13
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.02,
+        "std_ms": 0.005,
+        "ratio": 1.2
+      }
+    ],
+    "1024": [
+      {
+        "K": 16,
+        "mean_ms": 0.019,
+        "std_ms": 0.001,
+        "ratio": 1.0
+      },
+      {
+        "K": 32,
+        "mean_ms": 0.019,
+        "std_ms": 0.0,
+        "ratio": 1.0
+      },
+      {
+        "K": 64,
+        "mean_ms": 0.019,
+        "std_ms": 0.0,
+        "ratio": 0.99
+      },
+      {
+        "K": 128,
+        "mean_ms": 0.02,
+        "std_ms": 0.001,
+        "ratio": 1.08
+      }
+    ]
+  },
+  "metadata": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "cuda_version": "12.4",
+    "pytorch_version": "2.6.0+cu124",
+    "trials": 20,
+    "warmup": 5,
+    "dtype": "bfloat16",
+    "draft_hidden": 2560,
+    "draft_intermediate": 9728,
+    "draft_layers": 5,
+    "target_hidden": 2560,
+    "target_intermediate": 9728,
+    "target_layers": 36,
+    "num_heads": 32,
+    "head_dim": 80,
+    "tpu_reference": {
+      "device": "TPU v4-8",
+      "dflash_128_ratio": 0.95,
+      "target_128_ratio": 0.96,
+      "attention_128_ratio_kv256": 0.97,
+      "source": "Doc 37 (benchmarks/drafter_scaling.py)"
+    }
+  }
+}

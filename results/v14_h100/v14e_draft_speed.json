@@ -1,0 +1,43 @@
+{
+  "single_pass": [
+    {
+      "K": 16,
+      "mean_ms": 2.816,
+      "std_ms": 0.139,
+      "ratio": 1.0
+    },
+    {
+      "K": 32,
+      "mean_ms": 2.785,
+      "std_ms": 0.038,
+      "ratio": 0.99
+    },
+    {
+      "K": 64,
+      "mean_ms": 2.868,
+      "std_ms": 0.167,
+      "ratio": 1.02
+    },
+    {
+      "K": 128,
+      "mean_ms": 2.877,
+      "std_ms": 0.041,
+      "ratio": 1.02
+    }
+  ],
+  "practical": {
+    "8x_k16_ms": 22.046,
+    "8x_k16_std": 0.898,
+    "1x_k128_ms": 2.942,
+    "1x_k128_std": 0.172,
+    "speedup": 7.49
+  },
+  "metadata": {
+    "gpu": "NVIDIA H100 80GB HBM3",
+    "pytorch_version": "2.6.0+cu124",
+    "model": "z-lab/Qwen3-4B-DFlash-b16",
+    "trials": 50,
+    "warmup": 20,
+    "dtype": "bfloat16"
+  }
+}
