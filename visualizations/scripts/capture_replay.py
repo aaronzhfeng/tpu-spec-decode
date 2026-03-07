@@ -106,7 +106,9 @@ def postprocess_to_replay(raw_json_path, dataset):
             df_steps = []
 
         samples.append({
+            "prompt_text": s.get("prompt_text", ""),
             "baseline": {
+                "text": s.get("baseline_text", ""),
                 "token_timestamps_ms": bl_timestamps,
                 "num_output_tokens": n_bl,
                 "tpot_ms": round(bl_tpot, 3),
@@ -114,6 +116,7 @@ def postprocess_to_replay(raw_json_path, dataset):
                 "total_time_ms": round(bl_tpot * n_bl, 3),
             },
             "dflash": {
+                "text": s.get("dflash_text", ""),
                 "step_timestamps": df_steps,
                 "acceptance_lengths": [int(a) for a in acceptance],
                 "num_output_tokens": n_df,

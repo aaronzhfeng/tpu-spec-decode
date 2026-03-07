@@ -6,7 +6,7 @@
     "block_size": 16,
     "max_new_tokens": 2048,
     "num_samples": 4,
-    "captured_at": "2026-03-07 09:58:10"
+    "captured_at": "2026-03-07 10:15:05"
   },
   "summary": {
     "baseline_tpot_ms": 6.827834811265884,
@@ -56,7 +56,9 @@
   },
   "samples": [
     {
+      "prompt_text": "user\nWrite a python function to find whether a number is divisible by 11.\nassistant\n<think>\n\n</think>\n\n",
       "baseline": {
+        "text": "Sure! Here's a Python function to check whether a number is divisible by 11:\n\n```python\ndef is_divisible_by_11(n):\n    \"\"\"\n    Check if a number is divisible by 11.\n\n    Parameters:\n    n (int): The number to check.\n\n    Returns:\n    bool: True if the number is divisible by 11, False otherwise.\n    \"\"\"\n    return n % 11 == 0\n```\n\n### How it works:\nThe function uses the modulus operator `%` to check if the remainder when dividing `n` by 11 is zero. If it is, then `n` is divisible by 11.\n\n### Example usage:\n```python\nprint(is_divisible_by_11(22))  # Output: True\nprint(is_divisible_by_11(12))  # Output: False\n```\n\nLet me know if you'd like a version that works with strings (like checking divisibility by 11 using the alternating sum method).",
         "token_timestamps_ms": [
           0.0,
           6.792,
@@ -278,6 +280,7 @@
         "total_time_ms": 1446.635
       },
       "dflash": {
+        "text": "Sure! Here's a Python function to check whether a number is divisible by 11:\n\n```python\ndef is_divisible_by_11(n):\n    \"\"\"\n    Check if a number is divisible by 11.\n\n    Parameters:\n    n (int): The number to check.\n\n    Returns:\n    bool: True if the number is divisible by 11, False otherwise.\n    \"\"\"\n    return n % 11 == 0\n```\n\n### How it works:\nThe function uses the modulus operator `%` to check if the remainder when dividing by 11 is zero. If it is, the number is divisible by 11.\n\n### Example usage:\n```python\nprint(is_divisible_by_11(22))  # Output: True\nprint(is_divisible_by_11(123)) # Output: False\n```\n\nLet me know if you'd like a version that works with strings (e.g., for checking divisibility of a number represented as a string).",
         "step_timestamps": [
           {
             "ms": 15.972,
@@ -457,7 +460,9 @@
       "needs_text": true
     },
     {
+      "prompt_text": "user\nWrite a python function to get the first element of each sublist.\nassistant\n<think>\n\n</think>\n\n",
       "baseline": {
+        "text": "Sure! Here's a Python function that takes a list of lists (sublists) and returns the first element of each sublist:\n\n```python\ndef get_first_elements(sublists):\n    return [sublist[0] for sublist in sublists]\n```\n\n### Example usage:\n\n```python\nlists = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]\nresult = get_first_elements(lists)\nprint(result)  # Output: [1, 4, 6]\n```\n\n### Notes:\n- This function assumes that each sublist is non-empty. If any sublist is empty, it will raise an `IndexError`.\n- If you want to handle empty sublists gracefully, you can add a check for that. Let me know if you'd like a version with error handling.",
         "token_timestamps_ms": [
           0.0,
           6.744,
@@ -641,6 +646,7 @@
         "total_time_ms": 1180.12
       },
       "dflash": {
+        "text": "Sure! Here's a Python function that takes a list of lists (sublists) and returns the first element of each sublist:\n\n```python\ndef get_first_elements(sublists):\n    return [sublist[0] for sublist in sublists]\n```\n\n### Example usage:\n\n```python\nlists = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]\nresult = get_first_elements(lists)\nprint(result)  # Output: [1, 4, 6]\n```\n\n### Notes:\n- This function assumes that each sublist is non-empty. If any sublist is empty, it will raise an `IndexError`.\n- If you want to handle empty sublists gracefully, you can add a check for that. Let me know if you'd like a version with error handling.",
         "step_timestamps": [
           {
             "ms": 14.369,
@@ -805,7 +811,9 @@
       "needs_text": true
     },
     {
+      "prompt_text": "user\nWrite a python function to find the first non-repeated character in a given string.\nassistant\n<think>\n\n</think>\n\n",
       "baseline": {
+        "text": "Sure! Here's a Python function that finds the **first non-repeated character** in a given string:\n\n```python\ndef first_non_repeated_char(s):\n    # Create a dictionary to store the frequency of each character\n    frequency = {}\n\n    # First pass: count the frequency of each character\n    for char in s:\n        frequency[char] = frequency.get(char, 0) + 1\n\n    # Second pass: find the first character with frequency 1\n    for char in s:\n        if frequency[char] == 1:\n            return char\n\n    # If no non-repeated character is found, return None\n    return None\n```\n\n### Example Usage:\n\n```python\nprint(first_non_repeated_char(\"swimsuit\"))  # Output: 's'\nprint(first_non_repeated_char(\"aabbcc\"))   # Output: None\nprint(first_non_repeated_char(\"hello\"))    # Output: 'h'\n```\n\n### Explanation:\n- The function first counts how many times each character appears in the string.\n- Then it iterates through the string again and returns the first character that appears exactly once.\n\nLet me know if you want a version that returns the index or handles case sensitivity!",
         "token_timestamps_ms": [
           0.0,
           6.982,
@@ -1066,6 +1074,7 @@
         "total_time_ms": 1759.573
       },
       "dflash": {
+        "text": "Sure! Here's a Python function that finds the **first non-repeated character** in a given string:\n\n```python\ndef first_non_repeated_char(s):\n    # Create a dictionary to store the frequency of each character\n    freq = {}\n\n    # First pass: count the frequency of each character\n    for char in s:\n        freq[char] = freq.get(char, 0) + 1\n\n    # Second pass: find the first character with frequency 1\n    for char in s:\n        if freq[char] == 1:\n            return char\n\n    # If no non-repeated character is found, return None\n    return None\n```\n\n### Example Usage:\n\n```python\nprint(first_non_repeated_char(\"swimsuit\"))  # Output: 's'\nprint(first_non_repeated_char(\"aabbcc\"))   # Output: None\nprint(first_non_repeated_char(\"hello\"))    # Output: 'h'\n```\n\n### Explanation:\n- The function first counts the frequency of each character using a dictionary.\n- Then, it iterates through the string again and returns the first character that has a frequency of 1.\n- If no such character exists, it returns `None`.\n\nLet me know if you want a version that returns the index or handles case sensitivity!",
         "step_timestamps": [
           {
             "ms": 33.876,
@@ -1240,7 +1249,9 @@
       "needs_text": true
     },
     {
+      "prompt_text": "user\nWrite a function to count the number of occurrences of a number in a given list.\nassistant\n<think>\n\n</think>\n\n",
       "baseline": {
+        "text": "Sure! Here's a simple Python function that counts the number of times a number appears in a list:\n\n```python\ndef count_occurrences(numbers, target):\n    \"\"\"\n    Count the number of occurrences of a target number in a list.\n\n    Parameters:\n    numbers (list): The list of numbers to search through.\n    target (int or float): The number to count.\n\n    Returns:\n    int: The count of the target number in the list.\n    \"\"\"\n    return numbers.count(target)\n```\n\n### Example Usage:\n\n```python\nnumbers = [1, 2, 3, 2, 4, 2, 5]\ntarget = 2\nprint(count_occurrences(numbers, target))  # Output: 3\n```\n\nThis function uses Python's built-in `list.count()` method for simplicity and efficiency. Let me know if you want a version that doesn't use built-in methods!",
         "token_timestamps_ms": [
           0.0,
           6.794,
@@ -1437,6 +1448,7 @@
         "total_time_ms": 1277.206
       },
       "dflash": {
+        "text": "Sure! Here's a simple Python function that counts the number of occurrences of a number in a given list:\n\n```python\ndef count_occurrences(numbers, target):\n    \"\"\"\n    Count the number of times a target number appears in a list.\n\n    Parameters:\n    numbers (list): The list of numbers to search through.\n    target (int or float): The number to count occurrences of.\n\n    Returns:\n    int: The count of occurrences of the target number in the list.\n    \"\"\"\n    return numbers.count(target)\n```\n\n### Example Usage:\n\n```python\nnumbers = [1, 2, 3, 2, 4, 2, 5]\ntarget = 2\nprint(count_occurrences(numbers, target))  # Output: 3\n```\n\nThis function uses Python's built-in `list.count()` method for simplicity and efficiency. Let me know if you want a version that doesn't use built-in methods!",
         "step_timestamps": [
           {
             "ms": 12.136,
