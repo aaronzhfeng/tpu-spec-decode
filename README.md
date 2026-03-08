@@ -7,26 +7,52 @@ Research repo for porting and extending DFlash speculative decoding on TPU v4/v5
 
 ---
 
-## Quick Start (fresh TPU VM)
+## Fresh Clone Setup
 
-After SSH-ing into a new TPU node, run the one-shot bootstrap:
+### TPU v5p (recommended)
 
-```bash
-export ROOT_TPU_INF_BRANCH=dflash-integration
-export HF_TOKEN=hf_xxxxxxxxxxxx   # optional
-
-bash <(curl -fsSL https://raw.githubusercontent.com/aaronzhfeng/tpu-spec-decode/main/preparation/bootstrap.sh)
-```
-
-Or clone first, then bootstrap:
+After SSH-ing into a v5p TPU node:
 
 ```bash
 git clone --recurse-submodules https://github.com/aaronzhfeng/tpu-spec-decode.git
 cd tpu-spec-decode
-bash preparation/bootstrap.sh
 ```
 
-See `preparation/NEW_ENVIRONMENT_SETUP.md` for the full GCP + TPU provisioning runbook.
+**Option A — Host setup (bare-metal venv):**
+
+```bash
+bash preparation/setup_v5p_safe.sh
+```
+
+(V5p uses pr-ready/pr and pr-ready/vllm-lkg for Flax 0.12+ compatibility.)
+
+This creates `~/venv`, installs JAX (<0.7 for Python 3.10), clones `tpu-inference` and `vllm`, installs dependencies, and runs smoke tests. Then:
+
+```bash
+source ~/venv/bin/activate
+bash preparation/run_dflash_acceptance_smoke.sh host
+```
+
+**Option B — Docker-based verification:**
+
+```bash
+bash preparation/clone_repos.sh
+bash tests/verify_all_wrappers.sh v5p --quick
+```
+
+(v5p uses pr-ready/pr and pr-ready/vllm-lkg; do not use --skip-pr when cloning.)
+
+**Running scripts directly on v5p:** The Docker-based scripts (`standalone_benchmark.sh`, `smoke.sh`, etc.) use `FLAX_VERSION` from the environment; the default 0.11.1 is for v4. On v5p, set before running:
+```bash
+export FLAX_VERSION=0.12.4
+bash tests/standalone_benchmark.sh
+```
+
+See `preparation/V5P_SETUP_MANUAL.md` for troubleshooting and alternatives.
+
+### TPU v4 (placeholder)
+
+*Coming soon.* v4 uses Flax 0.11.1 and Docker-based runs. Set `FLAX_VERSION=0.11.1` when using v4.
 
 ---
 

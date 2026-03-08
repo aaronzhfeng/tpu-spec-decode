@@ -195,18 +195,21 @@ if [[ "${SKIP_PR}" != "1" ]]; then
   # dflash — working branch copy
   clone_if_missing "${PR_DIR}/dflash" "${PR_TPU_INF_REPO}" "dflash-integration"
 
-  # pr — clean PR branch (based on upstream/main with DFlash commits)
-  clone_if_missing "${PR_DIR}/pr" "${PR_TPU_INF_REPO}" "main"
+  # pr — DFlash PR branch (Flax 0.12+ compatible, used for v5p)
+  clone_or_checkout_branch "${PR_DIR}/pr" "${PR_TPU_INF_REPO}" "pr/dflash"
   if ! git -C "${PR_DIR}/pr" remote get-url upstream >/dev/null 2>&1; then
     git -C "${PR_DIR}/pr" remote add upstream "${UPSTREAM_TPU_INF_REPO}"
   fi
-  # Create pr/dflash branch if it doesn't exist locally
-  if ! git -C "${PR_DIR}/pr" rev-parse --verify "refs/heads/pr/dflash" >/dev/null 2>&1; then
-    echo "[INFO] Fetching upstream and creating pr/dflash branch"
-    git -C "${PR_DIR}/pr" fetch upstream >/dev/null 2>&1 || true
-    git -C "${PR_DIR}/pr" checkout -b pr/dflash upstream/main 2>/dev/null || true
+
+  # vllm-lkg — vLLM at known-good commit for v5p (matches tpu-inference pr/dflash)
+  if [[ ! -d "${PR_DIR}/vllm-lkg/.git" ]]; then
+    echo "[INFO] Cloning vllm for v5p (vllm-lkg at ${VLLM_LKG_COMMIT:0:8})"
+    git clone "${ROOT_VLLM_REPO}" "${PR_DIR}/vllm-lkg"
+    git -C "${PR_DIR}/vllm-lkg" fetch origin "${VLLM_LKG_COMMIT}" 2>/dev/null || true
+    git -C "${PR_DIR}/vllm-lkg" checkout "${VLLM_LKG_COMMIT}"
   else
-    git -C "${PR_DIR}/pr" checkout pr/dflash 2>/dev/null || true
+    git -C "${PR_DIR}/vllm-lkg" fetch origin "${VLLM_LKG_COMMIT}" 2>/dev/null || true
+    git -C "${PR_DIR}/vllm-lkg" checkout "${VLLM_LKG_COMMIT}" 2>/dev/null || true
   fi
 else
   echo ""
@@ -263,7 +266,8 @@ if [[ "${SKIP_PR}" != "1" ]]; then
 echo "PR-ready:"
 echo "  pr-ready/main/      main (synced with upstream)"
 echo "  pr-ready/dflash/    dflash-integration"
-echo "  pr-ready/pr/        pr/dflash (clean PR branch)"
+echo "  pr-ready/pr/        pr/dflash (Flax 0.12+, for v5p)"
+echo "  pr-ready/vllm-lkg/  vLLM at ${VLLM_LKG_COMMIT:0:8} (for v5p)"
 echo ""
 fi
 echo "dflash-wide/          ${DFLASH_WIDE_BRANCH}"

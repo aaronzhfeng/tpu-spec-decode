@@ -6,6 +6,9 @@
 #   bash tests/standalone_benchmark.sh --max-samples 8  # Override args
 #
 # All extra args are passed through to standalone_dflash.py.
+#
+# Flax: Docker image default is 0.11.1 (v4). For v5p (nnx.List), set before running:
+#   FLAX_VERSION=0.12.4 bash tests/standalone_benchmark.sh
 
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/docker_run.sh"

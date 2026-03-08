@@ -7,6 +7,11 @@
 #   docker_exec_script tests/lib/some_script.py
 #
 # All repo paths, HF cache, and output dirs are automatically mounted.
+#
+# PYTHONPATH: Use TPU_INFERENCE_DIR and VLLM_DIR (default: root tpu-inference, vllm).
+# For v5p with pr-ready: export TPU_INFERENCE_DIR=.../pr-ready/pr VLLM_DIR=.../pr-ready/vllm-lkg
+#
+# Flax: v4 uses 0.11.1 (default); v5p uses 0.12.4. Set FLAX_VERSION before running.
 
 # Guard: common.sh must already be sourced.
 : "${REPO_ROOT:?source tests/lib/common.sh first}"
@@ -17,6 +22,12 @@ _build_docker_args() {
   ensure_writable_dir HOST_HF_CACHE    "/dev/shm/${USER:-user}-hf-cache"
   ensure_writable_dir HOST_OUTPUT_DIR   "/dev/shm/${USER:-user}-dflash-outputs"
   ensure_writable_dir HOST_TPU_LOG_DIR  "/dev/shm/${USER:-user}-tpu-logs"
+
+  # Convert host paths to container paths (repo mounted at /workspace/tpu-spec-decode)
+  local rel_tpu rel_vllm
+  rel_tpu="${TPU_INFERENCE_DIR#${REPO_ROOT}/}"
+  rel_vllm="${VLLM_DIR#${REPO_ROOT}/}"
+  local py_path="/workspace/tpu-spec-decode/${rel_tpu}:/workspace/tpu-spec-decode/${rel_vllm}"
 
   DOCKER_RUN_ARGS=(
     --rm
@@ -33,7 +44,7 @@ _build_docker_args() {
     -e TMPDIR=/tmp
     -e TPU_LOG_DIR=/tmp/tpu_logs
     -e PYTHONNOUSERSITE=1
-    -e PYTHONPATH=/workspace/tpu-spec-decode/vllm:/workspace/tpu-spec-decode/tpu-inference
+    -e PYTHONPATH="${py_path}"
     ${HF_TOKEN:+-e HF_TOKEN="${HF_TOKEN}"}
 
     # Mounts
@@ -56,9 +67,12 @@ docker_exec() {
   _build_docker_args
   require_docker_image
 
-  # Pin flax<0.12 for tpu-inference compatibility (Pytree breaking change in 0.12+)
+  # Flax: v4 default 0.11.1 (<0.12); v5p needs 0.12.4 (set FLAX_VERSION=0.12.4)
+  local flv="${FLAX_VERSION:-0.11.1}"
+  local flax_pin="pip install \"flax==${flv}\" --quiet 2>/dev/null || true; "
+
   ${dcmd} run "${DOCKER_RUN_ARGS[@]}" "${DOCKER_IMAGE}" \
-    bash -lc "pip install 'flax<0.12' --quiet 2>/dev/null; set -euo pipefail; ${cmd_string}"
+    bash -lc "set -euo pipefail; ${flax_pin}${cmd_string}"
 }
 
 docker_exec_script() {

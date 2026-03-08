@@ -51,6 +51,14 @@ if [[ -z "${HW}" ]]; then
   exit 1
 fi
 
+# v5p: use pr-ready (pr/dflash + vllm-lkg), Flax 0.12.4
+# v4: use root tpu-inference/vllm, Flax 0.11.1
+if [[ "${HW}" == "v5p" ]]; then
+  export FLAX_VERSION="${FLAX_VERSION:-0.12.4}"
+  export TPU_INFERENCE_DIR="${REPO_ROOT}/pr-ready/pr"
+  export VLLM_DIR="${REPO_ROOT}/pr-ready/vllm-lkg"
+fi
+
 # Quick-mode env overrides
 export MAX_SAMPLES="${MAX_SAMPLES:-$([ "${QUICK}" = "1" ] && echo 1 || echo 3)}"
 export MAX_NEW_TOKENS="${MAX_NEW_TOKENS:-64}"
@@ -101,7 +109,10 @@ if [[ "${SKIP_PREP}" != "1" ]]; then
   done
   EXT_FLAG=""
   [[ "${CLONE_SKIP_EXT:-0}" == "1" ]] && EXT_FLAG="--skip-ext"
-  if (cd "${REPO_ROOT}" && bash preparation/clone_repos.sh --skip-pr ${EXT_FLAG} >> "${RUN_LOG}" 2>&1); then
+  # v5p needs pr-ready (pr/dflash + vllm-lkg); v4 can skip with --skip-pr
+  PR_FLAG=""
+  [[ "${HW}" == "v5p" ]] || PR_FLAG="--skip-pr"
+  if (cd "${REPO_ROOT}" && bash preparation/clone_repos.sh ${PR_FLAG} ${EXT_FLAG} >> "${RUN_LOG}" 2>&1); then
     ok "clone_repos.sh"
   else
     fail "clone_repos.sh"

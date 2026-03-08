@@ -5,6 +5,9 @@
 #
 # Usage:
 #   bash tests/run_standalone_all_v5p.sh
+#
+# Uses pr-ready/pr and pr-ready/vllm-lkg (set by verify_all_wrappers v5p).
+# For direct runs, export: TPU_INFERENCE_DIR=.../pr-ready/pr VLLM_DIR=.../pr-ready/vllm-lkg FLAX_VERSION=0.12.4
 
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/docker_run.sh"

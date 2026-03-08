@@ -12,6 +12,7 @@
 #
 # Env overrides:
 #   DRY_RUN=1 bash tests/smoke.sh      # Validate config without running models
+#   FLAX_VERSION=0.12.4 bash tests/smoke.sh   # v5p (Docker default 0.11.1 is for v4)
 
 source "$(dirname "$0")/lib/common.sh"
 source "$(dirname "$0")/lib/docker_run.sh"
