@@ -38,7 +38,6 @@ done
 # =====================================================================
 ROOT_TPU_INF_DIR="${ROOT_TPU_INF_DIR:-${REPO_ROOT}/tpu-inference}"
 ROOT_TPU_INF_REPO="${ROOT_TPU_INF_REPO:-https://github.com/aaronzhfeng/tpu-inference.git}"
-# dflash-integration is the main DFlash JAX port (tested with vLLM dflash-speculative-config)
 ROOT_TPU_INF_BRANCH="${ROOT_TPU_INF_BRANCH:-dflash-integration}"
 
 ROOT_VLLM_DIR="${ROOT_VLLM_DIR:-${REPO_ROOT}/vllm}"
@@ -215,7 +214,7 @@ else
 fi
 
 # =====================================================================
-# Group 4: External references (upstream, read-only)
+# Group 3: External references
 # =====================================================================
 if [[ "${SKIP_EXTERNAL}" != "1" ]]; then
   echo ""
@@ -235,7 +234,7 @@ else
 fi
 
 # =====================================================================
-# Group 4: dflash-wide (standalone GPU training repo)
+# Group 4: dflash-wide
 # =====================================================================
 echo ""
 echo "==> [4/5] dflash-wide"

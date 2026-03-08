@@ -56,9 +56,9 @@ docker_exec() {
   _build_docker_args
   require_docker_image
 
-  # Ensure flax==0.12.4 for tpu-inference JAX benchmarks (nnx.List etc.)
+  # Pin flax<0.12 for tpu-inference compatibility (Pytree breaking change in 0.12+)
   ${dcmd} run "${DOCKER_RUN_ARGS[@]}" "${DOCKER_IMAGE}" \
-    bash -lc "pip install flax==0.12.4 --quiet 2>/dev/null || true; set -euo pipefail; ${cmd_string}"
+    bash -lc "pip install 'flax<0.12' --quiet 2>/dev/null; set -euo pipefail; ${cmd_string}"
 }
 
 docker_exec_script() {
