@@ -12,6 +12,7 @@ Usage:
 """
 
 import argparse
+import contextlib
 import functools
 import json
 import math
@@ -229,14 +230,14 @@ def load_models(config: StandaloneVllmConfig, mesh: Mesh):
         return model_fn, logits_fn, combine_fn, state
 
     print("[INFO] Loading target model...")
-    with jax.default_device(jax.devices()[0]), jax.set_mesh(mesh):
+    with jax.default_device(jax.devices()[0]), contextlib.nullcontext():
         flax_result = get_flax_model(
             config, rng, mesh, is_draft_model=False)
         target_model_fn, target_logits_fn, target_combine_fn, target_state = \
             _unpack_flax_result(flax_result)
 
     print("[INFO] Loading draft model...")
-    with jax.default_device(jax.devices()[0]), jax.set_mesh(mesh):
+    with jax.default_device(jax.devices()[0]), contextlib.nullcontext():
         flax_result = get_flax_model(
             config, rng, mesh, is_draft_model=True)
         draft_model_fn, draft_logits_fn, draft_combine_fn, draft_state = \

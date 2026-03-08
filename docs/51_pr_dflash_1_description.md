@@ -57,7 +57,7 @@ Usage (after both #1868 and this PR):
 ```python
 args['speculative_config'] = {
     'model': 'z-lab/Qwen3-4B-DFlash-b16',
-    'num_speculative_tokens': 5,
+    'num_speculative_tokens': 15,
     'method': 'dflash',
     'draft_tensor_parallel_size': 1,
 }

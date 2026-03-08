@@ -1,6 +1,12 @@
-# External repositories - upstream originals (read-only reference)
-external/*
-!external/.gitkeep
+# Internal workspace (reference clones, dev workspaces)
+_workspace/
+
+# Claude Code settings
+.claude/
+
+# Python
+__pycache__/
+*.pyc
 
 # Forked repositories - our working copies
 forked/*

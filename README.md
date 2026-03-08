@@ -1,27 +1,62 @@
-# tpu-spec-decode
+# DFlash Speculative Decoding on TPU
 
-Research repo for porting and extending DFlash speculative decoding on TPU v4/v5.
+Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 3.13x average speedup across 9 benchmarks. Discovered TPU verification cost is K-flat through K=1024, enabling risk-free wide-block drafting.
 
 **Team:** Aaron Feng, Zhongyan Luo, Son Nguyen, Andy Huang
-**Mentor:** Hao Zhang, Yiming Zhao
+**Advisors:** Hao Zhang, Yiming Zhao (UC San Diego)
+**Collaborators:** Google TPU Inference team (Yarong Mu, Chengji Yao)
 
----
+## Upstream PRs
 
-## Quick Start (fresh TPU VM)
+- **PR #1868:** [[Spec Decoding] Add DFlash model and proposer](https://github.com/vllm-project/tpu-inference/pull/1868) — model, proposer, unit tests
+- **PR #1869:** [Spec Decoding] Integrate DFlash into speculative decoding pipeline
+- **PR #1870:** [Spec Decoding] Add DFlash e2e tests and Buildkite CI
 
-After SSH-ing into a new TPU node, run the one-shot bootstrap:
+## Key Results (TPU v5p-8)
 
-```bash
-export ROOT_TPU_INF_BRANCH=dflash-integration
-export ZHONGYAN_DFLASH_BRANCH=zhongyan_dev
-export ZHONGYAN_TPU_INF_BRANCH=zhongyan_dev
-export ZHONGYAN_VLLM_BRANCH=zhongyan_dev
-export HF_TOKEN=hf_xxxxxxxxxxxx   # optional
+| Dataset | Category | Tau | Speedup | Baseline TPOT (ms) | DFlash TPOT (ms) |
+|---------|----------|-----|---------|---------------------|-------------------|
+| math500 | math | 8.80 | 5.72x | 8.02 | 1.40 |
+| aime24 | math | 6.48 | 3.98x | 7.69 | 1.93 |
+| aime25 | math | 6.14 | 3.35x | 6.85 | 2.05 |
+| gsm8k | math | 5.40 | 3.17x | 7.32 | 2.31 |
+| humaneval | code | 5.76 | 3.53x | 7.70 | 2.18 |
+| mbpp | code | 6.16 | 2.77x | 7.31 | 2.64 |
+| mt-bench | chat | 3.87 | 2.36x | 7.20 | 3.05 |
+| alpaca | chat | 2.86 | 1.65x | 6.72 | 4.08 |
+| swe-bench | code | 3.35 | 1.60x | 6.85 | 4.27 |
+| **Average** | | **5.42** | **3.13x** | **7.30** | **2.66** |
 
-bash <(curl -fsSL https://raw.githubusercontent.com/aaronzhfeng/tpu-spec-decode/main/preparation/bootstrap.sh)
+Models: Qwen3-4B (target) + z-lab/Qwen3-4B-DFlash-b16 (draft), greedy decoding.
+
+### K-Flat Verification
+
+Verification cost is flat from K=16 through K=1024 on both TPU and datacenter GPU:
+
+| Hardware | K=128/K=16 Verify Ratio |
+|----------|------------------------|
+| TPU v5p | 1.00x (flat through K=1024) |
+| H100 SXM | 1.00-1.04x |
+| RTX 2000 Ada | 1.24x |
+
+## Repo Structure
+
+```
+tpu-spec-decode/
+  README.md
+  tpu-inference/        # DFlash TPU code (submodule, dflash-integration branch)
+  pr-ready/             # PR branches submitted upstream (see pr-ready/README.md)
+  docs/                 # 52 research docs (setup, integration, experiments, PR prep)
+  benchmarks/           # Standalone benchmark scripts (tau, speedup, ablation, scaling)
+  tests/                # Shell wrappers + JSON test configs
+  results/              # V4 and V5P benchmark JSONs + CSVs
+  verification/         # Evaluation harness and validation runs
+  visualizations/       # Plot scripts and rendered figures
+  preparation/          # TPU environment setup (bootstrap.sh, clone_repos.sh)
+  requirements.txt
 ```
 
-Or clone first, then bootstrap:
+## Quick Start (fresh TPU VM)
 
 ```bash
 git clone --recurse-submodules https://github.com/aaronzhfeng/tpu-spec-decode.git
@@ -29,83 +64,44 @@ cd tpu-spec-decode
 bash preparation/bootstrap.sh
 ```
 
-See `preparation/NEW_ENVIRONMENT_SETUP.md` for the full GCP + TPU provisioning runbook.
+See `preparation/` for full setup docs.
 
----
+## Running
 
-## Repo Structure
-
-```
-tpu-spec-decode/
-├── preparation/           # Setup scripts and runbooks
-│   ├── bootstrap.sh           ← entry point for fresh node
-│   ├── setup_tpu_v5.sh        ← apt + pip + smoke check
-│   ├── clone_repos.sh         ← branch-pinned sub-repo cloning
-│   ├── requirements_v5.txt    ← TPU v5 JAX deps
-│   ├── check_dflash_support.sh
-│   ├── run_dflash_acceptance_smoke.sh
-│   └── NEW_ENVIRONMENT_SETUP.md
-│
-├── tpu-inference/         ← cloned by clone_repos.sh (dflash-integration branch)
-├── vllm/                  ← git submodule (aaronzhfeng/vllm fork)
-├── zhongyan_dev/          ← cloned by clone_repos.sh
-│   ├── dflash/
-│   ├── tpu-inference/
-│   └── vllm/
-│
-├── benchmarks/            # Standalone JAX/TPU benchmark scripts
-│   ├── drafter_scaling.py
-│   ├── amortized_verification.py
-│   ├── layer_truncation.py
-│   ├── tree_speculation.py
-│   ├── gpu_matmul_scaling.py  ← PyTorch only, run on GPU not TPU
-│   └── ...
-│
-├── tests/                 # Shell wrappers for benchmarks
-├── docs/                  # Experiment docs (00–39+)
-├── results/               # JSON outputs from benchmark runs
-├── slides/                # Presentation decks
-│
-├── brainstorm-00-core/    ← git submodule (research workflow templates)
-└── brainstorm-20-spec-decode-diffusion/  ← standalone repo (own .git)
-```
-
----
-
-## Sub-repo Branches
-
-| Repo | Default branch | Purpose |
-|------|---------------|---------|
-| `tpu-inference/` | `dflash-integration` | Main DFlash JAX port |
-| `zhongyan_dev/tpu-inference` | `zhongyan_dev` | Zhongyan's working branch |
-| `zhongyan_dev/dflash` | `zhongyan_dev` | DFlash model code |
-| `zhongyan_dev/vllm` | `zhongyan_dev` | vLLM fork |
-| `vllm/` (submodule) | tracked commit | Aaron's vLLM fork |
-
-Override branch defaults by setting env vars before running bootstrap:
+Unit tests (no serving setup needed):
 
 ```bash
-ROOT_TPU_INF_BRANCH=my-branch bash preparation/bootstrap.sh
+pytest tests/models/jax/test_qwen3_dflash_attention.py
+pytest tests/models/jax/test_qwen3_dflash.py
+pytest tests/spec_decode/test_dflash.py
 ```
 
----
+End-to-end (requires PR #1868 + #1869):
 
-## Key Results
+```bash
+python -m tpu_inference.entrypoint \
+  --model Qwen/Qwen3-4B \
+  --speculative_config '{"model": "z-lab/Qwen3-4B-DFlash-b16", "num_speculative_tokens": 15, "method": "dflash", "draft_tensor_parallel_size": 1}'
+```
 
-| Metric | Value |
-|--------|-------|
-| TPU standalone τ (avg) | 6.67 (94% of GPU) |
-| vLLM pipeline τ | 4.48 |
-| vLLM pipeline speedup | 2.31× |
-| DFlash vs Eagle3 on TPU | 2.06× higher τ |
-| Verify latency K=16→K=256 | flat (~1.7ms, memory-bound) |
+## Documentation
 
-See `docs/` for full experimental records (Docs 00–39).
+The `docs/` folder contains 52 documents covering the full project journey:
+- **00-06:** Setup and architecture
+- **07-19:** DFlash integration (plan, bugs, gap analysis, KV cache iterations)
+- **20-45:** Experiments and results (acceptance rates, ablation, K-flat property, GPU comparison)
+- **48-52:** PR preparation and review
 
----
+## Related Repos
 
-## Research Direction
+| Repo | Description |
+|------|-------------|
+| [tpu-dflash-paper](https://github.com/aaronzhfeng/tpu-dflash-paper) | Paper, report, slides |
+| [dflash-wide](https://github.com/aaronzhfeng/dflash-wide) | GPU training for wide-block (K=16-128) experiments |
+| [DFlash (upstream)](https://github.com/z-lab/dflash) | Original DFlash implementation |
+| [tpu-inference (upstream)](https://github.com/vllm-project/tpu-inference) | vLLM TPU backend |
 
-Post-port findings (Docs 30–39) show verification cost is flat from K=16 to K=256 on TPU v4 due to memory-bandwidth boundedness. DFlash's block_size=16 is a GPU design constraint that doesn't apply on TPU. Proposed next step: train DFlash with block_size=128 (TPU-native optimal).
+## References
 
-See `brainstorm-20-spec-decode-diffusion/proposals/proposal_v3.md` for the full research proposal.
+- DFlash: "DFlash: Block Diffusion for Flash Speculative Decoding" (Chen et al., [arXiv:2602.06036](https://arxiv.org/abs/2602.06036))
+- SSD/Saguaro: "Speculative Speculative Decoding" (Kumar, Dao, May, ICLR 2026, [arXiv:2603.03251](https://arxiv.org/abs/2603.03251))
