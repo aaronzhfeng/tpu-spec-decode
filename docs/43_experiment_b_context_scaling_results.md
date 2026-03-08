@@ -176,7 +176,7 @@ Doc 43 closes the last open question from Doc 41. The flat-K property holds acro
 
 ## 8. Data
 
-Raw results: `results/verify_context_scaling.json`
+Raw results: `results/v4/verify_context_scaling.json`
 
 Executed: February 27, 2026, TPU v4-8, 20 trials, 5 warmup per configuration.
 

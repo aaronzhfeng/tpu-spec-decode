@@ -13,9 +13,6 @@ After SSH-ing into a new TPU node, run the one-shot bootstrap:
 
 ```bash
 export ROOT_TPU_INF_BRANCH=dflash-integration
-export ZHONGYAN_DFLASH_BRANCH=zhongyan_dev
-export ZHONGYAN_TPU_INF_BRANCH=zhongyan_dev
-export ZHONGYAN_VLLM_BRANCH=zhongyan_dev
 export HF_TOKEN=hf_xxxxxxxxxxxx   # optional
 
 bash <(curl -fsSL https://raw.githubusercontent.com/aaronzhfeng/tpu-spec-decode/main/preparation/bootstrap.sh)
@@ -48,10 +45,6 @@ tpu-spec-decode/
 │
 ├── tpu-inference/         ← cloned by clone_repos.sh (dflash-integration branch)
 ├── vllm/                  ← git submodule (aaronzhfeng/vllm fork)
-├── zhongyan_dev/          ← cloned by clone_repos.sh
-│   ├── dflash/
-│   ├── tpu-inference/
-│   └── vllm/
 │
 ├── benchmarks/            # Standalone JAX/TPU benchmark scripts
 │   ├── drafter_scaling.py
@@ -64,10 +57,7 @@ tpu-spec-decode/
 ├── tests/                 # Shell wrappers for benchmarks
 ├── docs/                  # Experiment docs (00–39+)
 ├── results/               # JSON outputs from benchmark runs
-├── slides/                # Presentation decks
-│
-├── brainstorm-00-core/    ← git submodule (research workflow templates)
-└── brainstorm-20-spec-decode-diffusion/  ← standalone repo (own .git)
+└── slides/                # Presentation decks
 ```
 
 ---
@@ -76,10 +66,7 @@ tpu-spec-decode/
 
 | Repo | Default branch | Purpose |
 |------|---------------|---------|
-| `tpu-inference/` | `dflash-integration` | Main DFlash JAX port |
-| `zhongyan_dev/tpu-inference` | `zhongyan_dev` | Zhongyan's working branch |
-| `zhongyan_dev/dflash` | `zhongyan_dev` | DFlash model code |
-| `zhongyan_dev/vllm` | `zhongyan_dev` | vLLM fork |
+| `tpu-inference/` | `dflash-integration` | DFlash JAX port (used for vLLM pipeline) |
 | `vllm/` (submodule) | tracked commit | Aaron's vLLM fork |
 
 Override branch defaults by setting env vars before running bootstrap:
@@ -107,5 +94,3 @@ See `docs/` for full experimental records (Docs 00–39).
 ## Research Direction
 
 Post-port findings (Docs 30–39) show verification cost is flat from K=16 to K=256 on TPU v4 due to memory-bandwidth boundedness. DFlash's block_size=16 is a GPU design constraint that doesn't apply on TPU. Proposed next step: train DFlash with block_size=128 (TPU-native optimal).
-
-See `brainstorm-20-spec-decode-diffusion/proposals/proposal_v3.md` for the full research proposal.

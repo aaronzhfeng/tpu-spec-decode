@@ -210,7 +210,7 @@ Previous versions: v1-v7 in same directory (full revision history).
 - `pipeline_profiling.py` — full pipeline profiling
 - `verify_context_scaling.py` — context scaling (L and K sweep)
 - `benchmark_block_sizes.py` — block size sensitivity
-- `run_all_v5p_pr.sh` — batch run script for all 9 datasets
+- `run_standalone_all_v5p.sh` — batch run script for all 8 v5p datasets (in tests/)
 
 ### 5.2 Test Shell Scripts
 
@@ -377,7 +377,6 @@ Previous versions: v1-v7 in same directory (full revision history).
 - `/home/aaronfeng/tpu-spec-decode/capstone_report/figure/somefig1.pdf` — figure 1
 - `/home/aaronfeng/tpu-spec-decode/capstone_report/figure/somefig2.png` — figure 2
 - `/home/aaronfeng/tpu-spec-decode/capstone_report/figure/somefig3.png` — figure 3
-- `/home/aaronfeng/tpu-spec-decode/archive/image.png` — documentation image
 
 ### Tables Available for Rendering
 

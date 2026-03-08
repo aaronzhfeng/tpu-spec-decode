@@ -4,12 +4,10 @@
 #
 # Groups:
 #   1) Root-level working repos: tpu-inference, vllm
-#   2) zhongyan_dev/{dflash, tpu-inference, vllm}
-#   3) PR-ready: 3 tpu-inference clones (main, dflash working, PR branch)
-#   4) External references (upstream read-only)
-#   5) dflash-wide (standalone GPU training repo)
-#   6) Brainstorm repos
-#   7) Slides theme
+#   2) PR-ready: 3 tpu-inference clones (main, dflash working, PR branch)
+#   3) External references (upstream read-only)
+#   4) dflash-wide (standalone GPU training repo)
+#   5) Slides theme
 #
 # Usage:
 #   bash preparation/clone_repos.sh              # All groups
@@ -40,6 +38,7 @@ done
 # =====================================================================
 ROOT_TPU_INF_DIR="${ROOT_TPU_INF_DIR:-${REPO_ROOT}/tpu-inference}"
 ROOT_TPU_INF_REPO="${ROOT_TPU_INF_REPO:-https://github.com/aaronzhfeng/tpu-inference.git}"
+# dflash-integration is the main DFlash JAX port (tested with vLLM dflash-speculative-config)
 ROOT_TPU_INF_BRANCH="${ROOT_TPU_INF_BRANCH:-dflash-integration}"
 
 ROOT_VLLM_DIR="${ROOT_VLLM_DIR:-${REPO_ROOT}/vllm}"
@@ -47,20 +46,6 @@ ROOT_VLLM_REPO="${ROOT_VLLM_REPO:-https://github.com/aaronzhfeng/vllm.git}"
 ROOT_VLLM_BRANCH="${ROOT_VLLM_BRANCH:-dflash-speculative-config}"
 # vLLM LKG commit required by upstream tpu-inference main
 VLLM_LKG_COMMIT="${VLLM_LKG_COMMIT:-05972ea7e5f81250cc4ceaae8a174cfffe7755ac}"
-
-# =====================================================================
-# Config: zhongyan_dev repos
-# =====================================================================
-ZHONGYAN_DIR="${ZHONGYAN_DIR:-${REPO_ROOT}/zhongyan_dev}"
-ZHONGYAN_DFLASH_DIR="${ZHONGYAN_DFLASH_DIR:-${ZHONGYAN_DIR}/dflash}"
-ZHONGYAN_DFLASH_REPO="${ZHONGYAN_DFLASH_REPO:-https://github.com/Zhongyan0721/dflash}"
-ZHONGYAN_DFLASH_BRANCH="${ZHONGYAN_DFLASH_BRANCH:-main}"  # Zhongyan0721/dflash only has main
-ZHONGYAN_TPU_INF_DIR="${ZHONGYAN_TPU_INF_DIR:-${ZHONGYAN_DIR}/tpu-inference}"
-ZHONGYAN_TPU_INF_REPO="${ZHONGYAN_TPU_INF_REPO:-${ROOT_TPU_INF_REPO}}"
-ZHONGYAN_TPU_INF_BRANCH="${ZHONGYAN_TPU_INF_BRANCH:-zhongyan_dev}"
-ZHONGYAN_VLLM_DIR="${ZHONGYAN_VLLM_DIR:-${ZHONGYAN_DIR}/vllm}"
-ZHONGYAN_VLLM_REPO="${ZHONGYAN_VLLM_REPO:-https://github.com/aaronzhfeng/vllm.git}"
-ZHONGYAN_VLLM_BRANCH="${ZHONGYAN_VLLM_BRANCH:-zhongyan_dev}"
 
 # =====================================================================
 # Config: PR-ready (3 tpu-inference clones)
@@ -80,14 +65,6 @@ EXTERNAL_DIR="${EXTERNAL_DIR:-${REPO_ROOT}/external}"
 DFLASH_WIDE_DIR="${DFLASH_WIDE_DIR:-${REPO_ROOT}/dflash-wide}"
 DFLASH_WIDE_REPO="${DFLASH_WIDE_REPO:-https://github.com/aaronzhfeng/dflash-wide.git}"
 DFLASH_WIDE_BRANCH="${DFLASH_WIDE_BRANCH:-main}"
-
-# =====================================================================
-# Config: Brainstorm repos
-# =====================================================================
-BRAINSTORM_00_DIR="${BRAINSTORM_00_DIR:-${REPO_ROOT}/brainstorm-00-core}"
-BRAINSTORM_00_REPO="${BRAINSTORM_00_REPO:-https://github.com/aaronzhfeng/brainstorm-00-core.git}"
-BRAINSTORM_20_DIR="${BRAINSTORM_20_DIR:-${REPO_ROOT}/brainstorm-20-spec-decode-diffusion}"
-BRAINSTORM_20_REPO="${BRAINSTORM_20_REPO:-https://github.com/aaronzhfeng/brainstorm-20-spec-decode-diffusion.git}"
 
 # =====================================================================
 # Config: Slides theme
@@ -119,6 +96,10 @@ ensure_remote_branch_exists() {
   local repo_dir="$1"
   local branch="$2"
   if ! git -C "${repo_dir}" rev-parse --verify "origin/${branch}" >/dev/null 2>&1; then
+    # Repo may have been cloned with --single-branch; fetch the specific branch
+    if git -C "${repo_dir}" fetch origin "refs/heads/${branch}:refs/remotes/origin/${branch}" 2>/dev/null; then
+      return 0
+    fi
     echo "[ERROR] Branch origin/${branch} not found in ${repo_dir}" >&2
     exit 1
   fi
@@ -132,6 +113,7 @@ clone_or_checkout_branch() {
   if [[ -e "${repo_dir}/.git" ]]; then
     echo "[INFO] Repo exists: ${repo_dir}"
     git -C "${repo_dir}" fetch origin
+    git -C "${repo_dir}" fetch origin "${branch}" >/dev/null 2>&1 || true
     git -C "${repo_dir}" fetch origin "${SYNC_MAIN_BRANCH}" >/dev/null 2>&1 || true
     ensure_remote_branch_exists "${repo_dir}" "${branch}"
     if git -C "${repo_dir}" rev-parse --verify "refs/heads/${branch}" >/dev/null 2>&1; then
@@ -182,7 +164,7 @@ echo "========================================"
 # Group 1: Root-level working repos
 # =====================================================================
 echo ""
-echo "==> [1/7] Root working repos"
+echo "==> [1/5] Root working repos"
 
 require_non_main_branch "ROOT_TPU_INF" "${ROOT_TPU_INF_BRANCH}"
 clone_or_checkout_branch "${ROOT_TPU_INF_DIR}" "${ROOT_TPU_INF_REPO}" "${ROOT_TPU_INF_BRANCH}"
@@ -198,27 +180,11 @@ if ! git -C "${ROOT_VLLM_DIR}" rev-parse --verify "refs/heads/vllm-lkg" >/dev/nu
 fi
 
 # =====================================================================
-# Group 2: zhongyan_dev repos
-# =====================================================================
-echo ""
-echo "==> [2/7] zhongyan_dev repos"
-mkdir -p "${ZHONGYAN_DIR}"
-
-# Zhongyan's dflash fork only has main — allow it
-ALLOW_MAIN_BRANCH=1 clone_or_checkout_branch "${ZHONGYAN_DFLASH_DIR}" "${ZHONGYAN_DFLASH_REPO}" "${ZHONGYAN_DFLASH_BRANCH}" 2>/dev/null || \
-  clone_if_missing "${ZHONGYAN_DFLASH_DIR}" "${ZHONGYAN_DFLASH_REPO}" "${ZHONGYAN_DFLASH_BRANCH}"
-
-require_non_main_branch "ZHONGYAN_TPU_INF" "${ZHONGYAN_TPU_INF_BRANCH}"
-require_non_main_branch "ZHONGYAN_VLLM" "${ZHONGYAN_VLLM_BRANCH}"
-clone_or_checkout_branch "${ZHONGYAN_TPU_INF_DIR}" "${ZHONGYAN_TPU_INF_REPO}" "${ZHONGYAN_TPU_INF_BRANCH}"
-clone_or_checkout_branch "${ZHONGYAN_VLLM_DIR}" "${ZHONGYAN_VLLM_REPO}" "${ZHONGYAN_VLLM_BRANCH}"
-
-# =====================================================================
-# Group 3: PR-ready (3 tpu-inference clones)
+# Group 2: PR-ready (3 tpu-inference clones)
 # =====================================================================
 if [[ "${SKIP_PR}" != "1" ]]; then
   echo ""
-  echo "==> [3/7] PR-ready setup"
+  echo "==> [2/5] PR-ready setup"
   mkdir -p "${PR_DIR}"
 
   # main — synced with upstream
@@ -245,7 +211,7 @@ if [[ "${SKIP_PR}" != "1" ]]; then
   fi
 else
   echo ""
-  echo "==> [3/7] PR-ready setup — SKIPPED (--skip-pr)"
+  echo "==> [2/5] PR-ready setup — SKIPPED (--skip-pr)"
 fi
 
 # =====================================================================
@@ -253,7 +219,7 @@ fi
 # =====================================================================
 if [[ "${SKIP_EXTERNAL}" != "1" ]]; then
   echo ""
-  echo "==> [4/7] External references"
+  echo "==> [3/5] External references"
   mkdir -p "${EXTERNAL_DIR}"
 
   clone_if_missing "${EXTERNAL_DIR}/tpu-inference"          "https://github.com/vllm-project/tpu-inference.git"
@@ -265,29 +231,21 @@ if [[ "${SKIP_EXTERNAL}" != "1" ]]; then
   clone_if_missing "${EXTERNAL_DIR}/prompt-lookup-decoding" "https://github.com/apoorvumang/prompt-lookup-decoding.git"
 else
   echo ""
-  echo "==> [4/7] External references — SKIPPED (--skip-ext)"
+  echo "==> [3/5] External references — SKIPPED (--skip-ext)"
 fi
 
 # =====================================================================
-# Group 5: dflash-wide (standalone GPU training repo)
+# Group 4: dflash-wide (standalone GPU training repo)
 # =====================================================================
 echo ""
-echo "==> [5/7] dflash-wide"
+echo "==> [4/5] dflash-wide"
 clone_if_missing "${DFLASH_WIDE_DIR}" "${DFLASH_WIDE_REPO}" "${DFLASH_WIDE_BRANCH}"
 
 # =====================================================================
-# Group 6: Brainstorm repos
+# Group 5: Slides theme
 # =====================================================================
 echo ""
-echo "==> [6/7] Brainstorm repos"
-clone_if_missing "${BRAINSTORM_00_DIR}" "${BRAINSTORM_00_REPO}" "main"
-clone_if_missing "${BRAINSTORM_20_DIR}" "${BRAINSTORM_20_REPO}" "main"
-
-# =====================================================================
-# Group 7: Slides theme
-# =====================================================================
-echo ""
-echo "==> [7/7] Slides theme"
+echo "==> [5/5] Slides theme"
 clone_if_missing "${SLIDES_MTHEME_DIR}" "${SLIDES_MTHEME_REPO}" "master"
 
 # =====================================================================
@@ -302,11 +260,6 @@ echo "Working repos:"
 echo "  tpu-inference/      ${ROOT_TPU_INF_BRANCH}"
 echo "  vllm/               ${ROOT_VLLM_BRANCH} (+ vllm-lkg at ${VLLM_LKG_COMMIT:0:8})"
 echo ""
-echo "zhongyan_dev:"
-echo "  dflash/             ${ZHONGYAN_DFLASH_BRANCH} (Zhongyan0721/dflash)"
-echo "  tpu-inference/      ${ZHONGYAN_TPU_INF_BRANCH}"
-echo "  vllm/               ${ZHONGYAN_VLLM_BRANCH}"
-echo ""
 if [[ "${SKIP_PR}" != "1" ]]; then
 echo "PR-ready:"
 echo "  pr-ready/main/      main (synced with upstream)"
@@ -315,10 +268,6 @@ echo "  pr-ready/pr/        pr/dflash (clean PR branch)"
 echo ""
 fi
 echo "dflash-wide/          ${DFLASH_WIDE_BRANCH}"
-echo ""
-echo "Brainstorm:"
-echo "  brainstorm-00-core/                    main"
-echo "  brainstorm-20-spec-decode-diffusion/   main"
 echo ""
 echo "Slides:"
 echo "  slides/mtheme/      master (matze/mtheme)"

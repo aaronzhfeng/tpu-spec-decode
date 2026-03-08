@@ -31,8 +31,11 @@ show_sizes() {
 clean_outputs() {
   if [[ -d "${HOST_OUTPUT_DIR}" ]]; then
     info "Removing test outputs: ${HOST_OUTPUT_DIR}"
-    rm -rf "${HOST_OUTPUT_DIR}"
-    ok "Test outputs removed."
+    if rm -rf "${HOST_OUTPUT_DIR}" 2>/dev/null; then
+      ok "Test outputs removed."
+    else
+      warn "Some files could not be removed (permission denied). Try: sudo rm -rf ${HOST_OUTPUT_DIR}"
+    fi
   else
     info "No test outputs to clean."
   fi

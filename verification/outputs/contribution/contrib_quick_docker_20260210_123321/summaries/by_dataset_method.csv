@@ -1,3 +1,0 @@
-method,dataset,dataset_name,num_prompts,num_ok,num_error,total_elapsed_sec,total_output_tokens,time_per_output_token,tokens_per_second,speedup_vs_baseline
-baseline,gsm8k,GSM8K,1,1,0,0.34042196098016575,16,0.02127637256126036,47.00049301734743,
-dflash,gsm8k,GSM8K,1,1,0,0.4335930939996615,16,0.027099568374978844,36.900956729750156,0.7851185032491119

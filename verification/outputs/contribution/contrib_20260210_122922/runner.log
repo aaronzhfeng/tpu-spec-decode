@@ -1,7 +1,0 @@
-Run id: contrib_20260210_122922
-Manifest: /home/aaronfeng/tpu-spec-decode/verification/contribution/manifests/quick_math.json
-Methods: ['baseline', 'dflash']
-Datasets: ['gsm8k']
-Prompt source: synthetic
-Out dir: /home/aaronfeng/tpu-spec-decode/verification/outputs/contribution/contrib_20260210_122922
-DRY_RUN=1 set. Exiting before model execution.

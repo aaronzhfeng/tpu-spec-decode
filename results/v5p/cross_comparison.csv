@@ -1,0 +1,6 @@
+dataset,standalone_tau,standalone_speedup,vllm_tau,vllm_speedup,gpu_paper_tau,gpu_paper_speedup,standalone_tau_pct_of_gpu,vllm_tau_pct_of_gpu
+gsm8k,4.25,1.03,4.84,1.55,6.53,5.15,65.1,74.1
+math500,8.8,4.93,4.84,3.8,7.84,6.09,112.2,61.7
+aime24,6.48,3.57,4.84,3.17,7.27,5.68,89.2,66.6
+aime25,6.14,3.39,4.84,4.45,6.64,5.21,92.5,72.9
+AVERAGE,6.42,3.23,4.84,3.24,7.07,5.53,89.75,68.83

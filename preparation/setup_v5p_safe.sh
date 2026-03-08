@@ -120,9 +120,6 @@ step5() {
     cd "${REPO_ROOT}"
 
     ROOT_TPU_INF_BRANCH="${ROOT_TPU_INF_BRANCH:-dflash-integration}" \
-    ZHONGYAN_DFLASH_BRANCH="${ZHONGYAN_DFLASH_BRANCH:-zhongyan_dev}" \
-    ZHONGYAN_TPU_INF_BRANCH="${ZHONGYAN_TPU_INF_BRANCH:-zhongyan_dev}" \
-    ZHONGYAN_VLLM_BRANCH="${ZHONGYAN_VLLM_BRANCH:-zhongyan_dev}" \
     bash "${SCRIPT_DIR}/clone_repos.sh"
 
     ok "Repos cloned"

@@ -5,3 +5,6 @@ external/*
 # Forked repositories - our working copies
 forked/*
 !forked/.gitkeep
+
+# Verification run logs
+.verify_wrappers_log/

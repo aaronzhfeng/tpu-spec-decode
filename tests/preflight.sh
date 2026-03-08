@@ -19,10 +19,10 @@ check() {
   shift
   if "$@" >/dev/null 2>&1; then
     ok "${label}"
-    ((PASSED++))
+    PASSED=$((PASSED + 1))
   else
     fail "${label}"
-    ((FAILED++))
+    FAILED=$((FAILED + 1))
   fi
 }
 
@@ -46,7 +46,7 @@ if [[ "${MODE}" == "docker" ]]; then
   dcmd="$(docker_cmd)"
   if ${dcmd} image inspect "${DOCKER_IMAGE}" &>/dev/null; then
     ok "Docker image ${DOCKER_IMAGE} available"
-    ((PASSED++))
+    PASSED=$((PASSED + 1))
   else
     warn "Docker image ${DOCKER_IMAGE} not found locally. Will pull on first test run."
   fi
@@ -58,20 +58,20 @@ if [[ "${MODE}" == "docker" ]]; then
   source "$(dirname "$0")/lib/docker_run.sh"
   if docker_exec "python3 /workspace/tpu-spec-decode/preparation/check_dflash_support.py" 2>&1 | grep -q "dflash_supported=True"; then
     ok "vLLM accepts 'dflash' speculative method"
-    ((PASSED++))
+    PASSED=$((PASSED + 1))
   else
     fail "vLLM does NOT accept 'dflash' speculative method"
-    ((FAILED++))
+    FAILED=$((FAILED + 1))
   fi
 else
   export PYTHONPATH="${VLLM_DIR}:${TPU_INFERENCE_DIR}:${PYTHONPATH:-}"
   py="$(resolve_python || echo python3)"
   if "${py}" "${REPO_ROOT}/preparation/check_dflash_support.py" 2>&1 | grep -q "dflash_supported=True"; then
     ok "vLLM accepts 'dflash' speculative method"
-    ((PASSED++))
+    PASSED=$((PASSED + 1))
   else
     fail "vLLM does NOT accept 'dflash' speculative method"
-    ((FAILED++))
+    FAILED=$((FAILED + 1))
   fi
 fi
 

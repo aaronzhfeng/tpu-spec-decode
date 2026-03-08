@@ -6,7 +6,7 @@ Goal: Get DFlash inference running on v5p-8 to validate the tpu-inference PR.
 
 1. JAX with libtpu that sees 4 TPU v5p chips
 2. tpu-inference repo (dflash-integration branch) with DFlash model
-3. vLLM (zhongyan_dev branch) for pipeline integration
+3. vLLM (dflash-speculative-config branch) for pipeline integration
 4. HuggingFace access for Qwen3-4B + DFlash-b16 weights
 5. Standalone DFlash benchmark passing (tau > 5.0)
 
@@ -31,50 +31,15 @@ proved this works on v4 - it only needs tpu-inference deps, not the full
 Docker environment.
 
 Risk: Some tpu-inference dependencies (torchax, pathwaysutils) may not be
-on public PyPI. If pip install fails on these, fall back to Path B.
+on public PyPI. If pip install fails, benchmarks can still run via Docker
+(tests/standalone_benchmark.sh, tests/benchmark.sh mount the repo).
 
-### Path B: Docker-based (fallback, how tpu-inference was designed to work)
+### Path B: Docker-based fallback
 
-Use the `vllm/vllm-tpu:latest` Docker image which has all matching deps
-pre-built. Patch DFlash support into the container at runtime using the
-approach from Doc 11 (patch_docker.py + qwen3_dflash_docker.py).
-
-Critical disk management for Docker path:
-- Docker image is ~20GB, boot disk is 97GB
-- Store model weights on /dev/shm (221 GiB on v5p) not root disk
-- Pre-download ALL models before running benchmarks
-- Use `HF_HOME=/dev/shm/hf_home` for HuggingFace cache
-- Run `sudo docker system prune -af` to reclaim space after failed runs
-
-Docker commands:
-```bash
-# Add user to docker group first
-sudo usermod -aG docker $USER
-# Log out and back in
-
-# Pre-download models to /dev/shm (NOT root disk)
-export HF_HOME=/dev/shm/hf_home
-mkdir -p $HF_HOME
-docker run --rm -v $HF_HOME:/hf_home \
-  vllm/vllm-tpu:latest python3 -c "
-from huggingface_hub import snapshot_download
-snapshot_download('Qwen/Qwen3-4B', cache_dir='/hf_home')
-snapshot_download('z-lab/Qwen3-4B-DFlash-b16', cache_dir='/hf_home')
-"
-
-# Run with DFlash patching
-docker run --rm --privileged --net host --shm-size=16G \
-  -v /dev/shm/hf_home:/tmp/hf_home \
-  -v $(pwd)/patch_docker.py:/mnt/patch_docker.py:ro \
-  -v $(pwd)/tpu-inference/tpu_inference:/mnt/dflash_src/tpu_inference:ro \
-  vllm/vllm-tpu:latest \
-  bash -c "python3 /mnt/patch_docker.py && python3 benchmark_script.py"
-```
-
-Known Docker issues (from Doc 11):
-- Draft model resolved as TransformersForCausalLM instead of Qwen3DFlashForCausalLM
-- Docker networking can stall downloads (re-run in fresh container)
-- Root-owned artifacts from sudo docker need sudo to clean up
+If pip install fails (e.g. torchax, pathwaysutils not on PyPI), use the
+`vllm/vllm-tpu:latest` Docker image with tpu-inference mounted. The primary
+benchmarks (`tests/standalone_benchmark.sh`, `tests/benchmark.sh`) run in
+Docker and mount the repo; no separate patching scripts are needed.
 
 ## Strategy (Path A)
 
@@ -278,7 +243,7 @@ the Docker path (Path B) may be the only option.
 1. Do NOT run `apt-get update` or `apt-get upgrade` - can break SSH daemon
 2. Do NOT `pip install --upgrade pip` globally (only inside venv)
 3. Do NOT install JAX 0.7+ on Python 3.10 - it will fail
-4. Do NOT run the archived bootstrap.sh or setup_tpu_v5.sh
+4. Do NOT run outdated setup scripts; use setup_v5p_safe.sh
 5. Do NOT install everything in one command - install incrementally
 6. Do NOT forget to activate the venv before installing packages
 7. Do NOT download model weights to root disk - use /dev/shm (221 GiB)
