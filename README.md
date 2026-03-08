@@ -62,11 +62,12 @@ source ~/venv/bin/activate
 bash preparation/run_dflash_acceptance_smoke.sh host
 ```
 
-**Option B — Docker-based verification:**
+**Option B — Docker-based (quick smoke):**
 
 ```bash
 bash preparation/clone_repos.sh
-bash tests/verify_all_wrappers.sh v5p --quick
+export TPU_INFERENCE_DIR=pr-ready/pr VLLM_DIR=pr-ready/vllm-lkg FLAX_VERSION=0.12.4
+bash tests/smoke.sh
 ```
 
 For v5p, do not use `--skip-pr` when cloning; pr-ready (pr/dflash, vllm-lkg) is required. See `preparation/V5P_SETUP_MANUAL.md` for troubleshooting.
@@ -77,10 +78,10 @@ v4 uses Flax 0.11.1. Root tpu-inference/vllm (dflash-integration) is sufficient;
 
 ```bash
 bash preparation/clone_repos.sh --skip-pr
-FLAX_VERSION=0.11.1 bash tests/verify_all_wrappers.sh v4
+bash tests/smoke.sh
 ```
 
-Docker default is `FLAX_VERSION=0.11.1`; v4 runs all wrappers including the vLLM pipeline (unlike v5p).
+Docker default is `FLAX_VERSION=0.11.1`. For full verification, see `tests/verify_all_wrappers.sh`.
 
 ---
 
@@ -106,17 +107,6 @@ tpu-spec-decode/
 - **Seq_len inflation fix:** vLLM manager passed inflated `seq_lens`; switching to `num_tokens_no_spec` doubled speedup (1.30× → 2.31×)
 - **Standalone benchmark:** Isolates algorithm quality; mirrors GPU paper setup for direct comparison
 - **K-flat mechanism:** Per-layer fixed overhead (64%) dominates; K-dependent attention compute is 2.1% of FLOPs—absorbed within overhead
-
----
-
-## Deliverables
-
-| Deliverable | Location |
-|-------------|----------|
-| tpu-inference PR #1868 | `pr-ready/pr` (pr/dflash branch) |
-| Capstone report | `capstone_report/final/` |
-| Benchmark scripts | `benchmarks/`, `tests/` |
-| Experiment docs | `docs/` (52 docs) |
 
 ---
 
