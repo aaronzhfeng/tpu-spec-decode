@@ -97,19 +97,3 @@ tpu-spec-decode/
 ├── tpu-inference/      # Cloned (dflash-integration or pr-ready/pr)
 └── vllm/               # Cloned (dflash-speculative-config or pr-ready/vllm-lkg)
 ```
-
----
-
-## Technical Highlights
-
-- **Dual KV cache architecture:** Target uses paged attention; draft uses static JAX arrays with `dynamic_update_slice` and non-causal `flash_attention`
-- **Context buffer management:** Projected target hidden states fed to draft; power-of-2 padding to limit JIT retracing
-- **Seq_len inflation fix:** vLLM manager passed inflated `seq_lens`; switching to `num_tokens_no_spec` doubled speedup (1.30× → 2.31×)
-- **Standalone benchmark:** Isolates algorithm quality; mirrors GPU paper setup for direct comparison
-- **K-flat mechanism:** Per-layer fixed overhead (64%) dominates; K-dependent attention compute is 2.1% of FLOPs—absorbed within overhead
-
----
-
-## Research Direction
-
-Post-port findings show verification cost is flat from K=16 to K=1024 on TPU. DFlash's block_size=16 is a GPU design constraint; TPU's K-flat property enables risk-free wide-block drafting. Proposed next step: train DFlash with block_size=128 (TPU-native optimal).
