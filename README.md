@@ -1,16 +1,36 @@
 # DFlash Speculative Decoding on TPU
 
-Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 3.13x average speedup across 9 benchmarks. Discovered TPU verification cost is K-flat through K=1024, enabling risk-free wide-block drafting.
+Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 3.13x average speedup across 9 benchmarks. Discovered TPU verification cost is K-flat through K=1024, enabling risk-free wide-block drafting. Contributed upstream to [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) — the first DFlash integration in the vLLM ecosystem.
 
 **Team:** Aaron Feng, Zhongyan Luo, Son Nguyen, Andy Huang
 **Advisors:** Hao Zhang, Yiming Zhao (UC San Diego)
 **Collaborators:** Google TPU Inference team (Yarong Mu, Chengji Yao)
 
-## Upstream PRs
+---
 
-- **PR #1868:** [[Spec Decoding] Add DFlash model and proposer](https://github.com/vllm-project/tpu-inference/pull/1868) — model, proposer, unit tests
-- **PR #1869:** [Spec Decoding] Integrate DFlash into speculative decoding pipeline
-- **PR #1870:** [Spec Decoding] Add DFlash e2e tests and Buildkite CI
+## Contribution: Upstream PRs
+
+Submitted to [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) as a 3-PR chain. 14 files changed, +2277/-10 lines.
+
+| PR | Title | Scope | Status |
+|----|-------|-------|--------|
+| [#1868](https://github.com/vllm-project/tpu-inference/pull/1868) | [Spec Decoding] Add DFlash model and proposer | 7 new files: model, proposer, unit tests | In review |
+| [#1869](https://github.com/vllm-project/tpu-inference/pull/1869) | [Spec Decoding] Integrate DFlash into pipeline | 5 modified files: runner, manager, loader | Open |
+| [#1870](https://github.com/vllm-project/tpu-inference/pull/1870) | [Spec Decoding] Add DFlash e2e tests and CI | 2 files: e2e tests, Buildkite pipeline | Open |
+
+### Fork and Working Branches
+
+Our fork: [aaronzhfeng/tpu-inference](https://github.com/aaronzhfeng/tpu-inference)
+
+| Branch | Purpose |
+|--------|---------|
+| [`dflash-integration`](https://github.com/aaronzhfeng/tpu-inference/tree/dflash-integration) | Full working branch with all DFlash changes |
+| [`pr_dflash_1`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1) | PR #1868 — model + proposer |
+| [`pr_dflash_1b`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1b) | PR #1869 — pipeline integration |
+| [`pr_dflash_1c`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1c) | PR #1870 — e2e tests + Buildkite CI |
+| [`pr/dflash`](https://github.com/aaronzhfeng/tpu-inference/tree/pr/dflash) | Original single-commit PR (pre-split, historical) |
+
+---
 
 ## Key Results (TPU v5p-8)
 
@@ -27,7 +47,7 @@ Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 
 | swe-bench | code | 3.35 | 1.60x | 6.85 | 4.27 |
 | **Average** | | **5.42** | **3.13x** | **7.30** | **2.66** |
 
-Models: Qwen3-4B (target) + z-lab/Qwen3-4B-DFlash-b16 (draft), greedy decoding.
+Models: [Qwen/Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) (target) + [z-lab/Qwen3-4B-DFlash-b16](https://huggingface.co/z-lab/Qwen3-4B-DFlash-b16) (draft), greedy decoding.
 
 ### K-Flat Verification
 
@@ -38,6 +58,8 @@ Verification cost is flat from K=16 through K=1024 on both TPU and datacenter GP
 | TPU v5p | 1.00x (flat through K=1024) |
 | H100 SXM | 1.00-1.04x |
 | RTX 2000 Ada | 1.24x |
+
+---
 
 ## Repo Structure
 
@@ -92,16 +114,28 @@ The `docs/` folder contains 52 documents covering the full project journey:
 - **20-45:** Experiments and results (acceptance rates, ablation, K-flat property, GPU comparison)
 - **48-52:** PR preparation and review
 
+---
+
+## DFlash
+
+DFlash is a block-diffusion speculative decoding method that predicts multiple tokens in parallel using discrete diffusion, instead of generating them one at a time autoregressively. Given a context, the draft model denoises a block of masked positions in a single forward pass to produce K candidate tokens simultaneously, making drafting O(1) in block size rather than O(K).
+
+- **Paper:** "DFlash: Block Diffusion for Flash Speculative Decoding" (Chen et al., [arXiv:2602.06036](https://arxiv.org/abs/2602.06036))
+- **Code:** [z-lab/dflash](https://github.com/z-lab/dflash) (reference GPU implementation)
+- **Draft model:** [z-lab/Qwen3-4B-DFlash-b16](https://huggingface.co/z-lab/Qwen3-4B-DFlash-b16) (block size 16)
+- **30B MoE model:** [z-lab/Qwen3-Coder-30B-A3B-DFlash](https://huggingface.co/z-lab/Qwen3-Coder-30B-A3B-DFlash)
+- **SGLang integration:** [sgl-project/sglang#16818](https://github.com/sgl-project/sglang/pull/16818)
+- **vLLM status:** In progress on DFlash authors' side ([z-lab/dflash#6](https://github.com/z-lab/dflash/issues/6)); this PR is the first DFlash integration in the vLLM ecosystem (JAX/TPU backend)
+
+---
+
 ## Related Repos
 
 | Repo | Description |
 |------|-------------|
-| [tpu-dflash-paper](https://github.com/aaronzhfeng/tpu-dflash-paper) | Paper, report, slides |
-| [dflash-wide](https://github.com/aaronzhfeng/dflash-wide) | GPU training for wide-block (K=16-128) experiments |
-| [DFlash (upstream)](https://github.com/z-lab/dflash) | Original DFlash implementation |
-| [tpu-inference (upstream)](https://github.com/vllm-project/tpu-inference) | vLLM TPU backend |
-
-## References
-
-- DFlash: "DFlash: Block Diffusion for Flash Speculative Decoding" (Chen et al., [arXiv:2602.06036](https://arxiv.org/abs/2602.06036))
-- SSD/Saguaro: "Speculative Speculative Decoding" (Kumar, Dao, May, ICLR 2026, [arXiv:2603.03251](https://arxiv.org/abs/2603.03251))
+| [aaronzhfeng/tpu-inference](https://github.com/aaronzhfeng/tpu-inference) | Our fork with DFlash branches |
+| [aaronzhfeng/tpu-dflash-paper](https://github.com/aaronzhfeng/tpu-dflash-paper) | Paper, capstone report, slides |
+| [aaronzhfeng/dflash-wide](https://github.com/aaronzhfeng/dflash-wide) | GPU training for wide-block (K=16-128) experiments |
+| [zhongyan0721/tpu-dflash](https://github.com/zhongyan0721/tpu-dflash) | Project website |
+| [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) | Upstream vLLM TPU backend |
+| [z-lab/dflash](https://github.com/z-lab/dflash) | Upstream DFlash implementation |
