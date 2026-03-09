@@ -562,6 +562,82 @@ def fig_acceptance_heatmap(output_dir, formats):
 
 
 # ============================================================================
+# POSTER VARIANTS
+# ============================================================================
+
+def poster_risk_free_tpu_only(output_dir, formats):
+    """TPU-only left panel of risk-free zone — narrow for wrap layout."""
+    fig, ax = plt.subplots(figsize=(5.5, 7))
+
+    K_range = np.linspace(1, 128, 300)
+    alpha_range = np.linspace(0.3, 0.98, 300)
+    K_grid, A_grid = np.meshgrid(K_range, alpha_range)
+
+    tau_grid = A_grid * (1 - A_grid**K_grid) / (1 - A_grid)
+    tpu_step_ratio = 2.5
+    tpu_speedup = tau_grid / tpu_step_ratio
+
+    levels = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0]
+    cs = ax.contourf(K_grid, A_grid, tpu_speedup, levels=levels, cmap="Blues", alpha=0.7, extend="both")
+    ax.contour(K_grid, A_grid, tpu_speedup, levels=levels, colors="navy", linewidths=0.5, alpha=0.5)
+    ax.contour(K_grid, A_grid, tpu_speedup, levels=[1.0], colors="black", linewidths=2)
+    ax.text(65, 0.695, "break-even", fontsize=9, color="black", ha="center", va="top", alpha=0.5)
+    plt.colorbar(cs, ax=ax, label="Speedup", shrink=0.85)
+
+    ax.set_xlabel("K (block size)", fontsize=12)
+    ax.set_ylabel("\u03b1 (per-position acceptance rate)", fontsize=12)
+    ax.set_title("TPU Risk-Free Zone: Wider Blocks Never Hurt", fontsize=14, fontweight="bold")
+
+    benchmarks = load_v5p_benchmarks()
+    bench_map = {b["dataset"]: b for b in benchmarks}
+    for ds in DATASETS_ORDER:
+        tau = bench_map[ds]["tpu_tau"]
+        from scipy.optimize import brentq
+        try:
+            alpha_est = brentq(lambda a: a * (1 - a**16) / (1 - a) - tau, 0.01, 0.999)
+        except Exception:
+            alpha_est = 0.7
+        cat = CATEGORY_MAP[ds]
+        ax.scatter(16, alpha_est, color="white", s=50, zorder=5,
+                   edgecolors="black", linewidth=1.2)
+
+    ax.annotate("", xy=(100, 0.75), xytext=(30, 0.75),
+                arrowprops=dict(arrowstyle="->", color="navy", linewidth=2, alpha=0.3))
+    ax.text(65, 0.77, "wider blocks", ha="center", fontsize=9, color="navy", alpha=0.5)
+
+    save_fig(fig, output_dir, "poster_risk_free_tpu", formats)
+
+
+def poster_step_breakdown(output_dir, formats):
+    """Step breakdown donut — legend to the right for wrap layout."""
+    components = ["Verify Forward", "Draft + LM Head", "Orchestration\nOverhead"]
+    times_ms = [10.0, 2.0, 5.0]
+    total = sum(times_ms)
+    colors_pie = [COLORS["verify"], COLORS["draft"], COLORS["overhead"]]
+
+    fig, (ax, ax_legend) = plt.subplots(1, 2, figsize=(7, 4.5),
+                                         gridspec_kw={"width_ratios": [3, 2], "wspace": 0.05})
+
+    wedges, texts, autotexts = ax.pie(
+        times_ms, labels=None, autopct=lambda p: f"{p:.0f}%",
+        colors=colors_pie, startangle=90, pctdistance=0.75,
+        wedgeprops=dict(width=0.4, edgecolor="white", linewidth=2),
+        textprops=dict(fontsize=12, fontweight="bold"),
+    )
+
+    ax.text(0, 0, f"~{total:.0f}ms\nper step", ha="center", va="center",
+            fontsize=12, fontweight="bold", color="#333")
+    ax.set_title("Step Time (TPU v4)", fontsize=12, fontweight="bold", pad=8)
+
+    ax_legend.axis("off")
+    legend_labels = [f"{c}\n({t:.0f}ms)" for c, t in zip(components, times_ms)]
+    ax_legend.legend(wedges, legend_labels, loc="center", fontsize=10,
+                     frameon=False, handlelength=1.5, handleheight=1.5)
+
+    save_fig(fig, output_dir, "poster_step_breakdown", formats)
+
+
+# ============================================================================
 # REGISTRY AND MAIN
 # ============================================================================
 
@@ -573,6 +649,8 @@ FIGURE_REGISTRY = {
     "roofline": ("Fig 5: Roofline Gap", fig_roofline_gap),
     "breakdown": ("Fig 6: Step Time Breakdown", fig_step_breakdown),
     "heatmap": ("Fig 7: Acceptance Heatmap", fig_acceptance_heatmap),
+    "poster-risk-free": ("Poster: TPU Risk-Free Zone", poster_risk_free_tpu_only),
+    "poster-breakdown": ("Poster: Step Breakdown", poster_step_breakdown),
 }
 
 
