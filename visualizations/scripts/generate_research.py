@@ -567,10 +567,10 @@ def fig_acceptance_heatmap(output_dir, formats):
 
 def poster_risk_free_tpu_only(output_dir, formats):
     """TPU-only left panel of risk-free zone — narrow for wrap layout."""
-    fig, ax = plt.subplots(figsize=(5.5, 7))
+    fig, ax = plt.subplots(figsize=(5.5, 5.7))
 
     K_range = np.linspace(1, 128, 300)
-    alpha_range = np.linspace(0.3, 0.98, 300)
+    alpha_range = np.linspace(0.4, 0.98, 300)
     K_grid, A_grid = np.meshgrid(K_range, alpha_range)
 
     tau_grid = A_grid * (1 - A_grid**K_grid) / (1 - A_grid)
@@ -615,26 +615,42 @@ def poster_step_breakdown(output_dir, formats):
     total = sum(times_ms)
     colors_pie = [COLORS["verify"], COLORS["draft"], COLORS["overhead"]]
 
-    fig, (ax, ax_legend) = plt.subplots(1, 2, figsize=(7, 4.5),
-                                         gridspec_kw={"width_ratios": [3, 2], "wspace": 0.05})
+    fig, ax = plt.subplots(1, 1, figsize=(3.5, 3.2))
+    fig.subplots_adjust(top=0.99, bottom=0.01, left=0.01, right=0.99)
 
     wedges, texts, autotexts = ax.pie(
-        times_ms, labels=None, autopct=lambda p: f"{p:.0f}%",
+        times_ms, labels=None, autopct="",
         colors=colors_pie, startangle=90, pctdistance=0.75,
-        wedgeprops=dict(width=0.4, edgecolor="white", linewidth=2),
-        textprops=dict(fontsize=12, fontweight="bold"),
+        wedgeprops=dict(width=0.35, edgecolor="white", linewidth=2),
     )
 
-    ax.text(0, 0, f"~{total:.0f}ms\nper step", ha="center", va="center",
-            fontsize=12, fontweight="bold", color="#333")
-    ax.set_title("Step Time (TPU v4)", fontsize=12, fontweight="bold", pad=8)
+    # Annotate each wedge directly on the ring
+    import matplotlib.patheffects as pe
+    outline = [pe.withStroke(linewidth=3, foreground="black")]
+    labels_on_ring = ["Verify\n59%", "Draft\n12%", "Overhead\n29%"]
+    for i, (wedge, label) in enumerate(zip(wedges, labels_on_ring)):
+        ang = (wedge.theta2 + wedge.theta1) / 2
+        r = 0.82  # midpoint of ring
+        x = r * np.cos(np.radians(ang))
+        y = r * np.sin(np.radians(ang))
+        ax.text(x, y, label, ha="center", va="center",
+                fontsize=11, fontweight="bold", color="white",
+                path_effects=outline)
 
-    ax_legend.axis("off")
-    legend_labels = [f"{c}\n({t:.0f}ms)" for c, t in zip(components, times_ms)]
-    ax_legend.legend(wedges, legend_labels, loc="center", fontsize=10,
-                     frameon=False, handlelength=1.5, handleheight=1.5)
+    ax.text(0, 0.15, "Step Time (TPU v4)", ha="center", va="center",
+            fontsize=11, fontweight="bold", color="#555")
+    ax.text(0, -0.12, f"~{total:.0f}ms / step", ha="center", va="center",
+            fontsize=13, fontweight="bold", color="#333")
 
-    save_fig(fig, output_dir, "poster_step_breakdown", formats)
+    ax.set_xlim(-1.1, 1.1)
+    ax.set_ylim(-1.05, 1.0)
+
+    for fmt in formats:
+        path = os.path.join(output_dir, f"poster_step_breakdown.{fmt}")
+        dpi = 300 if fmt == "png" else 150
+        fig.savefig(path, dpi=dpi, bbox_inches="tight", pad_inches=0, facecolor="white")
+        print(f"  Saved {path}")
+    plt.close(fig)
 
 
 # ============================================================================
