@@ -2,9 +2,9 @@
 
 Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 3.13x average speedup across 9 benchmarks. Discovered TPU verification cost is K-flat through K=1024, enabling risk-free wide-block drafting. Contributed upstream to [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) — the first DFlash integration in the vLLM ecosystem.
 
-**Team:** Aaron Feng, Zhongyan Luo, Son Nguyen, Andy Huang
-**Advisors:** Hao Zhang, Yiming Zhao (UC San Diego)
-**Collaborators:** Google TPU Inference team (Yarong Mu, Chengji Yao)
+**Team:** Aaron Feng, Zhongyan Luo, Son Nguyen, Andy Huang <br>
+**Advisors:** Hao Zhang, Yiming Zhao (UC San Diego) <br>
+**Collaborators:** Yarong Mu, Weiren Yu (Google TPU Inference team) <br>
 
 ---
 
