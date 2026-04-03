@@ -1,0 +1,3 @@
+[submodule "brainstorm"]
+	path = brainstorm
+	url = https://github.com/aaronzhfeng/brainstorm-20-spec-decode-diffusion.git
