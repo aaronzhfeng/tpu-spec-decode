@@ -11,3 +11,9 @@ __pycache__/
 # Forked repositories - our working copies
 forked/*
 !forked/.gitkeep
+.copilot/
+
+# Legacy pr-ready/ embedded clones (never were proper submodules, kept on-disk for reference only)
+legacy/pr-ready/main/
+legacy/pr-ready/pr_dflash_1/
+legacy/pr-ready/vllm-lkg/

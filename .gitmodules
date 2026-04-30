@@ -1,3 +1,6 @@
 [submodule "brainstorm"]
-	path = brainstorm
+	path = legacy/brainstorm
 	url = https://github.com/aaronzhfeng/brainstorm-20-spec-decode-diffusion.git
+[submodule "tpu-inference"]
+	path = tpu-inference
+	url = https://github.com/aaronzhfeng/tpu-inference.git

@@ -1,141 +1,141 @@
 # DFlash Speculative Decoding on TPU
 
-Ported DFlash block-diffusion speculative decoding to TPU (JAX/Flax), achieving 3.13x average speedup across 9 benchmarks. Discovered TPU verification cost is K-flat through K=1024, enabling risk-free wide-block drafting. Contributed upstream to [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) — the first DFlash integration in the vLLM ecosystem.
+Block-diffusion speculative decoding ([DFlash](https://arxiv.org/abs/2602.06036), Z Lab @ UCSD) ported to Google TPUs via the vLLM `tpu-inference` JAX backend. **3.13× average speedup** across 9 benchmarks on TPU v5p with Qwen3-4B; head-to-head **2.29× DFlash vs 1.30× Eagle3** on v5p with Llama-3.1-8B. Companion to the Google Cloud blog post (April 2026) and the [colab notebook](https://colab.research.google.com/drive/1ekk8lY2u843KE9_dpJ36Z_vyv5idL-Pf).
 
-**Team:** Aaron Feng, Zhongyan Luo, Son Nguyen, Andy Huang <br>
-**Advisors:** Hao Zhang, Yiming Zhao (UC San Diego) <br>
-**Collaborators:** Yarong Mu, Weiren Yu (Google TPU Inference team) <br>
-
----
-
-## Contribution: Upstream PRs
-
-Submitted to [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) as a 3-PR chain. 14 files changed, +2277/-10 lines.
-
-| PR | Title | Scope | Status |
-|----|-------|-------|--------|
-| [#1868](https://github.com/vllm-project/tpu-inference/pull/1868) | [Spec Decoding] Add DFlash model and proposer | 7 new files: model, proposer, unit tests | In review |
-| [#1869](https://github.com/vllm-project/tpu-inference/pull/1869) | [Spec Decoding] Integrate DFlash into pipeline | 5 modified files: runner, manager, loader | Open |
-| [#1870](https://github.com/vllm-project/tpu-inference/pull/1870) | [Spec Decoding] Add DFlash e2e tests and CI | 2 files: e2e tests, Buildkite pipeline | Open |
-
-### Fork and Working Branches
-
-Our fork: [aaronzhfeng/tpu-inference](https://github.com/aaronzhfeng/tpu-inference)
-
-| Branch | Purpose |
-|--------|---------|
-| [`dflash-integration`](https://github.com/aaronzhfeng/tpu-inference/tree/dflash-integration) | Full working branch with all DFlash changes |
-| [`pr_dflash_1`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1) | PR #1868 — model + proposer |
-| [`pr_dflash_1b`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1b) | PR #1869 — pipeline integration |
-| [`pr_dflash_1c`](https://github.com/aaronzhfeng/tpu-inference/tree/pr_dflash_1c) | PR #1870 — e2e tests + Buildkite CI |
-| [`pr/dflash`](https://github.com/aaronzhfeng/tpu-inference/tree/pr/dflash) | Original single-commit PR (pre-split, historical) |
+**Team:** Zhaoxiang Feng, Zhongyan Luo, Son Nguyen, Andy Huang (UC San Diego)
+**Advisors:** Hao Zhang, Yiming Zhao (UC San Diego)
+**Collaborators:** Yarong Mu, Weiren Yu (Google Cloud)
 
 ---
 
-## Key Results (TPU v5p-8)
+## Reproduce in 5 minutes (fresh TPU VM)
 
-| Dataset | Category | Tau | Speedup | Baseline TPOT (ms) | DFlash TPOT (ms) |
-|---------|----------|-----|---------|---------------------|-------------------|
-| math500 | math | 8.80 | 5.72x | 8.02 | 1.40 |
-| aime24 | math | 6.48 | 3.98x | 7.69 | 1.93 |
-| aime25 | math | 6.14 | 3.35x | 6.85 | 2.05 |
-| gsm8k | math | 5.40 | 3.17x | 7.32 | 2.31 |
-| humaneval | code | 5.76 | 3.53x | 7.70 | 2.18 |
-| mbpp | code | 6.16 | 2.77x | 7.31 | 2.64 |
-| mt-bench | chat | 3.87 | 2.36x | 7.20 | 3.05 |
-| alpaca | chat | 2.86 | 1.65x | 6.72 | 4.08 |
-| swe-bench | code | 3.35 | 1.60x | 6.85 | 4.27 |
-| **Average** | | **5.42** | **3.13x** | **7.30** | **2.66** |
+This repo's role is to be a thin click-to-reproduce harness for the DFlash work. The actual DFlash code is upstreamed at [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) (PRs [#1868](https://github.com/vllm-project/tpu-inference/pull/1868), [#1869](https://github.com/vllm-project/tpu-inference/pull/1869), [#1870](https://github.com/vllm-project/tpu-inference/pull/1870)) and pulled in here as a `tpu-inference/` submodule on the `dflash-integration` branch.
 
-Models: [Qwen/Qwen3-4B](https://huggingface.co/Qwen/Qwen3-4B) (target) + [z-lab/Qwen3-4B-DFlash-b16](https://huggingface.co/z-lab/Qwen3-4B-DFlash-b16) (draft), greedy decoding.
+```bash
+# 1. Clone with the tpu-inference submodule populated
+git clone --recurse-submodules https://github.com/aaronzhfeng/tpu-spec-decode.git
+cd tpu-spec-decode
 
-### K-Flat Verification
+# 2. Set up Python deps + symlinks (idempotent)
+bash preparation/bootstrap.sh
 
-Verification cost is flat from K=16 through K=1024 on both TPU and datacenter GPU:
+# 3. Unit tests (resolve via tests/models/, tests/spec_decode/ symlinks
+#    into tpu-inference/tests/)
+pytest tests/spec_decode/test_dflash.py
+pytest tests/models/jax/test_qwen3_dflash.py
+pytest tests/models/jax/test_qwen3_dflash_attention.py
 
-| Hardware | K=128/K=16 Verify Ratio |
-|----------|------------------------|
-| TPU v5p | 1.00x (flat through K=1024) |
-| H100 SXM | 1.00-1.04x |
-| RTX 2000 Ada | 1.24x |
+# 4. Standalone benchmark — single dataset, ~5 min on v6e
+DATASET=math500 bash tests/standalone_benchmark.sh \
+    --max-samples 8 --max-new-tokens 256
+
+# 5. Full vLLM pipeline benchmark — math suite, ~30 min on v6e
+bash tests/benchmark.sh math
+```
+
+Tested on TPU v6e (primary). v5p numbers in the tables below come from the same harness; v4 paths are preserved but not validated.
 
 ---
 
-## Repo Structure
+## Headline results
+
+### TPU v5p-8 (Qwen3-4B, K=16, greedy)
+
+| Dataset | Category | τ | Speedup | Baseline TPOT (ms) | DFlash TPOT (ms) |
+|---|---|---|---|---|---|
+| math500 | math | 8.80 | 5.72× | 8.02 | 1.40 |
+| aime24 | math | 6.48 | 3.98× | 7.69 | 1.93 |
+| aime25 | math | 6.14 | 3.35× | 6.85 | 2.05 |
+| gsm8k | math | 5.40 | 3.17× | 7.32 | 2.31 |
+| humaneval | code | 5.76 | 3.53× | 7.70 | 2.18 |
+| mbpp | code | 6.16 | 2.77× | 7.31 | 2.64 |
+| mt-bench | chat | 3.87 | 2.36× | 7.20 | 3.05 |
+| alpaca | chat | 2.86 | 1.65× | 6.72 | 4.08 |
+| swe-bench | code | 3.35 | 1.60× | 6.85 | 4.27 |
+| **Average** | | **5.42** | **3.13×** | **7.30** | **2.66** |
+
+Models: [`Qwen/Qwen3-4B`](https://huggingface.co/Qwen/Qwen3-4B) target + [`z-lab/Qwen3-4B-DFlash-b16`](https://huggingface.co/z-lab/Qwen3-4B-DFlash-b16) draft.
+
+### Head-to-head vs EAGLE-3 on TPU v5p (Llama-3.1-8B)
+
+DFlash (K=10) **2.29×** end-to-end speedup; EAGLE-3 (K=2) **1.30×**. Math is up to 2.69×; coding (mbpp) hits 2.83× (9.81 ms → 3.48 ms TPOT). DFlash's parallel block drafting is largely insensitive to K, while autoregressive drafters pay an O(K) sequential cost.
+
+### K-flat verification
+
+Verification cost is invariant to draft block size on datacenter accelerators:
+
+| Hardware | K=128 / K=16 verify ratio |
+|---|---|
+| TPU v5p | 1.00× (flat through K=1024) |
+| H100 SXM | 1.00–1.01× |
+| RTX 2000 Ada | 1.24× |
+
+Wider blocks (K=32, 64, 128) cost essentially the same to verify. The bottleneck is **draft quality** (per-position acceptance probability α), not verification cost.
+
+---
+
+## Repo layout
 
 ```
 tpu-spec-decode/
-  README.md
-  tpu-inference/        # DFlash TPU code (submodule, dflash-integration branch)
-  pr-ready/             # PR branches submitted upstream (see pr-ready/README.md)
-  docs/                 # 52 research docs (setup, integration, experiments, PR prep)
-  benchmarks/           # Standalone benchmark scripts (tau, speedup, ablation, scaling)
-  tests/                # Shell wrappers + JSON test configs
-  results/              # V4 and V5P benchmark JSONs + CSVs
-  verification/         # Evaluation harness and validation runs
-  visualizations/       # Plot scripts and rendered figures
-  preparation/          # TPU environment setup (bootstrap.sh, clone_repos.sh)
-  requirements.txt
+├── README.md                # this file (single user-facing entry point)
+├── requirements.txt
+├── .gitmodules              # tpu-inference + brainstorm submodules
+├── preparation/
+│   ├── bootstrap.sh         # COLAB-PINNED: fresh-VM setup
+│   ├── setup_v5p_safe.sh    # newer venv-based v5p setup (optional)
+│   ├── clone_repos.sh       # legacy multi-repo cloner (author's dev workspace)
+│   └── setup_tpu_v5.sh      # v4-era setup script (preserved, not invoked)
+├── tests/
+│   ├── benchmark.sh                COLAB-PINNED: full vLLM pipeline
+│   ├── standalone_benchmark.sh     COLAB-PINNED: standalone JAX runner
+│   ├── models/    -> tpu-inference/tests/models/    (symlink)
+│   └── spec_decode/ -> tpu-inference/tests/spec_decode/ (symlink)
+├── benchmarks/              # Python scripts behind standalone_benchmark.sh
+├── tpu-inference/           # GIT SUBMODULE — branch dflash-integration
+├── verification/            # Test-matrix runner used by benchmark.sh
+└── legacy/                  # Frozen development artifacts (not user-facing)
+    ├── docs/                # 70 internal markdowns from the project's R&D phase
+    ├── deliverables/        # Capstone PDF + poster
+    ├── results/             # Earlier-run benchmark JSONs / CSVs
+    ├── visualizations/      # Plot generation scripts + rendered figures
+    ├── _workspace/          # Author's scratch metadata
+    ├── brainstorm/          # Submodule with PR-reply drafts (private context)
+    ├── pr-ready/            # Pre-submodule manual clones (gitignored on disk)
+    └── (no setup needed inside legacy/ to reproduce the headline numbers)
 ```
 
-## Quick Start (fresh TPU VM)
-
-```bash
-git clone --recurse-submodules https://github.com/aaronzhfeng/tpu-spec-decode.git
-cd tpu-spec-decode
-bash preparation/bootstrap.sh
-```
-
-See `preparation/` for full setup docs.
-
-## Running
-
-Unit tests (no serving setup needed):
-
-```bash
-pytest tests/models/jax/test_qwen3_dflash_attention.py
-pytest tests/models/jax/test_qwen3_dflash.py
-pytest tests/spec_decode/test_dflash.py
-```
-
-End-to-end (requires PR #1868 + #1869):
-
-```bash
-python -m tpu_inference.entrypoint \
-  --model Qwen/Qwen3-4B \
-  --speculative_config '{"model": "z-lab/Qwen3-4B-DFlash-b16", "num_speculative_tokens": 15, "method": "dflash", "draft_tensor_parallel_size": 1}'
-```
-
-## Documentation
-
-The `docs/` folder contains 52 documents covering the full project journey:
-- **00-06:** Setup and architecture
-- **07-19:** DFlash integration (plan, bugs, gap analysis, KV cache iterations)
-- **20-45:** Experiments and results (acceptance rates, ablation, K-flat property, GPU comparison)
-- **48-52:** PR preparation and review
+The colab pin and the upstream PRs all reference the **non-`legacy/`** surface only. The `legacy/` directory preserves the development history without cluttering the user-facing flow.
 
 ---
 
-## DFlash
+## Where the actual code lives
 
-DFlash is a block-diffusion speculative decoding method that predicts multiple tokens in parallel using discrete diffusion, instead of generating them one at a time autoregressively. Given a context, the draft model denoises a block of masked positions in a single forward pass to produce K candidate tokens simultaneously, making drafting O(1) in block size rather than O(K).
+The DFlash JAX implementation is upstreamed to `vllm-project/tpu-inference`:
 
-- **Paper:** "DFlash: Block Diffusion for Flash Speculative Decoding" (Chen et al., [arXiv:2602.06036](https://arxiv.org/abs/2602.06036))
-- **Code:** [z-lab/dflash](https://github.com/z-lab/dflash) (reference GPU implementation)
-- **Draft model:** [z-lab/Qwen3-4B-DFlash-b16](https://huggingface.co/z-lab/Qwen3-4B-DFlash-b16) (block size 16)
-- **30B MoE model:** [z-lab/Qwen3-Coder-30B-A3B-DFlash](https://huggingface.co/z-lab/Qwen3-Coder-30B-A3B-DFlash)
-- **SGLang integration:** [sgl-project/sglang#16818](https://github.com/sgl-project/sglang/pull/16818)
-- **vLLM status:** In progress on DFlash authors' side ([z-lab/dflash#6](https://github.com/z-lab/dflash/issues/6)); this PR is the first DFlash integration in the vLLM ecosystem (JAX/TPU backend)
+| PR | Title | Files | Status |
+|---|---|---|---|
+| [#1868](https://github.com/vllm-project/tpu-inference/pull/1868) | Add DFlash model and proposer | 7 new (model, proposer, unit tests) | In review |
+| [#1869](https://github.com/vllm-project/tpu-inference/pull/1869) | Integrate DFlash into pipeline | 5 modified (runner, manager, loader) | In review |
+| [#1870](https://github.com/vllm-project/tpu-inference/pull/1870) | Add DFlash e2e tests and CI | 2 (e2e tests, Buildkite pipeline) | In review |
+
+The `tpu-inference/` submodule in this repo is pinned to [`dflash-integration`](https://github.com/aaronzhfeng/tpu-inference/tree/dflash-integration) on our fork ([`aaronzhfeng/tpu-inference`](https://github.com/aaronzhfeng/tpu-inference)), which contains all three PR sets composed together for end-to-end reproduction.
+
+A torchax proposer follow-up to PR #1868 is in preparation; once it lands, DFlash will be available on both the JAX and PyTorch serving paths of vLLM TPU.
 
 ---
 
-## Related Repos
+## Related work
 
-| Repo | Description |
-|------|-------------|
-| [aaronzhfeng/tpu-inference](https://github.com/aaronzhfeng/tpu-inference) | Our fork with DFlash branches |
-| [aaronzhfeng/tpu-dflash-paper](https://github.com/aaronzhfeng/tpu-dflash-paper) | Paper, capstone report, slides |
-| [aaronzhfeng/dflash-wide](https://github.com/aaronzhfeng/dflash-wide) | GPU training for wide-block (K=16-128) experiments |
-| [zhongyan0721/tpu-dflash](https://github.com/zhongyan0721/tpu-dflash) | Project website |
-| [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference) | Upstream vLLM TPU backend |
-| [z-lab/dflash](https://github.com/z-lab/dflash) | Upstream DFlash implementation |
+- **DFlash paper:** Chen, Liang, Liu (2026). [arXiv:2602.06036](https://arxiv.org/abs/2602.06036)
+- **Reference GPU implementation:** [z-lab/dflash](https://github.com/z-lab/dflash)
+- **EAGLE-3:** Li, Wei, Zhang, Zhang (2025). [arXiv:2503.01840](https://arxiv.org/abs/2503.01840)
+- **vLLM TPU:** [vllm-project/tpu-inference](https://github.com/vllm-project/tpu-inference)
+- **Colab notebook:** [drive/1ekk8lY2u843KE9_dpJ36Z_vyv5idL-Pf](https://colab.research.google.com/drive/1ekk8lY2u843KE9_dpJ36Z_vyv5idL-Pf)
+
+---
+
+## Acknowledgement of the `legacy/` directory
+
+Earlier development of this project produced significant supporting material — 70 markdown notes, a capstone deliverable, plot scripts, scratch workspaces, and several manual sub-repo clones. To keep the user-facing flow above as small as possible without losing that history, we folded all of it into `legacy/` rather than deleting it. Anyone wanting to read the full development trail can browse there directly. Nothing under `legacy/` is required to reproduce the headline numbers; the colab and the bootstrap script use only the top-level surface.
